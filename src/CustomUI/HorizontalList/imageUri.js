@@ -1,0 +1,40 @@
+const images = [
+    {
+        id:1,
+        image_url:require('../../../Assets/img2.jpg')
+    },
+    {
+        id:2,
+        image_url:require('../../../Assets/img4.jpeg')
+    },
+    {
+        id:3,
+        image_url:require('../../../Assets/home.png')
+    },
+    {
+        id:4,
+        image_url:require('../../../Assets/img2.jpg')
+    },
+    {
+        id:5,
+        image_url:require('../../../Assets/img4.jpeg')
+    },
+    {
+        id:6,
+        image_url:require('../../../Assets/home.png')
+    },
+    {
+        id:7,
+        image_url:require('../../../Assets/img2.jpg')
+    },
+    {
+        id:8,
+        image_url:require('../../../Assets/img4.jpeg')
+    },
+    {
+        id:9,
+        image_url:require('../../../Assets/home.png')
+    }
+];
+
+export  {images};
