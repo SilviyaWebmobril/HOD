@@ -24,8 +24,8 @@ export default class After_Splash extends Component {
     });
 
     onLogin = () => {
-       // this.props.navigation.dispatch(SwitchActions.jumpTo({ routeName: 'BottomTabs' }));
-        this.props.navigation.navigate('Bottomtabs');
+      
+        this.props.navigation.navigate('Login');
     };
     onCreate_Account = () => {
         this.props.navigation.navigate('Create_Account');
@@ -44,13 +44,24 @@ export default class After_Splash extends Component {
              
                         <View style={After_SplashStyle.after_splash_bottom}>
 
-                        <CustomButton text="LOGIN" onPressHandler={()=>this.onLogin()} customButttonStyle={{marginBottom:25}} customTextStyle={{ color:'white'}} />
+                        {/* <CustomButton text="LOGIN" onPressHandler={()=>this.onLogin()} customButttonStyle={{marginBottom:25}} customTextStyle={{ color:'white'}} /> */}
+
+                        <CustomButtonWithIcon 
+                            customViewIconStyle={{backgroundColor:"#B95704",borderTopLeftRadius: 5,borderBottomLeftRadius: 5,}} 
+                            iconName="cellphone-message" iconSize={25}
+                            iconColor="white"
+                            onPressHandler={()=>this.onLogin()}
+                            customViewTextStyle={{backgroundColor:"#BB6822", borderBottomRightRadius: 5,borderTopRightRadius: 5,fontSize:15}}
+                            customText="LOGIN WITH OTP"
+                            customButttonStyle={{marginBottom:25}}
+                            /> 
+
 
                         <CustomButtonWithIcon 
                             customViewIconStyle={{backgroundColor:"#2F4F93",borderTopLeftRadius: 5,borderBottomLeftRadius: 5,}} 
                             iconName="facebook" iconSize={25}
                             iconColor="white"
-                            onPressHandler={()=> this.onLogin()} 
+                            //onPressHandler={()=> this.onLogin()} 
                             customViewTextStyle={{backgroundColor:"#3B5998", borderBottomRightRadius: 5,borderTopRightRadius: 5,fontSize:15}}
                             customText="REGISTER WITH FACEBOOK"
                             /> 

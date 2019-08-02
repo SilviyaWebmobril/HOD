@@ -57,7 +57,7 @@ export default class Login extends Component {
     onLogin=()=>{   
 
         //console.log("mobile no =",this.mobileref.current.getInputTextValue());
-        this.props.navigation.navigate('BottomTabs');
+        this.props.navigation.navigate('OTP');
         
     };
     onCreate_Account = () => {

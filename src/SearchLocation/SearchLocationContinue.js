@@ -46,6 +46,9 @@ export default class SeacrhLocationContinue extends Component {
         }
     }
 
+    onSubmitHandler =() => {
+        this.props.navigation.navigate('Bottomtabs');
+    }
 
     render() {
          
@@ -144,7 +147,7 @@ export default class SeacrhLocationContinue extends Component {
                   />
 
                 <CustomButton 
-                   
+                   onPressHandler={()=>this.onSubmitHandler()}
                    customButttonStyle={{backgroundColor:"#FD8D45", }}
                    customTextStyle={{ color:'#48241e'}} 
                    text="SUBMIT"

@@ -42,8 +42,12 @@ export default class LoginEmail extends Component {
     });
     onSubmit = () => {
       
-        this.props.navigation.navigate('CreateAccount');
+        this.props.navigation.navigate('Create_Account');
     };
+
+    onLoginHandler = () =>{
+        this.props.navigation.navigate('Bottomtabs');
+    }
     constructor(props) {
         super(props);
         this.state = {
@@ -117,7 +121,7 @@ export default class LoginEmail extends Component {
 
  
                         <CustomButton customTextStyle={{ color:'white'}} 
-                           
+                            onPressHandler={()=>this.onLoginHandler()}
                             text="LOGIN" />
 
                         <View style={{margin:25,justifyContent:"center"}}> 

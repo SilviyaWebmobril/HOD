@@ -39,10 +39,10 @@ export default class Create_Account extends Component {
         headerRight: (<View></View>)
     });
     onLogin = () => {
-        this.props.navigation.navigate('Login');
+        //this.props.navigation.navigate('Login');
     };
     onContinue = ()=>{
-       
+        this.props.navigation.navigate('SearchLocation');
     }
     state = { 
         isFocusedName: false,

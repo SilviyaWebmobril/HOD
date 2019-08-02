@@ -32,6 +32,7 @@ const CustomTextInput = React.forwardRef((props,ref) => {
             <TextInput 
                 ref={ref}
                 onBlur={props.onBlur}
+                textAlignVertical={'top'}
                 onFocus={props.onFocus}
                 style={[textInput.txtInput,
                         props.customTxtInputStyle]}

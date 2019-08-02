@@ -41,7 +41,7 @@ export default class OTP extends Component {
     });
     onSubmit = () => {
         clearInterval(this.interval);
-        this.props.navigation.navigate('SearchLocation');
+        this.props.navigation.navigate('Bottomtabs');
     };
     constructor(props) {
         super(props);

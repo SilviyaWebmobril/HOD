@@ -11,7 +11,7 @@ const Banner = (props) => {
     renderPage = (image, index) =>{
         return (
             <View key={index}>
-                <Image style={styles.imageStyle} source={require('../../Assets/img4.jpeg')} />
+                <Image style={styles.imageStyle} source={image.image_url} />
             </View>
         );
     
