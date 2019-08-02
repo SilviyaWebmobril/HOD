@@ -3,7 +3,7 @@ const win = Dimensions.get('window');
 
 const After_SplashStyle = StyleSheet.create({
   container: {
-    flex: 1,
+    //flex: 1,
     backgroundColor:'#ffffff',
    // margin:10
     

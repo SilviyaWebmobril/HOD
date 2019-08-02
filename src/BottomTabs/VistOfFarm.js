@@ -117,6 +117,7 @@ export default class Search extends Component{
                                 : 1,
                                 }]}
                             customTxtInputStyle={{height:150}}
+                            multiline={true}
                             placeholder="Enter Message" placeholderTextColor='#898785'
                             returnKeyType = { "next" }
                             //onSubmitEditing={() => {this.thirdTextInput.focus();  }}

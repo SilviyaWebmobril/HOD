@@ -44,11 +44,7 @@ const Banner = (props) => {
             backgroundColor: '#fff',
             justifyContent: 'center',
             marginTop:40,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 1,
-            shadowRadius: 2,    
-           
+            
         },
         viewLineBlack:{
             width:'100%',
@@ -66,6 +62,11 @@ const Banner = (props) => {
              height: BannerHeight , 
              alignSelf:"center",
             borderRadius:20,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 1,
+            shadowRadius: 2,    
+           
            
          
           },

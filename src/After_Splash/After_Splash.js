@@ -40,7 +40,7 @@ export default class After_Splash extends Component {
             <FullSCreenSpinnerAndDismissKeyboardView style={After_SplashStyle.container}>
                 <ScrollView>
                     <View>
-                        <CustomLogo customLogoStyle={{height:200}}/>
+                        <CustomLogo customLogoStyle={{height:180}}/>
              
                         <View style={After_SplashStyle.after_splash_bottom}>
 

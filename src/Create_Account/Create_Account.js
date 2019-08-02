@@ -55,9 +55,10 @@ export default class Create_Account extends Component {
     render() {
         
         return (
-            <FullSCreenSpinnerAndDismissKeyboardView style={Create_AccountStyle.container}>
+             <FullSCreenSpinnerAndDismissKeyboardView style={Create_AccountStyle.container}>
 
-                <ScrollView showsVerticalScrollIndicator={false}>
+                
+                {/* <ScrollView showsVerticalScrollIndicator={false}> */}
                     <View>
                         <CustomLogo />
                         <View style={Create_AccountStyle.Create_Accountbottom}>
@@ -188,11 +189,11 @@ export default class Create_Account extends Component {
                         </View>
                     </View>
                   
-                </ScrollView>   
+                {/* </ScrollView>    */}
              
                   
            
-            </FullSCreenSpinnerAndDismissKeyboardView>
+             </FullSCreenSpinnerAndDismissKeyboardView>
         );
     }
 }

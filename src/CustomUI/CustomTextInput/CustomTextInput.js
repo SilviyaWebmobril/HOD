@@ -44,6 +44,7 @@ const CustomTextInput = React.forwardRef((props,ref) => {
                 value={txtInputValue}
                 onSubmitEditing={props.onSubmitEditing}
                 returnKeyType={props.returnKeyType}
+                multiline={props.multiline}
 
             />
         </View>
