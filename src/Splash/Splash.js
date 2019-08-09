@@ -2,6 +2,7 @@ import React ,{ Component } from 'react';
 import { View,Image,Text,Dimensions ,Animated, Easing ,ImageBackground} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 const {width, height} = Dimensions.get("window");
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class Splash extends Component {
 
@@ -20,10 +21,37 @@ export default class Splash extends Component {
     componentDidMount(){
       
         this.StartImageRotateFunction();
-        this.interval = setInterval(() => {this.props.navigation.navigate('MyApp');}, 5000);
+        this.interval = setInterval(() => {
+
+            this.getMyValue();
+           
+        
+        }, 5000);
         
 
     }
+
+    getMyValue = async () => {
+        try {
+          const value = await AsyncStorage.getItem('user_id')
+          console.log(" i am here",value);
+          if(JSON.parse(value)){
+           
+            this.props.navigation.navigate('Bottomtabs');
+
+          }else{
+
+            this.props.navigation.navigate('MyApp');
+          }
+        } catch(e) {
+            console.log("hello error",e);
+          // read error
+        }
+      
+        console.log('Done');
+      
+    }
+   
 
     StartImageRotateFunction () {
 

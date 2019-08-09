@@ -164,12 +164,12 @@ const MyApp = createStackNavigator({
      OTP,
      SearchLocation,
      SearchLocationContinue,
-     Bottomtabs:{
-      screen:Bottomtabs,
-      navigationOptions:{
-        header:null
-      }
-    },
+    //  Bottomtabs:{
+    //   screen:Bottomtabs,
+    //   navigationOptions:{
+    //     header:null
+    //   }
+    // },
    },{
      initialRouteName: 'After_Splash',
      transitionConfig: () => fromRight(500),
@@ -179,7 +179,7 @@ const MyApp = createStackNavigator({
 const AppContainer = createSwitchNavigator({
   Splash:Splash,
   MyApp:MyApp,
-  //Bottomtabs:Bottomtabs
+  Bottomtabs:Bottomtabs
 });
 
   

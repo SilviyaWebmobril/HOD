@@ -6,8 +6,20 @@ const Create_AccountStyle = StyleSheet.create({
         backgroundColor:'#ffffff',
         margin:10,
       },
-      customtxtInput: {
-        marginBottom:-25,
+      disableBtnStyle:{
+
+        backgroundColor:"grey",
+        
+      },
+      enableBtnStyle:{
+
+        backgroundColor:"#FD8D45"
+      },
+      enableTextColor:{
+        color:"white"
+      },
+      disableTextColor:{
+        color:"black"
       },
       Create_Accounttop:{
       marginTop:25,

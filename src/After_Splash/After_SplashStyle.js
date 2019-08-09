@@ -8,6 +8,7 @@ const After_SplashStyle = StyleSheet.create({
    // margin:10
     
   },
+ 
   after_splash_top:{
     flex: 0.45,
     width: win.width,

@@ -14,7 +14,6 @@ import CustomLogo from './../CustomUI/Logo/CustomLogo';
 import * as HOC from '../HOC/mainHoc';
 import CustomButton from '../CustomUI/CustomButton/CustomButton';
 import CustomTextInput from '../CustomUI/CustomTextInput/CustomTextInput';
-import CustomInput from '../CustomUI/CustomTextInput/CustomInput';
 import { ScrollView } from 'react-native-gesture-handler';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(

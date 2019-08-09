@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import axios  from 'axios';
 import {
     View,
-    Image,
+   Alert,
     Text,
-    TextInput,
-    TouchableOpacity,
-    SafeAreaView
+   
 } from 'react-native';
 import * as HOC from '../HOC/mainHoc';
 import CustomButton from '../CustomUI/CustomButton/CustomButton';
@@ -14,11 +12,14 @@ import CustomButtonWithIcon from '../CustomUI/CustomButton/CustomButtonWithIcon'
 import Create_AccountStyle from './Create_AccountStyle';
 import CustomLogo from '../CustomUI/Logo/CustomLogo';
 import CustomTextInput from '../CustomUI/CustomTextInput/CustomTextInput';
-import { ScrollView } from 'react-native-gesture-handler';
+import ApiUrl from '../Api/ApiUrl';
+
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
 );
+import FCM from "react-native-fcm"; 
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class Create_Account extends Component {
     
@@ -38,27 +39,105 @@ export default class Create_Account extends Component {
         headerTintColor: 'white',
         headerRight: (<View></View>)
     });
-    onLogin = () => {
-        //this.props.navigation.navigate('Login');
-    };
-    onContinue = ()=>{
-        this.props.navigation.navigate('SearchLocation');
+
+    constructor(props){
+        super(props);
+        this.state= {
+           
+            isFocusedName: false,
+            isFocusedEmail: false,
+            isFocusedPassword: false, 
+            isFocusedMobile:false,
+            isFocusedCode:false,
+            device_token:"",
+            isLoading:false
+        }
     }
-    state = { 
-        isFocusedName: false,
-        isFocusedEmail: false,
-        isFocusedPassword: false, 
-        isFocusedMobile:false,
-        isFocusedCode:false,
-     };//isFocused1 is for textinput1, isFocused2 is for textinput2, isFocused3 is for textinput3
+
+
+    onLogin = () => {
+       this.props.navigation.navigate('Login');
+    };
+
+
+
+    onCreateAccount = ()=>{
+
+       
+        if((this.refs.nameText.getInputTextValue("name") !== "invalid") && (this.refs.emailText.getInputTextValue("email") !== "invalid") &&
+             (this.refs.passwordText.getInputTextValue("password") !== "invalid") && (this.refs.mobileText.getInputTextValue("mobile") !== "invalid") ) {
+              this.setState({isLoading:true})
+              console.log("api base url",ApiUrl.baseurl);
+              FCM.requestPermissions();
+              FCM.getFCMToken().then(token => {
+              this.setState({device_token:token});
+
+
+                var formdata = new FormData();
+                formdata.append("name",this.refs.nameText.getInputTextValue("name"));
+                formdata.append("email",this.refs.emailText.getInputTextValue("email"));
+                formdata.append("mobile",this.refs.mobileText.getInputTextValue("mobile"));
+                formdata.append("password",this.refs.passwordText.getInputTextValue("password"));
+                formdata.append("device_type",ApiUrl.device_type);
+                formdata.append("device_token",this.state.device_token);
+
+                console.log("formdata",formdata);
+
+        
+                axios.post(ApiUrl.baseurl + ApiUrl.create_account,formdata)
+                .then(res => {
+                 
+                    console.log("my response",res);
+                   
+                    if(res.data.error){
+
+                        this.setState({isLoading:false});
+                        Alert.alert("Email Already exists. Please Login!");
+
+                    }else{
+
+                        AsyncStorage.setItem('user_id',JSON.stringify(res.data.result.id))
+                        AsyncStorage.setItem("user_name", res.data.result.name)
+                        AsyncStorage.setItem("user_email", res.data.result.email)
+                        AsyncStorage.setItem('user_mobile',res.data.result.mobile)
+                        AsyncStorage.setItem("user_password",res.data.result.txtpassword)
+                        AsyncStorage.setItem("user_home",res.data.result.homeaddress)
+                        this.setState({isLoading:false});
+                        Alert.alert("Your Account created Sucessfuly!");
+                        this.props.navigation.navigate('Bottomtabs');
+    
+                        
+                    }
+                   
+                  
+                })
+                .catch(error => {
+                    console.log("my error",error.response)
+                });
+
+
+
+              });
+
+              
+
+            
+
+            
+        }else{
+            Alert.alert("All the * marked fields are required");
+        }
+      
+    }
    
+
+
     render() {
         
         return (
-             <FullSCreenSpinnerAndDismissKeyboardView style={Create_AccountStyle.container}>
-
-                
-                {/* <ScrollView showsVerticalScrollIndicator={false}> */}
+             <FullSCreenSpinnerAndDismissKeyboardView 
+               style={Create_AccountStyle.container}
+               spinner={this.state.isLoading}>
                     <View>
                         <CustomLogo />
                         <View style={Create_AccountStyle.Create_Accountbottom}>
@@ -69,16 +148,8 @@ export default class Create_Account extends Component {
                                 </Text>
                             </View>   
                             <CustomTextInput 
-                                onFocus={()=>this.setState({isFocusedName:true})}
-                                onBlur={()=>this.setState({isFocusedName:false})}
-                                customTxtInputStyle={[Create_AccountStyle.customtxtInput,{
-                                    borderColor: this.state.isFocusedName
-                                        ? '#FD8D45'
-                                        : 'black',
-                                    borderWidth: this.state.isFocusedName
-                                    ? 1.5 
-                                    : 1,
-                                    }]}
+                                ref="nameText"
+                                inputType= "name"
                                 placeholder="Enter Name" placeholderTextColor='#898785'
                                 returnKeyType = { "next" }
                                 //onSubmitEditing={() => { this.secondTextInput.focus(); }}
@@ -90,17 +161,11 @@ export default class Create_Account extends Component {
                                 </Text>
                             </View>   
                             <CustomTextInput 
+                                ref="emailText"
                                 onFocus={()=>this.setState({isFocusedEmail:true})}
                                 onBlur={()=>this.setState({isFocusedEmail:false})}
-                                customTxtInputStyle={[Create_AccountStyle.customtxtInput,{
-                                    borderColor: this.state.isFocusedEmail
-                                        ? '#FD8D45'
-                                        : 'black',
-                                    borderWidth: this.state.isFocusedEmail
-                                    ? 1.5 
-                                    : 1,
-                                    }]}
-                                placeholder="Enter Name" placeholderTextColor='#898785'
+                                inputType="email"
+                                placeholder="Enter Email" placeholderTextColor='#898785'
                                 returnKeyType = { "next" }
                                 //onSubmitEditing={() => { this.secondTextInput.focus(); }}
                             />
@@ -111,18 +176,12 @@ export default class Create_Account extends Component {
                                 </Text>
                             </View>   
                             <CustomTextInput 
+                                ref="passwordText"
                                 onFocus={()=>this.setState({isFocusedPassword:true})}
                                 onBlur={()=>this.setState({isFocusedPassword:false})}
-                                customTxtInputStyle={[Create_AccountStyle.customtxtInput,{
-                                    borderColor: this.state.isFocusedPassword
-                                        ? '#FD8D45'
-                                        : 'black',
-                                    borderWidth: this.state.isFocusedPassword
-                                    ? 1.5 
-                                    : 1,
-                                    }]}
-                                placeholder="Enter Name" placeholderTextColor='#898785'
+                                placeholder="Enter Password" placeholderTextColor='#898785'
                                 returnKeyType = { "next" }
+                                inputType="password"
                                 //onSubmitEditing={() => { this.secondTextInput.focus(); }}
                             />
                             <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
@@ -131,18 +190,12 @@ export default class Create_Account extends Component {
                                 </Text>
                             </View>
                             <CustomTextInput 
+                                ref="mobileText"
                                 onFocus={()=>this.setState({isFocusedMobile:true})}
                                 onBlur={()=>this.setState({isFocusedMobile:false})}
-                                customTxtInputStyle={[Create_AccountStyle.customtxtInput,{
-                                    borderColor: this.state.isFocusedMobile
-                                        ? '#FD8D45'
-                                        : 'black',
-                                    borderWidth: this.state.isFocusedMobile
-                                    ? 1.5 
-                                    : 1,
-                                    }]}
                                 placeholder="Enter mobile number" placeholderTextColor='#898785'
                                 returnKeyType = { "next" }
+                                inputType="mobile"
                                 //onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                             />
                         
@@ -152,26 +205,20 @@ export default class Create_Account extends Component {
                                 </Text>
                             </View>
                             <CustomTextInput 
+                                ref="referralCodeText"
                                 onFocus={()=>this.setState({isFocusedCode:true})}
                                 onBlur={()=>this.setState({isFocusedCode:false})}
-                                customTxtInputStyle={[Create_AccountStyle.customtxtInput,{
-                                    borderColor: this.state.isFocusedCode
-                                        ? '#FD8D45'
-                                        : 'black',
-                                    borderWidth: this.state.isFocusedCode
-                                    ? 1.5 
-                                    : 1,
-                                    marginBottom:0,
-                                    }]}
                                 placeholder="Enter Refferal Code" placeholderTextColor='#898785'
                                 returnKeyType = { "next" }
+                                inputType="referralCode"    
                                 //onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                             />
                     
-                            {/* <View style={{marginTop:0,width:'90%',flexDirection:'column',justifyContent:'center',alignItems:'center',marginBottom:30}}> */}
+                     
                         
-                                <CustomButton onPressHandler={()=>this.onContinue()} text="LOGIN" customTextStyle={{ color:'white'}}/>
-                                
+                                <CustomButton onPressHandler={()=>this.onCreateAccount()} text="CREATE ACCOUNT" 
+                                    customTextStyle={Create_AccountStyle.enableTextColor}/>
+                    
                                
                                 <View style={{width:'100%',justifyContent:'center',alignItems: 'center',margin:20}}> 
                                     <Text style={{color:'#808080',margin:5,fontWeight: 'bold',fontSize: 17,}}>OR</Text>
@@ -184,15 +231,11 @@ export default class Create_Account extends Component {
                                     customViewTextStyle={{backgroundColor:"#3B5998", borderBottomRightRadius: 5,borderTopRightRadius: 5,fontSize:15}}
                                     customText="REGISTER WITH FACEBOOK"
                                     /> 
-                               
-                            {/* </View> */}
+                          
                         </View>
                     </View>
                   
-                {/* </ScrollView>    */}
-             
-                  
-           
+                
              </FullSCreenSpinnerAndDismissKeyboardView>
         );
     }

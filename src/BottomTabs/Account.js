@@ -1,9 +1,23 @@
 import React , { Component } from 'react';
 import {View, Text,TouchableOpacity,StyleSheet,Image,ScrollView } from 'react-native';
-
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 export default class Account extends Component {
+
+
+    onLogoutHandler = async () => {
+        const keys = ['user_id', 'user_name','user_email','user_mobile','user_password','user_home']
+        try {
+          await AsyncStorage.multiRemove(keys)
+          this.props.navigation.navigate('MyApp');
+        } catch(e) {
+          // remove error
+
+        }
+      
+        console.log('Done')
+      }
 
    
     render(){
@@ -76,6 +90,7 @@ export default class Account extends Component {
                         </TouchableOpacity>
                         <View style={styles.viewLineBlack}></View>
                         <TouchableOpacity
+                            onPress={()=>this.onLogoutHandler()}
                             style={{alignContent:"flex-start",width:"100%"}}
                             >
                             <View style={styles.buttonView}>

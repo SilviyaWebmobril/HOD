@@ -1,4 +1,10 @@
 rootProject.name = 'HouseOfDesi'
+include ':@react-native-community_async-storage'
+project(':@react-native-community_async-storage').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/async-storage/android')
+include ':react-native-fcm'
+project(':react-native-fcm').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fcm/android')
+include ':react-native-device-token'
+project(':react-native-device-token').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-device-token/android')
 include ':react-native-video'
 project(':react-native-video').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-video/android')
 include ':react-native-vector-icons'
