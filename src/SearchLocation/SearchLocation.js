@@ -8,13 +8,14 @@ import axios from 'axios';
 import SearchLocationStyle from './SearchLocationStyle';
 import CustomButton from '../CustomUI/CustomButton/CustomButton';
 import { ScrollView } from 'react-native-gesture-handler';
-
+import ApiUrl from '../Api/ApiUrl';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
 );
 
-const API = 'https://swapi.co/api';
+import GooglePlacesInput from './GooglePlacesInput'; 
+
 export default class SearchLocation extends Component {
 
 
@@ -40,12 +41,19 @@ export default class SearchLocation extends Component {
         super(props);
 
         this.state ={
-            films: [],
-            query: '',
+       
             focusedName:false,
             focusedCity:false,
             focusedLocality:false,
             focusedStreet:false,
+            error:"",
+            latitude:"",
+            longitude:"",
+            full_address:"",
+            postal_code:"",
+            street:"",
+            locality:"",
+            city:"",
 
 
 
@@ -54,77 +62,111 @@ export default class SearchLocation extends Component {
 
     componentDidMount() {
 
-      fetch(`${API}/films/`)
-      .then(res => res.json())
-      .then(json => {
-        const { results: films } = json;
-        this.setState({ films });
-        //setting the data in the films state
-      });
-      
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log("wokeeey");
+          console.log(position);
+          this.setState({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            error: null,
+          });
+
+             
+        },
+        (error) => this.setState({ error: error.message }),
+        { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
+      );
      
     }
 
-      
-      findFilm(query) {
-        //method called everytime when we change the value of the input
-        if (query === '') {
-          //if the query is null then return blank
-          return [];
-        }
-     
-        const { films } = this.state;
-        //making a case insensitive regular expression to get similar value from the film json
-        const regex = new RegExp(`${query.trim()}`, 'i');
-        //return the filtered film array according the query from the input
-        const titles = films.filter(film => film.title)
-        console.log("filtering",titles);
-        return films.filter(film => film.title);
+    
+    getCurrentLocation = () =>{ 
+
+          console.log("latitude",this.state.latitude);
+          console.log("long",this.state.longitude);
+
+          axios.post('https://maps.googleapis.com/maps/api/geocode/json?address=' + this.state.latitude + ',' + this.state.longitude + '&key=' + ApiUrl.googlePlacesApiKey)
+          .then(response =>{
+            // handle success
+        
+            console.log("response",response);
+          
+            console.log("full_address",response.data.results[0].formatted_address);
+            const full_address = response.data.results[0].formatted_address;
+
+            console.log("postal code",response.data.results[0].address_components[response.data.results[0].address_components.length - 1].long_name);
+            const postal_code = response.data.results[0].address_components[response.data.results[0].address_components.length - 1].long_name;
+            this.setState({full_address:full_address});
+            this.setState({postal_code:postal_code});
+
+
+            // this.setState({full_address:response.data.results[0].formatted_address});
+              // this.setState({postal_code:response.data.results[0].address_components[response.data.results[0].address_components.length - 1].long_name})
+              response.data.results[0].address_components.forEach( (element,index) =>{
+
+            
+                  element.types.forEach((type,typindex)=> {
+                  
+                    if(type == "premise"){
+
+                      const street = element.long_name;
+                      this.setState({street:street});
+                      
+                    
+                    }
+
+                    if(type == "sublocality"){
+
+                      const sublocality = element.long_name;
+                      this.setState({sublocality:sublocality});
+                    
+                    }
+
+                    if(type == "locality"){
+
+                      const city = element.long_name;
+                      this.setState({city:city});
+                    
+                    }
+
+                  });
+                
+              });
+
+          })
+          .catch(error=>{
+            // handle error
+            console.log(error);
+          })
+         
+
     }
 
       continueButtonHandler = () =>{
        
+        this.refs.localityText.setTextInputValue(this.state.locality,"locality");
+        this.refs.streetText.setTextInputValue(this.state.street,"street");
+        this.refs.cityText.setTextInputValue(this.state.city,"city");
+
         this.props.navigation.navigate('SearchLocationContinue');
       }
      
 
     render() {
+      
+      return(
 
-         const { query } = this.state;
-         const films = this.findFilm(query);
-         console.log("films",films);
-        // const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
-     
-        return(
-
-            <FullSCreenSpinnerAndDismissKeyboardView style={SearchLocationStyle.container}>
+            <FullSCreenSpinnerAndDismissKeyboardView style={SearchLocationStyle.container}
+            >
               <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{  justifyContent: 'center',alignItems: 'center',marginBottom:20}}>
-                  <Autocomplete
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      containerStyle={SearchLocationStyle.autocompleteContainer}
-                      //data to show in suggestion
-                      data={films}
-                      //default value if you want to set something in input
-                      defaultValue={query}
-                      /*onchange of the text changing the state of the query which will trigger
-                      the findFilm method to show the suggestions*/
-                      onChangeText={text => this.setState({ query: text })}
-                      placeholder="Search Location"
-                      renderItem={({ title, release_date }) => (
-                          //you can change the view you want to show in suggestion from here
-                          <TouchableOpacity onPress={() => this.setState({ query: title })}>
-                          <Text style={SearchLocationStyle.itemText}>
-                              {title} ({release_date})
-                          </Text>
-                          </TouchableOpacity>
-                      )}
-                      />
+                 <GooglePlacesInput />
                  
                   <View style={SearchLocationStyle.viewLineGrey}></View>
                   <CustomButtonWithIcon       
                     type="mat"
+                    onPressHandler={this.getCurrentLocation}
                     iconName="crosshairs-gps"
                     iconColor="black"
                     iconSize={20}
@@ -143,17 +185,8 @@ export default class SearchLocation extends Component {
                       </Text>
                   </View>
                   <CustomTextInput 
-                      onFocus={()=>this.setState({isFocusedName:true})}
-                      onBlur={()=>this.setState({isFocusedName:false})}
-                      customTxtInputStyle={[{
-                          borderColor: this.state.isFocusedName
-                              ? '#FD8D45'
-                              : 'black',
-                          borderWidth: this.state.isFocusedName
-                          ? 1.5 
-                          : 1,
-                          marginBottom:-25,
-                          }]}
+                      ref="nameText"
+                       inputType="name"
                       placeholder="Enter Name" placeholderTextColor='#898785'
                       returnKeyType = { "next" }
                       ///onSubmitEditing={() => {this.thirdTextInput.focus();  }}
@@ -165,18 +198,10 @@ export default class SearchLocation extends Component {
                       </Text>
                   </View>
                   <CustomTextInput 
-                      onFocus={()=>this.setState({isFocusedCity:true})}
-                      onBlur={()=>this.setState({isFocusedCity:false})}
-                      customTxtInputStyle={[{
-                          borderColor: this.state.isFocusedCity
-                              ? '#FD8D45'
-                              : 'black',
-                          borderWidth: this.state.isFocusedCity
-                          ? 1.5 
-                          : 1,
-                          marginBottom:-25,
-                          }]}
-                      placeholder="Enter City" placeholderTextColor='#898785'
+                      inputType="city"
+                      ref="cityText"
+                      placeholder="Enter City" 
+                      placeholderTextColor='#898785'
                       returnKeyType = { "next" }
                      // onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                   />
@@ -187,19 +212,10 @@ export default class SearchLocation extends Component {
                       </Text>
                   </View>
                   <CustomTextInput 
-                      onFocus={()=>this.setState({isFocusedLocalaity:true})}
-                      onBlur={()=>this.setState({isFocusedLocality:false})}
-                      customTxtInputStyle={[{
-                          borderColor: this.state.isFocusedLocalaity
-                              ? '#FD8D45'
-                              : 'black',
-                          borderWidth: this.state.isFocusedLocalaity
-                          ? 1.5 
-                          : 1,
-                          marginBottom:-25,
-
-                          }]}
-                      placeholder="Enter Locality" placeholderTextColor='#898785'
+                       inputType="locality"
+                       ref="localityText"
+                      placeholder="Enter Locality" 
+                      placeholderTextColor='#898785'
                       returnKeyType = { "next" }
                      // onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                   />
@@ -210,18 +226,10 @@ export default class SearchLocation extends Component {
                       </Text>
                   </View>
                   <CustomTextInput 
-                      onFocus={()=>this.setState({isFocusedStreet:true})}
-                      onBlur={()=>this.setState({isFocusedStreet:false})}
-                      customTxtInputStyle={[SearchLocationStyle.customtxtInput,{
-                          borderColor: this.state.isFocusedStreet
-                              ? '#FD8D45'
-                              : 'black',
-                          borderWidth: this.state.isFocusedStreet
-                          ? 1.5 
-                          : 1,
-                          marginBottom:0,
-                          }]}
-                      placeholder="Enter Street" placeholderTextColor='#898785'
+                       inputType="street"
+                       ref="streetText"
+                      placeholder="Enter Street" 
+                      placeholderTextColor='#898785'
                       returnKeyType = { "next" }
                    //   onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                   />

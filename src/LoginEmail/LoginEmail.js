@@ -174,7 +174,7 @@ export default class LoginEmail extends Component {
                             
                             />
 
-                        <CustomButton onPressHandler={()=>this.onStartTimer()}  text="Forget Password ?"
+                        <CustomButton   text="Forget Password ?"
                          customButttonStyle={{alignItems:"flex-end",backgroundColor:'white',marginTop:0}} 
                          customTextStyle={{color:'#FD8D45',fontWeight: 'bold',fontSize: 14,textDecorationLine: 'underline'}}/>
 

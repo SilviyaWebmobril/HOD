@@ -4,9 +4,12 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { isProgram } from '@babel/types';
 import CustomButton from '../CustomUI/CustomButton/CustomButton';
 import CustomTextInput from '../CustomUI/CustomTextInput/CustomTextInput';
-
+import DatePicker from 'react-native-datepicker'
+const today = new Date();
+ 
 export default class Search extends Component{
 
+    
 
     constructor(props){
         super(props);
@@ -15,6 +18,8 @@ export default class Search extends Component{
             isFocusedDate:false,
             isFocuseddate:false,
             isFocusedMessage:false,
+            date: new Date(),
+            time : today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
 
         }
     }
@@ -46,16 +51,7 @@ export default class Search extends Component{
                             </Text>
                         </View>
                         <CustomTextInput 
-                            onFocus={()=>this.setState({isFocusedSubject:true})}
-                            onBlur={()=>this.setState({isFocusedSubject:false})}
-                            customTxtInputStyle={[styles.customtxtInput,{
-                                borderColor: this.state.isFocusedSubject
-                                    ? '#FD8D45'
-                                    : 'black',
-                                borderWidth: this.state.isFocusedSubject
-                                ? 1.5 
-                                : 1,
-                                }]}
+                            inputType="name"
                             placeholder="Enter Subject" placeholderTextColor='#898785'
                             returnKeyType = { "next" }
                             //onSubmitEditing={() => {this.thirdTextInput.focus();  }}
@@ -65,40 +61,65 @@ export default class Search extends Component{
                                 Date
                             </Text>
                         </View>
-                        <CustomTextInput 
-                            onFocus={()=>this.setState({isFocusedDate:true})}
-                            onBlur={()=>this.setState({isFocusedDate:false})}
-                            customTxtInputStyle={[styles.customtxtInput,{
-                                borderColor: this.state.isFocusedDate
-                                    ? '#FD8D45'
-                                    : 'black',
-                                borderWidth: this.state.isFocusedDate
-                                ? 1.5 
-                                : 1,
-                                }]}
+                        {/* <CustomTextInput 
+                            inputType="name"
                             placeholder="Enter Date" placeholderTextColor='#898785'
                             returnKeyType = { "next" }
                             //onSubmitEditing={() => {this.thirdTextInput.focus();  }}
+                        /> */}
+
+                        <DatePicker
+                            style={{width: "80%",alignSelf:"center"}}
+                            date={this.state.date}
+                            mode="date"
+                            placeholder="select date"
+                            format="DD-MM-YYYY"
+                            minDate={this.state.date}
+                           // maxDate="2016-06-01"
+                            confirmBtnText="Confirm"
+                            cancelBtnText="Cancel"
+                            customStyles={{
+                            dateIcon: {
+                                position: 'absolute',
+                                left: 0,
+                                top: 4,
+                                marginLeft: 0
+                            },
+                            dateInput: {
+                                marginLeft: 36
+                            }
+                            // ... You can check the source to find the other keys.
+                            }}
+                            onDateChange={(date) => {this.setState({date: date})}}
                         />
+
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
                             <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
                                 Time
                             </Text>
                         </View>
-                        <CustomTextInput 
-                            onFocus={()=>this.setState({isFocusedTime:true})}
-                            onBlur={()=>this.setState({isFocusedTime:false})}
-                            customTxtInputStyle={[styles.customtxtInput,{
-                                borderColor: this.state.isFocusedTime
-                                    ? '#FD8D45'
-                                    : 'black',
-                                borderWidth: this.state.isFocusedTime
-                                ? 1.5 
-                                : 1,
-                                }]}
-                            placeholder="Enter Time" placeholderTextColor='#898785'
-                            returnKeyType = { "next" }
-                            //onSubmitEditing={() => {this.thirdTextInput.focus();  }}
+                        <DatePicker
+                            style={{width: "80%",alignSelf:"center"}}
+                            date={this.state.time}
+                            mode="time"
+                            placeholder="select date"
+                            minTime={this.state.time}
+                           // maxDate="2016-06-01"
+                            confirmBtnText="Confirm"
+                            cancelBtnText="Cancel"
+                            customStyles={{
+                            dateIcon: {
+                                position: 'absolute',
+                                left: 0,
+                                top: 4,
+                                marginLeft: 0
+                            },
+                            dateInput: {
+                                marginLeft: 36
+                            }
+                            // ... You can check the source to find the other keys.
+                            }}
+                            onDateChange={(time) => {this.setState({time: time})}}
                         />
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
                             <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
@@ -106,16 +127,7 @@ export default class Search extends Component{
                             </Text>
                         </View>
                         <CustomTextInput 
-                            onFocus={()=>this.setState({isFocusedMessgae:true})}
-                            onBlur={()=>this.setState({isFocusedMessage:false})}
-                            customTxtInputStyle={[styles.customtxtInput,{
-                                borderColor: this.state.isFocusedMessage
-                                    ? '#FD8D45'
-                                    : 'black',
-                                borderWidth: this.state.isFocusedMessage
-                                ? 1.5 
-                                : 1,
-                                }]}
+                            inputType="name"
                             customTxtInputStyle={{height:150}}
                             multiline={true}
                             placeholder="Enter Message" placeholderTextColor='#898785'

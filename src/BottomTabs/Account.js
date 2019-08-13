@@ -3,6 +3,7 @@ import {View, Text,TouchableOpacity,StyleSheet,Image,ScrollView } from 'react-na
 import AsyncStorage from '@react-native-community/async-storage';
 
 
+
 export default class Account extends Component {
 
 
@@ -19,6 +20,14 @@ export default class Account extends Component {
         console.log('Done')
       }
 
+      viewProfile = () =>{
+
+        this.props.navigation.navigate('ViewProfile');
+      }
+      
+      transactionHistory = () =>{
+          this.props.navigation.navigate("MyVideo");
+      }
    
     render(){
         return(
@@ -31,6 +40,7 @@ export default class Account extends Component {
                     <View style={{ alignItems:"center",justifyContent:"center"}}>   
                         <TouchableOpacity
                             style={{alignContent:"flex-start",width:"100%"}}
+                            onPress={()=> this.viewProfile()}
                             >
                             <View style={styles.buttonView}>
                                 <Image source={require('../../Assets/user1.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
@@ -38,8 +48,10 @@ export default class Account extends Component {
                             </View>
 
                         </TouchableOpacity>
+
                         <View style={styles.viewLineBlack}></View>
                         <TouchableOpacity
+                        onPress={()=>this.transactionHistory()}
                             style={{alignContent:"flex-start",width:"100%"}}
                             >
                             <View style={styles.buttonView}>

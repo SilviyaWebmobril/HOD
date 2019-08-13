@@ -64,19 +64,10 @@ export default class SeacrhLocationContinue extends Component {
                       </Text>
                     </View>
                     <CustomTextInput 
-                        onFocus={()=>this.setState({isFocusedHouse:true})}
-                        onBlur={()=>this.setState({isFocusedHouse:false})}
-                        customTxtInputStyle={[{
-                            borderColor: this.state.isFocusedHouse
-                                ? '#FD8D45'
-                                : 'black',
-                            borderWidth: this.state.isFocusedHouse
-                            ? 1.5 
-                            : 1,
-                            marginBottom:-25,
-                            }]}
+                       inputType="houseno"
                         placeholder="Enter House" placeholderTextColor='#898785'
                         returnKeyType = { "next" }
+                        keyboardType='numeric'
                         //onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                     />
 
@@ -86,19 +77,10 @@ export default class SeacrhLocationContinue extends Component {
                       </Text>
                     </View>
                     <CustomTextInput 
-                      onFocus={()=>this.setState({isFocusedFloor:true})}
-                      onBlur={()=>this.setState({isFocusedFloor:false})}
-                      customTxtInputStyle={[{
-                          borderColor: this.state.isFocusedFloor
-                              ? '#FD8D45'
-                              : 'black',
-                          borderWidth: this.state.isFocusedFloor
-                          ? 1.5 
-                          : 1,
-                          marginBottom:-25,
-                          }]}
+                      inputType="floorno"
                       placeholder="Enter Floor No." placeholderTextColor='#898785'
                       returnKeyType = { "next" }
+                      keyboardType='numeric'
                      // onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                   />
 
@@ -108,19 +90,10 @@ export default class SeacrhLocationContinue extends Component {
                       </Text>
                     </View>
                     <CustomTextInput 
-                      onFocus={()=>this.setState({isFocusedPincode:true})}
-                      onBlur={()=>this.setState({isFocusedPincode:false})}
-                      customTxtInputStyle={[{
-                          borderColor: this.state.isFocusedPincode
-                              ? '#FD8D45'
-                              : 'black',
-                          borderWidth: this.state.isFocusedPincode
-                          ? 1.5 
-                          : 1,
-                          marginBottom:-25,
-                          }]}
+                      inputType="pincode"
                       placeholder="Enter Pincode" placeholderTextColor='#898785'
                       returnKeyType = { "next" }
+                      keyboardType='numeric'
                       //onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                   />
 
@@ -130,25 +103,16 @@ export default class SeacrhLocationContinue extends Component {
                       </Text>
                     </View>
                     <CustomTextInput 
-                      onFocus={()=>this.setState({isFocusedLandmark:true})}
-                      onBlur={()=>this.setState({isFocusedLandmark:false})}
-                      customTxtInputStyle={[{
-                          borderColor: this.state.isFocusedLandmark
-                              ? '#FD8D45'
-                              : 'black',
-                          borderWidth: this.state.isFocusedLandmark
-                          ? 1.5 
-                          : 1,
-                          marginBottom:-25,
-                          }]}
+                      inputType="landmark"
                       placeholder="Enter Landmark" placeholderTextColor='#898785'
                       returnKeyType = { "next" }
+                    
                      // onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                   />
 
                 <CustomButton 
                    onPressHandler={()=>this.onSubmitHandler()}
-                   customButttonStyle={{backgroundColor:"#FD8D45", }}
+                   customButttonStyle={{backgroundColor:"#FD8D45", marginTop:20}}
                    customTextStyle={{ color:'#48241e'}} 
                    text="SUBMIT"
                  />

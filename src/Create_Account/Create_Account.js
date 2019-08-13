@@ -150,7 +150,8 @@ export default class Create_Account extends Component {
                             <CustomTextInput 
                                 ref="nameText"
                                 inputType= "name"
-                                placeholder="Enter Name" placeholderTextColor='#898785'
+                                placeholder="Enter Name"
+                                placeholderTextColor='#898785'
                                 returnKeyType = { "next" }
                                 //onSubmitEditing={() => { this.secondTextInput.focus(); }}
                             />
@@ -190,12 +191,12 @@ export default class Create_Account extends Component {
                                 </Text>
                             </View>
                             <CustomTextInput 
-                                ref="mobileText"
-                                onFocus={()=>this.setState({isFocusedMobile:true})}
-                                onBlur={()=>this.setState({isFocusedMobile:false})}
-                                placeholder="Enter mobile number" placeholderTextColor='#898785'
+                                ref="mobileText"   
+                                placeholder="Enter mobile number" 
+                                placeholderTextColor='#898785'
                                 returnKeyType = { "next" }
                                 inputType="mobile"
+                                keyboardType='numeric'
                                 //onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                             />
                         

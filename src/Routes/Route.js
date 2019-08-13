@@ -15,6 +15,10 @@ import VistOfFarm from '../BottomTabs/VistOfFarm';
 import Certification from '../BottomTabs/Certifications';
 import Search  from '../BottomTabs/Search';
 import Account from '../BottomTabs/Account';
+import ViewProfile from  '../BottomTabs/Profile/ViewProfile';
+import UpdateProfileContinue from  '../BottomTabs/Profile/UpdateProfileContinue';
+import UpdateProfile from  '../BottomTabs/Profile/UpdateProfile';
+import MyVideo from  '../Video/MyVideo';
 
 
 const Bottomtabs = createBottomTabNavigator({
@@ -148,9 +152,25 @@ const Bottomtabs = createBottomTabNavigator({
 
 const bottomtabsStack = createStackNavigator({
 
-  HomeBottomtabs:Bottomtabs
+  HomeBottomtabs:{
+    screen:Bottomtabs,
+    navigationOptions:{
+      header:null
+    }
+  },
+  ViewProfile,
+  SearchLocation,
+  SearchLocationContinue,
+  UpdateProfile,
+  UpdateProfileContinue,
+  MyVideo,
+  
 
-});
+},
+{
+  initialRouteName: 'HomeBottomtabs',
+  transitionConfig: () => fromRight(500),
+},);
 
 
 
@@ -164,6 +184,7 @@ const MyApp = createStackNavigator({
      OTP,
      SearchLocation,
      SearchLocationContinue,
+     
     //  Bottomtabs:{
     //   screen:Bottomtabs,
     //   navigationOptions:{
@@ -179,7 +200,7 @@ const MyApp = createStackNavigator({
 const AppContainer = createSwitchNavigator({
   Splash:Splash,
   MyApp:MyApp,
-  Bottomtabs:Bottomtabs
+  Bottomtabs:bottomtabsStack
 });
 
   

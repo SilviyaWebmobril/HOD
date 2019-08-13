@@ -3,6 +3,8 @@ import { View,Image,Text,Dimensions ,Animated, Easing ,ImageBackground} from 're
 import { ScrollView } from 'react-native-gesture-handler';
 const {width, height} = Dimensions.get("window");
 import AsyncStorage from '@react-native-community/async-storage';
+const windowW= Dimensions.get('window').width
+const windowH = Dimensions.get('window').height
 
 export default class Splash extends Component {
 
@@ -88,8 +90,8 @@ export default class Splash extends Component {
                     <Image  source={require('../../Assets/imgtwo.png')} style={{alignSelf:"center",   position: 'absolute', height: 250,width: 250}}  />
                 
                 </View>
-                <View style={{marginTop:150 ,width:'90%',alignSelf:"center"}}>
-                    <Image  source={require('../../Assets/name.png')} style={{width:"100%",height:110}}/>
+                <View style={{marginTop:150 ,width:'100%',alignSelf:"center",marginLeft:40,marginRight:40}}>
+                    <Image  source={require('../../Assets/name.png')} style={{alignSelf:"center",width:"100%",height:windowH/5.0}}/>
                 </View>
         
 

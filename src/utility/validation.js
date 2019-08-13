@@ -1,4 +1,5 @@
 
+
 const validate = ( val, rules) => {
 
     let isValid = true;
@@ -18,8 +19,11 @@ const validate = ( val, rules) => {
             case "minLength":
                 isValid = isValid && passwordValidator(val,rules[rule]);
                 break;
-            case "isReferralCode":
+            case "notRequired":
                 isValid  = true;
+                break;
+            case "isValidPincode":
+                isValid = isValid && pincodeValidator(val);
                 break;
             default:
                 isValid = true;
@@ -54,7 +58,12 @@ const mobilevalidator =  (val) => {
 
 const passwordValidator = (val,minLength) => {
 
-  return val.length >= minLength;
+  return val.length >= minLength && val.length <= 16;
+}
+
+const pincodeValidator = (val) => {
+    console.log("i ama here on validate" );
+    return /^\d{6}$/.test(val);
 }
 
 export default validate;

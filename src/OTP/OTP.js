@@ -93,26 +93,17 @@ export default class OTP extends Component {
                     </View>
                     <View style={{alignItems:"center",marginBottom:20}}>
 
-                        <CustomTextInput 
-                            onFocus={()=>this.setState({isFocused:true})}
-                            onBlur={()=>this.setState({isFocused:false})}
-                            placeholder="Enter OTP"
-                            placeholderTextColor='#898785'
-                            keyboardType='numeric'
-                            ref={this.otpref}
-                            customTxtInputStyle = {[ {
-                                borderColor: this.state.isFocused
-                                    ? '#FD8D45'
-                                    : 'black',
-                                borderWidth: this.state.isFocused
-                                ? 1.5 
-                                : 1,
-                            }]}
+                            <CustomTextInput 
+                                placeholder="Enter OTP" 
+                                placeholderTextColor='#898785'
+                                returnKeyType = { "next" }
+                                inputType="name"
+                                keyboardType='numeric'
                             
                             />
 
 
-                        <CustomButton onPressHandler={()=>this.onStartTimer()}  text="Resend" customButttonStyle={{alignItems:"flex-end",backgroundColor:'white',marginTop:-50}} customTextStyle={{color:'#FD8D45',fontWeight: 'bold',fontSize: 14,textDecorationLine: 'underline'}}/>
+                        <CustomButton onPressHandler={()=>this.onStartTimer()}  text="Resend" customButttonStyle={{alignItems:"flex-end",backgroundColor:'white'}} customTextStyle={{color:'#FD8D45',fontWeight: 'bold',fontSize: 14,textDecorationLine: 'underline'}}/>
 
                         <CustomButton customTextStyle={{ color:'white'}} onPressHandler = {() => this.onSubmit()} text="SUBMIT" />
 

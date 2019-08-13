@@ -78,20 +78,11 @@ export default class Login extends Component {
                     
 
                         <CustomTextInput 
-                            onFocus={()=>this.setState({isFocused:true})}
-                            onBlur={()=>this.setState({isFocused:false})}
-                            placeholder="Enter mobile number"
-                            placeholderTextColor='#898785'
-                            keyboardType='numeric'
-                            ref={this.mobileref}
-                            customTxtInputStyle = {[ {
-                                borderColor: this.state.isFocused
-                                    ? '#FD8D45'
-                                    : 'black',
-                                borderWidth: this.state.isFocused
-                                ? 1.5 
-                                : 1,
-                            }]}
+                                placeholder="Enter mobile number" 
+                                placeholderTextColor='#898785'
+                                returnKeyType = { "next" }
+                                inputType="mobile"
+                                keyboardType='numeric'
                         
                             />
 

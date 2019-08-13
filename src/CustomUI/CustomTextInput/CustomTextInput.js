@@ -51,10 +51,71 @@ class CustomTextInput  extends Component {
                     value: "",
                     valid:false,
                     validationRules:{
-                        isReferralCode:true,
+                        notRequired:true,
                     }
                 },
-
+                city:{
+                    value: "",
+                    valid:false,
+                    validationRules:{
+                        isText:true,
+                    }
+                },    
+                street:{
+                    value: "",
+                    valid:false,
+                    validationRules:{
+                        isText:true,
+                    }
+                }, 
+                locality:{
+                    value: "",
+                    valid:false,
+                    validationRules:{
+                        isText:true,
+                    }
+                },
+                houseno:{
+                    value: "",
+                    valid:false,
+                    validationRules:{
+                        isText:true,
+                    }
+                },
+                
+                floorno:{
+                    value: "",
+                    valid:false,
+                    validationRules:{
+                        isText:true,
+                    }
+                },
+                
+                pincode:{
+                    value: "",
+                    valid:false,
+                    validationRules:{
+                        isValidPincode:true,
+                    }
+                },
+                
+                landmark:{
+                    value: "",
+                    valid:false,
+                    validationRules:{
+                        notRequired:true,
+                    }
+                },
+                family:{
+                    value: "",
+                    valid:false,
+                    validationRules:{
+                        isText:true,
+                    }
+                },
+                
+                
+        
 
             }
         }
@@ -101,7 +162,7 @@ class CustomTextInput  extends Component {
             }else if(type == 'password'){
                 if(!this.state.controls.password.valid){
                     this.setState({errorState:false});
-                    this.setState({errorMsg:"Password length must be greater than 6"});
+                    this.setState({errorMsg:"Password length must be greater than 6 and less than 16"});
                 }else{
                     this.setState({errorState:true});
                 }
@@ -114,6 +175,63 @@ class CustomTextInput  extends Component {
                     this.setState({errorState:true});
                 }
 
+            }else if(type == "city"){
+
+                if(!this.state.controls.city.valid){
+                    this.setState({errorState:false});
+                    this.setState({errorMsg:"Please enter City"});
+                }else{
+                    this.setState({errorState:true});
+                }
+            }
+            else if(type == "locality"){
+
+                if(!this.state.controls.locality.valid){
+                    this.setState({errorState:false});
+                    this.setState({errorMsg:"Please enter Locality"});
+                }else{
+                    this.setState({errorState:true});
+                }
+            }else if(type == "street"){
+
+                if(!this.state.controls.street.valid){
+                    this.setState({errorState:false});
+                    this.setState({errorMsg:"Please enter Street"});
+                }else{
+                    this.setState({errorState:true});
+                }
+            }else if(type == "houseno"){
+
+                if(!this.state.controls.houseno.valid){
+                    this.setState({errorState:false});
+                    this.setState({errorMsg:"Please enter House No"});
+                }else{
+                    this.setState({errorState:true});
+                }
+            }else if(type == "floorno"){
+
+                if(!this.state.controls.floorno.valid){
+                    this.setState({errorState:false});
+                    this.setState({errorMsg:"Please enter Floor No"});
+                }else{
+                    this.setState({errorState:true});
+                }
+            }else if(type == "pincode"){
+
+                if(!this.state.controls.pincode.valid){
+                    this.setState({errorState:false});
+                    this.setState({errorMsg:"Please enter valid Pincode"});
+                }else{
+                    this.setState({errorState:true});
+                }
+            }else if(type == "family"){
+
+                if(!this.state.controls.landmark.valid){
+                    this.setState({errorState:false});
+                    this.setState({errorMsg:"Please enter Family Members"});
+                }else{
+                    this.setState({errorState:true});
+                }
             }
     
 
@@ -180,12 +298,61 @@ class CustomTextInput  extends Component {
             }else if(type == "referralCode"){
 
                 return this.state.controls.referralCode.value;
-                // if(this.state.controls.referralCode.valid){
-                //     return this.state.controls.referralCode.value;
-                // }else{
-                //     return "invalid";
-                // }
                
+               
+            }else if(type == "city"){
+
+                if(this.state.controls.city.valid){
+                    return this.state.controls.city.value;
+                }else{
+                    return "invalid";
+                }
+              
+
+            }else if( type == "street"){
+
+                if(this.state.controls.street.valid){
+                    return this.state.controls.street.value
+                }else{
+                    return "invalid";
+                }
+
+            }else if(type ==  "locality"){
+
+                if(this.state.controls.locality.valid){
+                    return this.state.controls.locality.value;
+                }else{
+                    return "invalid";
+                }
+
+            }else if(type == "landmark"){
+
+                return this.state.controls.landmark.value;
+
+            }else if(type == "houseno"){
+
+                if(this.state.controls.houseno.valid){
+                    return this.state.controls.houseno.value;
+                }else{
+                    return "invalid";
+                }
+
+            }else if(type == "floorno"){
+
+                if(this.state.controls.floorno.valid){
+                    return this.state.controls.floorno.value;
+
+                }else{
+                    return "invalid";
+                }
+
+            }else if(type == "pincode"){
+
+                if(this.state.controls.pincode.valid){
+                    return this.state.controls.pincode.value;
+                }else{
+                    return "invalid";
+                }
             }
             
         
@@ -193,6 +360,11 @@ class CustomTextInput  extends Component {
         
       
     }
+
+    setText = (value)=>{
+        
+        this.setState({inputTextValue : value})
+    } 
     
     render() {
 
