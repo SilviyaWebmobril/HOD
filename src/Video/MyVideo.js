@@ -1,7 +1,10 @@
 import React,{Component} from "react";
-import {Text,View,StyleSheet} from "react-native";
+import {Text,View,StyleSheet,ActivityIndicator,} from "react-native";
 import Video from 'react-native-video';
 import AsyncStorage from '@react-native-community/async-storage';
+import axios from "axios";
+import ApiUrl from '../Api/ApiUrl';
+import VideoPlayer from '../Video/VideoPlayer';
 
 export default class MyVideo extends Component {
 
@@ -10,43 +13,54 @@ export default class MyVideo extends Component {
     super(props);
 
     this.state = {
-      user_id:"",
+      video_url:"",
+      isLoading:true,
+      showVideoPlayer: true,
+      video_url:"",
+
     }
   }
 
 
-  componentDidMount(){
-
-    this.getValues();
-  }
-
-  getValues = async () => {
-
-    let value;
+  componentDidMount = async() =>{
+    
+    
     try {
+      let value;
      value = await AsyncStorage.getItem('user_id');
+
+     axios.post(ApiUrl.baseurl+ApiUrl.get_video+value)
+        .then( (response) => {
+          console.log(response);
+          this.setState({isLoading:false});
+          this.setState({video_url : response.data.video});
+
+
+        })
+        .catch( (error) =>{
+          console.log(error);
+        });
+
+
+
     } catch(e) {
       // read error
     }
   
-    this.setState({user_id:value});
-    console.log('user_id Done',value)
-  
   }
 
+
+
+
     render(){
-    return(
-    <View style={styles.container}>
-        <Video source={{uri: "http://webmobril.org/dev/hod/api/video?user_id="+this.state.user_id}}   // Can be a URL or a localfile.
-        ref={(ref) => {
-            this.player = ref
-        }}                                      // Store reference
-        onBuffer={this.onBuffer}                // Callback when remote video is buffering
-        onEnd={this.onEnd}                      // Callback when playback finishes
-        onError={this.videoError}               // Callback when video cannot be loaded
-        style={styles.backgroundVideo} />
-    </View>
-    );
+   
+    let {showVideoPlayer} = this.state;
+    if (showVideoPlayer) {
+        return (
+            <VideoPlayer video={{uri:"https://www.webmobril.org/dev/hod/"+this.state.video_url}} volume={0.5} />
+        );
+    } 
+    
   }
 
 }

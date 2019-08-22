@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { createStackNavigator,createBottomTabNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator,createBottomTabNavigator,addNavigationHelpers , createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { View ,Image } from  'react-native';
 import After_Splash from '../After_Splash/After_Splash';
 import Login from '../Login/Login';
@@ -19,7 +19,7 @@ import ViewProfile from  '../BottomTabs/Profile/ViewProfile';
 import UpdateProfileContinue from  '../BottomTabs/Profile/UpdateProfileContinue';
 import UpdateProfile from  '../BottomTabs/Profile/UpdateProfile';
 import MyVideo from  '../Video/MyVideo';
-
+import VideoPlayer from  '../Video/VideoPlayer';
 
 const Bottomtabs = createBottomTabNavigator({
 
@@ -180,6 +180,8 @@ const MyApp = createStackNavigator({
      After_Splash , 
      Login, 
      LoginEmail,
+     VideoPlayer,
+     MyVideo,
      Create_Account,
      OTP,
      SearchLocation,

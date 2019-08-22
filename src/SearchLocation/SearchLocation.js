@@ -13,7 +13,7 @@ const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
 );
-
+import AsyncStorage from '@react-native-community/async-storage';
 import GooglePlacesInput from './GooglePlacesInput'; 
 
 export default class SearchLocation extends Component {
@@ -54,16 +54,22 @@ export default class SearchLocation extends Component {
             street:"",
             locality:"",
             city:"",
+            isLoading:false,
 
 
 
         }
     }
 
-    componentDidMount() {
+    componentDidMount= async()  =>{
+
+      this.setState({isLoading:true});
+      const value = await AsyncStorage.getItem('user_name');
+      this.refs.nameText.setTextInputValue(value,"name");
 
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          this.setState({isLoading:false});
           console.log("wokeeey");
           console.log(position);
           this.setState({
@@ -83,13 +89,14 @@ export default class SearchLocation extends Component {
     
     getCurrentLocation = () =>{ 
 
+          this.setState({isLoading:true});
           console.log("latitude",this.state.latitude);
           console.log("long",this.state.longitude);
 
           axios.post('https://maps.googleapis.com/maps/api/geocode/json?address=' + this.state.latitude + ',' + this.state.longitude + '&key=' + ApiUrl.googlePlacesApiKey)
           .then(response =>{
             // handle success
-        
+            this.setState({isLoading:false});
             console.log("response",response);
           
             console.log("full_address",response.data.results[0].formatted_address);
@@ -102,7 +109,11 @@ export default class SearchLocation extends Component {
 
 
             // this.setState({full_address:response.data.results[0].formatted_address});
-              // this.setState({postal_code:response.data.results[0].address_components[response.data.results[0].address_components.length - 1].long_name})
+              // this.setState({postal_code:response.data.results[0].a
+
+
+            // this.setState({full_address:response.data.results[0].formatted_address});
+              // this.setState({postal_code:response.data.results[0].ddress_components[response.data.results[0].address_components.length - 1].long_name})
               response.data.results[0].address_components.forEach( (element,index) =>{
 
             
@@ -111,7 +122,11 @@ export default class SearchLocation extends Component {
                     if(type == "premise"){
 
                       const street = element.long_name;
-                      this.setState({street:street});
+                      this.setState({street:street},()=>{
+
+                        this.refs.streetText.setTextInputValue(this.state.street,"street");
+       
+                      });
                       
                     
                     }
@@ -119,14 +134,21 @@ export default class SearchLocation extends Component {
                     if(type == "sublocality"){
 
                       const sublocality = element.long_name;
-                      this.setState({sublocality:sublocality});
+                      this.setState({locality:sublocality},()=>{
+                        console.log("locality",this.state.locality);
+     
+                        this.refs.localityText.setTextInputValue(this.state.locality,"locality");
+                      });
                     
                     }
 
                     if(type == "locality"){
 
                       const city = element.long_name;
-                      this.setState({city:city});
+                      this.setState({city:city},()=>{
+
+                        this.refs.cityText.setTextInputValue(this.state.city,"city");
+                      });
                     
                     }
 
@@ -139,17 +161,40 @@ export default class SearchLocation extends Component {
             // handle error
             console.log(error);
           })
+
+
+
+
          
 
     }
 
       continueButtonHandler = () =>{
-       
-        this.refs.localityText.setTextInputValue(this.state.locality,"locality");
-        this.refs.streetText.setTextInputValue(this.state.street,"street");
-        this.refs.cityText.setTextInputValue(this.state.city,"city");
+      
+        if(this.refs.nameText.getInputTextValue("name") == "invalid" || this.refs.cityText.getInputTextValue("city") == "invalid"
+        || this.refs.localityText.getInputTextValue("locality") == "invalid" || this.refs.streetText.getInputTextValue("street") == "invalid"){
 
-        this.props.navigation.navigate('SearchLocationContinue');
+          Alert.alert("All * marked fields are compulsory!")
+
+        }else{
+
+          this.props.navigation.navigate('SearchLocationContinue',{"postal_code":this.state.postal_code,
+          "city":this.refs.cityText.getInputTextValue("city"),
+          "locality":this.refs.localityText.getInputTextValue("locality"),
+          "street":this.refs.streetText.getInputTextValue("street"),
+          "latitude":this.state.latitude,
+          "longitude":this.state.longitude,"full_address":this.state.full_address
+          });
+
+        }
+      
+      
+      }
+      
+      getDetails() {
+
+        console.log("details in parent",this.refs.details.getPlaceDetails());
+
       }
      
 
@@ -158,10 +203,11 @@ export default class SearchLocation extends Component {
       return(
 
             <FullSCreenSpinnerAndDismissKeyboardView style={SearchLocationStyle.container}
+            spinner={this.state.isLoading}
             >
               <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{  justifyContent: 'center',alignItems: 'center',marginBottom:20}}>
-                 <GooglePlacesInput />
+                 <GooglePlacesInput ref="details"/>
                  
                   <View style={SearchLocationStyle.viewLineGrey}></View>
                   <CustomButtonWithIcon       
