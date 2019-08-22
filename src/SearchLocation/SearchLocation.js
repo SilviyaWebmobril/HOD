@@ -205,8 +205,8 @@ export default class SearchLocation extends Component {
             <FullSCreenSpinnerAndDismissKeyboardView style={SearchLocationStyle.container}
             spinner={this.state.isLoading}
             >
-              <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{  justifyContent: 'center',alignItems: 'center',marginBottom:20}}>
+              {/* <ScrollView showsVerticalScrollIndicator={false}> */}
+                <View style={{  justifyContent: 'center',alignItems: 'center',marginBottom:0}}>
                  <GooglePlacesInput ref="details"/>
                  
                   <View style={SearchLocationStyle.viewLineGrey}></View>
@@ -258,7 +258,7 @@ export default class SearchLocation extends Component {
                       </Text>
                   </View>
                   <CustomTextInput 
-                       inputType="locality"
+                       inputType="locality" 
                        ref="localityText"
                       placeholder="Enter Locality" 
                       placeholderTextColor='#898785'
@@ -281,7 +281,7 @@ export default class SearchLocation extends Component {
                   />
                   <CustomButton 
                     onPressHandler={()=> this.continueButtonHandler()}
-                    customButttonStyle={{backgroundColor:"#FD8D45", }}
+                    customButttonStyle={{backgroundColor:"#FD8D45"}}
                     customTextStyle={{ color:'#48241e'}} 
                     text="CONTINUE"
                   />
@@ -289,7 +289,7 @@ export default class SearchLocation extends Component {
                   
 
                   </View>
-                </ScrollView>   
+                {/* </ScrollView>    */}
              </FullSCreenSpinnerAndDismissKeyboardView>
         
         );

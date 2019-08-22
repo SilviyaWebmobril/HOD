@@ -103,7 +103,7 @@ export default class Create_Account extends Component {
                         AsyncStorage.setItem("user_password",res.data.result.txtpassword)
                         AsyncStorage.setItem("user_home",res.data.result.homeaddress)
                         this.setState({isLoading:false});
-                        Alert.alert("Your Account created Sucessfuly!");
+                        Alert.alert("Your Account created Successfully!");
                         this.props.navigation.navigate('Bottomtabs');
     
                         
