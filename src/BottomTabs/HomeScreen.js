@@ -7,11 +7,13 @@ const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
 );
+import axios from 'axios';
 import Banners from '../Banners/Banner';
 import HorizontalList from '../CustomUI/HorizontalList/HorizontalList';
 import CustomTextInputWithIcon from '../CustomUI/CustomTextInput/CustomTextInputWithIcon';
 import {images}  from  '../CustomUI/HorizontalList/imageUri';
 import ProductItem  from './ProductItem/ProductItem';
+import ApiUrl from '../Api/ApiUrl';
 
 
 
@@ -20,8 +22,32 @@ import ProductItem  from './ProductItem/ProductItem';
     constructor(props){
         super(props);
         this.state={
-            images: [...images]
+            images: [...images],
+            isLoading:true,
+            product:[],
         }
+    }
+
+    componentDidMount(){
+
+        axios.post(ApiUrl.baseurl+ApiUrl.get_product_category).then(res => {
+
+            console.log("response",res);
+            this.setState({isLoading:false});
+            this.setState({product:res.data.data});
+
+
+
+
+        }).catch( error  => { 
+
+            console.log("on error",error);  
+
+
+        });
+
+
+
     }
 
     renderItem(data){
@@ -34,11 +60,13 @@ import ProductItem  from './ProductItem/ProductItem';
     render(){
         return(
            
-            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+            <FullSCreenSpinnerAndDismissKeyboardView
+            style={styles.container}
+            spinner={this.state.isLoading}>
                 <View >
                     <CustomTopHeader />
                     <Banners images={this.state.images}/>
-                    <HorizontalList />
+                    <HorizontalList products={this.state.product} />
                     <CustomTextInputWithIcon placeholder="Search for Products.."/>
                     <FlatList
                       
@@ -54,7 +82,7 @@ import ProductItem  from './ProductItem/ProductItem';
                 </View>
 
 
-            </ScrollView>
+            </FullSCreenSpinnerAndDismissKeyboardView>
              
         );
     }

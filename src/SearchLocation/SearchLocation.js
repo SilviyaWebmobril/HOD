@@ -15,8 +15,9 @@ const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
 );
 import AsyncStorage from '@react-native-community/async-storage';
 import GooglePlacesInput from './GooglePlacesInput'; 
+import { connect } from 'react-redux';
 
-export default class SearchLocation extends Component {
+class SearchLocation extends Component {
 
 
     static navigationOptions = ({ navigation }) => ({
@@ -178,6 +179,7 @@ export default class SearchLocation extends Component {
 
         }else{
 
+          console.log("props location", this.props.location);
           this.props.navigation.navigate('SearchLocationContinue',{"postal_code":this.state.postal_code,
           "city":this.refs.cityText.getInputTextValue("city"),
           "locality":this.refs.localityText.getInputTextValue("locality"),
@@ -299,5 +301,21 @@ export default class SearchLocation extends Component {
 
 
 }
+
+const mapStateToProps = state => {
+  return {
+    location: state.location.location
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAdd: (name) => {
+      dispatch(addLocation(name))
+    }
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(SearchLocation)
 
 

@@ -1,12 +1,12 @@
 import React ,{ Component}  from 'react';
-import { View ,Text,StyleSheet, Image,FlatList,Dimensions}   from 'react-native';
+import { View ,Text,StyleSheet, Image,FlatList,Dimensions,TouchableHighlight}   from 'react-native';
 import {images} from './imageUri';
-import { ScrollView } from 'react-native-gesture-handler';
+import { withNavigation } from 'react-navigation';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 
-export default  class HorizontalList extends  Component {
+class HorizontalList extends  Component {
 
     constructor(props){
         super(props);
@@ -18,6 +18,11 @@ export default  class HorizontalList extends  Component {
        
     }
 
+    onProductItemHandler = (id,product_type,name) => {
+
+         this.props.navigation.navigate("CategoryProduct",{"category_id":id,"product_type":product_type,"name":name});
+
+    }
   
 
     renderItem(data) {
@@ -26,9 +31,14 @@ export default  class HorizontalList extends  Component {
         return (
         
                 <View  key={item.id} >
-                    <Image source={item.image_url} style={styles.cardView}/>
-                    <Image source={require('../../../Assets/overlay.png')} style={styles.topImageStyle} />
-                    <Text  numberOfLines={3} style={styles.textStyle}>{item.text}</Text>
+                    <TouchableHighlight  onPress={()=>this.onProductItemHandler(item.id,item.product_type,item.name) }>
+                        <View>
+                            <Image source={{uri:"http://webmobril.org/dev/hod/"+item.cat_img}} 
+                            style={styles.cardView}/>
+                            <Image source={require('../../../Assets/overlay.png')} style={styles.topImageStyle} />
+                            <Text  numberOfLines={3} style={styles.textStyle}>{item.name}</Text>
+                        </View>
+                    </TouchableHighlight>
                 </View>
           
        
@@ -53,7 +63,7 @@ export default  class HorizontalList extends  Component {
                         bottom: 0,
                         right: 30,
                         }}
-                        data={this.state.images}
+                        data={this.props.products}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={this.renderItem.bind(this)}
                         pagingEnabled={true}
@@ -69,6 +79,7 @@ export default  class HorizontalList extends  Component {
     }
 }
 
+export default withNavigation(HorizontalList);
 const styles = StyleSheet.create({
 
     cardView:{
@@ -79,7 +90,9 @@ const styles = StyleSheet.create({
         marginLeft:10,
         marginRight:8,
         marginTop:5,
-        marginBottom:10
+        marginBottom:10,
+        borderColor:"#E8E8E8",
+         borderWidth:1
 
     },
     topImageStyle:{

@@ -20,6 +20,7 @@ import UpdateProfileContinue from  '../BottomTabs/Profile/UpdateProfileContinue'
 import UpdateProfile from  '../BottomTabs/Profile/UpdateProfile';
 import MyVideo from  '../Video/MyVideo';
 import VideoPlayer from  '../Video/VideoPlayer';
+import CategoryProduct from '../BottomTabs/screens/CategoryProduct';
 
 const Bottomtabs = createBottomTabNavigator({
 
@@ -164,6 +165,7 @@ const bottomtabsStack = createStackNavigator({
   UpdateProfile,
   UpdateProfileContinue,
   MyVideo,
+  CategoryProduct,
   
 
 },

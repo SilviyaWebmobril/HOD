@@ -1,15 +1,15 @@
 import React,{Component} from 'react';
 import { Image, Text } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-
-
+import { connect } from 'react-redux';
+import {addLocation} from '../redux/store/actions/locationAction';
 const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
 const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
 
 class GooglePlacesInput extends Component  {
 
   state={
-    details:{}
+    location:{}
   }
 
   getPlaceDetails(){
@@ -36,7 +36,7 @@ class GooglePlacesInput extends Component  {
   
           // console.log("map data",data);
           // console.log("map details",details);
-
+          this.props.onAdd(details)
           this.setState({details:details});
 
         }}
@@ -98,4 +98,20 @@ class GooglePlacesInput extends Component  {
  
 }
 
-export default GooglePlacesInput;
+const mapStateToProps = state => {
+  return {
+    location: state.location.location
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAdd: (name) => {
+      dispatch(addLocation(name))
+    }
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(GooglePlacesInput)
+
+//export default GooglePlacesInput;

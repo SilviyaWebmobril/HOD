@@ -22,4 +22,6 @@ export default {
 
     get_video: "video?user_id=",    
 
+    get_product_category: "product_categories",
+
 }
