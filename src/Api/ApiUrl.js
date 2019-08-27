@@ -1,6 +1,6 @@
 
 import {Platform } from 'react-native';
-import FCM from "react-native-fcm"; 
+
 import RNDeviceToken from 'react-native-device-token';
 
    

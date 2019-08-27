@@ -3,8 +3,8 @@ package com.houseofdesi;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
-import com.evollu.react.fcm.FIRMessagingPackage;
 import com.devicetoken.RNDeviceTokenPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -30,8 +30,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFirebasePackage(),
             new AsyncStoragePackage(),
-            new FIRMessagingPackage(),
             new RNDeviceTokenPackage(),
             new ReactVideoPackage(),
             new VectorIconsPackage(),

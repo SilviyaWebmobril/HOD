@@ -204,7 +204,7 @@ class SearchLocation extends Component {
       
       return(
 
-            <FullSCreenSpinnerAndDismissKeyboardView style={SearchLocationStyle.container}
+            <FullSCreenSpinnerAndDismissKeyboardView 
             spinner={this.state.isLoading}
             >
               {/* <ScrollView showsVerticalScrollIndicator={false}> */}

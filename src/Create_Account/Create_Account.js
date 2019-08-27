@@ -17,9 +17,9 @@ import ApiUrl from '../Api/ApiUrl';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
-);
-import FCM from "react-native-fcm"; 
+);      
 import AsyncStorage from '@react-native-community/async-storage';
+    import firebase from 'react-native-firebase';
 
 export default class Create_Account extends Component {
     
@@ -68,8 +68,9 @@ export default class Create_Account extends Component {
              (this.refs.passwordText.getInputTextValue("password") !== "invalid") && (this.refs.mobileText.getInputTextValue("mobile") !== "invalid") ) {
               this.setState({isLoading:true})
               console.log("api base url",ApiUrl.baseurl);
-              FCM.requestPermissions();
-              FCM.getFCMToken().then(token => {
+            
+              firebase.messaging().getToken()
+              .then(token => {
               this.setState({device_token:token});
 
 

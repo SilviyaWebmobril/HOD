@@ -20,7 +20,7 @@ const ProductItem  = (props) => {
                     <Text style={styles.textBorder}>250g</Text>
                    
                     <CustomButton 
-                         customButttonStyle={{backgroundColor:"#FD8D45", height:35,marginTop:10,width:"20%"}}
+                         customButttonStyle={{backgroundColor:"#FD8D45", height:35,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"70%"}}
                          customTextStyle={{ color:'white',fontSize:12}}
                          text="Add To Cart"  />
                 </View>

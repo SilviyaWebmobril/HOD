@@ -12,7 +12,11 @@ export default (Comp: ReactClass<*>) => {
           <Comp {...props}>
             {children}
           </Comp>
-          {spinner &&
+          
+      
+
+      </ScrollView>
+      {spinner &&
             <View
               style={[
                 StyleSheet.absoluteFill,
@@ -21,9 +25,6 @@ export default (Comp: ReactClass<*>) => {
             >
               <ActivityIndicator size="large" />
             </View>}
-      
-
-      </ScrollView>
    
       
     </View>

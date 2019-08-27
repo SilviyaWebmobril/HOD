@@ -7,8 +7,9 @@ target 'HouseOfDesi' do
 
   # Pods for HouseOfDesi
 
-  pod 'Firebase'
+  #pod 'Firebase'
   pod 'Firebase/Messaging'
+  pod 'Firebase/Core'
 
   target 'HouseOfDesiTests' do
     inherit! :search_paths

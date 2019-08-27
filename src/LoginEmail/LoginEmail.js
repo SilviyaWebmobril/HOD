@@ -21,10 +21,11 @@ const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
 );
-import FCM from "react-native-fcm"; 
+// import FCM from "react-native-fcm"; 
 import AsyncStorage from '@react-native-community/async-storage';
 import ApiUrl from '../Api/ApiUrl';
 import axios  from 'axios';
+import firebase from 'react-native-firebase';
 
 
 export default class LoginEmail extends Component {
@@ -71,8 +72,8 @@ export default class LoginEmail extends Component {
 
             this.setState({isLoading:true})
            
-            FCM.requestPermissions();
-            FCM.getFCMToken().then(token => {
+            firebase.messaging().getToken()
+            .then(token => {
             this.setState({device_token:token});
 
 
