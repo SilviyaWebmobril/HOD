@@ -81,7 +81,7 @@ class SearchLocation extends Component {
 
              
         },
-        (error) => this.setState({ error: error.message }),
+        (error) => console.log("on error wokeey",error),
         { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
       );
      

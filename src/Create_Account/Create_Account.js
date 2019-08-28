@@ -61,7 +61,7 @@ export default class Create_Account extends Component {
 
 
 
-    onCreateAccount = ()=>{
+    onCreateAccount = async () =>{
 
        
         if((this.refs.nameText.getInputTextValue("name") !== "invalid") && (this.refs.emailText.getInputTextValue("email") !== "invalid") &&
@@ -88,7 +88,9 @@ export default class Create_Account extends Component {
                 axios.post(ApiUrl.baseurl + ApiUrl.create_account,formdata)
                 .then(res => {
                  
-                    console.log("my response",res);
+                    console.log("mx",res);
+
+                    
                    
                     if(res.data.error){
 
@@ -97,12 +99,16 @@ export default class Create_Account extends Component {
 
                     }else{
 
+
+                       
                         AsyncStorage.setItem('user_id',JSON.stringify(res.data.result.id))
-                        AsyncStorage.setItem("user_name", res.data.result.name)
-                        AsyncStorage.setItem("user_email", res.data.result.email)
-                        AsyncStorage.setItem('user_mobile',res.data.result.mobile)
-                        AsyncStorage.setItem("user_password",res.data.result.txtpassword)
-                        AsyncStorage.setItem("user_home",res.data.result.homeaddress)
+                         AsyncStorage.setItem("user_name", res.data.result.name)
+                         AsyncStorage.setItem("user_email", res.data.result.email)
+                         AsyncStorage.setItem('user_mobile',res.data.result.mobile)
+                         AsyncStorage.setItem("user_password",res.data.result.txtpassword)
+                        // AsyncStorage.setItem("user_home",res.data.result.homeaddress)
+
+                       
                         this.setState({isLoading:false});
                         Alert.alert("Your Account created Successfully!");
                         this.props.navigation.navigate('Bottomtabs');
@@ -130,8 +136,8 @@ export default class Create_Account extends Component {
         }
       
     }
-   
 
+    
 
     render() {
         
