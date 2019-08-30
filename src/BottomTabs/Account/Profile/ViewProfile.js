@@ -2,18 +2,20 @@ import React ,{Component} from 'react';
 import {View,Text,StyleSheet,Dimensions,FlatList} from 'react-native';
 
 
-import * as HOC from '../../HOC/mainHoc';
+import * as HOC from '../../../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
 );
-import CustomLogo  from '../../CustomUI/Logo/CustomLogo';
+import CustomLogo  from '../../../CustomUI/Logo/CustomLogo';
 import AsyncStorage from '@react-native-community/async-storage';
 
 var { height } = Dimensions.get('window');
+import userData  from '../../../redux/store/actions/userDataAction';
+import {connect} from 'react-redux';
 
 
-export default class ViewProfile  extends Component {
+class ViewProfile  extends Component {
 
   static navigationOptions = ({ navigation, screenProps }) => ({
     title: "Profile",
@@ -73,6 +75,7 @@ export default class ViewProfile  extends Component {
 
     componentDidMount() {
 
+      console.log("value by props",this.props.userdata.user_name);
       this.getvalues();
 
     }
@@ -120,9 +123,9 @@ export default class ViewProfile  extends Component {
                 <CustomLogo />
 
                 <View style={styles.profileViewStyle}>
-                  <Text style={styles.profileNameStyles}>{this.state.name}</Text>
-                  <Text style={styles.profileEmailMobileStyles}>{this.state.email}</Text>
-                  <Text style={styles.profileEmailMobileStyles}>{this.state.mobile}</Text>
+                  <Text style={styles.profileNameStyles}>{this.props.userdata.user_name}</Text>
+                  <Text style={styles.profileEmailMobileStyles}>{this.props.userdata.user_email}</Text>
+                  <Text style={styles.profileEmailMobileStyles}>{this.props.userdata.user_mobile}</Text>
                 </View>
 
                 <View style={styles.viewAddress}>
@@ -153,13 +156,26 @@ export default class ViewProfile  extends Component {
     }
 }
 
+
+
+const mapStateToProps = state => {
+  return {
+    userdata: state.userdata.userdata
+  }
+}
+
+export default connect(mapStateToProps,null)(ViewProfile)
+
+
+
 const styles =  StyleSheet.create({
 
   profileViewStyle:{
 
-    width:"90%",
+    width:"100%",
     justifyContent:"center",
     alignItems:"center",
+    alignSelf:"center"
   },
 
   profileNameStyles :{

@@ -9,9 +9,11 @@ import logger from 'redux-logger'
 import { connect } from 'react-redux'
 import navigation from './src/redux/reducer';
 import locationReducer from './src/redux/store/reducers/location'
+import userDataReducer from  './src/redux/store/reducers/userDataReducer';
 
 const reducer = combineReducers({ 
-  location :locationReducer
+  location :locationReducer,
+  userdata: userDataReducer,
 })
 const store = createStore(reducer, applyMiddleware(logger))
 

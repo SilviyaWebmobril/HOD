@@ -28,7 +28,11 @@ export default class Account extends Component {
       transactionHistory = () =>{
           this.props.navigation.navigate("MyVideo");
       }
-   
+
+      onSupportHandler = () =>{
+
+        this.props.navigation.navigate("Support");
+      }   
     render(){
         return(
 
@@ -73,6 +77,7 @@ export default class Account extends Component {
                         <View style={styles.viewLineBlack}></View>
                         <TouchableOpacity
                             style={{alignContent:"flex-start",width:"100%"}}
+                            onPress={()=>this.onSupportHandler()}
                             >
                             <View style={styles.buttonView}>
                                 <Image source={require('../../Assets/support.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />

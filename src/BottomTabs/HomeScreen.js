@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-import { View , Text ,StyleSheet} from  'react-native';
+import { View , Text ,StyleSheet,TouchableOpacity} from  'react-native';
 import CustomTopHeader  from './CustomTopHeader';
 import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import * as HOC from '../HOC/mainHoc';
@@ -25,6 +25,8 @@ import ApiUrl from '../Api/ApiUrl';
             images: [...images],
             isLoading:true,
             product:[],
+            banners:[],
+            getAllProducts:[],
         }
     }
 
@@ -41,19 +43,52 @@ import ApiUrl from '../Api/ApiUrl';
 
         }).catch( error  => { 
 
+            console.log("on error",error); 
+
+
+        });
+
+        this.setState({isLoading:true});
+        axios.post(ApiUrl.baseurl + ApiUrl.get_banners).then(res => {
+
+            this.setState({isLoading:false});
+            this.setState({banners:res.data.data})
+
+        }).catch( error  => { 
+
             console.log("on error",error);  
 
 
         });
 
+        this.setState({isLoading:true});
+        axios.post(ApiUrl.baseurl + ApiUrl.get_all_products).then(res => {
+
+            this.setState({isLoading:false});
+            this.setState({getAllProducts:res.data.data});
 
 
+        }).catch(error => {
+            console.log("on error",error)
+        });
+
+
+
+
+    }
+
+    onDetailsHandler = (id) => {
+
+        this.props.navigation.navigate("CategoryProductDetails",{"product_id":id   ,"name":this.props.navigation.getParam('name')});
     }
 
     renderItem(data){
         let { item, index } = data;
         return(
+            <TouchableOpacity
+            onPress={()=>this.onDetailsHandler(item.id)}>
             <ProductItem data={item} />
+            </TouchableOpacity>
         );
     }
 
@@ -65,12 +100,12 @@ import ApiUrl from '../Api/ApiUrl';
             spinner={this.state.isLoading}>
                 <View >
                     <CustomTopHeader />
-                    <Banners images={this.state.images}/>
+                    <Banners images={this.state.banners}/>
                     <HorizontalList products={this.state.product} />
                     <CustomTextInputWithIcon placeholder="Search for Products.."/>
                     <FlatList
                       
-                        data={this.state.images}
+                        data={this.state.getAllProducts}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={this.renderItem.bind(this)}
                         style={{marginBottom:20}}

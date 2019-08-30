@@ -54,7 +54,8 @@ class GooglePlacesInput extends Component  {
           textInputContainer: {
             width: '97%',
             borderRadius:7,
-            alignSelf:"center"
+            alignSelf:"center",
+            marginTop:10
             
           },
           description: {

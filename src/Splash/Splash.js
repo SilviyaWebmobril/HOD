@@ -5,8 +5,10 @@ const {width, height} = Dimensions.get("window");
 import AsyncStorage from '@react-native-community/async-storage';
 const windowW= Dimensions.get('window').width
 const windowH = Dimensions.get('window').height
+import {connect} from 'react-redux';
+import { userData } from '../redux/store/actions/userDataAction';
 
-export default class Splash extends Component {
+class Splash extends Component {
 
     static navigationOptions = {
         header:null
@@ -35,9 +37,19 @@ export default class Splash extends Component {
 
     getMyValue = async () => {
         try {
-          const value = await AsyncStorage.getItem('user_id')
+          values = await AsyncStorage.multiGet(['user_id','user_name','user_email', 'user_mobile','user_address']);
+
+          let userdata = {};
+          Object.assign(userdata,{"user_id":JSON.parse(values[0][1])});
+          Object.assign(userdata,{"user_name":values[1][1]});
+          Object.assign(userdata,{"user_email":values[2][1]});
+          Object.assign(userdata,{"user_mobile":values[3][1]});
+          Object.assign(userdata,{"user_address":values[4][1]});
+
+          this.props.onUpdateUser(userdata);
+
           
-          if(JSON.parse(value)){
+          if(JSON.parse(values[0][1])){
            
             this.props.navigation.navigate('Bottomtabs');
 
@@ -46,7 +58,7 @@ export default class Splash extends Component {
             this.props.navigation.navigate('MyApp');
           }
         } catch(e) {
-            console.log("hello error",e);
+            console.log("hello error111",e);
           // read error
         }
       
@@ -104,3 +116,17 @@ export default class Splash extends Component {
 
 
 }
+
+
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onUpdateUser: (userdata) => {
+      dispatch(userData(userdata))
+    }
+  }
+}
+
+export default connect(null,mapDispatchToProps)(Splash)
+
+

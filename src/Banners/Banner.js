@@ -2,6 +2,7 @@ import React from 'react';
 import {View,StyleSheet,Dimensions,Image,Platform} from 'react-native';
 import Carousel from 'react-native-banner-carousel';
 
+
 const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 170;
 
@@ -9,9 +10,10 @@ const Banner = (props) => {
 
     
     renderPage = (image, index) =>{
+      
         return (
             <View key={index}>
-                <Image style={styles.imageStyle} source={image.image_url} />
+                <Image style={styles.imageStyle} source={{uri:"https://www.webmobril.org/dev/hod/"+image.img}} />
             </View>
         );
     

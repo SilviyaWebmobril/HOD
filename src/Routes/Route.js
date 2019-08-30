@@ -15,12 +15,14 @@ import VistOfFarm from '../BottomTabs/VistOfFarm';
 import Certification from '../BottomTabs/Certifications';
 import Search  from '../BottomTabs/Search';
 import Account from '../BottomTabs/Account';
-import ViewProfile from  '../BottomTabs/Profile/ViewProfile';
-import UpdateProfileContinue from  '../BottomTabs/Profile/UpdateProfileContinue';
-import UpdateProfile from  '../BottomTabs/Profile/UpdateProfile';
+import ViewProfile from  '../BottomTabs/Account/Profile/ViewProfile';
+import UpdateProfileContinue from  '../BottomTabs/Account/Profile/UpdateProfileContinue';
+import UpdateProfile from  '../BottomTabs/Account/Profile/UpdateProfile';
 import MyVideo from  '../Video/MyVideo';
 import VideoPlayer from  '../Video/VideoPlayer';
 import CategoryProduct from '../BottomTabs/screens/CategoryProduct';
+import Support from '../BottomTabs/Account/Support';
+import CategoryProductDetails from  '../BottomTabs/screens/CategoryProductDetails';
 
 const Bottomtabs = createBottomTabNavigator({
 
@@ -166,6 +168,8 @@ const bottomtabsStack = createStackNavigator({
   UpdateProfileContinue,
   MyVideo,
   CategoryProduct,
+  CategoryProductDetails,
+  Support
   
 
 },

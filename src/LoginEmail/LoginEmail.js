@@ -16,6 +16,8 @@ import CustomLogo from '../CustomUI/Logo/CustomLogo';
 import CustomTextInput from '../CustomUI/CustomTextInput/CustomTextInput';
 import CustomButton from '../CustomUI/CustomButton/CustomButton';
 import LoginEmailStyle from './LoginEmailStyle';
+import {connect} from 'react-redux';
+import { userData } from '../redux/store/actions/userDataAction';
 
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -28,7 +30,7 @@ import axios  from 'axios';
 import firebase from 'react-native-firebase';
 
 
-export default class LoginEmail extends Component {
+class LoginEmail extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: 'Login With Email',
         headerStyle: {
@@ -84,18 +86,15 @@ export default class LoginEmail extends Component {
               formdata.append("device_type",ApiUrl.device_type);
               formdata.append("device_token",this.state.device_token);
 
-              console.log("formdata",formdata);
-
-      
+             
               axios.post(ApiUrl.baseurl + ApiUrl.login,formdata)
               .then(res => {
-               
-                  console.log("my response",res);
+              
                  
                   if(res.data.error){
 
                       this.setState({isLoading:false});
-                      Alert.alert("Please Check You Email or Password");
+                      Alert.alert("Please Check Your Email or Password");
 
                   }else{
 
@@ -104,12 +103,22 @@ export default class LoginEmail extends Component {
                       AsyncStorage.setItem("user_email", res.data.result.email)
                       AsyncStorage.setItem('user_mobile',res.data.result.mobile)
                       AsyncStorage.setItem("user_password",res.data.result.txtpassword)
+
+                      let userdata = {};
+                      Object.assign(userdata,{"user_id":JSON.stringify(res.data.result.id)});
+                      Object.assign(userdata,{"user_name": res.data.result.name});
+                      Object.assign(userdata,{"user_email":res.data.result.email});
+                      Object.assign(userdata,{"user_mobile":res.data.result.mobile});
+                     
+                      
                       if(res.data.result.homeaddress != null){
                         AsyncStorage.setItem("user_home",res.data.result.homeaddress)
+                        Object.assign(userdata,{"user_address":res.data.result.homeaddress});
                       }else{
                         AsyncStorage.setItem("user_home","");
+                        Object.assign(userdata,{"user_address":res.data.result.homeaddress});
                       }
-                      
+                      this.props.onUpdateUser(userdata);
                       this.setState({isLoading:false});
                      // Alert.alert("Your Account created Sucessfuly!");
                       this.props.navigation.navigate('Bottomtabs');
@@ -204,3 +213,18 @@ export default class LoginEmail extends Component {
         );
     }
 }
+
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+      onUpdateUser: (userdata) => {
+        dispatch(userData(userdata))
+      }
+    }
+  }
+  
+  export default connect(null,mapDispatchToProps)(LoginEmail)
+  
+  
+  

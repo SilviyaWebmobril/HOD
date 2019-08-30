@@ -1,13 +1,13 @@
 import React ,{Component} from 'react';
 import {StyleSheet,View,Text,Picker} from 'react-native';
-import * as HOC from '../../HOC/mainHoc';
+import * as HOC from '../../../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
 );
 import AsyncStorage from '@react-native-community/async-storage';
-import CustomTextInput from '../../CustomUI/CustomTextInput/CustomTextInput';
-import CustomButton from '../../CustomUI/CustomButton/CustomButton';
+import CustomTextInput from '../../../CustomUI/CustomTextInput/CustomTextInput';
+import CustomButton from '../../../CustomUI/CustomButton/CustomButton';
 
 
 export default class UpdateProfileContinue extends Component{

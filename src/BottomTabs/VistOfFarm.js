@@ -5,9 +5,15 @@ import { isProgram } from '@babel/types';
 import CustomButton from '../CustomUI/CustomButton/CustomButton';
 import CustomTextInput from '../CustomUI/CustomTextInput/CustomTextInput';
 import DatePicker from 'react-native-datepicker'
+import ApiUrl from '../Api/ApiUrl';
+import * as HOC from '../HOC/mainHoc';
+const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
+const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
+  DismissKeyboardView
+);      
 const today = new Date();
  
-export default class Search extends Component{
+export default class VisitOfFarm extends Component{
 
     
 
@@ -20,6 +26,7 @@ export default class Search extends Component{
             isFocusedMessage:false,
             date: new Date(),
             time : today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
+            isLoading:false,
 
         }
     }
@@ -28,12 +35,12 @@ export default class Search extends Component{
     render(){
 
         return(
-            <View style={styles.container}>
+            <FullSCreenSpinnerAndDismissKeyboardView style={styles.container} spinner={this.state.isLoading}>
                  <View  style={styles.headerView}>
                     <Text style={styles.textStyle}>Visit Our Farm</Text>
                 </View> 
-                <ScrollView >
-                    <View style={{marginBottom:20}}>
+              
+                    <View style={{marginBottom:30}}>
                         
                         <View style={styles.addressView}>
                             <Text style={styles.textAddressStyle}>
@@ -69,7 +76,7 @@ export default class Search extends Component{
                         /> */}
 
                         <DatePicker
-                            style={{width: "80%",alignSelf:"center"}}
+                            style={{width: "80%",alignSelf:"center",marginBottom:10}}
                             date={this.state.date}
                             mode="date"
                             placeholder="select date"
@@ -86,7 +93,7 @@ export default class Search extends Component{
                                 marginLeft: 0
                             },
                             dateInput: {
-                                marginLeft: 36
+                                marginLeft: 36,
                             }
                             // ... You can check the source to find the other keys.
                             }}
@@ -99,7 +106,7 @@ export default class Search extends Component{
                             </Text>
                         </View>
                         <DatePicker
-                            style={{width: "80%",alignSelf:"center"}}
+                            style={{width: "80%",alignSelf:"center",marginBottom:10}}
                             date={this.state.time}
                             mode="time"
                             placeholder="select date"
@@ -142,8 +149,8 @@ export default class Search extends Component{
 
                     </View>
               
-                </ScrollView>
-            </View>
+             
+            </FullSCreenSpinnerAndDismissKeyboardView>
             
         );
     }

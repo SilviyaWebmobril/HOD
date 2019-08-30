@@ -24,4 +24,14 @@ export default {
 
     get_product_category: "product_categories",
 
+    get_banners:"banners",
+
+    get_all_products:"get_all_products",
+
+    get_support:"support",
+
+    get_categories_product:"products?product_cat_id=",
+
+    get_product_details:"product_info?product_id="
+
 }

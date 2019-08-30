@@ -113,6 +113,21 @@ class CustomTextInput  extends Component {
                         isText:true,
                     }
                 },
+                subject:{
+                    value: "",
+                    valid:false,
+                    validationRules:{
+                        isText:true,
+                    }
+                },
+                message:{
+                    value: "",
+                    valid:false,
+                    validationRules:{
+                        isText:true,
+                    }
+                },
+
                 
                 
         
@@ -226,9 +241,26 @@ class CustomTextInput  extends Component {
                 }
             }else if(type == "family"){
 
-                if(!this.state.controls.landmark.valid){
+                if(!this.state.controls.family.valid){
                     this.setState({errorState:false});
                     this.setState({errorMsg:"Please enter Family Members"});
+                }else{
+                    this.setState({errorState:true});
+                }
+            }else if(type == "subject"){
+
+                
+                if(!this.state.controls.subject.valid){
+                    this.setState({errorState:false});
+                    this.setState({errorMsg:"Please enter Subject"});
+                }else{
+                    this.setState({errorState:true});
+                }
+            }else if(type == "message"){
+
+                if(!this.state.controls.message.valid){
+                    this.setState({errorState:false});
+                    this.setState({errorMsg:"Please enter Message"});
                 }else{
                     this.setState({errorState:true});
                 }
@@ -353,6 +385,21 @@ class CustomTextInput  extends Component {
                 }else{
                     return "invalid";
                 }
+            }else if(type == "subject"){
+
+                if(this.state.controls.subject.valid){
+                    return this.state.controls.subject.value;
+                }else{
+                    return "invalid";
+                }
+            }else if(type == "message"){
+
+                if(this.state.controls.message.valid){
+                    return this.state.controls.message.value;
+                }else{
+                    return "invalid";
+                }
+
             }
             
         

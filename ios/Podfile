@@ -11,6 +11,8 @@ target 'HouseOfDesi' do
   pod 'Firebase/Messaging'
   pod 'Firebase/Core'
 
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
   target 'HouseOfDesiTests' do
     inherit! :search_paths
     # Pods for testing

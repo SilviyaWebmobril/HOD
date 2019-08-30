@@ -1,17 +1,17 @@
 import React ,{Component} from 'react';
 import {View,Text,StyleSheet,Dimensions,FlatList,Picker} from 'react-native';
-import * as HOC from '../../HOC/mainHoc';
+import * as HOC from '../../../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
 );
-import CustomLogo  from '../../CustomUI/Logo/CustomLogo';
+import CustomLogo  from '../../../CustomUI/Logo/CustomLogo';
 import AsyncStorage from '@react-native-community/async-storage';
-import CustomTextInput from '../../CustomUI/CustomTextInput/CustomTextInput';
-import CustomButton from '../../CustomUI/CustomButton/CustomButton';
+import CustomTextInput from '../../../CustomUI/CustomTextInput/CustomTextInput';
+import CustomButton from '../../../CustomUI/CustomButton/CustomButton';
 var { height } = Dimensions.get('window');
 import DatePicker from 'react-native-datepicker';
-import Create_AccountStyle from '../../Create_Account/Create_AccountStyle';
+import Create_AccountStyle from '../../../Create_Account/Create_AccountStyle';
 
 
 export default class UpdateProfile extends Component {
