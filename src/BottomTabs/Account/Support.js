@@ -49,17 +49,27 @@ export default class Support extends Component{
         }else{
 
             const user_id = await AsyncStorage.getItem('user_id');
-
+            this.setState({isLoading:true});
             let formdata = new FormData();
             formdata.append("user_id",user_id);
             formdata.append('subject',this.refs.subject.getInputTextValue("subject"));
             formdata.append("message",this.refs.message.getInputTextValue("message"));
 
             axios.post(ApiUrl.baseurl+ApiUrl.get_support,formdata).then(response => {
-                
+                this.setState({isLoading:false});
                 console.log("on supprort Response",response);
 
-                Alert.alert("Thank You for your message.One of the member in our team will contact you shortly!");
+               //Alert.alert("Thank You for your message.One of the member in our team will contact you shortly!");
+
+                Alert.alert(
+                    'Support',
+                    'Thank You for your message.One of the member in our team will contact you shortly!',
+                    [
+                 
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ], 
+                    { cancelable: false }
+                    )
     
             }).catch(error => {
                 Alert.alert("Something Went wrong !Please try again Later");

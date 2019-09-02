@@ -92,10 +92,10 @@ export default class CategoryProductDetails extends Component {
                         </View>
                         <View style={styles.priceView}>
                             <View style={styles.newpricetext}>
-                                <Text style={styles.newpricetext}>{'\u20B9'}{parseFloat(this.state.new_price)}</Text>
+                                <Text style={styles.newpricetext}>{'\u20B9'}{this.state.new_price}</Text>
                             </View>
                             <View style={styles.oldpricetext}>
-                                <Text style={styles.oldpricetext}>{'\u20B9'}{parseFloat(this.state.old_price)}</Text>
+                                <Text style={styles.oldpricetext}>{'\u20B9'}{this.state.old_price}</Text>
                             </View>
                         </View>
 
@@ -106,7 +106,7 @@ export default class CategoryProductDetails extends Component {
                     </View>
                 </View>
 
-                <View style={styles.webViewStyle}>
+                <View style={styles.webViewStyle} pointerEvents="none">
                     <WebView
                         style={{width:900,height:150}}
                         originWhitelist={['*']}
@@ -202,7 +202,9 @@ const styles =  StyleSheet.create({
         fontSize:15,
         fontWeight:"bold",
         color:"grey",
-        marginRight:5
+        marginRight:5,
+        textDecorationLine: 'line-through',
+         textDecorationStyle: 'solid'
     },
     offerText:{
         fontSize:15,

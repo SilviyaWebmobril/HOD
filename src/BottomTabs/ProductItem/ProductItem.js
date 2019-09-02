@@ -16,7 +16,7 @@ const ProductItem  = (props) => {
             <View style={styles.sectionRow}>
                 <View style={styles.textColumnLeft}>
                     <Text style={styles.textProductname}>{props.data.name}</Text>
-                    <Text style={{lineHeight:20}}>{props.data.new_price}</Text>
+                    <Text style={{lineHeight:20}}>{'\u20B9'}{props.data.new_price}</Text>
                     <Text  style={{lineHeight:20}}>{props.data.quantity} left</Text>
                 </View>
                 {props.data.unit.name == "L"  ? 

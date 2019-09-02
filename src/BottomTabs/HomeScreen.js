@@ -77,16 +77,16 @@ import ApiUrl from '../Api/ApiUrl';
 
     }
 
-    onDetailsHandler = (id) => {
+    onDetailsHandler = (id,name) => {
 
-        this.props.navigation.navigate("CategoryProductDetails",{"product_id":id   ,"name":this.props.navigation.getParam('name')});
+        this.props.navigation.navigate("CategoryProductDetails",{"product_id":id   ,"name":name});
     }
 
     renderItem(data){
         let { item, index } = data;
         return(
             <TouchableOpacity
-            onPress={()=>this.onDetailsHandler(item.id)}>
+            onPress={()=>this.onDetailsHandler(item.id,item.name)}>
             <ProductItem data={item} />
             </TouchableOpacity>
         );

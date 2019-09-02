@@ -27,7 +27,6 @@ const Banner = (props) => {
                     autoplayTimeout={5000}
                     loop
                     index={0}
-                   
                     pageSize={BannerWidth}
                 >
                     {props.images.map((image, index) => renderPage(image, index))}

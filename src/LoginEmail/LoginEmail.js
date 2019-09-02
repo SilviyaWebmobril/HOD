@@ -63,8 +63,9 @@ class LoginEmail extends Component {
 
 
     onSubmit = () => {
+
       
-        this.props.navigation.navigate('Create_Account');
+       this.props.navigation.navigate('Create_Account');
     };
 
     onLoginHandler = () =>{
