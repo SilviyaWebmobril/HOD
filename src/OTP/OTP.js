@@ -15,14 +15,17 @@ import OTPStyle from './OTPStyles';
 import CustomLogo from '../CustomUI/Logo/CustomLogo';
 import CustomTextInput from '../CustomUI/CustomTextInput/CustomTextInput';
 import CustomButton from '../CustomUI/CustomButton/CustomButton';
+import Axios from 'axios';
+import ApiUrl from '../Api/ApiUrl';
 
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
 );
+import {connect} from 'react-redux';
 
 
-export default class OTP extends Component {
+class OTP extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: 'OTP',
         headerStyle: {
@@ -41,31 +44,119 @@ export default class OTP extends Component {
     });
     onSubmit = () => {
         clearInterval(this.interval);
-        this.props.navigation.navigate('Bottomtabs');
+
+        if(this.props.navigation.getParam("update") ==0 ){
+
+            if(this.refs.otp.getInputTextValue("otp") !== "invalid"){
+                this.setState({isLoading:true})
+                var formdata = new FormData();
+                formdata.append("mobile_no",this.props.navigation.getParam('moboile'));
+                formdata.append("otp",this.refs.otp.getInputTextValue("otp"));
+                Axios.post(ApiUrl.baseurl + ApiUrl.verify_otp,formdata).then(res => {
+                    this.setState({isLoading:false});
+                    if(res.data.error){
+    
+                      
+                        Alert.alert("Invalid OTP");
+    
+                    }else{
+    
+                        AsyncStorage.setItem('user_id',JSON.stringify(res.data.result.id))
+                        AsyncStorage.setItem("user_name", res.data.result.name)
+                        AsyncStorage.setItem("user_email", res.data.result.email)
+                        AsyncStorage.setItem('user_mobile',res.data.result.mobile)
+                        AsyncStorage.setItem("user_password",res.data.result.txtpassword)
+    
+                        let userdata = {};
+                        Object.assign(userdata,{"user_id":JSON.stringify(res.data.result.id)});
+                        Object.assign(userdata,{"user_name": res.data.result.name});
+                        Object.assign(userdata,{"user_email":res.data.result.email});
+                        Object.assign(userdata,{"user_mobile":res.data.result.mobile});   
+                       
+                        
+                        if(res.data.result.homeaddress !== null){
+                            console.log("not null");
+                          AsyncStorage.setItem("user_home",res.data.result.homeaddress)
+                          Object.assign(userdata,{"user_address":res.data.result.homeaddress});
+                        }else{
+                          console.log("home null");
+                          AsyncStorage.setItem("user_home","");
+                          Object.assign(userdata,{"user_address":""});
+                        }
+                      
+                        this.props.onUpdateUser(userdata);
+                        this.setState({isLoading:false});
+                 
+                        this.props.navigation.navigate('Bottomtabs');
+    
+                    }
+                }).catch(error => {
+                    this.setState({isLoading:false});
+                    console.log("error",error);
+                });
+    
+            }else{
+                Alert.alert("Please Enter valid OTP!.")
+            }
+
+        }else{
+
+            console.log("on update");
+            if(this.refs.otp.getInputTextValue("otp") !== "invalid"){
+                this.setState({isLoading:true})
+                var formdata = new FormData();
+                formdata.append("mobile_no",this.props.navigation.getParam('moboile'));
+                formdata.append("otp",this.refs.otp.getInputTextValue("otp"));
+                formdata.append("user_id",this.props.userdata.userdata.user_id);
+                Axios.post(ApiUrl.baseurl + ApiUrl.verify_otp_on_update_mobile,formdata).then(res => {
+                    this.setState({isLoading:false});
+                    if(res.data.error){
+    
+                      
+                        Alert.alert("Invalid OTP");
+    
+                    }else{
+    
+                        Alert.alert("Your Mobile no Changed Successfully!");
+    
+                    }
+                }).catch(error => {
+                    this.setState({isLoading:false});
+                    console.log("error",error);
+                });
+    
+            }else{
+                Alert.alert("Please Enter valid OTP!.")
+            }
+
+        }
+       
+
+       
     };
     constructor(props) {
         super(props);
         this.state = {
              seconds: 60 ,
              isFocused:false,
-             images : [
+             disableResend:true,
+             isLoading:false
 
-                "../../../Assets/logo1.png",
-                "../../../Assets/img2.jpg",
-                "../../../Assets/img4.jpeg",
-            
-            ],
-            
+
         };
-        this.otpref = React.createRef();
+       
       }
       tick() {
-        this.state.seconds>0?this.setState(prevState => ({seconds: prevState.seconds - 1})): (clearInterval(this.interval),Alert.alert("OTP Expired Please RESEND"));
+        this.state.seconds>0?this.setState(prevState => ({seconds: prevState.seconds - 1})): (clearInterval(this.interval),Alert.alert("OTP Expired Please RESEND"),this.setState({disableResend:false}));
     }
     onStartTimer(){
-        clearInterval(this.interval);
-        this.setState({seconds:60});
-        this.interval = setInterval(() => this.tick(), 1000);
+        if(!this.state.disableResend){
+            clearInterval(this.interval);
+            this.setState({seconds:60});
+            this.interval = setInterval(() => this.tick(), 1000);
+            this.setState({disableResend:true})
+        }
+       
     }
       componentDidMount() {
         this.interval = setInterval(() => this.tick(), 1000);
@@ -75,7 +166,7 @@ export default class OTP extends Component {
       }
     render() {
         return (
-            <FullSCreenSpinnerAndDismissKeyboardView style={OTPStyle.container}>
+            <FullSCreenSpinnerAndDismissKeyboardView style={OTPStyle.container} spinner={this.state.isLoading}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{marginBottom:20}}>
 
@@ -94,16 +185,17 @@ export default class OTP extends Component {
                     <View style={{alignItems:"center",marginBottom:20}}>
 
                             <CustomTextInput 
+                                ref="otp"
                                 placeholder="Enter OTP" 
                                 placeholderTextColor='#898785'
                                 returnKeyType = { "next" }
-                                inputType="name"
+                                inputType="otp"
                                 keyboardType='numeric'
                             
                             />
 
 
-                        <CustomButton onPressHandler={()=>this.onStartTimer()}  text="Resend" customButttonStyle={{alignItems:"flex-end",backgroundColor:'white'}} customTextStyle={{color:'#FD8D45',fontWeight: 'bold',fontSize: 14,textDecorationLine: 'underline'}}/>
+                        <CustomButton onPressHandler={()=>this.onStartTimer()} disabled={this.state.disableResend} text="Resend" customButttonStyle={OTPStyle.customButtomSty} customTextStyle={this.state.disableResend ? OTPStyle.disableCustomResendTextSty : OTPStyle.customResendTextSty}/>
 
                         <CustomButton customTextStyle={{ color:'white'}} onPressHandler = {() => this.onSubmit()} text="SUBMIT" />
 
@@ -123,3 +215,14 @@ export default class OTP extends Component {
         );
     }
 }
+
+
+
+const mapStateToProps = state => {
+    return {
+      userdata: state.userdata
+    }
+  }
+  
+  export default connect(mapStateToProps,null)(OTP)
+  

@@ -14,10 +14,11 @@ import CustomTextInputWithIcon from '../CustomUI/CustomTextInput/CustomTextInput
 import {images}  from  '../CustomUI/HorizontalList/imageUri';
 import ProductItem  from './ProductItem/ProductItem';
 import ApiUrl from '../Api/ApiUrl';
+import {connect} from 'react-redux';
 
 
 
- export default class HomeScreen extends  Component {
+class HomeScreen extends  Component {
 
     constructor(props){
         super(props);
@@ -32,48 +33,26 @@ import ApiUrl from '../Api/ApiUrl';
 
     componentDidMount(){
 
-        axios.post(ApiUrl.baseurl+ApiUrl.get_product_category).then(res => {
+        axios.post(ApiUrl.baseurl+ApiUrl.home_page+this.props.userdata.userdata.user_id).then(res => {
 
-            console.log("response",res);
+          
             this.setState({isLoading:false});
-            this.setState({product:res.data.data});
+            this.setState({product:res.data.product_categories});
+            this.setState({banners:res.data.banners});
+            this.setState({getAllProducts:res.data.all_products});
 
 
 
 
-        }).catch( error  => { 
 
+        }).catch( error  => {   
+            this.setState({isLoading:false});
             console.log("on error",error); 
 
 
         });
 
-        this.setState({isLoading:true});
-        axios.post(ApiUrl.baseurl + ApiUrl.get_banners).then(res => {
-
-            this.setState({isLoading:false});
-            this.setState({banners:res.data.data})
-
-        }).catch( error  => { 
-
-            console.log("on error",error);  
-
-
-        });
-
-        this.setState({isLoading:true});
-        axios.post(ApiUrl.baseurl + ApiUrl.get_all_products).then(res => {
-
-            this.setState({isLoading:false});
-            this.setState({getAllProducts:res.data.data});
-
-
-        }).catch(error => {
-            console.log("on error",error)
-        });
-
-
-
+        
 
     }
 
@@ -122,6 +101,28 @@ import ApiUrl from '../Api/ApiUrl';
         );
     }
  }
+
+
+ 
+
+const mapStateToProps = (state) => {
+    return {
+      userdata: state.userdata
+    }
+  }
+
+
+  
+const mapDispatchToProps = dispatch => {
+    return {
+      onUpdateUser: (userdata) => {
+        dispatch(userData(userdata))
+      }
+    }
+  }
+  
+  
+  export default connect(mapStateToProps,mapDispatchToProps)(HomeScreen)
 
  const styles = StyleSheet.create({
 

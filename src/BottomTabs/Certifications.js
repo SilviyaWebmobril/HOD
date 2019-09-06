@@ -1,32 +1,99 @@
 import React ,{ Component } from 'react';
-import { View ,Text ,StyleSheet,Image} from 'react-native';
+import { View ,Text ,StyleSheet,Image,FlatList} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import CustomTopHeader from './CustomTopHeader';
 
-export default class Certification extends Component {
+import * as HOC from '../HOC/mainHoc';
+const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
+const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
+  DismissKeyboardView
+);
+import axios from 'axios';
+import ApiUrl from '../Api/ApiUrl';
+import {connect} from 'react-redux';
+
+class Certification extends Component {
+
+
+    constructor (props){
+        super(props);
+
+        this.state ={
+            certificates:[],
+            isLoading:true,
+        }
+    }
+
+    componentDidMount(){
+
+        axios.get(ApiUrl.baseurl+ApiUrl.get_all_certificates+this.props.userdata.userdata.user_id).then(res => {
+
+          
+            this.setState({isLoading:false});
+          
+            this.setState({certificates:res.data.result});
+
+
+
+
+
+        }).catch( error  => {   
+            this.setState({isLoading:false});
+            console.log("on error",error); 
+
+
+        });
+
+    }
+
+
+    
+    renderItem(data){
+        let { item, index } = data;
+        console.log("certi","http://webmobril.org/dev/hod/"+item.img)
+        const uri = "http://webmobril.org/dev/hod/"+item.img;
+        return(
+            <View  key={item.id} >
+                  
+                    <Image source={{uri:"http://webmobril.org/dev/hod/"+item.img}} style={{width:200,height:200,marginTop:30}} />
+                   
+              
+            </View>
+        );
+    }
+
 
     render(){
         return(
-            <View style={styles.container}>
+            <FullSCreenSpinnerAndDismissKeyboardView style={styles.container} 
+            spinner={this.state.isLoading}>
                  <View  style={styles.headerView}>
                     <Text style={styles.textStyle}>Certifications</Text>
                 </View>
-                <ScrollView >
+             
                 <View style={{ alignItems:"center",justifyContent:"center"}}>
-                   
-                    <Image source={require('../../Assets/cert1.png')} style={{margin:20}}/>
-                    <Image source={require('../../Assets/cert2.png')}  style={{margin:20}}/>
-                    <Image source={require('../../Assets/cert3.png')}  style={{margin:20}}/>
-                    <Image source={require('../../Assets/cert4.png')}  style={{margin:20}}/>
-                    <Image source={require('../../Assets/certi1.png')}  style={{margin:20}}/>
-                    <Image source={require('../../Assets/certi6.png')}  style={{margin:20}}/>
+                <FlatList
+                      
+                      data={this.state.certificates}
+                      keyExtractor={(item, index) => index.toString()}
+                      renderItem={this.renderItem.bind(this)}
+                      style={{marginBottom:20}}
+                      />
                 </View>
-            </ScrollView>
-            </View>
+           
+            </FullSCreenSpinnerAndDismissKeyboardView>
             
         );
     }   
 }
+
+
+const mapStateToProps = (state) => {
+    return {
+      userdata: state.userdata
+    }
+  }
+  
+  export default connect(mapStateToProps,null)(Certification)
 
 const styles =  StyleSheet.create({
    

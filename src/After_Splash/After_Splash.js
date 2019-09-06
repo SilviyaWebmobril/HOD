@@ -25,7 +25,7 @@ export default class After_Splash extends Component {
 
     onLogin = () => {
       
-        this.props.navigation.navigate('Login');
+        this.props.navigation.navigate('Login',{update:0});
     };
     onCreate_Account = () => {
         this.props.navigation.navigate('Create_Account');

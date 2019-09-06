@@ -6,8 +6,6 @@ const CustomTextInputWithIcon = React.forwardRef((props,ref) => {
 
     const [txtInputValue ,setTextInputValue] = useState('');
 
-    console.log("textInput ",txtInputValue);
-
     useImperativeHandle(ref, () => ({
 
         getInputTextValue (){

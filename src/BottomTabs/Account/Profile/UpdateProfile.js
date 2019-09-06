@@ -1,5 +1,5 @@
 import React ,{Component} from 'react';
-import {View,Text,StyleSheet,Dimensions,FlatList,Picker} from 'react-native';
+import {View,Text,StyleSheet,Dimensions,FlatList,Picker,Alert} from 'react-native';
 import * as HOC from '../../../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -12,6 +12,7 @@ import CustomButton from '../../../CustomUI/CustomButton/CustomButton';
 var { height } = Dimensions.get('window');
 import DatePicker from 'react-native-datepicker';
 import Create_AccountStyle from '../../../Create_Account/Create_AccountStyle';
+
 
 
 export default class UpdateProfile extends Component {
@@ -29,21 +30,32 @@ export default class UpdateProfile extends Component {
         super(props);
 
         this.state= {
-            date:new Date(),
-            gender:[
-                {"0":"Male",},
-                {"1":"Female"}
-            ],
-            Married:[
-                {"0":"Yes",},
-                {"1":"NO"}
-            ]
+            date:this.getFormattedDate(new Date()),
+            gender:1,
+            Married:1
+           
         }
+    }       
+
+    getFormattedDate(date){
+        return  date.getFullYear()+'-'+"0"+(date.getMonth()+1)+'-'+"0"+date.getDate();
     }
 
     continueButtonHandler = () =>{
 
-        this.props.navigation.navigate('UpdateProfileContinue');
+        if(this.refs.name.getInputTextValue("name") !== "invalid" && this.refs.email.getInputTextValue("email") !== "invalid" ){
+
+            this.props.navigation.navigate('UpdateProfileContinue',{"name":this.refs.name.getInputTextValue("name"),
+                                    "email":this.refs.email.getInputTextValue("email"),
+                                    "gender":this.state.gender,
+                                    "dob":this.state.date,
+                                     "married":this.state.Married});
+        }else{
+            Alert.alert("All * marked values are compulsory");      
+        }
+
+        
+     
     }
     render(){
         return(
@@ -57,6 +69,7 @@ export default class UpdateProfile extends Component {
                         </Text>
                     </View> 
                     <CustomTextInput
+                        ref="name"
                         inputType="name"
                         placeholder="Enter Name"
                         placeholderTextColor='#898785'
@@ -69,6 +82,7 @@ export default class UpdateProfile extends Component {
                     </View> 
                     <CustomTextInput
                         inputType="email"
+                        ref="email"
                         placeholder="Enter Email"
                         placeholderTextColor="#898785"
                         returnKeyType={"next"} />
@@ -87,8 +101,8 @@ export default class UpdateProfile extends Component {
                             onValueChange={(itemValue, itemIndex) =>
                                 this.setState({gender: itemValue})
                             }>
-                            <Picker.Item label="Male" value="java" />
-                            <Picker.Item label="Female" value="js" />
+                            <Picker.Item label="Male" value="1" />
+                            <Picker.Item label="Female" value="2" />
                         </Picker>
                     </View>
                    
@@ -101,9 +115,9 @@ export default class UpdateProfile extends Component {
                         date={this.state.date}
                         mode="date"
                         placeholder="select date"
-                        format="DD-MM-YYYY"
-                        minDate={this.state.date}
-                        // maxDate="2016-06-01"
+                        format="YYYY-MM-DD"
+                        maxDate={this.state.date}
+                        minDate="1970-01-01"
                         confirmBtnText="Confirm"
                         cancelBtnText="Cancel"
                         customStyles={{
@@ -134,10 +148,10 @@ export default class UpdateProfile extends Component {
                             selectedValue={this.state.Married}
                             style={{marginLeft:10}}
                             onValueChange={(itemValue, itemIndex) =>
-                                this.setState({Married: itemValue})
+                                this.setState({Married : itemValue})
                             }>
-                            <Picker.Item label="NO" value="NO" />
-                            <Picker.Item label="YES" value="YES" />
+                            <Picker.Item label="NO" value="2" />
+                            <Picker.Item label="YES" value="1" />
                         </Picker>
                     </View>
                    

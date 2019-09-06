@@ -10,12 +10,16 @@ import { connect } from 'react-redux'
 import navigation from './src/redux/reducer';
 import locationReducer from './src/redux/store/reducers/location'
 import userDataReducer from  './src/redux/store/reducers/userDataReducer';
+import cartReducer from './src/redux/store/reducers/cartReducer';
+
+import {composeWithDevTools} from 'redux-devtools-extension';
 
 const reducer = combineReducers({ 
   location :locationReducer,
   userdata: userDataReducer,
+  cart: cartReducer,
 })
-const store = createStore(reducer, applyMiddleware(logger))
+const store = createStore(reducer,  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 type Props = {};
 class App extends Component<Props> {

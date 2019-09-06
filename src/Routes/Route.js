@@ -169,7 +169,9 @@ const bottomtabsStack = createStackNavigator({
   MyVideo,
   CategoryProduct,
   CategoryProductDetails,
-  Support
+  Support,
+  Login, 
+  OTP,
   
 
 },

@@ -1,10 +1,12 @@
 import React , { Component } from 'react';
 import {View, Text,TouchableOpacity,StyleSheet,Image,ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import {connect} from 'react-redux';
+import {ADD_USER_DATA} from '../redux/store/actions/types';
+import * as CartAction from '../redux/store/actions/cartAction';
 
 
-
-export default class Account extends Component {
+class Account extends Component {
 
 
     onLogoutHandler = async () => {
@@ -16,8 +18,11 @@ export default class Account extends Component {
           // remove error
 
         }
+
+        var userdata = [];
+        this.props.onUpdateUser(userdata);
+        this.props.deleteCart();
       
-        console.log('Done')
       }
 
       viewProfile = () =>{
@@ -177,3 +182,33 @@ const styles =  StyleSheet.create({
     },
 
 });
+
+
+
+
+const mapStateToProps = (state) => {
+    return {
+      userdata: state.userdata.userdata
+    }
+  }
+
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+      onUpdateUser: (userdata) => {
+        dispatch({
+            type:ADD_USER_DATA,
+            payload:userdata,
+        })
+      },
+      deleteCart:()=>{
+          dispatch(CartAction.deleteCart());
+      }
+    }
+  }
+  
+  export default connect(mapStateToProps,mapDispatchToProps)(Account)
+  
+  
+  

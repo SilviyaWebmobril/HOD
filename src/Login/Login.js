@@ -6,6 +6,7 @@ import {
     TextInput,
     TouchableOpacity,
     SafeAreaView,
+    Alert,
     
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
@@ -20,14 +21,16 @@ const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
 );
 import { SwitchActions } from 'react-navigation';
+import Axios from 'axios';
+import ApiUrl from '../Api/ApiUrl';
+import {connect} from 'react-redux';
 
-
-export default class Login extends Component {
+class Login extends Component {
 
 
   
     static navigationOptions = ({ navigation }) => ({
-        title: 'LOGIN WITH OTP',
+        title:navigation.getParam("update") == 0 ? 'LOGIN WITH OTP' : "UPDATE MOBILE",
         headerStyle: {
             height: 60,
             backgroundColor: '#FD8D45',
@@ -46,25 +49,84 @@ export default class Login extends Component {
     constructor(props){
         super(props);
 
-        this.mobileref = React.createRef();
-        this.state={isFocused:false}
+     
+        this.state={isFocused:false, onUpdate:this.props.navigation.getParam("update")}
 
         
     }
 
    
-    onLogin=()=>{   
+    onContinue=()=>{   
 
-        //console.log("mobile no =",this.mobileref.current.getInputTextValue());
-        this.props.navigation.navigate('OTP');
-        
+         //  update param to check wheater usr is login currently or udating mobile no. update =0 (Login) , update= 1(Change mobile)
+        if(this.props.navigation.getParam("update") == 0){
+
+            // 
+
+            if(this.refs.mobile.getInputTextValue("mobile") !== "invalid"){
+
+                this.setState({isLoading:true});
+    
+                var formdata = new FormData();
+                formdata.append("mobile_no",this.refs.mobile.getInputTextValue("mobile"));
+               
+                Axios.post(ApiUrl.baseurl +ApiUrl.send_mobile_for_otp,formdata).then(response => {
+                    this.setState({isLoading:false})
+    
+                    console.log("response send mobile",response);
+                    if(response.data.error){
+                        Alert.alert("This number is not registered with us!");
+                    }else{
+                        this.props.navigation.navigate('OTP',{mobile:this.refs.mobile.getInputTextValue("mobile"),update:0});
+                    }
+                   
+    
+                }).catch(error => {
+                    this.setState({isLoading:false})
+                    console.log("error",error);
+                });
+               
+           }else{
+               Alert.alert("Please Enter Mobile No.")
+           }
+            
+        }else{
+
+            if(this.refs.mobile.getInputTextValue("mobile") !== "invalid"){
+
+                this.setState({isLoading:true});
+    
+                var formdata = new FormData();
+                formdata.append("mobile_no",this.refs.mobile.getInputTextValue("mobile"));
+                formdata.append("user_id",this.props.userdata.userdata.user_id);
+               
+                Axios.post(ApiUrl.baseurl +ApiUrl.update_mobile_no,formdata).then(response => {
+                    this.setState({isLoading:false})
+    
+                    console.log("response send mobile",response);
+                    if(response.data.error){
+                        Alert.alert("This number is not registered with us!");
+                    }else{
+                        this.props.navigation.navigate('OTP',{mobile:this.refs.mobile.getInputTextValue("mobile"),update:1});
+                    }
+                   
+    
+                }).catch(error => {
+                    this.setState({isLoading:false})
+                    console.log("error",error);
+                });
+            }else{
+                Alert.alert("Please Enter Mobile No.")
+            }   
+        }
+
     };
     onCreate_Account = () => {
         this.props.navigation.navigate('Create_Account');
     };
     render() {
         return (
-            <FullSCreenSpinnerAndDismissKeyboardView style={LoginStyle.container}>
+            <FullSCreenSpinnerAndDismissKeyboardView style={LoginStyle.container}  spinner={this.state.isLoading}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <CustomLogo/>
 
@@ -78,6 +140,7 @@ export default class Login extends Component {
                     
 
                         <CustomTextInput 
+                                ref="mobile"
                                 placeholder="Enter mobile number" 
                                 placeholderTextColor='#898785'
                                 returnKeyType = { "next" }
@@ -87,17 +150,27 @@ export default class Login extends Component {
                             />
 
                     
-                    <CustomButton customTextStyle={{ color:'white'}} onPressHandler = {() => this.onLogin()} text="CONTINUE" />
-                    
-                    <View style={{margin:25}}> 
-                        <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>OR</Text>
+                    <CustomButton customTextStyle={{ color:'white'}} onPressHandler = {() => this.onContinue()} text="CONTINUE" />
+                    {this.state.onUpdate == 0 ?  
+
+                    <View>
+                        <View style={{margin:25}}> 
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>OR</Text>
+                        </View>
+
+                        <CustomButton text="CREATE ACCOUNT"
+                            onPressHandler ={() => this.onCreate_Account()} 
+                            customButttonStyle={{backgroundColor:"#FD8D45", }}
+                            customTextStyle={{ color:'#48241e'}} />
+
                     </View>
 
-                    <CustomButton text="CREATE ACCOUNT"
-                        onPressHandler ={() => this.onCreate_Account()} 
-                        customButttonStyle={{backgroundColor:"#FD8D45", }}
-                        customTextStyle={{ color:'#48241e'}} />
-
+                    :
+                    <View/>
+                    
+                    
+                    }
+                  
                     </View>
 
                 </ScrollView>
@@ -108,3 +181,13 @@ export default class Login extends Component {
 }
 
 
+
+
+const mapStateToProps = state => {
+    return {
+      userdata: state.userdata
+    }
+  }
+  
+  export default connect(mapStateToProps,null)(Login)
+  

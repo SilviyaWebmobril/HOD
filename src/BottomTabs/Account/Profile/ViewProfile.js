@@ -13,6 +13,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 var { height } = Dimensions.get('window');
 import userData  from '../../../redux/store/actions/userDataAction';
 import {connect} from 'react-redux';
+import ApiUrl from '../../../Api/ApiUrl';
+import axios from 'axios';
 
 
 class ViewProfile  extends Component {
@@ -28,28 +30,13 @@ class ViewProfile  extends Component {
     constructor(props){
         super(props);
         this.state = {
+          user_id:"",
             name:"",
             address:"",
             mobile:"",
             email:"",
-            addresses:[
-              {
-                id:1,
-                address:"Gardenia Grace , Sector 61 ,Noida",
-             
-              },
-              {
-                id:2,
-                address:"Sai Mandir, Sector 71,Noida",
-              
-              },
-              {
-                id:3,
-                address:"WebMobril Technologies, Sector 63,Noida",
-               
-              },
-             
-            ]
+            isLoading:true,
+            addresses:[],
 
         }
     }
@@ -58,15 +45,16 @@ class ViewProfile  extends Component {
 
       let values
       try {
-        values = await AsyncStorage.multiGet(['user_name','user_email', 'user_mobile','user_address'])
+        values = await AsyncStorage.multiGet(['user_id','user_name','user_email', 'user_mobile'])
       } catch(e) {
         // read error
       }
       console.log("user profiles",values)
-
-      this.setState({name:values[0][1]});
-      this.setState({email:values[1][1]});
-      this.setState({mobile:values[2][1]});
+      this.setState({user_id:values[0][1]});
+      this.setState({name:values[1][1]});
+      this.setState({email:values[2][1]});
+      this.setState({mobile:values[3][1]});
+     // this.setState({address:values[4][1]});
      
     
       // example console.log output:
@@ -75,8 +63,20 @@ class ViewProfile  extends Component {
 
     componentDidMount() {
 
-      console.log("value by props",this.props.userdata.user_name);
-      this.getvalues();
+      //this.getvalues();
+      console.log("userdata hello",this.props.userdata.userdata.user_name);
+      var formdata = new FormData();
+      formdata.append("user_id",this.props.userdata.userdata.user_id);
+    
+      axios.get(ApiUrl.baseurl+ApiUrl.get_profile,formdata).then(response => {
+
+        console.log("all addresses",response);
+
+        this.setState({isLoading:false});
+      }).catch(error => {
+        console.log("errrrror",error);
+        this.setState({isLoading:false});
+      });
 
     }
 
@@ -87,6 +87,10 @@ class ViewProfile  extends Component {
 
     updateProfileHandler = () =>{
       this.props.navigation.navigate('UpdateProfile');
+    }
+
+    onEditMobile = ()=>{
+      this.props.navigation.navigate('Login',{update:1});
     }
 
     renderItem = (data) =>{
@@ -123,9 +127,14 @@ class ViewProfile  extends Component {
                 <CustomLogo />
 
                 <View style={styles.profileViewStyle}>
-                  <Text style={styles.profileNameStyles}>{this.props.userdata.user_name}</Text>
-                  <Text style={styles.profileEmailMobileStyles}>{this.props.userdata.user_email}</Text>
-                  <Text style={styles.profileEmailMobileStyles}>{this.props.userdata.user_mobile}</Text>
+                  <Text style={styles.profileNameStyles}>{this.props.userdata.userdata.user_name}</Text>
+                  <Text style={styles.profileEmailMobileStyles}>{this.props.userdata.userdata.user_email}</Text>
+                  <View style={{flexDirection:"row",justifyContent:"center",alignContent:"center"}}>
+                    <Text style={{ fontSize:17,lineHeight:30,}}>{this.props.userdata.userdata.user_mobile}</Text>
+                    <Text onPress={()=>this.onEditMobile()} style={{marginLeft:15,lineHeight:30,textDecorationLine:"underline",fontWeight:"bold", fontSize:15,color:"#FD8D45",}}>EDIT</Text>
+                  </View>
+               
+                  
                 </View>
 
                 <View style={styles.viewAddress}>
@@ -160,7 +169,7 @@ class ViewProfile  extends Component {
 
 const mapStateToProps = state => {
   return {
-    userdata: state.userdata.userdata
+    userdata: state.userdata
   }
 }
 

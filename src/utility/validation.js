@@ -25,6 +25,9 @@ const validate = ( val, rules) => {
             case "isValidPincode":
                 isValid = isValid && pincodeValidator(val);
                 break;
+            case "isNumber":
+                isValid = isValid && numbervalidator(val);
+                break;
             default:
                 isValid = true;
 
@@ -64,6 +67,19 @@ const passwordValidator = (val,minLength) => {
 const pincodeValidator = (val) => {
     console.log("i ama here on validate" );
     return /^\d{6}$/.test(val);
+}
+
+const numbervalidator = (val)=> {
+
+   
+    if(!isNaN(val)){
+        console.log("is a integer",val);
+        return true;
+    }else{
+        console.log("is a number",val);
+        return false;
+    }
+
 }
 
 export default validate;

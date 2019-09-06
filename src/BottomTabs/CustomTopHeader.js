@@ -1,8 +1,18 @@
 import React ,{Component}  from 'react';
 import {View ,Text,StyleSheet,Image} from   'react-native';
 import SearchLocationStyle from '../SearchLocation/SearchLocationStyle';
+import {connect} from 'react-redux';
+import  capitilize  from '../utility/helpers';
 
-export default class CustomTopHeader extends  Component {
+
+
+class CustomTopHeader extends  Component {
+
+    componentDidMount () {
+
+      console.log("my address",this.props.userdata);
+      //  console.log("custom",  capitilize(this.props.userdata.user_address));
+    }
 
 
     render(){
@@ -23,7 +33,7 @@ export default class CustomTopHeader extends  Component {
                 </View>
                 <View style={styles.locationView}>
                     <Text style={styles.locationTextStyle}>
-                        Work ,G18
+                     {this.props.userdata.user_address}
                     </Text>
                     <Text style={styles.locationTextStyle}>Sector 63, Noida</Text>
                     <Image style={{width:'60%',height:20,marginTop:10,marginBottom:0}} source={require('../../Assets/curve.png')} />
@@ -35,6 +45,17 @@ export default class CustomTopHeader extends  Component {
         );
     }
 }
+
+
+const mapStateToProps = state => {
+    return {
+      userdata: state.userdata.userdata
+    }
+  }
+  export default connect(mapStateToProps,null)(CustomTopHeader)
+  
+  
+  
 
 const styles =  StyleSheet.create({
 

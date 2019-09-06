@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as HOC from '../HOC/mainHoc';
+import { ADD_USER_DATA } from '../redux/store/actions/types';
 
 import CustomLogo from '../CustomUI/Logo/CustomLogo';
 import CustomTextInput from '../CustomUI/CustomTextInput/CustomTextInput';
@@ -87,7 +88,6 @@ class LoginEmail extends Component {
               formdata.append("device_type",ApiUrl.device_type);
               formdata.append("device_token",this.state.device_token);
 
-             
               axios.post(ApiUrl.baseurl + ApiUrl.login,formdata)
               .then(res => {
               
@@ -99,6 +99,7 @@ class LoginEmail extends Component {
 
                   }else{
 
+                 
                       AsyncStorage.setItem('user_id',JSON.stringify(res.data.result.id))
                       AsyncStorage.setItem("user_name", res.data.result.name)
                       AsyncStorage.setItem("user_email", res.data.result.email)
@@ -111,14 +112,18 @@ class LoginEmail extends Component {
                       Object.assign(userdata,{"user_email":res.data.result.email});
                       Object.assign(userdata,{"user_mobile":res.data.result.mobile});
                      
+                    
                       
-                      if(res.data.result.homeaddress != null){
-                        AsyncStorage.setItem("user_home",res.data.result.homeaddress)
-                        Object.assign(userdata,{"user_address":res.data.result.homeaddress});
+                      if(res.data.result.homeaddress !== null){
+                          console.log("not null",res.data.result.homeaddress);
+                      var add=    AsyncStorage.setItem("user_home",res.data.result.homeaddress)
+                      Object.assign(userdata,{"user_address":res.data.result.homeaddress});
                       }else{
-                        AsyncStorage.setItem("user_home","");
-                        Object.assign(userdata,{"user_address":res.data.result.homeaddress});
+                        console.log("home null");
+                      var add =  AsyncStorage.setItem("user_home","");
+                      Object.assign(userdata,{"user_address":res.data.result.homeaddress});
                       }
+                    
                       this.props.onUpdateUser(userdata);
                       this.setState({isLoading:false});
                      // Alert.alert("Your Account created Sucessfuly!");
@@ -217,6 +222,7 @@ class LoginEmail extends Component {
 
 
 
+
 const mapDispatchToProps = dispatch => {
     return {
       onUpdateUser: (userdata) => {
@@ -226,6 +232,5 @@ const mapDispatchToProps = dispatch => {
   }
   
   export default connect(null,mapDispatchToProps)(LoginEmail)
-  
   
   

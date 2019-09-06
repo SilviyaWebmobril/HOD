@@ -2,9 +2,13 @@ import React ,{ useState } from 'react';
 import {View ,Text, StyleSheet, Image,}  from 'react-native';
 import CustomButton from '../../CustomUI/CustomButton/CustomButton';
 import IncrementDecrementButton from '../../CustomUI/CustomButton/IncrementDecremntButton';
+import { useDispatch } from 'react-redux';
+import * as cartActions from '../../redux/store/actions/cartAction';
+
+
 
 const ProductItem  = (props) => {
-
+    const dispatch = useDispatch();
     const [showQuantityButton , setQuantityHide] = useState(false);
 
   
@@ -47,6 +51,9 @@ const ProductItem  = (props) => {
                     <Text style={styles.textBorder}>250g</Text>
                    
                     <CustomButton 
+                          onPressHandler={()=> {
+                            dispatch(cartActions.addToCart(props.data))
+                          }}
                          customButttonStyle={{backgroundColor:"#FD8D45",padding:3, height:30,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"70%"}}
                          customTextStyle={{ color:'white',fontSize:12}}
                          text="Add To Cart"  />

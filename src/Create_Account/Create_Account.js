@@ -19,9 +19,12 @@ const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
 );      
 import AsyncStorage from '@react-native-community/async-storage';
-    import firebase from 'react-native-firebase';
+import firebase from 'react-native-firebase';
+import {connect} from 'react-redux';
+import { userData } from '../redux/store/actions/userDataAction';
+    
 
-export default class Create_Account extends Component {
+class Create_Account extends Component {
     
     static navigationOptions = ({ navigation }) => ({
         title: 'CREATE ACCOUNT',
@@ -108,7 +111,13 @@ export default class Create_Account extends Component {
                          AsyncStorage.setItem("user_password",res.data.result.txtpassword)
                         // AsyncStorage.setItem("user_home",res.data.result.homeaddress)
 
-                       
+                        let userdata = {};
+                        Object.assign(userdata,{"user_id":JSON.stringify(res.data.result.id)});
+                        Object.assign(userdata,{"user_name": res.data.result.name});
+                        Object.assign(userdata,{"user_email":res.data.result.email});
+                        Object.assign(userdata,{"user_mobile":res.data.result.mobile});
+                        this.props.onUpdateUser(userdata);
+
                         this.setState({isLoading:false});
                         Alert.alert("Your Account created Successfully!");
                         this.props.navigation.navigate('Bottomtabs');
@@ -248,3 +257,18 @@ export default class Create_Account extends Component {
         );
     }
 }
+
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+      onUpdateUser: (userdata) => {
+        dispatch(userData(userdata))
+      }
+    }
+  }
+  
+  export default connect(null,mapDispatchToProps)(Create_Account)
+  
+  
+  

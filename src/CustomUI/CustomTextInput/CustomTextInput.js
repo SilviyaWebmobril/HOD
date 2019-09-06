@@ -127,6 +127,20 @@ class CustomTextInput  extends Component {
                         isText:true,
                     }
                 },
+                family_members:{
+                    value:"",
+                    valid:false,
+                    validationRules:{
+                        isNumber:true
+                    }
+                },
+                otp:{
+                    value:"",
+                    valid:false,
+                    validationRules:{
+                        isNumber:true
+                    }
+                }
 
                 
                 
@@ -304,6 +318,24 @@ class CustomTextInput  extends Component {
                 }else{
                     this.setState({errorState:true});
                 }
+            }else if(type == "family_members"){
+                
+                if(!this.state.controls.family_members.valid){
+                    this.setState({errorState:false});
+                    this.setState({errorMsg:"Please enter Valid Number"});
+                }else{
+                    this.setState({errorState:true});
+                }
+              
+            }else if(type == "otp"){
+                
+                if(!this.state.controls.otp.valid){
+                    this.setState({errorState:false});
+                    this.setState({errorMsg:"Please enter Valid OTP"});
+                }else{
+                    this.setState({errorState:true});
+                }
+              
             }
     
 
@@ -440,7 +472,25 @@ class CustomTextInput  extends Component {
                     return "invalid";
                 }
 
+            }else if(type == "family_members"){
+
+                if(this.state.controls.family_members.valid){
+                    return this.state.controls.family_members.value;
+                }else{
+                    return "invalid";
+                }
+
+            }else if(type == "otp"){
+
+                if(this.state.controls.otp.valid){
+                    return this.state.controls.otp.value;
+                }else{
+                    return "invalid";
+                }
+
             }
+            
+            
             
         
 

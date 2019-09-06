@@ -38,6 +38,7 @@ public class MainApplication extends Application implements ReactApplication {
             new AsyncStoragePackage(),
             new RNDeviceTokenPackage(),
             new ReactVideoPackage(),
+
             new VectorIconsPackage(),
             new RNGestureHandlerPackage(),
             new RNFirebaseMessagingPackage()

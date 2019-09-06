@@ -11,9 +11,10 @@ import ApiUrl from '../../Api/ApiUrl';
 import IncrementDecrementButton from '../../CustomUI/CustomButton/IncrementDecremntButton';
 import { WebView } from 'react-native-webview';
 import CustomButton from  '../../CustomUI/CustomButton/CustomButton';
+import {connect} from 'react-redux';
 
 
-export default class CategoryProductDetails extends Component {
+class CategoryProductDetails extends Component {
 
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: navigation.getParam('name'),
@@ -42,18 +43,16 @@ export default class CategoryProductDetails extends Component {
 
     componentDidMount() {
 
+        console.log("cart items",this.props.cart_product);
+
         axios.post(ApiUrl.baseurl +ApiUrl.get_product_details+ this.props.navigation.getParam('product_id'))
         .then(response =>{
 
             this.setState({isLoading:false});
 
-            console.log('Product Detail11',response.data.data);
             var  obj = JSON.stringify(response.data.data);
-            console.log("parse josn",JSON.parse(obj));
-            this.setState({details:JSON.parse(obj)},()=>{
-                console.log("imggg1122",this.state.details)
-                console.log("imggg11",this.state.details.img)
-            });
+           
+            this.setState({details:JSON.parse(obj)});
 
             this.setState({img:"http://webmobril.org/dev/hod/"+response.data.data.img})
             this.setState({old_price:response.data.data.old_price});
@@ -61,9 +60,7 @@ export default class CategoryProductDetails extends Component {
             this.setState({quantity:response.data.data.quantity});
             this.setState({unit:response.data.data.unit.name});
             this.setState({productname:response.data.data.name});
-            this.setState({description:response.data.data.description},()=>{
-                console.log("description",this.state.description)
-            });
+            this.setState({description:response.data.data.description});
 
 
 
@@ -74,7 +71,24 @@ export default class CategoryProductDetails extends Component {
         });
     }
 
+    renderItem(obj){
+        console.log("on render",obj)
+        Object.keys(obj).forEach((key) => {
+
+            
+            console.log("objjj ",obj[key])
+            return(
+            <Text>{key}</Text>
+            );
+        });
+    }
+
     render(){
+
+        // Object.keys(obj).forEach(function(key) {
+        //     console.log(key, obj[key]);
+        //     return itemname = obj[key].itemName;
+        // });
       
         return(
             
@@ -101,11 +115,12 @@ export default class CategoryProductDetails extends Component {
 
                     </View>
                     <View style={styles.rowRight}>
-                        <Text style = {styles.quantityText}>{this.state.quantity} left</Text>
-                        <IncrementDecrementButton/>
+                        {/* <Text style = {styles.quantityText}>{this.renderItem(this.props.cart_product)} </Text> */}
+                     
+                        {/* <IncrementDecrementButton/> */}
                     </View>
                 </View>
-
+                {this.renderItem(this.props.cart_product)} 
                 <View style={styles.webViewStyle} pointerEvents="none">
                     <WebView
                         style={{width:900,height:150}}
@@ -132,6 +147,17 @@ export default class CategoryProductDetails extends Component {
     }
 }
 
+
+
+
+const mapStateToProps = (state) => {
+    return {
+      cart_product: state.cart
+    }
+  }
+
+
+  export default connect(mapStateToProps,null)(CategoryProductDetails)
 
 const styles =  StyleSheet.create({
 

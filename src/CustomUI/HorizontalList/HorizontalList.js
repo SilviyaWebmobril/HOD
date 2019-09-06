@@ -10,7 +10,7 @@ class HorizontalList extends  Component {
 
     constructor(props){
         super(props);
-        console.log("i am ahere",images);
+       
         this.state = {
             images : [...images]
         }

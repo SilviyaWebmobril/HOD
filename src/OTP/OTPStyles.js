@@ -45,5 +45,18 @@ const OTPStyle = StyleSheet.create({
     
       },
      
+      customButtomSty:{
+        alignItems:"flex-end",
+        backgroundColor:'white'
+      },
+      customResendTextSty:{
+        color:'#FD8D45',fontWeight: 'bold',fontSize: 14,textDecorationLine: 'underline',
+      },
+      disableCustomResendTextSty:{
+
+        color:'grey',fontWeight: 'bold',fontSize: 14,textDecorationLine: 'underline',
+       
+      }
+     
 });
 export default OTPStyle;
