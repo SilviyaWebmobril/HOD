@@ -18,7 +18,7 @@ import CustomTextInput from '../CustomUI/CustomTextInput/CustomTextInput';
 import CustomButton from '../CustomUI/CustomButton/CustomButton';
 import LoginEmailStyle from './LoginEmailStyle';
 import {connect} from 'react-redux';
-import { userData } from '../redux/store/actions/userDataAction';
+import { userData ,userAddress} from '../redux/store/actions/userDataAction';
 
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -125,6 +125,7 @@ class LoginEmail extends Component {
                       }
                     
                       this.props.onUpdateUser(userdata);
+                      this.props.onUpdateAddress(res.data.result.homeaddress);
                       this.setState({isLoading:false});
                      // Alert.alert("Your Account created Sucessfuly!");
                       this.props.navigation.navigate('Bottomtabs');
@@ -225,9 +226,16 @@ class LoginEmail extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-      onUpdateUser: (userdata) => {
-        dispatch(userData(userdata))
-      }
+        
+        onUpdateUser: (userdata) => {
+            dispatch(userData(userdata))
+        },
+      
+        onUpdateAddress : (address) => {
+          
+            dispatch(userAddress(address))
+        }
+    
     }
   }
   

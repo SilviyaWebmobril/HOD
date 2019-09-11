@@ -136,7 +136,7 @@ class UpdateProfileContinue extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-      onUpdateUser: (...userdata) => {
+      onUpdateUser: (userdata) => {
         dispatch(userData(userdata))
       }
     }

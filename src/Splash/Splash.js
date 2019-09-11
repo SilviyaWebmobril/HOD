@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 const windowW= Dimensions.get('window').width
 const windowH = Dimensions.get('window').height
 import {connect} from 'react-redux';
-import { userData } from '../redux/store/actions/userDataAction';
+import { userData,userAddress } from '../redux/store/actions/userDataAction';
 
 class Splash extends Component {
 
@@ -37,17 +37,17 @@ class Splash extends Component {
 
     getMyValue = async () => {
         try {
-          values = await AsyncStorage.multiGet(['user_id','user_name','user_email', 'user_mobile','user_address']);
+          values = await AsyncStorage.multiGet(['user_id','user_name','user_email', 'user_mobile','user_home']);
 
           let userdata = {};
           Object.assign(userdata,{"user_id":JSON.parse(values[0][1])});
           Object.assign(userdata,{"user_name":values[1][1]});
           Object.assign(userdata,{"user_email":values[2][1]});
           Object.assign(userdata,{"user_mobile":values[3][1]});
-          Object.assign(userdata,{"user_address":values[4][1]});
+        
 
           this.props.onUpdateUser(userdata);
-
+          this.props.onUpdateAddress(values[4][1]);
           
           if(JSON.parse(values[0][1])){
            
@@ -62,7 +62,6 @@ class Splash extends Component {
           // read error
         }
       
-        console.log('Done');
       
     }
    
@@ -123,6 +122,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onUpdateUser: (userdata) => {
       dispatch(userData(userdata))
+    },
+    onUpdateAddress: (address) => {
+      dispatch(userAddress(address))
     }
   }
 }

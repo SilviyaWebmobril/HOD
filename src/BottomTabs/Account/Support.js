@@ -59,8 +59,6 @@ export default class Support extends Component{
                 this.setState({isLoading:false});
                 console.log("on supprort Response",response);
 
-               //Alert.alert("Thank You for your message.One of the member in our team will contact you shortly!");
-
                 Alert.alert(
                     'Support',
                     'Thank You for your message.One of the member in our team will contact you shortly!',

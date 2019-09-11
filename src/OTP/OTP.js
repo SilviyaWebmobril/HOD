@@ -105,7 +105,7 @@ class OTP extends Component {
             if(this.refs.otp.getInputTextValue("otp") !== "invalid"){
                 this.setState({isLoading:true})
                 var formdata = new FormData();
-                formdata.append("mobile_no",this.props.navigation.getParam('moboile'));
+                formdata.append("mobile_no",this.props.navigation.getParam('mobile'));
                 formdata.append("otp",this.refs.otp.getInputTextValue("otp"));
                 formdata.append("user_id",this.props.userdata.userdata.user_id);
                 Axios.post(ApiUrl.baseurl + ApiUrl.verify_otp_on_update_mobile,formdata).then(res => {

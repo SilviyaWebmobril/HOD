@@ -3,6 +3,9 @@ import {View ,Text,StyleSheet,Image} from   'react-native';
 import SearchLocationStyle from '../SearchLocation/SearchLocationStyle';
 import {connect} from 'react-redux';
 import  capitilize  from '../utility/helpers';
+import Cartbadge from '../CustomUI/Cart/Cartbadge';
+
+
 
 
 
@@ -11,7 +14,7 @@ class CustomTopHeader extends  Component {
     componentDidMount () {
 
       console.log("my address",this.props.userdata);
-      //  console.log("custom",  capitilize(this.props.userdata.user_address));
+      
     }
 
 
@@ -22,20 +25,20 @@ class CustomTopHeader extends  Component {
             <View style={styles.container}>
                 <View style={styles.deliveryLocationSection}>
                     <View style={{alignItems:"flex-start", flexDirection:"row",}}>
-                        <Image style={{width:30,height:30}}  source={require('../../Assets/location1.png')} />
+                        <Image style={{width:25,height:25}}  source={require('../../Assets/location1.png')} />
                         <Text style={styles.textStyle}>Delivery Location</Text>
-                        <Image style={{width:20,height:20,marginLeft:10,marginTop:8}}  source={require('../../Assets/pencil.png')} />
+                        <Image style={{width:15,height:15,marginLeft:10,marginTop:8}}  source={require('../../Assets/pencil.png')} />
                     </View>
                     <View  style={{ flexDirection:"row",position: 'absolute', right: 0}}>
-                        <Image style={{width:25,height:25,}} source={require('../../Assets/order.png')} />
-                        <Image style={{width:30,height:30,marginLeft:10}} source={require('../../Assets/cart.png')} />
+                        <Image style={{width:25,height:25,marginRight:10}} source={require('../../Assets/order.png')} />
+                        <Cartbadge img= {0} count={this.props.cart_count.total_cart_count}/>
                     </View>
                 </View>
                 <View style={styles.locationView}>
-                    <Text style={styles.locationTextStyle}>
-                     {this.props.userdata.user_address}
+                    <Text style={styles.locationTextStyle}numberOfLines = { 2} >
+                     {capitilize(this.props.userdata.user_address)}
                     </Text>
-                    <Text style={styles.locationTextStyle}>Sector 63, Noida</Text>
+                    
                     <Image style={{width:'60%',height:20,marginTop:10,marginBottom:0}} source={require('../../Assets/curve.png')} />
                     <View style={styles.viewLineBlack}></View>
                 </View>
@@ -49,7 +52,8 @@ class CustomTopHeader extends  Component {
 
 const mapStateToProps = state => {
     return {
-      userdata: state.userdata.userdata
+      userdata: state.userdata,
+      cart_count:state.cart
     }
   }
   export default connect(mapStateToProps,null)(CustomTopHeader)
@@ -80,10 +84,10 @@ const styles =  StyleSheet.create({
         flexDirection:"column"
     },
     locationTextStyle:{
-        fontSize:17,
+        fontSize:14,
         fontWeight:"bold",
         lineHeight:20,
-        marginTop:5
+        marginTop:7
     },
     viewLineBlack:{
         width:'100%',

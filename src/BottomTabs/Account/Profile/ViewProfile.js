@@ -64,9 +64,9 @@ class ViewProfile  extends Component {
     componentDidMount() {
 
       //this.getvalues();
-      console.log("userdata hello",this.props.userdata.userdata.user_name);
+      console.log("userdata hello",this.props.user);
       var formdata = new FormData();
-      formdata.append("user_id",this.props.userdata.userdata.user_id);
+      formdata.append("user_id",this.props.user.userdata.user_id);
     
       axios.get(ApiUrl.baseurl+ApiUrl.get_profile,formdata).then(response => {
 
@@ -127,10 +127,10 @@ class ViewProfile  extends Component {
                 <CustomLogo />
 
                 <View style={styles.profileViewStyle}>
-                  <Text style={styles.profileNameStyles}>{this.props.userdata.userdata.user_name}</Text>
-                  <Text style={styles.profileEmailMobileStyles}>{this.props.userdata.userdata.user_email}</Text>
+                  <Text style={styles.profileNameStyles}>{this.props.user.userdata.user_name}</Text>
+                  <Text style={styles.profileEmailMobileStyles}>{this.props.user.userdata.user_email}</Text>
                   <View style={{flexDirection:"row",justifyContent:"center",alignContent:"center"}}>
-                    <Text style={{ fontSize:17,lineHeight:30,}}>{this.props.userdata.userdata.user_mobile}</Text>
+                    <Text style={{ fontSize:17,lineHeight:30,}}>{this.props.user.userdata.user_mobile}</Text>
                     <Text onPress={()=>this.onEditMobile()} style={{marginLeft:15,lineHeight:30,textDecorationLine:"underline",fontWeight:"bold", fontSize:15,color:"#FD8D45",}}>EDIT</Text>
                   </View>
                
@@ -169,7 +169,7 @@ class ViewProfile  extends Component {
 
 const mapStateToProps = state => {
   return {
-    userdata: state.userdata
+    user: state.userdata
   }
 }
 

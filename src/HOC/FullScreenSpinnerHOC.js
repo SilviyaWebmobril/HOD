@@ -1,21 +1,36 @@
 // @flow
 import React from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { View, StyleSheet, ActivityIndicator} from 'react-native';
+import { ScrollView} from 'react-native-gesture-handler';
+import CartLayout from '../CustomUI/Cart/CartLayout';
 
-export default (Comp: ReactClass<*>) => {
-  return ({ spinner, children, ...props }: Object) => (
-    <View style={{ flex: 1 }}>
+export default(Comp: ReactClass<*>) => {
+  return ({itemQuantity , itemTotalPrice,cartLayout, spinner, children, ...props }: Object) => (
+    <View style={{ flex: 1,}}>
 
-      <ScrollView>
+      <ScrollView 
+       contentContainerStyle={{ 
+        flexGrow: 1,
+     
+      }}>
 
           <Comp {...props}>
             {children}
-          </Comp>
+           
           
+          </Comp>
+
+         
       
 
-      </ScrollView>
+      </ScrollView> 
+      {cartLayout
+
+       ?
+          <CartLayout quantity={itemQuantity} price={itemTotalPrice}/>
+        :
+        <View/>
+      }
       {spinner &&
             <View
               style={[
@@ -30,3 +45,8 @@ export default (Comp: ReactClass<*>) => {
     </View>
   );
 };
+
+
+
+
+

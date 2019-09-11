@@ -48,7 +48,7 @@ class Login extends Component {
 
     constructor(props){
         super(props);
-
+        console.log("userdata === >",this.props.userdata.userdata.user_id);
      
         this.state={isFocused:false, onUpdate:this.props.navigation.getParam("update")}
 
@@ -96,7 +96,8 @@ class Login extends Component {
 
                 this.setState({isLoading:true});
     
-                var formdata = new FormData();
+                console.log("userdata === >",this.props.userdata);
+                var formdata = new FormData();  
                 formdata.append("mobile_no",this.refs.mobile.getInputTextValue("mobile"));
                 formdata.append("user_id",this.props.userdata.userdata.user_id);
                

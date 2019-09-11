@@ -11,7 +11,7 @@ import navigation from './src/redux/reducer';
 import locationReducer from './src/redux/store/reducers/location'
 import userDataReducer from  './src/redux/store/reducers/userDataReducer';
 import cartReducer from './src/redux/store/reducers/cartReducer';
-
+import ReduxThunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension';
 
 const reducer = combineReducers({ 
@@ -19,7 +19,7 @@ const reducer = combineReducers({
   userdata: userDataReducer,
   cart: cartReducer,
 })
-const store = createStore(reducer,  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(reducer,  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),applyMiddleware(ReduxThunk));
 
 type Props = {};
 class App extends Component<Props> {

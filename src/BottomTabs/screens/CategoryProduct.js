@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import {View ,FlatList,Text,StyleSheet,TouchableOpacity} from 'react-native';
+import {View ,FlatList,Text,StyleSheet,TouchableOpacity,Image} from 'react-native';
 import * as HOC from '../../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -8,16 +8,25 @@ const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
 import axios from 'axios';
 import ApiUrl from '../../Api/ApiUrl';
 import ProductItem from '../ProductItem/ProductItem';
+import Cartbadge from '../../CustomUI/Cart/Cartbadge';
+import {connect} from 'react-redux';
 
 
-export default class CategoryProduct extends Component {
+
+class CategoryProduct extends Component {
 
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: navigation.getParam('name'),
         headerStyle: { backgroundColor: '#FD8D45' },
         headerTitleStyle: { color: 'white' },
-        headerTintColor: 'white'
-      });
+        headerTintColor: 'white',
+        headerRight:(
+            <Cartbadge count={navigation.getParam('count', '0')} />
+        )
+          
+        
+  
+        });
 
     constructor(props){
         super(props);
@@ -26,10 +35,32 @@ export default class CategoryProduct extends Component {
 
             isLoading:true,
             getAllProducts:[],
+            cartCount:false,
 
 
 
         }
+    }
+
+    componentWillMount(){
+        this.props.navigation.setParams({ 'count': this.props.cart.total_cart_count });
+        if(this.props.cart.total_cart_count > 0){
+            this.setState({cartCount:true})
+        }else{
+            this.setState({cartCount:false})
+        }
+     }
+
+     componentDidUpdate(nextProps, nextState){
+        if(this.props.navigation.getParam('count', '0') != this.props.cart.total_cart_count){
+            this.props.navigation.setParams({ 'count': this.props.cart.total_cart_count })
+            if(this.props.cart.total_cart_count > 0){
+                this.setState({cartCount:true})
+            }else{
+                this.setState({cartCount:false})
+            }
+        }
+      
     }
 
     componentDidMount () {
@@ -70,6 +101,9 @@ export default class CategoryProduct extends Component {
 
             <FullSCreenSpinnerAndDismissKeyboardView
             style={styles.container}
+            itemQuantity={this.props.cart.total_cart_count}
+            itemTotalPrice={this.props.cart.totalAmount}
+            cartLayout={this.state.cartCount}
             spinner={this.state.isLoading}
             >  
 
@@ -80,8 +114,7 @@ export default class CategoryProduct extends Component {
                     renderItem={this.renderItem.bind(this)}
                     style={{marginBottom:20}}
                     />
-                 
-
+                
 
             </FullSCreenSpinnerAndDismissKeyboardView>
 
@@ -93,11 +126,43 @@ export default class CategoryProduct extends Component {
 
 }
 
+mapStateToProps = state =>{
+
+    return{
+        cart:state.cart
+    }
+
+}
+
+export default connect(mapStateToProps,null)(CategoryProduct);
+
 const styles = StyleSheet.create({
 
     container:{
       
         backgroundColor:'#ffffff',
+       
+    },
+    viewCartLayout:{
+        width:'100%',
+        height:50,
+        backgroundColor:'green',
+        flexDirection:"row",
+        position:"absolute",
+        bottom:0,
+        left:0,
+        right:0,
+
+    },
+    rowLeft:{
+        flexDirection:"row",
+        alignItems:"center",
+        margin:20,
+    },
+    textStyles:{
+        fontSize:14,
+        fontWeight:"bold",
+        color:"white"
     }
 
 

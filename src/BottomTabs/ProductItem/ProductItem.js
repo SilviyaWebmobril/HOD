@@ -31,7 +31,11 @@ const ProductItem  = (props) => {
                         <IncrementDecrementButton />
                     :
                     <CustomButton 
-                        onPressHandler={()=> setQuantityHide(!showQuantityButton)}
+                        // onPressHandler={()=> setQuantityHide(!showQuantityButton)}
+                        onPressHandler={()=> {
+                            dispatch(cartActions.addToCart(props.data))
+                            
+                          }}
                          customButttonStyle={{backgroundColor:"white",borderColor:"grey",borderWidth:1,borderRadius:2, height:30,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"70%"}}
                          customTextStyle={{ color:'grey',fontSize:12}}
                          text="Get Once"  />
@@ -53,6 +57,7 @@ const ProductItem  = (props) => {
                     <CustomButton 
                           onPressHandler={()=> {
                             dispatch(cartActions.addToCart(props.data))
+                            dispatch(cartActions.cartCount());
                           }}
                          customButttonStyle={{backgroundColor:"#FD8D45",padding:3, height:30,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"70%"}}
                          customTextStyle={{ color:'white',fontSize:12}}

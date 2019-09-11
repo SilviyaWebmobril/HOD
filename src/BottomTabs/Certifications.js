@@ -25,6 +25,7 @@ class Certification extends Component {
 
     componentDidMount(){
 
+        console.log("userdata",this.props.userdata);
         axios.get(ApiUrl.baseurl+ApiUrl.get_all_certificates+this.props.userdata.userdata.user_id).then(res => {
 
           
@@ -38,9 +39,7 @@ class Certification extends Component {
 
         }).catch( error  => {   
             this.setState({isLoading:false});
-            console.log("on error",error); 
-
-
+          
         });
 
     }
@@ -49,8 +48,7 @@ class Certification extends Component {
     
     renderItem(data){
         let { item, index } = data;
-        console.log("certi","http://webmobril.org/dev/hod/"+item.img)
-        const uri = "http://webmobril.org/dev/hod/"+item.img;
+       
         return(
             <View  key={item.id} >
                   

@@ -71,17 +71,17 @@ class CategoryProductDetails extends Component {
         });
     }
 
-    renderItem(obj){
-        console.log("on render",obj)
-        Object.keys(obj).forEach((key) => {
+    // renderItem(obj){
+    //     console.log("on render",obj)
+    //     Object.keys(obj).forEach((key) => {
 
             
-            console.log("objjj ",obj[key])
-            return(
-            <Text>{key}</Text>
-            );
-        });
-    }
+    //         console.log("objjj ",obj[key])
+    //         return(
+    //         <Text>{key}</Text>
+    //         );
+    //     });
+    // }
 
     render(){
 
@@ -115,12 +115,12 @@ class CategoryProductDetails extends Component {
 
                     </View>
                     <View style={styles.rowRight}>
-                        {/* <Text style = {styles.quantityText}>{this.renderItem(this.props.cart_product)} </Text> */}
+                         <Text style = {styles.quantityText}>{this.state.quantity} </Text>
                      
-                        {/* <IncrementDecrementButton/> */}
+                         <IncrementDecrementButton/> 
                     </View>
                 </View>
-                {this.renderItem(this.props.cart_product)} 
+               
                 <View style={styles.webViewStyle} pointerEvents="none">
                     <WebView
                         style={{width:900,height:150}}

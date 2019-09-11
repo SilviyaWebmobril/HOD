@@ -15,6 +15,7 @@ import {images}  from  '../CustomUI/HorizontalList/imageUri';
 import ProductItem  from './ProductItem/ProductItem';
 import ApiUrl from '../Api/ApiUrl';
 import {connect} from 'react-redux';
+import Cartbadge from '../CustomUI/Cart/Cartbadge';
 
 
 
@@ -82,6 +83,7 @@ class HomeScreen extends  Component {
                     <Banners images={this.state.banners}/>
                     <HorizontalList products={this.state.product} />
                     <CustomTextInputWithIcon placeholder="Search for Products.."/>
+                   
                     <FlatList
                       
                         data={this.state.getAllProducts}
@@ -105,7 +107,7 @@ class HomeScreen extends  Component {
 
  
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
       userdata: state.userdata
     }
