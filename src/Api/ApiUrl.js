@@ -51,6 +51,12 @@ export default {
 
     verify_otp_on_update_mobile:"update_mobile_verify_otp",
 
-    get_profile:"get_profile"
+    get_profile:"get_profile",
+
+    add_to_cart: "add_to_cart",
+
+    remove_cart_product:"remove_cart_product",
+
+    get_cart_products : "get_cart_products",
 
 }

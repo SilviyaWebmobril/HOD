@@ -3,7 +3,7 @@ import {View ,Text,StyleSheet,TouchableOpacity,Image}  from 'react-native';
 import {connect} from 'react-redux';
 import * as cartActions from '../../redux/store/actions/cartAction';
 
-class IncrementDecrementButton extends Component {
+class IncrementDecrementSubscribe extends Component {
 
     constructor(props){
         super(props);

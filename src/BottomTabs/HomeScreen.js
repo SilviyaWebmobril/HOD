@@ -1,7 +1,6 @@
 import React,{ Component } from 'react';
-import { View , Text ,StyleSheet,TouchableOpacity} from  'react-native';
+import { View , Text ,StyleSheet,TouchableOpacity,Alert,FlatList} from  'react-native';
 import CustomTopHeader  from './CustomTopHeader';
-import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import * as HOC from '../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -16,6 +15,7 @@ import ProductItem  from './ProductItem/ProductItem';
 import ApiUrl from '../Api/ApiUrl';
 import {connect} from 'react-redux';
 import Cartbadge from '../CustomUI/Cart/Cartbadge';
+import * as cartActions from '../redux/store/actions/cartAction';
 
 
 
@@ -25,10 +25,12 @@ class HomeScreen extends  Component {
         super(props);
         this.state={
             images: [...images],
-            isLoading:true,
+            isLoading:this.props.cart.isLoading,
             product:[],
             banners:[],
             getAllProducts:[],
+            error_msg:this.props.cart.error_msg,
+            product_with_cart:[],
         }
     }
 
@@ -36,22 +38,77 @@ class HomeScreen extends  Component {
 
         axios.post(ApiUrl.baseurl+ApiUrl.home_page+this.props.userdata.userdata.user_id).then(res => {
 
-          
-            this.setState({isLoading:false});
+            this.props.onLoading(false);
+            this.setState({isLoading:this.props.cart.isLoading});
             this.setState({product:res.data.product_categories});
             this.setState({banners:res.data.banners});
-            this.setState({getAllProducts:res.data.all_products});
+           
+            this.props.cartProducts( this.props.userdata.userdata.user_id);
+            
+            var products = [...res.data.all_products];
+            products.forEach(item=>{
 
 
+                var itemOnCart = false;
+
+                if(res.data.cart_products.length > 0){
+
+                    res.data.cart_products.forEach(cart_item =>{
+
+                        if(!itemOnCart){
+                            
+                            if(parseInt(cart_item.product.id) === item.id){
+                                
+            
+                                Object.assign(item,{cart:{itemOnCart:true,is_subscribed:cart_item.isSubscribed,
+                                subscription_type:cart_item.subscription_type}});
+                                itemOnCart = true;
+                            }else{
+                              
+                                Object.assign(item,{cart:{itemOnCart:false,is_subscribed:2,subscription_type:cart_item.subscription_type}});
+                                itemOnCart = false;
+                            }
+            
+                        }
+                       
+                    });
+                }else{
+
+                    Object.assign(item,{cart:{itemOnCart:false,quantityInCart:0}});
+                }
+                
+               
 
 
+            });
 
-        }).catch( error  => {   
-            this.setState({isLoading:false});
+            this.setState({getAllProducts:products},()=>{
+
+                console.log("get all products",this.state.getAllProducts);
+            });
+           
+
+            
+    
+
+
+        }).catch( error  => {  
+            this.props.onLoading(false); 
+            this.setState({isLoading:this.props.cart.isLoading});
             console.log("on error",error); 
 
 
         });
+
+    
+
+
+      
+
+
+
+        
+        
 
         
 
@@ -64,6 +121,7 @@ class HomeScreen extends  Component {
 
     renderItem(data){
         let { item, index } = data;
+      
         return(
             <TouchableOpacity
             onPress={()=>this.onDetailsHandler(item.id,item.name)}>
@@ -72,7 +130,43 @@ class HomeScreen extends  Component {
         );
     }
 
+    componentDidUpdate(prevProps,prevState){
+      
+        if(prevProps.cart.error !==  this.props.cart.error){
+          
+            if(this.props.cart.error !== ""){
+               this.showErrorAlert(this.props.cart.error);
+            }
+          
+
+        }
+
+        if(prevProps.cart.isLoading !== this.props.cart.isLoading){
+            this.setState({isLoading:this.props.cart.isLoading})
+        }
+
+        
+     
+    }
+
+    showErrorAlert(error){
+
+        Alert.alert(
+            'Support',
+            `${error}`,
+            [
+         
+            {text: 'OK', onPress: () => this.props.onError("")},
+            ], 
+            { cancelable: false }
+            )
+    }
+    
+
     render(){
+
+
+       
         return(
            
             <FullSCreenSpinnerAndDismissKeyboardView
@@ -88,7 +182,7 @@ class HomeScreen extends  Component {
                       
                         data={this.state.getAllProducts}
                         keyExtractor={(item, index) => index.toString()}
-                        renderItem={this.renderItem.bind(this)}
+                        renderItem={(item) =>this.renderItem(item)}
                         style={{marginBottom:20}}
                         />
                    
@@ -96,6 +190,8 @@ class HomeScreen extends  Component {
                     
             
                 </View>
+
+        
 
 
             </FullSCreenSpinnerAndDismissKeyboardView>
@@ -109,7 +205,8 @@ class HomeScreen extends  Component {
 
 const mapStateToProps = state => {
     return {
-      userdata: state.userdata
+      userdata: state.userdata,
+      cart:state.cart
     }
   }
 
@@ -119,6 +216,15 @@ const mapDispatchToProps = dispatch => {
     return {
       onUpdateUser: (userdata) => {
         dispatch(userData(userdata))
+      },
+      onError : (error)  => {
+          dispatch(cartActions.onError(error))
+      },
+      cartProducts : (user_id) =>{ 
+        dispatch(cartActions.fetchCartProducts(user_id));
+      },
+      onLoading : (value) => {
+          dispatch(cartActions.isLoading(value))
       }
     }
   }

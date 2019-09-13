@@ -11,12 +11,9 @@ import Cartbadge from '../CustomUI/Cart/Cartbadge';
 
 class CustomTopHeader extends  Component {
 
-    componentDidMount () {
+   
 
-      console.log("my address",this.props.userdata);
-      
-    }
-
+   
 
     render(){
 

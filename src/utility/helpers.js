@@ -1,6 +1,6 @@
 const  capitilize = (value) => {
 
-        console.log("capi",value);
+       
         var splitStr = value.toLowerCase().split(' ');
 
         for (var i = 0; i < splitStr.length; i++) {

@@ -7,6 +7,8 @@ const windowW= Dimensions.get('window').width
 const windowH = Dimensions.get('window').height
 import {connect} from 'react-redux';
 import { userData,userAddress } from '../redux/store/actions/userDataAction';
+import * as  cartActions from '../redux/store/actions/cartAction';
+  
 
 class Splash extends Component {
 
@@ -25,10 +27,11 @@ class Splash extends Component {
     componentDidMount(){
       
         this.StartImageRotateFunction();
+// this.props.cartProducts();
         this.interval = setInterval(() => {
 
             this.getMyValue();
-           
+          
         
         }, 5000);
         
@@ -48,22 +51,30 @@ class Splash extends Component {
 
           this.props.onUpdateUser(userdata);
           this.props.onUpdateAddress(values[4][1]);
-          
-          if(JSON.parse(values[0][1])){
+
+
+              if(JSON.parse(values[0][1])){
+            
+                this.props.navigation.navigate('Bottomtabs');
+    
+              }else{
+    
+                this.props.navigation.navigate('MyApp');
+              }
            
-            this.props.navigation.navigate('Bottomtabs');
-
-          }else{
-
-            this.props.navigation.navigate('MyApp');
-          }
+          
+         
+         
         } catch(e) {
+          
             console.log("hello error111",e);
           // read error
         }
       
       
     }
+
+  
    
 
     StartImageRotateFunction () {
@@ -80,6 +91,7 @@ class Splash extends Component {
         ).start(() => this.StartImageRotateFunction())
       
       }
+
 
     render(){
 
@@ -125,9 +137,11 @@ const mapDispatchToProps = dispatch => {
     },
     onUpdateAddress: (address) => {
       dispatch(userAddress(address))
-    }
+    },
+ 
   }
 }
+
 
 export default connect(null,mapDispatchToProps)(Splash)
 

@@ -71,24 +71,8 @@ class CategoryProductDetails extends Component {
         });
     }
 
-    // renderItem(obj){
-    //     console.log("on render",obj)
-    //     Object.keys(obj).forEach((key) => {
-
-            
-    //         console.log("objjj ",obj[key])
-    //         return(
-    //         <Text>{key}</Text>
-    //         );
-    //     });
-    // }
-
     render(){
 
-        // Object.keys(obj).forEach(function(key) {
-        //     console.log(key, obj[key]);
-        //     return itemname = obj[key].itemName;
-        // });
       
         return(
             
@@ -117,7 +101,7 @@ class CategoryProductDetails extends Component {
                     <View style={styles.rowRight}>
                          <Text style = {styles.quantityText}>{this.state.quantity} </Text>
                      
-                         <IncrementDecrementButton/> 
+                         {/* <IncrementDecrementButton/>  */}
                     </View>
                 </View>
                

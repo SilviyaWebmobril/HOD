@@ -4,3 +4,7 @@ export const ADD_TO_CART = "ADD TO CART";
 export const DELETE_FROM_CART  = "DELETE FROM CART";
 export const CART_COUNT = "UPDATE_CART_COUNT";
 export const ADD_USER_ADDRESS = "USER_ADDRESS";
+export const ERROR = "ON_ERROR";
+export const IS_LOADING  = "IS_LOADING";
+export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+export const GET_CART_PRODUCTS = "GET_CART_PRODUCTS";
