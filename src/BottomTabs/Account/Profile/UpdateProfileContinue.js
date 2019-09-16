@@ -62,6 +62,7 @@ class UpdateProfileContinue extends Component{
                 this.props.onUpdateUser(userdata);
 
                 Alert.alert("Profile Updated Successfully!");
+                this.props.navigation.navigate('ViewProfile');
     
             }).catch(error => {
                 this.setState({isLoading:false});

@@ -10,22 +10,34 @@ class IncrementDecrementSubscribe extends Component {
 
        
         this.state = {
-            quantity:this.props.quantity,
+            quantity:"",
             disableMinus:true,
             user_id:this.props.user.userdata.user_id,
-            price:this.props.price,
+            price:"",
             product_id:this.props.product_id,
+            subscribed_quantity:""
         }
     }
 
-    componentDidMount(){
-     
-      console.log("prod id",this.state.product_id);
-      console.log("price =",this.props.price);
-      console.log("quantity==",this.state.quantity);
-
-    }
+  
    
+    componentDidUpdate(prevProps,prevState){
+
+        if(prevProps.subscribed_quantity !== this.props.subscribed_quantity){
+
+            this.setState({subscribed_quantity:this.props.subscribed_quantity});
+        }
+        if(prevProps.quantity !== this.props.quantity){
+
+            this.setState({quantity:this.props.quantity })
+        }
+
+        if(prevProps.price !== this.props.price){
+
+            this.setState({price:this.props.price});
+        }
+       
+    }
     onPlusHandler = () =>{
 
         this.props.onLoading(true);
@@ -72,7 +84,7 @@ class IncrementDecrementSubscribe extends Component {
                     </View>
                 </TouchableOpacity>
                 <View style={styles.viewText}>
-                    <Text style={{alignSelf:"center",fontSize:13,fontWeight:"bold"}}>{this.state.quantity}</Text>  
+                    <Text style={{alignSelf:"center",fontSize:13,fontWeight:"bold"}}>{this.state.subscribed_quantity}</Text>  
                 </View>
                 <TouchableOpacity
                   onPress={()=>this.onPlusHandler()}>
@@ -115,7 +127,7 @@ const mapDispatchToProps = dispatch =>{
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(IncrementDecrementButton);
+export default connect(mapStateToProps,mapDispatchToProps)(IncrementDecrementSubscribe);
 
 const styles =  StyleSheet.create({
 
@@ -142,7 +154,7 @@ const styles =  StyleSheet.create({
         borderBottomRightRadius:2
     },
     viewText:{
-        backgroundColor:'white',
+        backgroundColor:'#FD8D45',
         width:25,
         padding:2.0,
         borderColor:"grey",

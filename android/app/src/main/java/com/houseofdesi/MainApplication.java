@@ -3,12 +3,13 @@ package com.houseofdesi;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.kishanjvaghela.cardview.RNCardViewPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
-import com.devicetoken.RNDeviceTokenPackage;
+
 import com.brentvatne.react.ReactVideoPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 
@@ -33,10 +34,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNCardViewPackage(),
             new RNCWebViewPackage(),
             new RNFirebasePackage(),
             new AsyncStoragePackage(),
-            new RNDeviceTokenPackage(),
+
             new ReactVideoPackage(),
 
             new VectorIconsPackage(),

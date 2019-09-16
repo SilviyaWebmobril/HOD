@@ -140,6 +140,13 @@ class CustomTextInput  extends Component {
                     validationRules:{
                         isNumber:true
                     }
+                },
+                no:{
+                    value:"",
+                    valid:false,
+                    validationRules:{
+                        isNumber:true
+                    }
                 }
 
                 
@@ -336,6 +343,16 @@ class CustomTextInput  extends Component {
                     this.setState({errorState:true});
                 }
               
+            }else if(type == "no"){
+
+                if(!this.state.controls.no.valid){
+                    this.setState({errorState:false});
+                    this.setState({errorMsg:""});
+
+                }else{
+                    this.setState({errorState:true});
+                }
+
             }
     
 
@@ -488,6 +505,12 @@ class CustomTextInput  extends Component {
                     return "invalid";
                 }
 
+            }else if(type == "no"){
+                if(this.state.controls.no.valid){
+                    return this.state.controls.no.value;
+                }else{
+                    return "invalid";
+                }
             }
             
             
@@ -508,7 +531,7 @@ class CustomTextInput  extends Component {
     
 
         return(
-            <View style={{width:'100%',marginBottom:25}}>
+            <View style={[textInput.mainView , this.props.customMainView]}>
 
                 <View style={ [textInput.viewStyle  ,this.props.customTextInputView]}>
                 <TextInput 
@@ -534,7 +557,7 @@ class CustomTextInput  extends Component {
                     <View/>
                     : 
                    
-                    <Text style={textInput.errorTextStyle}>
+                    <Text style={[textInput.errorTextStyle,this.props.customErrorInputStyle]}>
                         {this.state.errorMsg}
                     </Text>
                    
@@ -557,6 +580,9 @@ export default CustomTextInput;
 
 const textInput = StyleSheet.create({
 
+    mainView:{
+        width:'100%',marginBottom:25
+    },
     viewStyle:{
         width:"100%",marginTop:10,alignItems:"center",
     },

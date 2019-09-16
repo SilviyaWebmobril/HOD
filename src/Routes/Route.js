@@ -153,6 +153,20 @@ const Bottomtabs = createBottomTabNavigator({
 } 
 );
 
+
+const profile = createStackNavigator({
+  ViewProfile,
+  SearchLocation,
+  SearchLocationContinue,
+  UpdateProfile,
+  UpdateProfileContinue,
+  
+},{
+  navigationOptions: {
+    headerVisible: false,
+  }
+})
+
 const bottomtabsStack = createStackNavigator({
 
   HomeBottomtabs:{
@@ -161,11 +175,12 @@ const bottomtabsStack = createStackNavigator({
       header:null
     }
   },
-  ViewProfile,
-  SearchLocation,
-  SearchLocationContinue,
-  UpdateProfile,
-  UpdateProfileContinue,
+  ViewProfile : profile,
+  // profile,
+  // SearchLocation,
+  // SearchLocationContinue,
+  // UpdateProfile,
+  // UpdateProfileContinue,
   MyVideo,
   CategoryProduct,
   CategoryProductDetails,

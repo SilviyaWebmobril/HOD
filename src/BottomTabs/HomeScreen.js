@@ -16,6 +16,8 @@ import ApiUrl from '../Api/ApiUrl';
 import {connect} from 'react-redux';
 import Cartbadge from '../CustomUI/Cart/Cartbadge';
 import * as cartActions from '../redux/store/actions/cartAction';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import CustomButton from '../CustomUI/CustomButton/CustomButton';
 
 
 
@@ -30,7 +32,7 @@ class HomeScreen extends  Component {
             banners:[],
             getAllProducts:[],
             error_msg:this.props.cart.error_msg,
-            product_with_cart:[],
+            cart_products:[],
         }
     }
 
@@ -42,6 +44,7 @@ class HomeScreen extends  Component {
             this.setState({isLoading:this.props.cart.isLoading});
             this.setState({product:res.data.product_categories});
             this.setState({banners:res.data.banners});
+            this.setState({cart_products:res.data.cart_products})
            
             this.props.cartProducts( this.props.userdata.userdata.user_id);
             
@@ -50,31 +53,43 @@ class HomeScreen extends  Component {
 
 
                 var itemOnCart = false;
+                var last_product_id = 0;
 
                 if(res.data.cart_products.length > 0){
 
                     res.data.cart_products.forEach(cart_item =>{
 
-                        if(!itemOnCart){
+                       
                             
                             if(parseInt(cart_item.product.id) === item.id){
                                 
-            
-                                Object.assign(item,{cart:{itemOnCart:true,is_subscribed:cart_item.isSubscribed,
-                                subscription_type:cart_item.subscription_type}});
-                                itemOnCart = true;
+                                if(cart_item.product.id ==  last_product_id){
+
+                                    Object.assign(item,{cart:{itemOnCart:true,is_subscribed:2,
+                                    subscription_type:cart_item.subscription_type}});
+                                    itemOnCart = true;
+                                    last_product_id = cart_item.product.id;
+                                }else{
+
+                                    Object.assign(item,{cart:{itemOnCart:true,is_subscribed:cart_item.isSubscribed,
+                                    subscription_type:cart_item.subscription_type}});
+                                    itemOnCart = true;
+                                    last_product_id = cart_item.product.id;
+
+                                }
+                             
                             }else{
                               
-                                Object.assign(item,{cart:{itemOnCart:false,is_subscribed:2,subscription_type:cart_item.subscription_type}});
+                                Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:cart_item.subscription_type}});
                                 itemOnCart = false;
                             }
             
-                        }
+                      
                        
                     });
                 }else{
 
-                    Object.assign(item,{cart:{itemOnCart:false,quantityInCart:0}});
+                    Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:cart_item.subscription_type}});
                 }
                 
                
@@ -82,7 +97,7 @@ class HomeScreen extends  Component {
 
             });
 
-            this.setState({getAllProducts:products},()=>{
+            this.setState({getAllProducts:[...products]},()=>{
 
                 console.log("get all products",this.state.getAllProducts);
             });
@@ -145,6 +160,8 @@ class HomeScreen extends  Component {
             this.setState({isLoading:this.props.cart.isLoading})
         }
 
+       
+
         
      
     }
@@ -160,8 +177,9 @@ class HomeScreen extends  Component {
             ], 
             { cancelable: false }
             )
-    }
-    
+        }
+
+        
 
     render(){
 
@@ -171,21 +189,24 @@ class HomeScreen extends  Component {
            
             <FullSCreenSpinnerAndDismissKeyboardView
             style={styles.container}
+            customScheduleVisible={true}
             spinner={this.state.isLoading}>
                 <View >
                     <CustomTopHeader />
                     <Banners images={this.state.banners}/>
                     <HorizontalList products={this.state.product} />
                     <CustomTextInputWithIcon placeholder="Search for Products.."/>
+
                    
-                    <FlatList
+                   
+                    {/* <FlatList
                       
                         data={this.state.getAllProducts}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={(item) =>this.renderItem(item)}
                         style={{marginBottom:20}}
                         />
-                   
+                    */}
 
                     
             

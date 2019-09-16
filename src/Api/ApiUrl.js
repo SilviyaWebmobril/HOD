@@ -1,7 +1,7 @@
 
 import {Platform } from 'react-native';
 
-import RNDeviceToken from 'react-native-device-token';
+
 
    
 export default {

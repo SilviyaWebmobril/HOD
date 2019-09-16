@@ -39,19 +39,16 @@ export const fetchCartProducts  = (user_id) => {
             dispatch( {
                 type:GET_CART_PRODUCTS,
                 products:response.data.data,
-            }),
-
-            dispatch({
-                type:ERROR,
-                error:"Got all products"
-                
             })
+
+           
     
         }
 
      
       }).catch(error => {
 
+      
      
         dispatch({
             type:IS_LOADING,
@@ -79,7 +76,7 @@ export const addToCart  = (product_id,price,user_id) => {
         formdata.append("user_id",user_id);
         formdata.append("product_id",product_id);
         formdata.append("price",price);
-        console.log("on action add to cart formdata",formdata);
+      
 
       axios.post(ApiUrl.baseurl + ApiUrl.add_to_cart,formdata)
       .then(response => {
@@ -90,7 +87,7 @@ export const addToCart  = (product_id,price,user_id) => {
             isLoading:false,
         })
 
-        console.log("on action add to cart",response);
+       
 
         if(response.data.error){
 
@@ -113,9 +110,7 @@ export const addToCart  = (product_id,price,user_id) => {
      
       }).catch(error => {
 
-        console.log("on action add to cart errpr",error);
-
-     
+       
         dispatch({
             type:IS_LOADING,
             isLoading:false,

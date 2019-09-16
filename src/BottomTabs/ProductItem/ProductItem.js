@@ -1,211 +1,230 @@
-import React ,{ useState } from 'react';
+import React,{Component} from 'react';
 import {View ,Text, StyleSheet, Image,}  from 'react-native';
 import CustomButton from '../../CustomUI/CustomButton/CustomButton';
 import IncrementDecrementButton from '../../CustomUI/CustomButton/IncrementDecremntButton';
+import IncrementDecrementSubscribe from '../../CustomUI/CustomButton/IncrementDecremantSubscribe';
 import { useDispatch, useSelector } from 'react-redux';
 import * as cartActions from '../../redux/store/actions/cartAction';
+import { connect } from 'react-redux';
+import ScheduleModal from '../../CustomUI/Modal/ScheduleModal';
 
+class ProductItem extends Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
 
-
-const ProductItem  = (props) => {
-
-    const dispatch = useDispatch();
-    const user_id  = useSelector(state => state.userdata.userdata.user_id);
-    const cart =  useSelector(state => state.cart.product_item);
-
-    let quantity;
-    let price;
-    let subscribed;
-   
-  
-        // if this product is already present in users cart then
-
-        if(props.data.cart.itemOnCart){
-
-            let keys =  Object.keys(cart);
-            for(var i=0 ; i< keys.length ;i++  ){
-        
-                // then chk for the prod in cart that wheatther it is subscribed or not then get the values 
-
-                    if(props.data.cart.is_subscribed == 0){
-
-
-                        // if((props.data.id+"-"+"0" in cart)){
-                
-
-                            // these are needed in IncrementDecremnet Component 
-                            quantity = cart[props.data.id+"-"+"0"].itemQuanity;
-                            price = cart[props.data.id+"-"+"0"].itemPrice;
-                            subscribed = cart[props.data.id+"-"+"0"].isSubscribed;
-                    
-                            console.log("is subs0000",quantity);
-                            
-                        //  }
-
-                    }else{
-
-                        
-                            // these are needed in IncrementDecremnet Component 
-                            quantity = cart[props.data.id+"-"+"1"].itemQuanity;
-                            price = cart[props.data.id+"-"+"1"].itemPrice;
-                            subscribed = cart[props.data.id+"-"+"1"].isSubscribed;
-                            
-                    
-                            console.log("is subs111",quantity);
-                            
-                    }
-                 
-
-            }   
-
-        }else{
-
-            quantity = 1;
-            price = props.data.new_price
-    
-            // need to change the UI of INcrement Decrement
-            subscribed = props.data.cart.is_subscribed
-        }
-
-
-
-
-
-
-
-        // if((props.data.id+"-"+"0" in cart)){
-        
-
-        //     // these are needed in IncrementDecremnet Component 
-        //      quantity = cart[props.data.id+"-"+"0"].itemQuanity;
-        //      price = cart[props.data.id+"-"+"0"].itemPrice;
-        //      subscribed = cart[props.data.id+"-"+"0"].isSubscribed;
-     
-        //      console.log("is subs0000",quantity);
+            showQuantityButton:false,
+            is_get_once:-1,
+            is_subscribed:-1,
+            itemQuantity:0,
+            product_id:"",
+            itemPrice:"",
+            itemSubscribedQuantity:"",
+            modalVisible:false,
             
-        //  }else if(props.data.id+"-"+"1" in cart){
-     
-        //      // these are needed in IncrementDecremnet Component 
-        //      quantity = cart[props.data.id+"-"+"1"].itemQuanity;
-        //      price = cart[props.data.id+"-"+"1"].itemPrice;
-        //      subscribed = cart[props.data.id+"-"+"1"].isSubscribed;
-        //      console.log("is subs1111",quantity);
-           
-        //  }else{
-     
-        //      quantity = 1;
-        //      price = props.data.new_price
-     
-        //      // need to change the UI of INcrement Decrement
-        //      subscribed = props.data.cart.is_subscribed
-        //  }
-     
 
+        }
+    }
+
+    componentDidMount(){
+
+
+
+    }
+
+    componentDidUpdate(prevProps , prevState){
+
+      
+      
+
+        if(prevProps.cart !== this.props.cart){
+
+            
+            this.setState({showQuantityButton:this.props.cart.itemOnCart});
+
+            if('cart' in this.props.data){
+
+                if(this.props.data.cart.itemOnCart){
     
-   
-  
-
-    let [itemQuantity, setItemQuantity] = useState(quantity);
-    console.log("is subs",quantity);
-    let [itemPrice, setItemPrice] = useState(price);
-    let [is_subscribed ,isSubscribed ]= useState(subscribed);
-    
-   
-    let [showQuantityButton , setQuantityHide] = useState(props.data.cart.itemOnCart);
-
-
-
-    return(
-
-        <View style={styles.container}>
-            <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+props.data.img}} style={{width:120, height:120,borderRadius:10}}/>
-            <View style={styles.sectionRow}>
-                <View style={styles.textColumnLeft}>
-                    <Text style={styles.textProductname}>{props.data.name}</Text>
-                    <Text style={{lineHeight:20}}>{'\u20B9'}{props.data.new_price}</Text>
-                    <Text  style={{lineHeight:20}}>{props.data.quantity} left</Text>
-                </View>
-                {props.data.unit.name == "L"  ? 
-
-                <View style={styles.textColumnLeft}>
-
-                    {(!showQuantityButton && is_subscribed != 2)
-                        ?
- 
-                        <CustomButton 
-                         onPressHandler={()=> {
-                             dispatch(cartActions.isLoading(true));
-                             dispatch(cartActions.addToCart(props.data.id,props.data.new_price,user_id));
-                             setQuantityHide(!showQuantityButton)
-                        }}
-                        // onPressHandler={()=> {
-                        //     dispatch(cartActions.isLoading(true));
-                        //     dispatch(cartActions.addToCart(props.data,user_id));
-                            
-                            
-                        //   }}
-                         customButttonStyle={{backgroundColor:"white",borderColor:"grey",borderWidth:1,borderRadius:2, height:30,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"70%"}}
-                         customTextStyle={{ color:'grey',fontSize:12}}
-                         text="Get Once"  />
-
+                    if(this.props.data.cart.is_subscribed == 2){
+            
+                        console.log("cool i am here",this.props.cart);
+            
+                        if('get_once' in this.props.cart.product_item || 'subscribed' in this.props.cart.product_item){
+            
+                           
+            
+                         // these are needed in IncrementDecremnet Component 
+                         console.log("qantity",this.props.cart.product_item.get_once[this.props.data.id].itemQuanity);
+                          quantity = this.props.cart.product_item.get_once[this.props.data.id].itemQuanity;
+                          price = this.props.cart.product_item.get_once[this.props.data.id].itemPrice;    
+                          get_once = this.props.cart.product_item.get_once[this.props.data.id].isSubscribed;
+                          subscribed = this.props.cart.product_item.subscribed[this.props.data.id].isSubscribed;
+                          subscribed_quantity = this.props.cart.product_item.subscribed[this.props.data.id].itemQuanity;
+            
                       
-                    :
-
-                        <IncrementDecrementButton product_id={props.data.id}  quantity={itemQuantity} price={itemPrice} />
-
-                    }
+                        
+                         
+                        }
                         
                 
-                   
-                   {(!showQuantityButton && is_subscribed != 1 ) ?
-
-
-                        <CustomButton 
-                            customButttonStyle={{backgroundColor:"#FD8D45", height:30,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"70%"}}
-                            customTextStyle={{ color:'white',fontSize:12}}
-                            text="Subscribe"  />
+                      
+                       
+                    }else{
+            
+                        if('get_once' in this.props.cart){
+            
+                            quantity = this.props.cart.product_item.get_once[this.props.data.id].itemQuanity;
+                            price = this.props.cart.product_item.get_once[this.props.data.id].itemPrice;
+                            subscribed = this.props.cart.product_item.get_once[this.props.data.id].isSubscribed;
+                            subscribed_quantity = 1;
+                            console.log("is subs1111",quantity);
+            
+                                        
+                         
+                        }
+                      
+            
+                    }
+            
+                }else{
+                    quantity = 1;
+                    price = this.props.data.new_price
+                    subscribed_quantity=1;
+                    // need to change the UI of INcrement Decrement
+                    subscribed = -1;
+                    get_once = -1;
+            
                     
+                
+            
+            
+                
+                }
+    
+            }
+
+
+            this.setState({itemQuanity:quantity},()=>{
+                console.log("updated quantity",this.state.itemQuanity);
+            });
+            this.setState({itemPrice:price});
+            this.setState({itemSubscribedQuantity:subscribed_quantity});
+            this.setState({isSubscribed:subscribed});
+            this.setState({is_get_once:get_once});
+    
+        }
+    }
+
+    render(){
+
+        return(
+
+            <View style={styles.container}>
+                
+                <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.img}} style={{width:120, height:120,borderRadius:10}}/>
+                <View style={styles.sectionRow}>
+                    <View style={styles.textColumnLeft}>
+                        <Text style={styles.textProductname}>{this.props.data.name}</Text>
+                        <Text style={{lineHeight:20}}>{'\u20B9'}{this.props.data.new_price}</Text>
+                        <Text  style={{lineHeight:20}}>{this.props.data.quantity} left</Text>
+                    </View>
+                    {this.props.data.unit.name == "L"  ? 
+    
+                    <View style={styles.textColumnLeft}>
+    
+                        {(this.state.showQuantityButton && this.state.is_get_once != -1)
+                            ?
+     
+                            <CustomButton 
+                             onPressHandler={()=> {
+                                //  dispatch(cartActions.isLoading(true));
+                                //  dispatch(cartActions.addToCart(this.props.data.id,this.props.data.new_price,user_id));
+                                //  setQuantityHide(!showQuantityButton)
+                            }}
+                            // onPressHandler={()=> {
+                            //     dispatch(cartActions.isLoading(true));
+                            //     dispatch(cartActions.addToCart(props.data,user_id));
+                                
+                                
+                            //   }}
+                             customButttonStyle={{backgroundColor:"white",borderColor:"grey",borderWidth:1,borderRadius:2, height:30,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"70%"}}
+                             customTextStyle={{ color:'grey',fontSize:12}}
+                             text="Get Once"  />
+    
+                          
+                        :
+    
+                            <IncrementDecrementButton product_id={this.props.data.id} subscribed_quantity={this.state.itemSubscribedQuantity}  quantity={this.state.itemQuanity} price={this.state.itemPrice} />
+    
+                        }
+                            
                     
                        
-                   
-                   :
-                   <IncrementDecrementButton product_id={props.data.id}  quantity={itemQuantity} price={itemPrice} />
-                  
-                   }
-                   
-                </View>
-                
-                :
+                       {(this.state.showQuantityButton && this.state.is_subscribed != -1 ) ?
+    
+    
+                            <CustomButton 
+                                customButttonStyle={{backgroundColor:"#FD8D45", height:30,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"70%"}}
+                                customTextStyle={{ color:'white',fontSize:12}}
+                                text="Subscribe"  />
+                        
+                        
+                           
+                       
+                       :
 
-                //Add To Cart Button
-                <View  style={styles.textColumnLeft}>
-                  
-                    <Text style={styles.textBorder}>250g</Text>
+                       <IncrementDecrementSubscribe product_id={this.props.data.id}  subscribed_quantity={this.state.itemSubscribedQuantity} quantity={this.state.itemQuanity} price={this.state.itemPrice} />
+
                    
-                    <CustomButton 
-                          onPressHandler={()=> {
-                            dispatch(cartActions.isLoading(true));
-                            dispatch(cartActions.addToCart(props.data,user_id))
-                            dispatch(cartActions.cartCount());
-                          }}
-                         customButttonStyle={{backgroundColor:"#FD8D45",padding:3, height:30,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"70%"}}
-                         customTextStyle={{ color:'white',fontSize:12}}
-                         text="Add To Cart"  />
+                      
+                       }
+                       
+                    </View>
+                    
+                    :
+    
+                    //Add To Cart Button
+                    <View  style={styles.textColumnLeft}>
+                      
+                        <Text style={styles.textBorder}>250g</Text>
+                       
+                        <CustomButton 
+                              onPressHandler={()=> {
+                                this.setState({modalVisible:true})
+                              }}
+                             customButttonStyle={{backgroundColor:"#FD8D45",padding:3, height:30,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"70%"}}
+                             customTextStyle={{ color:'white',fontSize:12}}
+                             text="Add To Cart"  />
+                    </View>
+                   
+                    } 
+                   
                 </View>
-               
-                } 
+
                
             </View>
+            
            
-        </View>
+    
+        );
+    
 
-    );
 
+    }
 }
-export default ProductItem;
 
-const styles = StyleSheet.create({
+const mapStateToProps = state => {
+    return {
+      userdata: state.userdata,
+      cart:state.cart
+    }
+  }
+
+  export default connect(mapStateToProps,null)(ProductItem);
+
+  const styles = StyleSheet.create({
 
     container:{
       
