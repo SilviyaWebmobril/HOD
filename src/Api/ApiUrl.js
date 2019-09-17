@@ -59,4 +59,8 @@ export default {
 
     get_cart_products : "get_cart_products",
 
+    add_subscribed_products :"add_subscribed_product",
+
+    remove_subscribed_product:"remove_subscribed_product"
+
 }

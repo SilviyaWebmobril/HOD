@@ -1,11 +1,11 @@
 import React ,{Component} from 'react';
 import {View ,Text, FlatList, StyleSheet, Alert} from 'react-native';
-import * as HOC from '../HOC/mainHoc';
+
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
 );
-
+import * as HOC from '../../HOC/mainHoc';
 
 import ProductItem from './../ProductItem/ProductItem';
 import Axios from 'axios';
@@ -22,9 +22,7 @@ class Cart extends Component {
         headerStyle: { backgroundColor: '#FD8D45' },
         headerTitleStyle: { color: 'white' },
         headerTintColor: 'white',
-        headerRight:(
-            <Cartbadge count={navigation.getParam('count', '0')} />
-        )
+       
           
         
   
@@ -35,7 +33,7 @@ class Cart extends Component {
     
             this.state= {
     
-                isLoading:true,
+                //isLoading:this.props.cart_products.isLoading,
                 cart_products:[],
                 cartCount:false,
     
@@ -47,15 +45,15 @@ class Cart extends Component {
 
         componentDidMount(){
             
-          this.props.getCartProducts();
-            
+          this.props.getCartProducts(this.props.user.userdata.user_id);
+         console.log("all products in cart",this.props.cart_products.all_products)
         }
 
         renderItem(data){
             let { item, index } = data;
             return(
-               
-                <ProductItem data={item} />
+               <View/>
+                // <ProductItem data={item} />
                
             );
         }
@@ -68,7 +66,7 @@ class Cart extends Component {
               spinner={this.state.isLoading}>
                  <FlatList
                       
-                      data={this.props.cart.all_products}
+                      data={this.props.cart_products.all_products}
                       keyExtractor={(item, index) => index.toString()}
                       renderItem={this.renderItem.bind(this)}
                       style={{marginBottom:20}}
@@ -95,12 +93,15 @@ mapStateToProps = state=> {
 mapDispatchToProps = dispatch =>{
 
     return{
-        getCartProducts:() =>{
-            dispatch(cartActions.fetchCartProducts(this.props.user.user_id))
+        getCartProducts:(user_id) =>{
+            dispatch(cartActions.fetchCartProducts(user_id))
+        },
+        onLoading : (value) => {
+            dispatch(cartActions.isLoading(value))
         }
     }
 }
-export default connect(mapStateToProps,null)(Cart);
+export default connect(mapStateToProps,mapDispatchToProps)(Cart);
 
 const styles = StyleSheet.create({
 

@@ -23,6 +23,7 @@ import VideoPlayer from  '../Video/VideoPlayer';
 import CategoryProduct from '../BottomTabs/screens/CategoryProduct';
 import Support from '../BottomTabs/Account/Support';
 import CategoryProductDetails from  '../BottomTabs/screens/CategoryProductDetails';
+import Cart from '../BottomTabs/screens/Cart';
 
 const Bottomtabs = createBottomTabNavigator({
 
@@ -181,6 +182,7 @@ const bottomtabsStack = createStackNavigator({
   // SearchLocationContinue,
   // UpdateProfile,
   // UpdateProfileContinue,
+  Cart ,
   MyVideo,
   CategoryProduct,
   CategoryProductDetails,

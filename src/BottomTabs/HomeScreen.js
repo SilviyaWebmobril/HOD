@@ -33,8 +33,23 @@ class HomeScreen extends  Component {
             getAllProducts:[],
             error_msg:this.props.cart.error_msg,
             cart_products:[],
+            scheduleModalVisible:false,
+            schedule_product_id:"",
+            schedule_product_price:""
+            
         }
     }
+
+    scheduleModalVisible = (product_id,product_price) =>{
+
+        console.log("getting data from child",product_id);
+        this.setState({scheduleModalVisible:true})
+        this.setState({schedule_product_id:product_id});
+        this.setState({schedule_product_price:product_price})
+
+    }
+
+   
 
     componentDidMount(){
 
@@ -45,7 +60,7 @@ class HomeScreen extends  Component {
             this.setState({product:res.data.product_categories});
             this.setState({banners:res.data.banners});
             this.setState({cart_products:res.data.cart_products})
-           
+            console.log("cart ", res.data.cart_products)
             this.props.cartProducts( this.props.userdata.userdata.user_id);
             
             var products = [...res.data.all_products];
@@ -55,7 +70,10 @@ class HomeScreen extends  Component {
                 var itemOnCart = false;
                 var last_product_id = 0;
 
+               
                 if(res.data.cart_products.length > 0){
+
+                    console.log("cart length",res.data.cart_products.length);
 
                     res.data.cart_products.forEach(cart_item =>{
 
@@ -71,7 +89,7 @@ class HomeScreen extends  Component {
                                     last_product_id = cart_item.product.id;
                                 }else{
 
-                                    Object.assign(item,{cart:{itemOnCart:true,is_subscribed:cart_item.isSubscribed,
+                                    Object.assign(item,{cart:{itemOnCart:true,is_subscribed:cart_item.is_subscribed,
                                     subscription_type:cart_item.subscription_type}});
                                     itemOnCart = true;
                                     last_product_id = cart_item.product.id;
@@ -89,7 +107,7 @@ class HomeScreen extends  Component {
                     });
                 }else{
 
-                    Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:cart_item.subscription_type}});
+                    Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
                 }
                 
                
@@ -99,7 +117,7 @@ class HomeScreen extends  Component {
 
             this.setState({getAllProducts:[...products]},()=>{
 
-                console.log("get all products",this.state.getAllProducts);
+                console.log("new products",this.state.getAllProducts);
             });
            
 
@@ -110,7 +128,7 @@ class HomeScreen extends  Component {
         }).catch( error  => {  
             this.props.onLoading(false); 
             this.setState({isLoading:this.props.cart.isLoading});
-            console.log("on error",error); 
+            console.log("on error home screen",error); 
 
 
         });
@@ -139,30 +157,239 @@ class HomeScreen extends  Component {
       
         return(
             <TouchableOpacity
-            onPress={()=>this.onDetailsHandler(item.id,item.name)}>
-            <ProductItem data={item} />
+           >
+            <ProductItem data={item} scheduleModal={this.scheduleModalVisible.bind(this)}/>
             </TouchableOpacity>
         );
     }
 
-    componentDidUpdate(prevProps,prevState){
-      
-        if(prevProps.cart.error !==  this.props.cart.error){
-          
-            if(this.props.cart.error !== ""){
-               this.showErrorAlert(this.props.cart.error);
-            }
-          
 
-        }
+    // shouldComponentUpdate(nextProps,nextState){
+    //     console.log("componentWillReceiveProps",nextProps);
+    //     if(nextProps.cart !== this.props.cart){
+    
+    
+    
+    //         var products = [...this.state.getAllProducts];
+    //         console.log("products of cart",this.props.cart);
+    //         var cart_products = [...this.state.cart_products];
+    //         products.forEach(item=>{
 
-        if(prevProps.cart.isLoading !== this.props.cart.isLoading){
-            this.setState({isLoading:this.props.cart.isLoading})
-        }
 
+    //             var itemOnCart = false;
+    //             var last_product_id = 0;
+                
+
+              
+
+    //             if('get_once' in  nextProps.cart.product_item && 'subscribed' in nextProps.cart.product_item){
+
+                
+    //                 if(JSON.stringify(item.id) == nextProps.cart.product_item.get_once[item.id]
+    //                         && item.product_id == nextProps.cart.product_item.subscribed[item.id]){
+
+    //                     Object.assign(item,{cart:{itemOnCart:true,is_subscribed:2,
+    //                         subscription_type:nextProps.cart.product_item.subscribed[item.id].subscryptionType}});
+    //                         last_product_id = item.id;
+
+    //                 }else{
+
+    //                     Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
+    //                 } 
+
+
+
+    //             }
+                
+    //             if(item.id  !== last_product_id){
+
+              
+
+    //                 if('get_once' in  nextProps.cart.product_item ){
+
+                      
+    //                         if(JSON.stringify(item.id) in nextProps.cart.product_item.get_once){
+    //                       console.log("hello comparing");
+    //                         Object.assign(item,{cart:{itemOnCart:true,
+    //                             is_subscribed:nextProps.cart.product_item.get_once[item.id].isSubscribed,
+    //                             subscription_type:nextProps.cart.product_item.get_once[item.id].subscryptionType}});
+    //                             itemOnCart = true;
+    
+    
+    //                     }else{
+    
+    //                         Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
+    //                     } 
+    
+    
+    //                 }else if('subscribed' in  nextProps.cart.product_item ){
+    
+    //                     if(JSON.stringify(item.id) == nextProps.cart.product_item.subscribed[item.id]){
+    
+    //                         Object.assign(item,{cart:{itemOnCart:true,
+    //                             is_subscribed:nextProps.cart.product_item.subscribed[item.id].isSubscribed,
+    //                             subscription_type:nextProps.cart.product_item.subscribed[item.id].subscryptionType}});
+    //                             itemOnCart = true;
+    //                     }else{
+    
+    //                         Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
+    //                     } 
+    
+    
+    //                 }else{
+    //                     Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
+    //                 }
+
+    //             }
+                
+               
+                    
+                
+
+
+    //        });
+
+    //         this.setState({getAllProducts:[...products]},()=>{
+
+    //             console.log("on update ",this.state.getAllProducts);
+    //         });
+    //         return true;
+
+    //     }else{
+    //         return false;
+    //     }
+
+     
        
-
         
+
+    // }
+
+    componentDidUpdate(prevProps,prevState){
+
+        try{
+
+
+            if(prevProps.cart.error !==  this.props.cart.error){
+          
+                if(this.props.cart.error !== ""){
+                   this.showErrorAlert(this.props.cart.error);
+                }
+              
+    
+            }
+    
+            if(prevProps.cart.isLoading !== this.props.cart.isLoading){
+                this.setState({isLoading:this.props.cart.isLoading})
+            }
+    
+            if(prevProps.schedule_id !==  this.props.schedule_id){
+    
+                this.setState({scheduleModalVisible:false})
+                console.log("schedule_id",this.props.schedule_id);
+            }
+    
+            if(prevProps.cart !== this.props.cart){
+    
+    
+    
+            //     var products = [...this.state.getAllProducts];
+            //     console.log("products of cart",this.props.cart);
+            //     var cart_products = [...this.state.cart_products];
+            //     products.forEach(item=>{
+    
+    
+            //         var itemOnCart = false;
+            //         var last_product_id = 0;
+                    
+    
+                  
+    
+            //         if('get_once' in  this.props.cart.product_item && 'subscribed' in this.props.cart.product_item){
+    
+                    
+            //             if(JSON.stringify(item.id) == this.props.cart.product_item.get_once[item.id]
+            //                     && item.product_id == this.props.cart.product_item.subscribed[item.id]){
+    
+            //                 Object.assign(item,{cart:{itemOnCart:true,is_subscribed:2,
+            //                     subscription_type:this.props.cart.product_item.subscribed[item.id].subscryptionType}});
+            //                     last_product_id = item.id;
+    
+            //             }else{
+    
+            //                 Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
+            //             } 
+
+
+
+            //         }
+                    
+            //         if(item.id  !== last_product_id){
+
+                  
+
+            //             if('get_once' in  this.props.cart.product_item ){
+    
+                          
+            //                     if(JSON.stringify(item.id) in this.props.cart.product_item.get_once){
+            //                   console.log("hello comparing");
+            //                     Object.assign(item,{cart:{itemOnCart:true,
+            //                         is_subscribed:this.props.cart.product_item.get_once[item.id].isSubscribed,
+            //                         subscription_type:this.props.cart.product_item.get_once[item.id].subscryptionType}});
+            //                         itemOnCart = true;
+        
+        
+            //                 }else{
+        
+            //                     Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
+            //                 } 
+        
+        
+            //             }else if('subscribed' in  this.props.cart.product_item ){
+        
+            //                 if(JSON.stringify(item.id) == this.props.cart.product_item.subscribed[item.id]){
+        
+            //                     Object.assign(item,{cart:{itemOnCart:true,
+            //                         is_subscribed:this.props.cart.product_item.subscribed[item.id].isSubscribed,
+            //                         subscription_type:this.props.cart.product_item.subscribed[item.id].subscryptionType}});
+            //                         itemOnCart = true;
+            //                 }else{
+        
+            //                     Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
+            //                 } 
+        
+        
+            //             }else{
+            //                 Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
+            //             }
+
+            //         }
+                    
+                   
+                        
+                    
+    
+    
+            //    });
+    
+            //     this.setState({getAllProducts:[...products]},()=>{
+    
+            //         console.log("on update ",this.state.getAllProducts);
+            //     });
+               
+    
+            }
+           
+    
+
+        }catch(error){
+
+            console.log("on error home screen component did update",error);
+        }
+      
+      
+        
+
      
     }
 
@@ -189,7 +416,9 @@ class HomeScreen extends  Component {
            
             <FullSCreenSpinnerAndDismissKeyboardView
             style={styles.container}
-            customScheduleVisible={true}
+            scheduleVisible={this.state.scheduleModalVisible}
+            schedule_product_id ={this.state.schedule_product_id}
+            schedule_product_price = {this.state.schedule_product_price}
             spinner={this.state.isLoading}>
                 <View >
                     <CustomTopHeader />
@@ -199,14 +428,14 @@ class HomeScreen extends  Component {
 
                    
                    
-                    {/* <FlatList
+                    <FlatList
                       
                         data={this.state.getAllProducts}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={(item) =>this.renderItem(item)}
                         style={{marginBottom:20}}
                         />
-                    */}
+                   
 
                     
             
@@ -227,7 +456,8 @@ class HomeScreen extends  Component {
 const mapStateToProps = state => {
     return {
       userdata: state.userdata,
-      cart:state.cart
+      cart:state.cart,
+      schedule_id: state.schedule
     }
   }
 

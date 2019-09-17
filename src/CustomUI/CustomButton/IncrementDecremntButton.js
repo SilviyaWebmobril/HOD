@@ -11,7 +11,7 @@ class IncrementDecrementButton extends Component {
        
         this.state = {
             quantity:"",
-            disableMinus:true,
+            
             user_id:this.props.user.userdata.user_id,
             price:"",
             product_id:this.props.product_id,
@@ -42,9 +42,7 @@ class IncrementDecrementButton extends Component {
 
         this.props.onLoading(true);
         this.props.onAdd(this.state.product_id,this.state.price,this.props.user.userdata.user_id);
-        if(this.state.disableMinus){
-            this.setState({disableMinus:false})
-        }
+       
         this.setState(prevState => ({
             quantity :prevState.quantity + 1 
         }),()=>{
@@ -55,10 +53,11 @@ class IncrementDecrementButton extends Component {
     onMinusHandler = () =>{ 
 
         this.props.onLoading(true);
-        this.props.onRemove(this.props.data.id,this.props.user.userdata.user_id);
+        this.props.onRemove(this.state.product_id,this.props.user.userdata.user_id,this.state.price);
 
         if(this.state.quantity == 1){
-            this.setState({disableMinus:true})
+           // this.setState({disableMinus:true})
+         //  this.props.updateGetOnce();
         }else{
            
             this.setState(prevState => ({
@@ -78,7 +77,7 @@ class IncrementDecrementButton extends Component {
 
                 <TouchableOpacity 
                 onPress={()=>this.onMinusHandler()} 
-                disabled={this.state.disableMinus}>
+                >
                     <View style={styles.viewButton1}>
                         <Image source={require('../../../Assets/minus.png')} style={styles.imageStyle}/>
                     </View>
@@ -114,8 +113,8 @@ const mapDispatchToProps = dispatch =>{
         onAdd: (product_id,price,user_id) => {
             dispatch(cartActions.addToCart(product_id,price,user_id))
           },
-        onRemove : (product_id,user_id) => {
-              dispatch(cartActions.removeFromCart(product_id,user_id))
+        onRemove : (product_id,user_id,price) => {
+              dispatch(cartActions.removeFromCart(product_id,user_id,price))
           },
         onLoading : (value) => {
             

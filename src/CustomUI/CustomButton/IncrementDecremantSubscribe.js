@@ -15,7 +15,8 @@ class IncrementDecrementSubscribe extends Component {
             user_id:this.props.user.userdata.user_id,
             price:"",
             product_id:this.props.product_id,
-            subscribed_quantity:""
+            subscribed_quantity:"",
+            subscriptionType:""
         }
     }
 
@@ -37,11 +38,15 @@ class IncrementDecrementSubscribe extends Component {
             this.setState({price:this.props.price});
         }
        
+        if(prevProps.subscriptionType !==  this.props.subscriptionType){
+
+            this.setState({subscriptionType:this.props.subscriptionType})
+        }
     }
     onPlusHandler = () =>{
 
         this.props.onLoading(true);
-        this.props.onAdd(this.state.product_id,this.state.price,this.props.user.userdata.user_id);
+        this.props.onAdd(this.state.product_id,this.state.price,this.state.subscriptionType,this.props.user.userdata.user_id,1);
         if(this.state.disableMinus){
             this.setState({disableMinus:false})
         }
@@ -55,7 +60,7 @@ class IncrementDecrementSubscribe extends Component {
     onMinusHandler = () =>{ 
 
         this.props.onLoading(true);
-        this.props.onRemove(this.props.data.id,this.props.user.userdata.user_id);
+        this.props.onRemove(this.state.product_id,this.props.user.userdata.user_id,this.state.price);
 
         if(this.state.quantity == 1){
             this.setState({disableMinus:true})
@@ -111,11 +116,11 @@ const mapStateToProps  = state => {
 
 const mapDispatchToProps = dispatch =>{
     return {
-        onAdd: (product_id,price,user_id) => {
-            dispatch(cartActions.addToCart(product_id,price,user_id))
+        onAdd: (product_id,price,subscriptipn_type,user_id,update) => {
+            dispatch(cartActions.addOrUpdateSubscriptionToCart(product_id,price,subscriptipn_type,user_id,update))
           },
-        onRemove : (product_id,user_id) => {
-              dispatch(cartActions.removeFromCart(product_id,user_id))
+        onRemove : (product_id,user_id,price) => {
+              dispatch(cartActions.removeSubscribedFromCart(product_id,user_id,price))
           },
         onLoading : (value) => {
             

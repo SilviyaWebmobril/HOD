@@ -9,55 +9,90 @@ import {
     SafeAreaView
   } from 'react-native';
 import CardView from 'react-native-cardview';
+import CustomSchedule from './CustomSchedule';
+import { connect } from 'react-redux';
+import * as ScheduleAction from '../../redux/store/actions/SchedulerAction';
+import * as cartActions from '../../redux/store/actions/cartAction';
 
-export  default class ScheduleModal extends Component{
+class ScheduleModal extends Component{
 
     constructor() {
         super();
         this.state = {
-         
+          customSchedule:false
         };
       }
+
+      customSchedule = () =>{
+
+        this.setState({customSchedule:true})
+      }
+
+      addCustomSchedule =() =>{
+        this.props.onAddCustomSchedule("5")
+      }
+      addSchedule=(value)=>{
+        this.props.onAddSchedule(value);
+        this.props.onAdd(this.props.product_id,this.props.price,value,this.props.user.user_id,0)
+      }
+
+      
       
     render(){
         return(
            
             <View style={{margin:20}}>
-          <CardView
-            style={{
-              backgroundColor: 'white'
-            }}
-            cardElevation={7}
-            cardMaxElevation={7}
-            cornerRadius={1}
-            cornerOverlap={false}
-          >
-            <View style={styles.child}>
-              <View style={styles.titleView}>
-                <Text style={styles.title}>Deliver these items on:</Text>
-              </View>
-              
-              <View style={styles.titleView}>
-                <TouchableOpacity>
-                    <Text style={styles.scheduleTextStyle}>Alternate Days</Text>
-                </TouchableOpacity> 
-                <TouchableOpacity>
-                    <Text style={styles.scheduleTextStyle}>Daily</Text>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Text style={styles.scheduleTextStyle}>Weekdays</Text>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Text style={styles.scheduleTextStyle}>Weekends</Text>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Text style={styles.scheduleTextStyle}>Custom Schedule</Text>
-                </TouchableOpacity>
-                
-              </View>
-              
-            </View>
-          </CardView>
+
+            {!this.state.customSchedule ?
+
+              <CardView
+                style={{
+                  backgroundColor: 'white'
+                }}
+                cardElevation={7}
+                cardMaxElevation={7}
+                cornerRadius={1}
+                cornerOverlap={false}
+              >
+                <View style={styles.child}>
+                  <View style={styles.titleView}>
+                    <Text style={styles.title}>Deliver these items on:</Text>
+                  </View>
+                  
+                  <View style={styles.titleView}>
+                    <TouchableOpacity
+                    onPress={()=>this.addSchedule("1")}>
+                        <Text style={styles.scheduleTextStyle}>Alternate Days</Text>
+                    </TouchableOpacity> 
+                    <TouchableOpacity
+                    Press={()=>this.addSchedule("2")}>
+                        <Text style={styles.scheduleTextStyle}>Daily</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                    Press={()=>this.addSchedule("3")}>
+                        <Text style={styles.scheduleTextStyle}>Weekdays</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                    Press={()=>this.addSchedule("4")}>
+                        <Text style={styles.scheduleTextStyle}>Weekends</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                    onPress={()=>this.customSchedule()}>
+                        <Text style={styles.scheduleTextStyle}>Custom Schedule</Text>
+                    </TouchableOpacity>
+                    
+                  </View>
+                  
+                </View>
+              </CardView>
+
+
+            
+            :
+
+            <CustomSchedule addSchedule={this.addCustomSchedule.bind(this)}/>
+            }
+          
 
 
         </View>
@@ -67,6 +102,25 @@ export  default class ScheduleModal extends Component{
 
     }
 }
+
+const mapStateToProps = state =>{
+  return{
+    user:state.userdata
+  }
+}
+
+const mapDispatchToProps = dispatch =>{
+
+  return{
+    onAddSchedule:(id) =>{
+      dispatch(ScheduleAction.addSchedule(id));
+    },
+    onAdd: (product_id,price,subscriptipn_type,user_id,update) => {
+      dispatch(cartActions.addOrUpdateSubscriptionToCart(product_id,price,subscriptipn_type,user_id,update))
+    },
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(ScheduleModal);
 
 
 

@@ -7,7 +7,7 @@ import ScheduleModal from '../CustomUI/Modal/ScheduleModal';
 import CustomSchedule from '../CustomUI/Modal/CustomSchedule';
 
 export default(Comp: ReactClass<*>) => {
-  return ({scheduleVisible,customScheduleVisible,itemQuantity , itemTotalPrice,cartLayout, spinner, children, ...props }: Object) => (
+  return ({scheduleVisible,custom,schedule_product_id,schedule_product_price,itemQuantity , itemTotalPrice,cartLayout, spinner, children, ...props }: Object) => (
     <View style={styles.mainView}>
 
       <ScrollView 
@@ -41,11 +41,11 @@ export default(Comp: ReactClass<*>) => {
           { backgroundColor: 'rgba(255,255,255,0.7)', justifyContent: 'center' ,}
         ]}
       >
-         <ScheduleModal/>
+         <ScheduleModal product_id={schedule_product_id} price={schedule_product_price} />
       </View>
 
       }
-      {
+      {/* {
         customScheduleVisible  && 
         <View
         style={[
@@ -53,10 +53,10 @@ export default(Comp: ReactClass<*>) => {
           { backgroundColor: 'rgba(255,255,255,0.7)', justifyContent: 'center' ,}
         ]}
       >
-         <CustomSchedule />
+         <CustomSchedule  />
       </View>
 
-      }
+      } */}
       {spinner &&
             <View
               style={[
