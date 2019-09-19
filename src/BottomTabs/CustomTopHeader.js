@@ -4,15 +4,32 @@ import SearchLocationStyle from '../SearchLocation/SearchLocationStyle';
 import {connect} from 'react-redux';
 import  capitilize  from '../utility/helpers';
 import Cartbadge from '../CustomUI/Cart/Cartbadge';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-
+import { withNavigation } from 'react-navigation';
 
 
 
 class CustomTopHeader extends  Component {
 
+    constructor(props){
+        super(props);
+    }
    
+    componentDidMount(){
+        console.log("address",this.props.userdata);
+    }   
 
+    SearchLocation = () =>{
+
+        this.props.navigation.navigate('SearchLocation',{"location_update":0});
+    }
+
+    shouldComponentUpdate(nextProps,prevProps){
+
+        console.log("shouldComponentUpdate customTopHeader",nextProps);
+        return true;
+    }
    
 
     render(){
@@ -24,7 +41,10 @@ class CustomTopHeader extends  Component {
                     <View style={{alignItems:"flex-start", flexDirection:"row",}}>
                         <Image style={{width:25,height:25}}  source={require('../../Assets/location1.png')} />
                         <Text style={styles.textStyle}>Delivery Location</Text>
-                        <Image style={{width:15,height:15,marginLeft:10,marginTop:8}}  source={require('../../Assets/pencil.png')} />
+                        <TouchableOpacity
+                        onPress={()=>{this.SearchLocation()}}>
+                            <Image style={{width:15,height:15,marginLeft:10,marginTop:8}}  source={require('../../Assets/pencil.png')} />
+                        </TouchableOpacity>
                     </View>
                     <View  style={{ flexDirection:"row",position: 'absolute', right: 0}}>
                         <Image style={{width:25,height:25,marginRight:10}} source={require('../../Assets/order.png')} />
@@ -33,7 +53,12 @@ class CustomTopHeader extends  Component {
                 </View>
                 <View style={styles.locationView}>
                     <Text style={styles.locationTextStyle}numberOfLines = { 2} >
-                     {capitilize(this.props.userdata.user_address)}
+                     { this.props.address != null ?
+
+                         capitilize(this.props.address)
+                         :
+                         ""
+                         }
                     </Text>
                     
                     <Image style={{width:'60%',height:20,marginTop:10,marginBottom:0}} source={require('../../Assets/curve.png')} />
@@ -53,7 +78,7 @@ const mapStateToProps = state => {
       cart_count:state.cart
     }
   }
-  export default connect(mapStateToProps,null)(CustomTopHeader)
+  export default connect(mapStateToProps,null)(withNavigation(CustomTopHeader))
   
   
   

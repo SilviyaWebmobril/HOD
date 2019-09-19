@@ -82,7 +82,7 @@ class ViewProfile  extends Component {
 
     addNewAddresshandler = () =>{
 
-      this.props.navigation.navigate('SearchLocation');
+      this.props.navigation.navigate('SearchLocation',{"location_update":1});
     }
 
     updateProfileHandler = () =>{

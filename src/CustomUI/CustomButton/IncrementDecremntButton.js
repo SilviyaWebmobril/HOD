@@ -19,6 +19,12 @@ class IncrementDecrementButton extends Component {
         }
     }
 
+    componentDidMount(){
+
+       // this.setState({quantity:this.props.quantity});
+       
+    }
+
       
     componentDidUpdate(prevProps,prevState){
 
@@ -41,31 +47,31 @@ class IncrementDecrementButton extends Component {
     onPlusHandler = () =>{
 
         this.props.onLoading(true);
-        this.props.onAdd(this.state.product_id,this.state.price,this.props.user.userdata.user_id);
+        this.props.onAdd(this.props.product_id,this.props.price,this.props.user.userdata.user_id);
        
-        this.setState(prevState => ({
-            quantity :prevState.quantity + 1 
-        }),()=>{
+        // this.setState(prevState => ({
+        //     quantity :prevState.quantity + 1 
+        // }),()=>{
 
-        });
+        // });
     }
 
     onMinusHandler = () =>{ 
 
         this.props.onLoading(true);
-        this.props.onRemove(this.state.product_id,this.props.user.userdata.user_id,this.state.price);
+        this.props.onRemove(this.props.product_id,this.props.user.userdata.user_id,this.props.price);
 
         if(this.state.quantity == 1){
            // this.setState({disableMinus:true})
          //  this.props.updateGetOnce();
         }else{
            
-            this.setState(prevState => ({
+            // this.setState(prevState => ({
                
-                quantity :prevState.quantity - 1 
-            }),()=>{
+            //     quantity :prevState.quantity - 1 
+            // }),()=>{
 
-            });
+            // });
 
         }
     }
@@ -83,7 +89,7 @@ class IncrementDecrementButton extends Component {
                     </View>
                 </TouchableOpacity>
                 <View style={styles.viewText}>
-                    <Text style={{alignSelf:"center",fontSize:13,fontWeight:"bold"}}>{this.state.quantity}</Text>  
+                    <Text style={{alignSelf:"center",fontSize:13,fontWeight:"bold"}}>{this.props.quantity}</Text>  
                 </View>
                 <TouchableOpacity
                   onPress={()=>this.onPlusHandler()}>

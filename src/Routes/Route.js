@@ -163,9 +163,8 @@ const profile = createStackNavigator({
   UpdateProfileContinue,
   
 },{
-  navigationOptions: {
-    headerVisible: false,
-  }
+
+  
 })
 
 const bottomtabsStack = createStackNavigator({
@@ -176,12 +175,14 @@ const bottomtabsStack = createStackNavigator({
       header:null
     }
   },
-  ViewProfile : profile,
-  // profile,
-  // SearchLocation,
-  // SearchLocationContinue,
-  // UpdateProfile,
-  // UpdateProfileContinue,
+  ViewProfile :{
+    screen :profile,
+    navigationOptions:{
+        header:null
+    }
+
+  } ,
+ 
   Cart ,
   MyVideo,
   CategoryProduct,
@@ -189,12 +190,18 @@ const bottomtabsStack = createStackNavigator({
   Support,
   Login, 
   OTP,
+  SearchLocation,
+  SearchLocationContinue,
   
 
 },
 {
   initialRouteName: 'HomeBottomtabs',
   transitionConfig: () => fromRight(500),
+  navigationOptions: {
+    
+  }
+  
 },);
 
 

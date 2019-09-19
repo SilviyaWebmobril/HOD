@@ -5,7 +5,9 @@ import { ERROR } from '../actions/types';
 import axios from 'axios';
 import ApiUrl from '../../../Api/ApiUrl';
 import {IS_LOADING} from '../actions/types';
-import  {REMOVE_FROM_CART,GET_CART_PRODUCTS,REMOVE_SUBSCRIBED_FROM_CART } from '../actions/types';
+import  {REMOVE_FROM_CART,GET_CART_PRODUCTS,
+REMOVE_SUBSCRIBED_FROM_CART,UPDATE_GET_ALL_PRODUCTS_QUANTITY,
+REMOVE_GET_ONCE_GET_ALL_PRODUCTS_QUANTITY } from '../actions/types';
 
 
 export const fetchCartProducts  = (user_id) => {
@@ -37,6 +39,7 @@ export const fetchCartProducts  = (user_id) => {
 
         }else{
 
+            // creating cart objects get_once / subscribed
             dispatch( {
                 type:GET_CART_PRODUCTS,
                 products:response.data.data,
@@ -88,8 +91,8 @@ export const addToCart  = (product_id,price,user_id) => {
             isLoading:false,
         })
 
-       
-
+        console.log("on adding product",response);
+    
         if(response.data.error){
 
           
@@ -106,12 +109,18 @@ export const addToCart  = (product_id,price,user_id) => {
                 product_item:response.data.data,
             })
     
+            dispatch( {
+                type:UPDATE_GET_ALL_PRODUCTS_QUANTITY,
+                product_item:response.data.data,
+                
+            })
         }
 
      
       }).catch(error => {
 
-       console.log("add to cart",error);
+        console.log("error",error);
+      
         dispatch({
             type:IS_LOADING,
             isLoading:false,
@@ -167,6 +176,12 @@ export const removeFromCart = (product_id,user_id,price) =>{
                         type:REMOVE_FROM_CART,
                         product_id:product_id,
                       
+                    })
+
+                    dispatch( {
+                        type:REMOVE_GET_ONCE_GET_ALL_PRODUCTS_QUANTITY,
+                        product_id:product_id,
+                       
                     })
         
                     dispatch({

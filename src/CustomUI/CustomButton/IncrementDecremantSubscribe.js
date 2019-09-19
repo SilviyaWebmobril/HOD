@@ -45,35 +45,35 @@ class IncrementDecrementSubscribe extends Component {
     }
     onPlusHandler = () =>{
 
-        this.props.onLoading(true);
-        this.props.onAdd(this.state.product_id,this.state.price,this.state.subscriptionType,this.props.user.userdata.user_id,1);
-        if(this.state.disableMinus){
-            this.setState({disableMinus:false})
-        }
-        this.setState(prevState => ({
-            quantity :prevState.quantity + 1 
-        }),()=>{
+      //  this.props.onLoading(true);
+       // this.props.onAdd(this.state.product_id,this.state.price,this.state.subscriptionType,this.props.user.userdata.user_id,1);
+        // if(this.state.disableMinus){
+        //     this.setState({disableMinus:false})
+        // }
+        // this.setState(prevState => ({
+        //     quantity :prevState.quantity + 1 
+        // }),()=>{
 
-        });
+        // });
     }
 
     onMinusHandler = () =>{ 
 
-        this.props.onLoading(true);
-        this.props.onRemove(this.state.product_id,this.props.user.userdata.user_id,this.state.price);
+      //  this.props.onLoading(true);
+       // this.props.onRemove(this.props.product_id,this.props.user.userdata.user_id,this.state.price);
 
-        if(this.state.quantity == 1){
-            this.setState({disableMinus:true})
-        }else{
+        // if(this.state.quantity == 1){
+        //     this.setState({disableMinus:true})
+        // }else{
            
-            this.setState(prevState => ({
+        //     this.setState(prevState => ({
                
-                quantity :prevState.quantity - 1 
-            }),()=>{
+        //         quantity :prevState.quantity - 1 
+        //     }),()=>{
 
-            });
+        //     });
 
-        }
+        // }
     }
 
     render(){
@@ -89,7 +89,7 @@ class IncrementDecrementSubscribe extends Component {
                     </View>
                 </TouchableOpacity>
                 <View style={styles.viewText}>
-                    <Text style={{alignSelf:"center",fontSize:13,fontWeight:"bold"}}>{this.state.subscribed_quantity}</Text>  
+                    <Text style={{alignSelf:"center",fontSize:13,fontWeight:"bold"}}>{this.props.subscribed_quantity}</Text>  
                 </View>
                 <TouchableOpacity
                   onPress={()=>this.onPlusHandler()}>

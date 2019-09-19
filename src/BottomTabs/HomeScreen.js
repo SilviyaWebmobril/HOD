@@ -18,6 +18,7 @@ import Cartbadge from '../CustomUI/Cart/Cartbadge';
 import * as cartActions from '../redux/store/actions/cartAction';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import CustomButton from '../CustomUI/CustomButton/CustomButton';
+import * as homeActions from '../redux/store/actions/homeAction';
 
 
 
@@ -53,102 +54,18 @@ class HomeScreen extends  Component {
 
     componentDidMount(){
 
-        axios.post(ApiUrl.baseurl+ApiUrl.home_page+this.props.userdata.userdata.user_id).then(res => {
-
-            this.props.onLoading(false);
-            this.setState({isLoading:this.props.cart.isLoading});
-            this.setState({product:res.data.product_categories});
-            this.setState({banners:res.data.banners});
-            this.setState({cart_products:res.data.cart_products})
-            console.log("cart ", res.data.cart_products)
-            this.props.cartProducts( this.props.userdata.userdata.user_id);
-            
-            var products = [...res.data.all_products];
-            products.forEach(item=>{
-
-
-                var itemOnCart = false;
-                var last_product_id = 0;
-
-               
-                if(res.data.cart_products.length > 0){
-
-                    console.log("cart length",res.data.cart_products.length);
-
-                    res.data.cart_products.forEach(cart_item =>{
-
-                       
-                            
-                            if(parseInt(cart_item.product.id) === item.id){
-                                
-                                if(cart_item.product.id ==  last_product_id){
-
-                                    Object.assign(item,{cart:{itemOnCart:true,is_subscribed:2,
-                                    subscription_type:cart_item.subscription_type}});
-                                    itemOnCart = true;
-                                    last_product_id = cart_item.product.id;
-                                }else{
-
-                                    Object.assign(item,{cart:{itemOnCart:true,is_subscribed:cart_item.is_subscribed,
-                                    subscription_type:cart_item.subscription_type}});
-                                    itemOnCart = true;
-                                    last_product_id = cart_item.product.id;
-
-                                }
-                             
-                            }else{
-                              
-                                Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:cart_item.subscription_type}});
-                                itemOnCart = false;
-                            }
-            
-                      
-                       
-                    });
-                }else{
-
-                    Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
-                }
-                
-               
-
-
-            });
-
-            this.setState({getAllProducts:[...products]},()=>{
-
-                console.log("new products",this.state.getAllProducts);
-            });
-           
-
-            
-    
-
-
-        }).catch( error  => {  
-            this.props.onLoading(false); 
-            this.setState({isLoading:this.props.cart.isLoading});
-            console.log("on error home screen",error); 
-
-
-        });
-
-    
-
-
-      
-
-
-
-        
         
 
-        
 
+        this.props.onHomeScreen(this.props.userdata.userdata.user_id);
+       
+        this.setState({getAllProducts:this.props.homescreen.getAllProducts})
+
+       
     }
 
     onDetailsHandler = (id,name) => {
-
+       
         this.props.navigation.navigate("CategoryProductDetails",{"product_id":id   ,"name":name});
     }
 
@@ -157,114 +74,19 @@ class HomeScreen extends  Component {
       
         return(
             <TouchableOpacity
+            onPress={()=>this.onDetailsHandler(item.id,item.name)}
            >
             <ProductItem data={item} scheduleModal={this.scheduleModalVisible.bind(this)}/>
             </TouchableOpacity>
         );
     }
 
+   shouldComponentUpdate (nextProps,nextState){
 
-    // shouldComponentUpdate(nextProps,nextState){
-    //     console.log("componentWillReceiveProps",nextProps);
-    //     if(nextProps.cart !== this.props.cart){
-    
-    
-    
-    //         var products = [...this.state.getAllProducts];
-    //         console.log("products of cart",this.props.cart);
-    //         var cart_products = [...this.state.cart_products];
-    //         products.forEach(item=>{
-
-
-    //             var itemOnCart = false;
-    //             var last_product_id = 0;
-                
-
-              
-
-    //             if('get_once' in  nextProps.cart.product_item && 'subscribed' in nextProps.cart.product_item){
-
-                
-    //                 if(JSON.stringify(item.id) == nextProps.cart.product_item.get_once[item.id]
-    //                         && item.product_id == nextProps.cart.product_item.subscribed[item.id]){
-
-    //                     Object.assign(item,{cart:{itemOnCart:true,is_subscribed:2,
-    //                         subscription_type:nextProps.cart.product_item.subscribed[item.id].subscryptionType}});
-    //                         last_product_id = item.id;
-
-    //                 }else{
-
-    //                     Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
-    //                 } 
-
-
-
-    //             }
-                
-    //             if(item.id  !== last_product_id){
-
-              
-
-    //                 if('get_once' in  nextProps.cart.product_item ){
-
-                      
-    //                         if(JSON.stringify(item.id) in nextProps.cart.product_item.get_once){
-    //                       console.log("hello comparing");
-    //                         Object.assign(item,{cart:{itemOnCart:true,
-    //                             is_subscribed:nextProps.cart.product_item.get_once[item.id].isSubscribed,
-    //                             subscription_type:nextProps.cart.product_item.get_once[item.id].subscryptionType}});
-    //                             itemOnCart = true;
-    
-    
-    //                     }else{
-    
-    //                         Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
-    //                     } 
-    
-    
-    //                 }else if('subscribed' in  nextProps.cart.product_item ){
-    
-    //                     if(JSON.stringify(item.id) == nextProps.cart.product_item.subscribed[item.id]){
-    
-    //                         Object.assign(item,{cart:{itemOnCart:true,
-    //                             is_subscribed:nextProps.cart.product_item.subscribed[item.id].isSubscribed,
-    //                             subscription_type:nextProps.cart.product_item.subscribed[item.id].subscryptionType}});
-    //                             itemOnCart = true;
-    //                     }else{
-    
-    //                         Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
-    //                     } 
-    
-    
-    //                 }else{
-    //                     Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
-    //                 }
-
-    //             }
-                
-               
-                    
-                
-
-
-    //        });
-
-    //         this.setState({getAllProducts:[...products]},()=>{
-
-    //             console.log("on update ",this.state.getAllProducts);
-    //         });
-    //         return true;
-
-    //     }else{
-    //         return false;
-    //     }
-
-     
-       
-        
-
-    // }
-
+  //  console.log("shouldComponentUpdate home",nextProps.cart);
+    return true;
+   }
+  
     componentDidUpdate(prevProps,prevState){
 
         try{
@@ -281,6 +103,7 @@ class HomeScreen extends  Component {
     
             if(prevProps.cart.isLoading !== this.props.cart.isLoading){
                 this.setState({isLoading:this.props.cart.isLoading})
+                // this.props.onLoading(true);
             }
     
             if(prevProps.schedule_id !==  this.props.schedule_id){
@@ -292,91 +115,6 @@ class HomeScreen extends  Component {
             if(prevProps.cart !== this.props.cart){
     
     
-    
-            //     var products = [...this.state.getAllProducts];
-            //     console.log("products of cart",this.props.cart);
-            //     var cart_products = [...this.state.cart_products];
-            //     products.forEach(item=>{
-    
-    
-            //         var itemOnCart = false;
-            //         var last_product_id = 0;
-                    
-    
-                  
-    
-            //         if('get_once' in  this.props.cart.product_item && 'subscribed' in this.props.cart.product_item){
-    
-                    
-            //             if(JSON.stringify(item.id) == this.props.cart.product_item.get_once[item.id]
-            //                     && item.product_id == this.props.cart.product_item.subscribed[item.id]){
-    
-            //                 Object.assign(item,{cart:{itemOnCart:true,is_subscribed:2,
-            //                     subscription_type:this.props.cart.product_item.subscribed[item.id].subscryptionType}});
-            //                     last_product_id = item.id;
-    
-            //             }else{
-    
-            //                 Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
-            //             } 
-
-
-
-            //         }
-                    
-            //         if(item.id  !== last_product_id){
-
-                  
-
-            //             if('get_once' in  this.props.cart.product_item ){
-    
-                          
-            //                     if(JSON.stringify(item.id) in this.props.cart.product_item.get_once){
-            //                   console.log("hello comparing");
-            //                     Object.assign(item,{cart:{itemOnCart:true,
-            //                         is_subscribed:this.props.cart.product_item.get_once[item.id].isSubscribed,
-            //                         subscription_type:this.props.cart.product_item.get_once[item.id].subscryptionType}});
-            //                         itemOnCart = true;
-        
-        
-            //                 }else{
-        
-            //                     Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
-            //                 } 
-        
-        
-            //             }else if('subscribed' in  this.props.cart.product_item ){
-        
-            //                 if(JSON.stringify(item.id) == this.props.cart.product_item.subscribed[item.id]){
-        
-            //                     Object.assign(item,{cart:{itemOnCart:true,
-            //                         is_subscribed:this.props.cart.product_item.subscribed[item.id].isSubscribed,
-            //                         subscription_type:this.props.cart.product_item.subscribed[item.id].subscryptionType}});
-            //                         itemOnCart = true;
-            //                 }else{
-        
-            //                     Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
-            //                 } 
-        
-        
-            //             }else{
-            //                 Object.assign(item,{cart:{itemOnCart:false,is_subscribed:null,subscription_type:null}});
-            //             }
-
-            //         }
-                    
-                   
-                        
-                    
-    
-    
-            //    });
-    
-            //     this.setState({getAllProducts:[...products]},()=>{
-    
-            //         console.log("on update ",this.state.getAllProducts);
-            //     });
-               
     
             }
            
@@ -421,16 +159,16 @@ class HomeScreen extends  Component {
             schedule_product_price = {this.state.schedule_product_price}
             spinner={this.state.isLoading}>
                 <View >
-                    <CustomTopHeader />
-                    <Banners images={this.state.banners}/>
-                    <HorizontalList products={this.state.product} />
+                    <CustomTopHeader address={this.props.userdata.user_address} />
+                    <Banners images={this.props.homescreen.banners}/>
+                    <HorizontalList products={this.props.homescreen.product} />
                     <CustomTextInputWithIcon placeholder="Search for Products.."/>
 
                    
                    
                     <FlatList
                       
-                        data={this.state.getAllProducts}
+                        data={this.props.homescreen.getAllProducts}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={(item) =>this.renderItem(item)}
                         style={{marginBottom:20}}
@@ -457,7 +195,8 @@ const mapStateToProps = state => {
     return {
       userdata: state.userdata,
       cart:state.cart,
-      schedule_id: state.schedule
+      schedule_id: state.schedule,
+      homescreen:state.home
     }
   }
 
@@ -476,6 +215,9 @@ const mapDispatchToProps = dispatch => {
       },
       onLoading : (value) => {
           dispatch(cartActions.isLoading(value))
+      },
+      onHomeScreen:(user_id) =>{
+        dispatch(homeActions.homeScreenProducts(user_id))
       }
     }
   }

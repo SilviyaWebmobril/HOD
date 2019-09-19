@@ -14,12 +14,14 @@ import cartReducer from './src/redux/store/reducers/cartReducer';
 import ReduxThunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import scheduleReducer from './src/redux/store/reducers/scheduleReducer';
+import homeReducer from './src/redux/store/reducers/homeReducer';
 
 const reducer = combineReducers({ 
   location :locationReducer,
   userdata: userDataReducer,
   cart: cartReducer,
-  schedule:scheduleReducer
+  schedule:scheduleReducer,
+  home:homeReducer
 })
 const store = createStore(reducer,  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),applyMiddleware(ReduxThunk));
 

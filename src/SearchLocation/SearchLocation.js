@@ -56,6 +56,7 @@ class SearchLocation extends Component {
             locality:"",
             city:"",
             isLoading:false,
+            location_update:""
 
 
 
@@ -63,6 +64,9 @@ class SearchLocation extends Component {
     }
 
     componentDidMount= async()  =>{
+
+      const { navigation } = this.props;
+      this.setState({location_update:navigation.getParam("location_update")})
 
       this.setState({isLoading:true});
       const value = await AsyncStorage.getItem('user_name');
@@ -185,7 +189,8 @@ class SearchLocation extends Component {
           "locality":this.refs.localityText.getInputTextValue("locality"),
           "street":this.refs.streetText.getInputTextValue("street"),
           "latitude":this.state.latitude,
-          "longitude":this.state.longitude,"full_address":this.state.full_address
+          "longitude":this.state.longitude,"full_address":this.state.full_address,
+          "location_update" :this.state.location_update,
           });
 
         }

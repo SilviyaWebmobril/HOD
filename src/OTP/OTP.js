@@ -6,7 +6,7 @@ import {
     TextInput,
     TouchableOpacity,
     SafeAreaView,
-    
+
     Alert
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -23,6 +23,8 @@ const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
 );
 import {connect} from 'react-redux';
+
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 class OTP extends Component {
@@ -50,7 +52,7 @@ class OTP extends Component {
             if(this.refs.otp.getInputTextValue("otp") !== "invalid"){
                 this.setState({isLoading:true})
                 var formdata = new FormData();
-                formdata.append("mobile_no",this.props.navigation.getParam('moboile'));
+                formdata.append("mobile_no",this.props.navigation.getParam('mobile'));
                 formdata.append("otp",this.refs.otp.getInputTextValue("otp"));
                 Axios.post(ApiUrl.baseurl + ApiUrl.verify_otp,formdata).then(res => {
                     this.setState({isLoading:false});
@@ -60,28 +62,30 @@ class OTP extends Component {
                         Alert.alert("Invalid OTP");
     
                     }else{
-    
-                        AsyncStorage.setItem('user_id',JSON.stringify(res.data.result.id))
-                        AsyncStorage.setItem("user_name", res.data.result.name)
-                        AsyncStorage.setItem("user_email", res.data.result.email)
-                        AsyncStorage.setItem('user_mobile',res.data.result.mobile)
-                        AsyncStorage.setItem("user_password",res.data.result.txtpassword)
+                        console.log("otp screen",res);
+                        AsyncStorage.setItem('user_id',JSON.stringify(res.data.data.id))
+                        AsyncStorage.setItem("user_name", res.data.data.name)
+                        AsyncStorage.setItem("user_email", res.data.data.email)
+                        AsyncStorage.setItem('user_mobile',res.data.data.mobile)
+                        AsyncStorage.setItem("user_password",res.data.data.txtpassword)
     
                         let userdata = {};
-                        Object.assign(userdata,{"user_id":JSON.stringify(res.data.result.id)});
-                        Object.assign(userdata,{"user_name": res.data.result.name});
-                        Object.assign(userdata,{"user_email":res.data.result.email});
-                        Object.assign(userdata,{"user_mobile":res.data.result.mobile});   
+                        Object.assign(userdata,{"user_id":JSON.stringify(res.data.data.id)});
+                        Object.assign(userdata,{"user_name": res.data.data.name});
+                        Object.assign(userdata,{"user_email":res.data.data.email});
+                        Object.assign(userdata,{"user_mobile":res.data.data.mobile});   
                        
                         
                         if(res.data.result.homeaddress !== null){
                             console.log("not null");
-                          AsyncStorage.setItem("user_home",res.data.result.homeaddress)
-                          Object.assign(userdata,{"user_address":res.data.result.homeaddress});
+                          AsyncStorage.setItem("user_home",res.data.data.homeaddress)
+                          Object.assign(userdata,{"user_address":res.data.data.homeaddress});
+                          this.props.onUpdateAddress(res.data.data.homeaddress);
                         }else{
                           console.log("home null");
                           AsyncStorage.setItem("user_home","");
                           Object.assign(userdata,{"user_address":""});
+                          this.props.onUpdateAddress(res.data.data.homeaddress);
                         }
                       
                         this.props.onUpdateUser(userdata);
@@ -223,6 +227,23 @@ const mapStateToProps = state => {
       userdata: state.userdata
     }
   }
+
+
   
-  export default connect(mapStateToProps,null)(OTP)
+const mapDispatchToProps = dispatch => {
+    return {
+        
+        onUpdateUser: (userdata) => {
+            dispatch(userData(userdata))
+        },
+      
+        onUpdateAddress : (address) => {
+          
+            dispatch(userAddress(address))
+        }
+    
+    }
+  }
+  
+  export default connect(mapStateToProps,mapDispatchToProps)(OTP)
   

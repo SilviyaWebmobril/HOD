@@ -13,8 +13,10 @@ const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
 );
 import AsyncStorage from '@react-native-community/async-storage';
 import ApiUrl from '../Api/ApiUrl';
+import { userData ,userAddress} from '../redux/store/actions/userDataAction';
+import { connect } from 'react-redux';
 
-export default class SeacrhLocationContinue extends Component { 
+ class SeacrhLocationContinue extends Component { 
 
     static navigationOptions = ({ navigation }) => ({
         title: 'Search Location',
@@ -48,7 +50,8 @@ export default class SeacrhLocationContinue extends Component {
             state:"",
             locality:"",
             name:"",
-            user_id:""
+            user_id:"",
+            location_update:""
 
 
 
@@ -77,6 +80,7 @@ export default class SeacrhLocationContinue extends Component {
       const latitude = navigation.getParam("latitude","");
       const longitude = navigation.getParam("longitude","");
       const full_address = navigation.getParam("full_address","");
+      this.setState({location_update :navigation.getParam("location_update")})
       this.setState({latitude:latitude});
       this.setState({longitude:longitude});
       this.setState({full_address:full_address});
@@ -109,7 +113,42 @@ export default class SeacrhLocationContinue extends Component {
         
         console.log("response ",res);
 
-        Alert.alert("Your Location Updated Successfully!");
+       // Alert.alert("Your Location Updated Successfully!");
+
+        var address= this.state.city + " " + this.state.locality ;
+
+       if(this.state.location_update == 0){
+          console.log("on bottom tabs");
+          this.props.onUpdateAddress(address);  
+            this.props.navigation.navigate('Bottomtabs')
+        Alert.alert(
+          'Location',
+          "Your Location Updated Successfully!",
+          [
+       
+          {text: 'OK', onPress: () =>  {console.log("ok")}},
+          ], 
+          { cancelable: false }
+          )
+      
+       }else{
+
+        this.props.onUpdateAddress(address);  
+        
+        this.props.navigation.navigate('ViewProfile');
+
+        Alert.alert(
+          'Location',
+          "Your Location Updated Successfully!",
+          [
+       
+          {text: 'OK', onPress: () =>    {console.log("ok")}},
+          ], 
+          { cancelable: false }
+          )
+       }
+
+       
         
 
 
@@ -199,10 +238,6 @@ export default class SeacrhLocationContinue extends Component {
                    text="SUBMIT"
                  />
                  
-
-
-
-
                 </View>
 
             </ScrollView>
@@ -218,3 +253,21 @@ export default class SeacrhLocationContinue extends Component {
 }
 
 
+
+
+const mapDispatchToProps = dispatch => {
+  return {
+      
+      onUpdateUser: (userdata) => {
+          dispatch(userData(userdata))
+      },
+    
+      onUpdateAddress : (address) => {
+        
+          dispatch(userAddress(address))
+      }
+  
+  }
+}
+
+export default connect(null,mapDispatchToProps)(SeacrhLocationContinue)

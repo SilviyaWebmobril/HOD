@@ -47,50 +47,7 @@ class ProductItem extends Component {
     
                     <View style={styles.textColumnLeft}>
     
-                        {(!this.state.showQuantityButton && this.state.is_get_once == -1)
-                            ?
-     
-                            <CustomButton 
-                             onPressHandler={()=> {
-                                 this.props.onLoading(true);
-                                 this.props.onAdd(this.props.data.id,this.state.itemPrice,this.props.user.userdata.user_id)
-                               
-                            }}
-                          
-                             customButttonStyle={{backgroundColor:"white",borderColor:"grey",borderWidth:1,borderRadius:2, height:30,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"70%"}}
-                             customTextStyle={{ color:'grey',fontSize:12}}
-                             text="Get Once"  />
-    
-                          
-                        :
-    
-                            <IncrementDecrementButton updateGetOnce={this.updateGetOnce.bind(this)} product_id={this.props.data.id} subscribed_quantity={this.state.itemSubscribedQuantity}  quantity={this.state.itemQuanity} price={this.state.itemPrice} />
-    
-                        }
-                            
-                    
-                       
-                       {(!this.state.showQuantityButton && this.state.isSubscribed == -1 ) ?
-    
-    
-                            <CustomButton 
-                                onPressHandler={()=> {
-                                this.props.scheduleModal(this.props.data.id,this.state.itemPrice);
-                                }}
-                                customButttonStyle={{backgroundColor:"#FD8D45", height:30,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"70%"}}
-                                customTextStyle={{ color:'white',fontSize:12}}
-                                text="Subscribe"  />
                         
-                        
-                           
-                       
-                       :
-
-                       <IncrementDecrementSubscribe subscriptionType={this.state.subscriptionType} product_id={this.props.data.id}  subscribed_quantity={this.state.itemSubscribedQuantity} quantity={this.state.itemQuanity} price={this.state.itemPrice} />
-
-                   
-                      
-                       }
                        
                     </View>
                     

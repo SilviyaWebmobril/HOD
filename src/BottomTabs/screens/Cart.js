@@ -46,7 +46,7 @@ class Cart extends Component {
         componentDidMount(){
             
           this.props.getCartProducts(this.props.user.userdata.user_id);
-         console.log("all products in cart",this.props.cart_products.all_products)
+       
         }
 
         renderItem(data){

@@ -67,7 +67,7 @@ class Splash extends Component {
          
         } catch(e) {
           
-            console.log("hello error111",e);
+            console.log("on splash",e);
           // read error
         }
       

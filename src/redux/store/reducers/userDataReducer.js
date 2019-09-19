@@ -22,6 +22,7 @@ const initialState = {
                 userdata:updatedUser
             }
         case ADD_USER_ADDRESS:
+            console.log("ADD_USER_ADDRESS",action.payload);
            
             return{
                 ...state,

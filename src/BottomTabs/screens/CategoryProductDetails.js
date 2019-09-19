@@ -1,5 +1,5 @@
 import React ,{Component} from 'react';
-import {View,Text,StyleSheet,Image} from 'react-native';
+import {View,Text,StyleSheet,Image, Alert} from 'react-native';
 import * as HOC from '../../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -12,6 +12,7 @@ import IncrementDecrementButton from '../../CustomUI/CustomButton/IncrementDecre
 import { WebView } from 'react-native-webview';
 import CustomButton from  '../../CustomUI/CustomButton/CustomButton';
 import {connect} from 'react-redux';
+import * as cartActions from '../../redux/store/actions/cartAction';
 
 
 class CategoryProductDetails extends Component {
@@ -27,7 +28,7 @@ class CategoryProductDetails extends Component {
         super(props);
         this.state= {
 
-            isLoading:true,
+            isLoading:this.props.cart_product.isLoading,
             details:null,
             img:"",
             old_price:0,
@@ -35,21 +36,44 @@ class CategoryProductDetails extends Component {
             offer_price:0,
             quantity:"",
             unit:"",
-            description:""
+            description:"",
+            product_id:"",
+            cart_product:this.props.cart_product
 
 
         }
     }
 
+    static getDerivedStateFromProps(props, state) {
+       
+        if (props.cart_product !== state.cart_product) {
+
+          if(props.cart_product.cart_get_once[props.navigation.getParam('product_id')]){
+            return {
+                quantity: props.cart_product.cart_get_once[props.navigation.getParam('product_id')].itemQuanity,
+              };
+          }else{
+            return{
+                quantity:1
+            }
+          }
+         
+        }
+    
+        // Return null if the state hasn't changed
+        return null;
+      }
+
     componentDidMount() {
 
         console.log("cart items",this.props.cart_product);
-
+        this.props.onLoading(true);
+        this.setState({isLoading:this.props.cart_product.isLoading});
         axios.post(ApiUrl.baseurl +ApiUrl.get_product_details+ this.props.navigation.getParam('product_id'))
         .then(response =>{
 
-            this.setState({isLoading:false});
-
+            this.props.onLoading(false);
+            this.setState({isLoading:this.props.cart_product.isLoading});
             var  obj = JSON.stringify(response.data.data);
            
             this.setState({details:JSON.parse(obj)});
@@ -57,18 +81,35 @@ class CategoryProductDetails extends Component {
             this.setState({img:"http://webmobril.org/dev/hod/"+response.data.data.img})
             this.setState({old_price:response.data.data.old_price});
             this.setState({new_price:response.data.data.new_price});
-            this.setState({quantity:response.data.data.quantity});
+           // this.setState({quantity:response.data.data.quantity});
             this.setState({unit:response.data.data.unit.name});
             this.setState({productname:response.data.data.name});
             this.setState({description:response.data.data.description});
+            this.setState({product_id:response.data.data.id});
+
+           
+
+            if(this.props.cart_product.cart_get_once[response.data.data.id]){
+
+                this.setState({quantity:this.props.cart_product.cart_get_once[response.data.data.id].itemQuanity},()=>{
+                    console.log("new quantity",this.state.quantity);
+                });
+            
+            }else{
+                this.setState({quantity:1});
+            }
 
 
 
         }).catch(error => {
-            this.setState({isLoading:false});
+            this.props.onLoading(false);
+              this.setState({isLoading:this.props.cart_product.isLoading});
+
 
 
         });
+
+      
     }
 
     render(){
@@ -99,9 +140,9 @@ class CategoryProductDetails extends Component {
 
                     </View>
                     <View style={styles.rowRight}>
-                         <Text style = {styles.quantityText}>{this.state.quantity} </Text>
+                        
                      
-                         {/* <IncrementDecrementButton/>  */}
+                    <IncrementDecrementButton  product_id={this.state.product_id}  quantity={this.state.quantity} price={this.state.new_price} />
                     </View>
                 </View>
                
@@ -114,7 +155,14 @@ class CategoryProductDetails extends Component {
                 </View>
 
                 <CustomButton customTextStyle={{ color:'white',}}   customButttonStyle={{marginBottom:25}}
-                text="GET ONCE" />
+                text="GET ONCE" onPressHandler={()=>{
+
+                    this.props.onLoading(true);
+                    this.props.onAdd(this.state.product_id,this.state.new_price,this.props.user.userdata.user_id);
+                    
+                    Alert.alert("Quantity Updated Successfully!");
+
+                }} />
 
                 <CustomButton  customButttonStyle={{backgroundColor:"#FD8D45",marginBottom:40 }} customTextStyle={{ color:'brown'}} 
                 text="SUBSCRIBE" />
@@ -136,12 +184,32 @@ class CategoryProductDetails extends Component {
 
 const mapStateToProps = (state) => {
     return {
-      cart_product: state.cart
+      cart_product: state.cart,
+      user:state.userdata
     }
   }
+  
+
+  const mapDispatchToProps = dispatch =>{
+    return {
+        onAdd: (product_id,price,user_id) => {
+            dispatch(cartActions.addToCart(product_id,price,user_id))
+          },
+        onRemove : (product_id,user_id,price) => {
+              dispatch(cartActions.removeFromCart(product_id,user_id,price))
+          },
+        onLoading : (value) => {
+            
+            dispatch(cartActions.isLoading(value))
 
 
-  export default connect(mapStateToProps,null)(CategoryProductDetails)
+        }
+        
+    }
+}
+
+
+  export default connect(mapStateToProps,mapDispatchToProps)(CategoryProductDetails)
 
 const styles =  StyleSheet.create({
 

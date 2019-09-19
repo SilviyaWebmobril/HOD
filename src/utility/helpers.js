@@ -14,3 +14,4 @@ const  capitilize = (value) => {
     }
 
 export default capitilize;
+
