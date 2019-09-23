@@ -36,8 +36,8 @@ const CustomTextInputWithIcon = React.forwardRef((props,ref) => {
             keyboardType={props.keyboardType}
             secureTextEntry={props.secureTextEntry}
             placeholderTextColor={props.placeholderTextColor}
-            onChangeText={(value)=> {setTextInputValue(value)}}
-            value={txtInputValue}
+            onChangeText={(value)=> {props.onSearchPress(value)}}
+            value={ props.searchValue}
             onSubmitEditing={props.onSubmitEditing}
             returnKeyType={props.returnKeyType}
           />

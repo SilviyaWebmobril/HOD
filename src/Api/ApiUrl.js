@@ -51,7 +51,7 @@ export default {
 
     verify_otp_on_update_mobile:"update_mobile_verify_otp",
 
-    get_profile:"get_profile",
+    get_profile:"get_profile?user_id=",
 
     add_to_cart: "add_to_cart",
 
@@ -61,6 +61,8 @@ export default {
 
     add_subscribed_products :"add_subscribed_product",
 
-    remove_subscribed_product:"remove_subscribed_product"
+    remove_subscribed_product:"remove_subscribed_product",
+
+    search_products : "search_product?product="
 
 }

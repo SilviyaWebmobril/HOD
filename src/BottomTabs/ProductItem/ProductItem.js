@@ -34,7 +34,6 @@ class ProductItem extends Component {
    
     render(){
        
-        console.log("on render product item");
 
         return(
 

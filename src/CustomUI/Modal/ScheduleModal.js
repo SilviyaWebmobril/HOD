@@ -36,56 +36,69 @@ class ScheduleModal extends Component{
         this.props.onAdd(this.props.product_id,this.props.price,value,this.props.user.user_id,0)
       }
 
-      
+      onDismissModal = () =>{
+        console.log("hi on cancel");
+        this.props.onCancelSchedule();
+      }
       
     render(){
         return(
-           
+          <TouchableOpacity 
+          onPress={()=>this.onDismissModal()}>
             <View style={{margin:20}}>
 
             {!this.state.customSchedule ?
+             
 
-              <CardView
-                style={{
-                  backgroundColor: 'white'
-                }}
-                cardElevation={7}
-                cardMaxElevation={7}
-                cornerRadius={1}
-                cornerOverlap={false}
-              >
-                <View style={styles.child}>
-                  <View style={styles.titleView}>
-                    <Text style={styles.title}>Deliver these items on:</Text>
-                  </View>
-                  
-                  <View style={styles.titleView}>
-                    <TouchableOpacity
-                    onPress={()=>this.addSchedule("1")}>
-                        <Text style={styles.scheduleTextStyle}>Alternate Days</Text>
-                    </TouchableOpacity> 
-                    <TouchableOpacity
-                    Press={()=>this.addSchedule("2")}>
-                        <Text style={styles.scheduleTextStyle}>Daily</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                    Press={()=>this.addSchedule("3")}>
-                        <Text style={styles.scheduleTextStyle}>Weekdays</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                    Press={()=>this.addSchedule("4")}>
-                        <Text style={styles.scheduleTextStyle}>Weekends</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                    onPress={()=>this.customSchedule()}>
-                        <Text style={styles.scheduleTextStyle}>Custom Schedule</Text>
-                    </TouchableOpacity>
+                  <CardView
+                    style={{
+                      backgroundColor: 'white'
+                    }}
                     
-                  </View>
-                  
-                </View>
-              </CardView>
+                    cardElevation={7}
+                    cardMaxElevation={7}
+                    cornerRadius={1}
+                    cornerOverlap={false}
+                  >
+                    <View style={styles.child}>
+                      <View style={styles.titleView}>
+                        <Text style={styles.title}>Deliver these items on:</Text>
+                      </View>
+                      
+                      <View style={styles.titleView}>
+                        <TouchableOpacity
+                        //onPress={()=>this.addSchedule("1")}
+                        >
+                            <Text style={styles.scheduleTextStyle}>Alternate Days</Text>
+                        </TouchableOpacity> 
+                        <TouchableOpacity
+                        //onPress={()=>this.addSchedule("2")}
+                        >
+                            <Text style={styles.scheduleTextStyle}>Daily</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                        //onPress={()=>this.addSchedule("3")}
+                        >
+                            <Text style={styles.scheduleTextStyle}>Weekdays</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                        //onPress={()=>this.addSchedule("4")}
+                        >
+                            <Text style={styles.scheduleTextStyle}>Weekends</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                        //onPress={()=>this.customSchedule()}
+                        >
+                            <Text style={styles.scheduleTextStyle}>Custom Schedule</Text>
+                        </TouchableOpacity>
+                        
+                      </View>
+                      
+                    </View>
+                  </CardView>
 
+            
+             
 
             
             :
@@ -96,6 +109,7 @@ class ScheduleModal extends Component{
 
 
         </View>
+        </TouchableOpacity>
       
         
         );
@@ -114,6 +128,9 @@ const mapDispatchToProps = dispatch =>{
   return{
     onAddSchedule:(id) =>{
       dispatch(ScheduleAction.addSchedule(id));
+    },
+    onCancelSchedule:() =>{
+      dispatch(ScheduleAction.cancelSchedule(0));
     },
     onAdd: (product_id,price,subscriptipn_type,user_id,update) => {
       dispatch(cartActions.addOrUpdateSubscriptionToCart(product_id,price,subscriptipn_type,user_id,update))
@@ -137,7 +154,7 @@ const styles = StyleSheet.create({
     },
    
     child: {
-      width: 300
+      width: 400
     },
     titleView: {
       paddingLeft: 25,

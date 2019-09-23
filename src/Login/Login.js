@@ -75,7 +75,7 @@ class Login extends Component {
     
                     console.log("response send mobile",response);
                     if(response.data.error){
-                        Alert.alert("This number is not registered with us!");
+                        Alert.alert(`${response.data.message}`);;
                     }else{
                         this.props.navigation.navigate('OTP',{mobile:this.refs.mobile.getInputTextValue("mobile"),update:0});
                     }
@@ -106,7 +106,7 @@ class Login extends Component {
     
                     console.log("response send mobile",response);
                     if(response.data.error){
-                        Alert.alert("This number is not registered with us!");
+                        Alert.alert(`${response.data.message}`);
                     }else{
                         this.props.navigation.navigate('OTP',{mobile:this.refs.mobile.getInputTextValue("mobile"),update:1});
                     }

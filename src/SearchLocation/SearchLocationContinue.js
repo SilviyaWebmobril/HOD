@@ -101,11 +101,7 @@ import { connect } from 'react-redux';
     onSubmitHandler =() => {
 
 
-      console.log("post url"+ApiUrl.baseurl+ApiUrl.setLocation+"&name="+this.state.name+"&city="+this.state.city+"&locality="+this.state.locality+
-      "&street="+this.state.street+"&ho_no="+this.refs.houseno.getInputTextValue("houseno")+"&latitude="+this.state.latitude+"&longitude="+this.state.longitude+
-      "&full_address="+this.state.full_address+"&landmark="+this.refs.landmark.getInputTextValue("landmark")+"&pin_code="+this.state.postal_code+"&floor_no="+this.refs.floorno.getInputTextValue("floorno"));
     
-
       axios.post(ApiUrl.baseurl+ApiUrl.setLocation+this.state.user_id+"&name="+this.state.name+"&city="+this.state.city+"&locality="+this.state.locality+
       "&street="+this.state.street+"&ho_no="+this.refs.houseno.getInputTextValue("houseno")+"&latitude="+this.state.latitude+"&longitude="+this.state.longitude+
       "&full_address="+this.state.full_address+"&landmark="+this.refs.landmark.getInputTextValue("landmark")+"&pin_code="+this.state.postal_code+"&floor_no="+this.refs.floorno.getInputTextValue("floorno"))
@@ -116,11 +112,15 @@ import { connect } from 'react-redux';
        // Alert.alert("Your Location Updated Successfully!");
 
         var address= this.state.city + " " + this.state.locality ;
+        AsyncStorage.setItem("user_home",address)
+        this.props.onUpdateAddress(address);  
 
        if(this.state.location_update == 0){
           console.log("on bottom tabs");
-          this.props.onUpdateAddress(address);  
-            this.props.navigation.navigate('Bottomtabs')
+         
+            this.props.navigation.navigate('HomeBottomtabs');
+          //    this.props.navigation.pop();
+
         Alert.alert(
           'Location',
           "Your Location Updated Successfully!",
@@ -132,9 +132,7 @@ import { connect } from 'react-redux';
           )
       
        }else{
-
-        this.props.onUpdateAddress(address);  
-        
+       
         this.props.navigation.navigate('ViewProfile');
 
         Alert.alert(

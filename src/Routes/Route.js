@@ -161,11 +161,18 @@ const profile = createStackNavigator({
   SearchLocationContinue,
   UpdateProfile,
   UpdateProfileContinue,
+  Login, 
+  OTP,
   
 },{
 
   
-})
+});
+
+const search = createStackNavigator({
+  SearchLocation,
+  SearchLocationContinue,
+});
 
 const bottomtabsStack = createStackNavigator({
 
@@ -182,6 +189,13 @@ const bottomtabsStack = createStackNavigator({
     }
 
   } ,
+
+  Search :{
+    screen:search,
+    navigationOptions:{
+      header:null
+    }
+  },
  
   Cart ,
   MyVideo,
@@ -190,8 +204,7 @@ const bottomtabsStack = createStackNavigator({
   Support,
   Login, 
   OTP,
-  SearchLocation,
-  SearchLocationContinue,
+  
   
 
 },

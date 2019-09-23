@@ -44,7 +44,50 @@ class OTP extends Component {
         headerTintColor: 'white',
         headerRight: (<View></View>)
     });
-    onSubmit = () => {
+
+
+    constructor(props) {
+        super(props);
+        this.state = {
+             seconds: 60 ,
+             isFocused:false,
+             disableResend:true,
+             isLoading:false
+
+
+        };
+       
+      }
+      tick() {
+        this.state.seconds>0?this.setState(prevState => ({seconds: prevState.seconds - 1})): (clearInterval(this.interval),Alert.alert("OTP Expired Please RESEND"),this.setState({disableResend:false}));
+    }
+
+    
+    storeValues = async (mobile) => {
+
+        AsyncStorage.setItem('user_mobile',mobile)
+        let values;
+        try {
+        
+          values = await AsyncStorage.multiGet(['user_id','user_name','user_email', 'user_mobile']);
+
+          console.log("user profiles",values)
+          let userdata = {};
+          Object.assign(userdata,{"user_id":values[0][1]});
+          Object.assign(userdata,{"user_name": values[1][1]});
+          Object.assign(userdata,{"user_email":values[2][1]});
+          Object.assign(userdata,{"user_mobile":mobile});   
+          Object.assign(userdata,{"user_address":values[4][1]});
+          this.props.onUpdateUser(userdata);
+  
+        } catch(e) {
+          // read error
+        }
+       
+      
+      }
+
+    onSubmit = async() => {
         clearInterval(this.interval);
 
         if(this.props.navigation.getParam("update") ==0 ){
@@ -76,7 +119,7 @@ class OTP extends Component {
                         Object.assign(userdata,{"user_mobile":res.data.data.mobile});   
                        
                         
-                        if(res.data.result.homeaddress !== null){
+                        if(res.data.data.homeaddress !== null){
                             console.log("not null");
                           AsyncStorage.setItem("user_home",res.data.data.homeaddress)
                           Object.assign(userdata,{"user_address":res.data.data.homeaddress});
@@ -120,8 +163,12 @@ class OTP extends Component {
                         Alert.alert("Invalid OTP");
     
                     }else{
+
+                        this.storeValues(this.props.navigation.getParam('mobile'))
+                        
     
                         Alert.alert("Your Mobile no Changed Successfully!");
+                        this.props.navigation.navigate('ViewProfile');  
     
                     }
                 }).catch(error => {
@@ -138,21 +185,7 @@ class OTP extends Component {
 
        
     };
-    constructor(props) {
-        super(props);
-        this.state = {
-             seconds: 60 ,
-             isFocused:false,
-             disableResend:true,
-             isLoading:false
-
-
-        };
-       
-      }
-      tick() {
-        this.state.seconds>0?this.setState(prevState => ({seconds: prevState.seconds - 1})): (clearInterval(this.interval),Alert.alert("OTP Expired Please RESEND"),this.setState({disableResend:false}));
-    }
+    
     onStartTimer(){
         if(!this.state.disableResend){
             clearInterval(this.interval);

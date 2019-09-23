@@ -164,6 +164,7 @@ class CategoryProduct extends Component {
 
     renderItem(data){
         let { item, index } = data;
+        console.log("item==>",item);
         return(
             <TouchableOpacity
             onPress={()=>this.onDetailsHandler(item.id)}>

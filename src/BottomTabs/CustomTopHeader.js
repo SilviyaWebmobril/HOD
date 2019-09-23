@@ -22,14 +22,9 @@ class CustomTopHeader extends  Component {
 
     SearchLocation = () =>{
 
-        this.props.navigation.navigate('SearchLocation',{"location_update":0});
+        this.props.navigation.navigate('Search',{"location_update":0});
     }
 
-    shouldComponentUpdate(nextProps,prevProps){
-
-        console.log("shouldComponentUpdate customTopHeader",nextProps);
-        return true;
-    }
    
 
     render(){

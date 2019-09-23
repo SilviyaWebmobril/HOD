@@ -1,5 +1,5 @@
 import React ,{Component} from 'react';
-import {View,Text,StyleSheet,Dimensions,FlatList} from 'react-native';
+import {View,Text,StyleSheet,Dimensions,FlatList,Image} from 'react-native';
 
 
 import * as HOC from '../../../HOC/mainHoc';
@@ -15,6 +15,7 @@ import userData  from '../../../redux/store/actions/userDataAction';
 import {connect} from 'react-redux';
 import ApiUrl from '../../../Api/ApiUrl';
 import axios from 'axios';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 class ViewProfile  extends Component {
@@ -23,12 +24,20 @@ class ViewProfile  extends Component {
     title: "Profile",
     headerStyle: { backgroundColor: '#FD8D45' },
     headerTitleStyle: { color: 'white' },
-    headerTintColor: 'white'
+    headerTintColor: 'white', 
+    headerLeft:(
+      <TouchableOpacity
+        onPress={()=>{navigation.pop()}}
+      >
+        <Image source={require('../../../../Assets/arrow_left.png')} style={{marginLeft:20}} />
+      </TouchableOpacity>
+     
+  )
   });
 
 
     constructor(props){
-        super(props);
+        super(props); 
         this.state = {
           user_id:"",
             name:"",
@@ -49,16 +58,15 @@ class ViewProfile  extends Component {
       } catch(e) {
         // read error
       }
-      console.log("user profiles",values)
-      this.setState({user_id:values[0][1]});
-      this.setState({name:values[1][1]});
-      this.setState({email:values[2][1]});
-      this.setState({mobile:values[3][1]});
+    
+      // this.setState({user_id:values[0][1]});
+      // this.setState({name:values[1][1]});
+      // this.setState({email:values[2][1]});
+      // this.setState({mobile:values[3][1]});
      // this.setState({address:values[4][1]});
      
     
-      // example console.log output:
-      // [ ['@MyApp_user', 'myUserValue'], ['@MyApp_key', 'myKeyValue'] ]
+    
     }
 
     componentDidMount() {
@@ -68,7 +76,7 @@ class ViewProfile  extends Component {
       var formdata = new FormData();
       formdata.append("user_id",this.props.user.userdata.user_id);
     
-      axios.get(ApiUrl.baseurl+ApiUrl.get_profile,formdata).then(response => {
+      axios.get(ApiUrl.baseurl+ApiUrl.get_profile+this.props.user.userdata.user_id).then(response => {
 
         console.log("all addresses",response);
 
@@ -79,6 +87,8 @@ class ViewProfile  extends Component {
       });
 
     }
+
+
 
     addNewAddresshandler = () =>{
 

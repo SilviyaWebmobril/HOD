@@ -6,18 +6,13 @@ const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
 );
-import axios from 'axios';
 import Banners from '../Banners/Banner';
 import HorizontalList from '../CustomUI/HorizontalList/HorizontalList';
 import CustomTextInputWithIcon from '../CustomUI/CustomTextInput/CustomTextInputWithIcon';
 import {images}  from  '../CustomUI/HorizontalList/imageUri';
 import ProductItem  from './ProductItem/ProductItem';
-import ApiUrl from '../Api/ApiUrl';
 import {connect} from 'react-redux';
-import Cartbadge from '../CustomUI/Cart/Cartbadge';
 import * as cartActions from '../redux/store/actions/cartAction';
-import { TouchableHighlight } from 'react-native-gesture-handler';
-import CustomButton from '../CustomUI/CustomButton/CustomButton';
 import * as homeActions from '../redux/store/actions/homeAction';
 
 
@@ -36,7 +31,8 @@ class HomeScreen extends  Component {
             cart_products:[],
             scheduleModalVisible:false,
             schedule_product_id:"",
-            schedule_product_price:""
+            schedule_product_price:"",
+            searchText:""
             
         }
     }
@@ -71,7 +67,7 @@ class HomeScreen extends  Component {
 
     renderItem(data){
         let { item, index } = data;
-      
+        console.log("render item",item);
         return(
             <TouchableOpacity
             onPress={()=>this.onDetailsHandler(item.id,item.name)}
@@ -84,7 +80,12 @@ class HomeScreen extends  Component {
    shouldComponentUpdate (nextProps,nextState){
 
   //  console.log("shouldComponentUpdate home",nextProps.cart);
-    return true;
+    if(nextProps.getAllProducts != this.props.getAllProducts || nextProps.cart.isLoading != this.props.isLoading){
+        return true;
+    }else{
+        return false;
+    }
+    
    }
   
     componentDidUpdate(prevProps,prevState){
@@ -142,11 +143,43 @@ class HomeScreen extends  Component {
             ], 
             { cancelable: false }
             )
-        }
+    }
+
+    onSearchHandler = (value)=>{
+
+        this.setState({searchText:value},()=>{
+
+            console.log("value === ",this.state.searchText);
+            this.props.onSearchProducts(this.state.searchText);
+
+        });
+
+     
+    }
+
+    returnSearchValue = () =>{
+
+        return this.state.searchText;
+    }
 
         
 
     render(){
+
+        const flatlistdata = () => {
+
+            //return this.props.homescreen.getAllProducts;
+
+            if(Array.isArray(this.props.homescreen.search_products) && this.props.homescreen.search_products.length > 0){
+              
+                return this.props.homescreen.search_products;
+            
+            }else{
+               
+                return this.props.homescreen.getAllProducts;
+            }
+
+        }
 
 
        
@@ -162,13 +195,13 @@ class HomeScreen extends  Component {
                     <CustomTopHeader address={this.props.userdata.user_address} />
                     <Banners images={this.props.homescreen.banners}/>
                     <HorizontalList products={this.props.homescreen.product} />
-                    <CustomTextInputWithIcon placeholder="Search for Products.."/>
+                    <CustomTextInputWithIcon placeholder="Search for Products.." searchValue={this.state.searchText}  onSearchPress={this.onSearchHandler.bind(this)}/>
 
                    
                    
                     <FlatList
                       
-                        data={this.props.homescreen.getAllProducts}
+                        data={flatlistdata()}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={(item) =>this.renderItem(item)}
                         style={{marginBottom:20}}
@@ -218,6 +251,9 @@ const mapDispatchToProps = dispatch => {
       },
       onHomeScreen:(user_id) =>{
         dispatch(homeActions.homeScreenProducts(user_id))
+      },
+      onSearchProducts :(value)=>{
+          dispatch(homeActions.searchProducts(value))
       }
     }
   }

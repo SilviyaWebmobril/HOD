@@ -71,6 +71,7 @@ export const fetchCartProducts  = (user_id) => {
     
 }
 
+
 export const addToCart  = (product_id,price,user_id) => {
 
 

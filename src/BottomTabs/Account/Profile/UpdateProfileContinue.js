@@ -40,6 +40,12 @@ class UpdateProfileContinue extends Component{
         if(this.state.terms){
 
             this.setState({isLoading:true});
+            var family =0;
+            if(this.refs.family_members.getInputTextValue("family_members") === "invalid"){
+                family =0;
+            }else{
+                family = this.refs.family_members.getInputTextValue("family_members");
+            }
 
             var formdata = new FormData();
             formdata.append("user_id",this.props.userdata.userdata.user_id);
@@ -47,23 +53,39 @@ class UpdateProfileContinue extends Component{
             formdata.append("gender",this.props.navigation.getParam('gender'));
             formdata.append("dob",this.props.navigation.getParam('dob'));
             formdata.append('married',this.props.navigation.getParam('married'));
-            formdata.append("family_members",this.refs.family_members.getInputTextValue("family_members"));
+            formdata.append("family_members",family);
             formdata.append("vegitarian",this.state.vegetarian);
             Axios.post(ApiUrl.baseurl+ApiUrl.update_profile,formdata).then(res => {
-    
+                
+                console.log("response data update profile continue",res)
                 this.setState({isLoading:false});
 
-                let userdata = {};
-                Object.assign(userdata,{"user_id":JSON.stringify(res.data.result.id)});
-                Object.assign(userdata,{"user_name": res.data.result.name});
-                Object.assign(userdata,{"user_email":res.data.result.email});
-                Object.assign(userdata,{"user_mobile":res.data.result.mobile});   
-                Object.assign(userdata,{"user_address":res.data.result.homeaddress});
-                this.props.onUpdateUser(userdata);
+                if(res.data.error){
 
-                Alert.alert("Profile Updated Successfully!");
-                this.props.navigation.navigate('ViewProfile');
+                    Alert.alert("Something went wrong! Please try again later.");
+                    
+                }else{
+
+                    AsyncStorage.setItem('user_id',JSON.stringify(res.data.result.id))
+                    AsyncStorage.setItem("user_name", res.data.result.name)
+                    AsyncStorage.setItem("user_email", res.data.result.email)
+                    AsyncStorage.setItem('user_mobile',res.data.result.mobile)
+                   
     
+                    let userdata = {};
+                    Object.assign(userdata,{"user_id":JSON.stringify(res.data.result.id)});
+                    Object.assign(userdata,{"user_name": res.data.result.name});
+                    Object.assign(userdata,{"user_email":res.data.result.email});
+                    Object.assign(userdata,{"user_mobile":res.data.result.mobile});   
+                    Object.assign(userdata,{"user_address":res.data.result.homeaddress});
+                    this.props.onUpdateUser(userdata);
+    
+                    Alert.alert("Profile Updated Successfully!");
+                    this.props.navigation.navigate('ViewProfile');
+        
+                }
+
+              
             }).catch(error => {
                 this.setState({isLoading:false});
                 console.log("on error",error); 

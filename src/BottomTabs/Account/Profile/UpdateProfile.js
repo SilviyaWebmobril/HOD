@@ -43,10 +43,10 @@ export default class UpdateProfile extends Component {
 
     continueButtonHandler = () =>{
 
-        if(this.refs.name.getInputTextValue("name") !== "invalid" && this.refs.email.getInputTextValue("email") !== "invalid" ){
+        if(this.refs.name.getInputTextValue("name") !== "invalid" ){
 
             this.props.navigation.navigate('UpdateProfileContinue',{"name":this.refs.name.getInputTextValue("name"),
-                                    "email":this.refs.email.getInputTextValue("email"),
+                                 
                                     "gender":this.state.gender,
                                     "dob":this.state.date,
                                      "married":this.state.Married});
@@ -75,7 +75,7 @@ export default class UpdateProfile extends Component {
                         placeholderTextColor='#898785'
                         returnKeyType = { "next" }
                     />
-                    <View style={styles.labelTextView}>
+                    {/* <View style={styles.labelTextView}>
                         <Text style={styles.labelText}>
                             Email*
                         </Text>
@@ -85,7 +85,7 @@ export default class UpdateProfile extends Component {
                         ref="email"
                         placeholder="Enter Email"
                         placeholderTextColor="#898785"
-                        returnKeyType={"next"} />
+                        returnKeyType={"next"} /> */}
 
                     <View style={styles.labelTextView}>
                         <Text style={styles.labelText}>Gender*</Text>

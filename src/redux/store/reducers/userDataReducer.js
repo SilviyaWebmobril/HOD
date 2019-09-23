@@ -16,10 +16,12 @@ const initialState = {
             let user = action.payload;
           
             let updatedUser  = new User(user.user_id,user.user_name,user.user_email,user.user_mobile);
+
+           
            
             return{
                 ...state,
-                userdata:updatedUser
+                userdata:{...updatedUser}
             }
         case ADD_USER_ADDRESS:
             console.log("ADD_USER_ADDRESS",action.payload);
