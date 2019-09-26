@@ -131,7 +131,7 @@ class CustomTextInput  extends Component {
                     value:"",
                     valid:false,
                     validationRules:{
-                        isNumber:true
+                        isText:true
                     }
                 },
                 otp:{
@@ -329,7 +329,7 @@ class CustomTextInput  extends Component {
                 
                 if(!this.state.controls.family_members.valid){
                     this.setState({errorState:false});
-                    this.setState({errorMsg:"Please enter Valid Number"});
+                    this.setState({errorMsg:"Please enter No Of Family Members"});
                 }else{
                     this.setState({errorState:true});
                 }

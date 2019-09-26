@@ -7,14 +7,10 @@ import ScheduleModal from '../CustomUI/Modal/ScheduleModal';
 import CustomSchedule from '../CustomUI/Modal/CustomSchedule';
 
 export default(Comp: ReactClass<*>) => {
-  return ({scheduleVisible,custom,schedule_product_id,schedule_product_price,itemQuantity , itemTotalPrice,cartLayout, spinner, children, ...props }: Object) => (
+  return ({contentContainerStyle,scheduleVisible,custom,schedule_product_id,schedule_product_price,itemQuantity , itemTotalPrice,cartLayout, spinner, children, ...props }: Object) => (
     <View style={styles.mainView}>
 
-      <ScrollView 
-       contentContainerStyle={{ 
-        flexGrow: 1,
-     
-      }}>
+      <ScrollView>
 
           <Comp {...props}>
             {children}

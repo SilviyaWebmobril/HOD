@@ -3,7 +3,7 @@ import { ERROR } from '../actions/types';
 import axios from 'axios';
 import ApiUrl from '../../../Api/ApiUrl';
 import {IS_LOADING} from '../actions/types';
-import  {GET_CART_PRODUCTS,HOME_SCREEN,CATEGORY_PRODUCTS,SEARCH_PRODUCTS} from '../actions/types';
+import  {GET_CART_PRODUCTS,HOME_SCREEN,CATEGORY_PRODUCTS,SEARCH_PRODUCTS,ADD_USER_ADDRESS} from '../actions/types';
 
 
 export const homeScreenProducts = (user_id) =>{
@@ -19,13 +19,12 @@ export const homeScreenProducts = (user_id) =>{
           axios.post(ApiUrl.baseurl+ApiUrl.home_page+user_id)
           .then(response => {
 
-                
             dispatch({
                 type:IS_LOADING,
                 isLoading:false,
             })
 
-
+           
             dispatch( {
                 type:HOME_SCREEN,
                 home_products:response.data,

@@ -117,16 +117,7 @@ export default (state = initialState ,action) => {
                                         Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
                                         itemOnCart = false;
     
-                                        // if(chk_id.includes(item.id)){
-    
-                                        //     Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
-                                        //     itemOnCart = false;
-                                        // }else{
-                                        //     Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
-                                        // }
-                                      
-                                        
-                                       
+                                     
                                     }
                                 }
                                
@@ -446,7 +437,7 @@ export default (state = initialState ,action) => {
                             if(parseInt(cart_item.product.id) === item.id){
 
                                 chk_id.push(item.id);
-                                console.log("in if",cart_item);
+                                
                                 Object.assign(item,{get_once:{
                                 
                                 itemOnCart:true,is_subscribed:cart_item.is_subscribed,
@@ -462,7 +453,7 @@ export default (state = initialState ,action) => {
                                 Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
                                // Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
                                 
-                                console.log("in else");
+                               
                             }
         
                         }

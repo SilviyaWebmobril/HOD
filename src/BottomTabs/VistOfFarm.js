@@ -1,5 +1,5 @@
 import React ,{Component} from 'react';
-import {View,Text,StyleSheet} from 'react-native';
+import {View,Text,StyleSheet, Alert} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { isProgram } from '@babel/types';
 import CustomButton from '../CustomUI/CustomButton/CustomButton';
@@ -7,13 +7,15 @@ import CustomTextInput from '../CustomUI/CustomTextInput/CustomTextInput';
 import DatePicker from 'react-native-datepicker'
 import ApiUrl from '../Api/ApiUrl';
 import * as HOC from '../HOC/mainHoc';
+import Axios from 'axios';
+import { connect } from 'react-redux';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
 );      
 const today = new Date();
  
-export default class VisitOfFarm extends Component{
+class VisitOfFarm extends Component{
 
     
 
@@ -31,6 +33,56 @@ export default class VisitOfFarm extends Component{
         }
     }
 
+    formatDate =(date)=>{
+
+        var newmonth;
+        var new_date =  new Date(date);
+        var day = new_date.getDate();
+        var month = new_date.getMonth();
+        var year = new_date.getFullYear();
+        if(month <10){
+            newmonth = "0"+month;
+        }else{
+            newmonth = month;
+        }
+        return year+"-"+newmonth+"-"+day;
+
+    }
+
+
+    onVisitHandler = async() =>{
+
+       if(this.refs.message.getInputTextValue("message") !== "invalid" && this.refs.subject.getInputTextValue("subject") !== "invalid"){
+            this.setState({isLoading:true});
+            var formdata = new FormData();
+            formdata.append("user_id",this.props.user.userdata.user_id);
+            formdata.append("date",this.formatDate(this.state.date));
+            formdata.append("time",this.state.time);
+            formdata.append("message",this.refs.message.getInputTextValue());
+            formdata.append("subject",this.refs.subject.getInputTextValue());
+            Axios.post(ApiUrl.baseurl + ApiUrl.vist_farm,formdata)
+            .then(response => {
+
+                console.log("Response on Visit",response);
+                this.setState({isLoading:false});
+                if(response.data.error){
+                    Alert.alert("Something Went Wrong ! Please Try Again Later.");
+                }else{
+                    Alert.alert("Request has been sent to the admin.");
+                }
+
+            }).catch(error => {
+                this.setState({isLoading:false});
+                Alert.alert("Check Your network connection!");
+                console.log("error on Visit",error);
+            });
+         }else{
+
+            Alert.alert("All * marked fields are compulsory!");
+         }
+
+       }
+        
 
     render(){
 
@@ -58,8 +110,9 @@ export default class VisitOfFarm extends Component{
                             </Text>
                         </View>
                         <CustomTextInput 
-                            inputType="name"
+                            inputType="subject"
                             placeholder="Enter Subject" placeholderTextColor='#898785'
+                            ref="subject"
                             returnKeyType = { "next" }
                             //onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                         />
@@ -80,7 +133,7 @@ export default class VisitOfFarm extends Component{
                             date={this.state.date}
                             mode="date"
                             placeholder="select date"
-                            format="DD-MM-YYYY"
+                            format="YYYY-MM-DD"
                             minDate={this.state.date}
                            // maxDate="2016-06-01"
                             confirmBtnText="Confirm"
@@ -134,15 +187,16 @@ export default class VisitOfFarm extends Component{
                             </Text>
                         </View>
                         <CustomTextInput 
-                            inputType="name"
+                            inputType="message"
                             customTxtInputStyle={{height:150}}
                             multiline={true}
+                            ref="message"
                             placeholder="Enter Message" placeholderTextColor='#898785'
                             returnKeyType = { "next" }
                             //onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                         />
                         <CustomButton text="SUBMIT" 
-                                onPressHandler={()=>this.onCreate_Account()} 
+                                onPressHandler={()=>this.onVisitHandler()} 
                                 customButttonStyle={{backgroundColor:"#FD8D45", }}
                                 customTextStyle={{ color:'#48241e'}} 
                             />
@@ -203,3 +257,14 @@ const styles =  StyleSheet.create({
         marginBottom:-25,
       },
 });
+
+
+mapStateToProps = (state) =>{
+
+    return{
+        user:state.userdata,
+    }
+    
+}
+
+export default connect(mapStateToProps,null)(VisitOfFarm);

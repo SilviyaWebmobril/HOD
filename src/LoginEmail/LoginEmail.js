@@ -18,7 +18,7 @@ import CustomTextInput from '../CustomUI/CustomTextInput/CustomTextInput';
 import CustomButton from '../CustomUI/CustomButton/CustomButton';
 import LoginEmailStyle from './LoginEmailStyle';
 import {connect} from 'react-redux';
-import { userData ,userAddress} from '../redux/store/actions/userDataAction';
+import { userData ,userAddress,getUserId} from '../redux/store/actions/userDataAction';
 
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -99,31 +99,22 @@ class LoginEmail extends Component {
 
                   }else{
 
-                 
+                        console.log("user login",res.data.result);
                       AsyncStorage.setItem('user_id',JSON.stringify(res.data.result.id))
-                      AsyncStorage.setItem("user_name", res.data.result.name)
-                      AsyncStorage.setItem("user_email", res.data.result.email)
-                      AsyncStorage.setItem('user_mobile',res.data.result.mobile)
-                      AsyncStorage.setItem("user_password",res.data.result.txtpassword)
+                      
 
-                      let userdata = {};
+                      let userdata ={};
+                  
                       Object.assign(userdata,{"user_id":JSON.stringify(res.data.result.id)});
                       Object.assign(userdata,{"user_name": res.data.result.name});
                       Object.assign(userdata,{"user_email":res.data.result.email});
                       Object.assign(userdata,{"user_mobile":res.data.result.mobile});
-                     
-                    
-                      
-                      if(res.data.result.homeaddress !== null){
-                          console.log("not null",res.data.result.homeaddress);
-                      var add=    AsyncStorage.setItem("user_home",res.data.result.homeaddress)
-                      Object.assign(userdata,{"user_address":res.data.result.homeaddress});
-                      }else{
-                        console.log("home null");
-                      var add =  AsyncStorage.setItem("user_home","");
-                      Object.assign(userdata,{"user_address":res.data.result.homeaddress});
-                      }
-                    
+                      Object.assign(userdata,{"user_gender":res.data.result.name});
+                      Object.assign(userdata,{"user_dob":res.data.result.dob});
+                      Object.assign(userdata,{"user_married":JSON.stringify(res.data.result.married)});
+                      Object.assign(userdata,{"user_family_members":res.data.result.family_members});
+                      Object.assign(userdata,{"user_vegitarian":JSON.stringify(res.data.result.vegitarian)});
+                      this.props.onUpdateUserId(JSON.stringify(res.data.result.id));
                       this.props.onUpdateUser(userdata);
                       this.props.onUpdateAddress(res.data.result.homeaddress);
                       this.setState({isLoading:false});
@@ -235,7 +226,10 @@ const mapDispatchToProps = dispatch => {
         onUpdateAddress : (address) => {
           
             dispatch(userAddress(address))
-        }
+        },
+        onUpdateUserId: (id) => {
+            dispatch(getUserId(id))
+          },
     
     }
   }

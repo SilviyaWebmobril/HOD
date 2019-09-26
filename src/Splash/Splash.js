@@ -6,8 +6,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 const windowW= Dimensions.get('window').width
 const windowH = Dimensions.get('window').height
 import {connect} from 'react-redux';
-import { userData,userAddress } from '../redux/store/actions/userDataAction';
+import { userData,userAddress,getUserId } from '../redux/store/actions/userDataAction';
 import * as  cartActions from '../redux/store/actions/cartAction';
+import { NavigationActions, StackActions } from 'react-navigation';
   
 
 class Splash extends Component {
@@ -27,7 +28,7 @@ class Splash extends Component {
     componentDidMount(){
       
         this.StartImageRotateFunction();
-// this.props.cartProducts();
+
         this.interval = setInterval(() => {
 
             this.getMyValue();
@@ -38,28 +39,34 @@ class Splash extends Component {
 
     }
 
+
+
     getMyValue = async () => {
         try {
-          values = await AsyncStorage.multiGet(['user_id','user_name','user_email', 'user_mobile','user_home']);
-
-          let userdata = {};
-          Object.assign(userdata,{"user_id":JSON.parse(values[0][1])});
-          Object.assign(userdata,{"user_name":values[1][1]});
-          Object.assign(userdata,{"user_email":values[2][1]});
-          Object.assign(userdata,{"user_mobile":values[3][1]});
-        
-
-          this.props.onUpdateUser(userdata);
-          this.props.onUpdateAddress(values[4][1]);
+          values = await AsyncStorage.getItem('user_id');
 
 
-              if(JSON.parse(values[0][1])){
+          const resetAction = StackActions.reset({
+            index: 0,
+            
+            actions: [NavigationActions.navigate({ routeName:"After_Splash" })],
+          });
+          const resetAction1 = StackActions.reset({
+            index: 0,
+            key: null,
+            actions: [NavigationActions.navigate({ routeName: 'Bottomtabs' })],
+          });
+         
+            this.props.onUpdateUserId(values);
+              if(JSON.parse(values)){
             
                 this.props.navigation.navigate('Bottomtabs');
+              // return setTimeout(this.props.navigation.dispatch.bind(null,resetAction1),500);
     
               }else{
     
                 this.props.navigation.navigate('MyApp');
+              // return  setTimeout(this.props.navigation.dispatch.bind(null,resetAction),500);
               }
            
           
@@ -132,8 +139,8 @@ class Splash extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onUpdateUser: (userdata) => {
-      dispatch(userData(userdata))
+    onUpdateUserId: (id) => {
+      dispatch(getUserId(id))
     },
     onUpdateAddress: (address) => {
       dispatch(userAddress(address))

@@ -16,6 +16,7 @@ const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
 import AsyncStorage from '@react-native-community/async-storage';
 import GooglePlacesInput from './GooglePlacesInput'; 
 import { connect } from 'react-redux';
+import {userAddress,addNewAddress,getUserId,userData} from '../redux/store/actions/userDataAction';
 
 class SearchLocation extends Component {
 
@@ -42,7 +43,8 @@ class SearchLocation extends Component {
         super(props);
 
         this.state ={
-       
+            user_id:"",
+            name:"",
             focusedName:false,
             focusedCity:false,
             focusedLocality:false,
@@ -56,7 +58,8 @@ class SearchLocation extends Component {
             locality:"",
             city:"",
             isLoading:false,
-            location_update:""
+            location_update:"",
+           
 
 
 
@@ -66,17 +69,21 @@ class SearchLocation extends Component {
     componentDidMount= async()  =>{
 
       const { navigation } = this.props;
-      this.setState({location_update:navigation.getParam("location_update")})
+      this.setState({location_update:navigation.getParam("location_update")});
+
+     
+      //const user_id = await AsyncStorage.getItem("user_id");
+      this.setState({user_id:this.props.user.userdata.user_id});
+      this.setState({name:this.props.user.userdata.user_name});
 
       this.setState({isLoading:true});
-      const value = await AsyncStorage.getItem('user_name');
-      this.refs.nameText.setTextInputValue(value,"name");
+     
+      this.refs.nameText.setTextInputValue(this.props.user.userdata.user_name,"name");
 
       navigator.geolocation.getCurrentPosition(
         (position) => {
           this.setState({isLoading:false});
-          console.log("wokeeey");
-          console.log(position);
+        
           this.setState({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
@@ -95,30 +102,24 @@ class SearchLocation extends Component {
     getCurrentLocation = () =>{ 
 
           this.setState({isLoading:true});
-          console.log("latitude",this.state.latitude);
-          console.log("long",this.state.longitude);
+      
+          
+        
 
           axios.post('https://maps.googleapis.com/maps/api/geocode/json?address=' + this.state.latitude + ',' + this.state.longitude + '&key=' + ApiUrl.googlePlacesApiKey)
           .then(response =>{
             // handle success
-            this.setState({isLoading:false});
-            console.log("response",response);
+           
           
-            console.log("full_address",response.data.results[0].formatted_address);
+            
+
             const full_address = response.data.results[0].formatted_address;
 
-            console.log("postal code",response.data.results[0].address_components[response.data.results[0].address_components.length - 1].long_name);
             const postal_code = response.data.results[0].address_components[response.data.results[0].address_components.length - 1].long_name;
             this.setState({full_address:full_address});
             this.setState({postal_code:postal_code});
 
 
-            // this.setState({full_address:response.data.results[0].formatted_address});
-              // this.setState({postal_code:response.data.results[0].a
-
-
-            // this.setState({full_address:response.data.results[0].formatted_address});
-              // this.setState({postal_code:response.data.results[0].ddress_components[response.data.results[0].address_components.length - 1].long_name})
               response.data.results[0].address_components.forEach( (element,index) =>{
 
             
@@ -140,7 +141,7 @@ class SearchLocation extends Component {
 
                       const sublocality = element.long_name;
                       this.setState({locality:sublocality},()=>{
-                        console.log("locality",this.state.locality);
+                      
      
                         this.refs.localityText.setTextInputValue(this.state.locality,"locality");
                       });
@@ -160,6 +161,105 @@ class SearchLocation extends Component {
                   });
                 
               });
+
+              var is_primary =1 ;
+             
+              console.log("address url"+ApiUrl.baseurl+ApiUrl.setLocation+this.state.user_id+"&name= "+this.state.name+"&city="+this.state.city+"&locality="+this.state.locality+
+              "&street="+this.state.street+"&ho_no= &latitude="+this.state.latitude+"&longitude="+this.state.longitude+
+              "&full_address="+this.state.full_address+"&landmark=  &pin_code="+this.state.postal_code+"&floor_no=  &is_primary="+is_primary);
+
+              axios.post(ApiUrl.baseurl+ApiUrl.setLocation+this.state.user_id+"&name= "+this.state.name+"&city="+this.state.city+"&locality="+this.state.locality+
+              "&street="+this.state.street+"&ho_no= &latitude="+this.state.latitude+"&longitude="+this.state.longitude+
+              "&full_address="+this.state.full_address+"&landmark=  &pin_code="+this.state.postal_code+"&floor_no=  &is_primary="+is_primary)
+              .then(res => {
+                
+                this.setState({isLoading:false});
+             
+                
+                if(res.data.error){
+                  Alert.alert(
+                    'Location',
+                    "Something went wrong! Please try again later.",
+                    [
+                 
+                    {text: 'OK', onPress: () =>  {console.log("ok")}},
+                    ], 
+                    { cancelable: false }
+                    )
+                
+                }else{
+        
+                  AsyncStorage.setItem('user_id',this.props.user.userdata.user_id);
+                  this.props.onUpdateUserId(this.props.user.userdata.user_id);
+                  let userdata = {};
+                  Object.assign(userdata,{"user_id":this.props.user.userdata.user_id});
+                  Object.assign(userdata,{"user_name": this.props.user.userdata.user_name});
+                  Object.assign(userdata,{"user_email":this.props.user.userdata.user_email});
+                  Object.assign(userdata,{"user_mobile":this.props.user.userdata.user_mobile});
+                  Object.assign(userdata,{"user_gender":this.props.user.userdata.user_gender});
+                  Object.assign(userdata,{"user_dob":this.props.user.userdata.user_dob});
+                  Object.assign(userdata,{"user_married":this.props.user.userdata.user_married});
+                  Object.assign(userdata,{"user_family_members":this.props.user.userdata.user_family_members});
+                  Object.assign(userdata,{"user_vegitarian":this.props.user.userdata.user_vegitarian});
+                  this.props.onUpdateUser(userdata);
+                  this.props.addNewAddress(res.data.data);
+                  this.props.onUpdateAddress(this.state.full_address);  
+                
+                 if(this.state.location_update == 1 ){
+               
+                  
+                   
+                      this.props.navigation.navigate('HomeBottomtabs');
+                   
+                      
+          
+                    Alert.alert(
+                      'Location',
+                      "Your Location Updated Successfully!",
+                      [
+                  
+                      {text: 'OK', onPress: () =>  {console.log("ok")}},
+                      ], 
+                      { cancelable: false }
+                      )
+                  
+                 }else{
+                  
+                    this.props.navigation.navigate('ViewProfile');
+            
+                    Alert.alert(
+                      'Location',
+                      "Your Location Updated Successfully!",
+                      [
+                  
+                      {text: 'OK', onPress: () =>    {console.log("ok")}},
+                      ], 
+                      { cancelable: false }
+                      )
+                  }
+          
+                 
+                  
+        
+                }
+        
+             
+        
+        
+              })
+              .catch(error => {
+                console.log("my error",error)
+            });
+        
+
+
+
+
+
+
+
+
+
 
           })
           .catch(error=>{
@@ -183,14 +283,16 @@ class SearchLocation extends Component {
 
         }else{
 
-          console.log("props location", this.props.location);
+         
           this.props.navigation.navigate('SearchLocationContinue',{"postal_code":this.state.postal_code,
+          "name":this.state.name,
           "city":this.refs.cityText.getInputTextValue("city"),
           "locality":this.refs.localityText.getInputTextValue("locality"),
           "street":this.refs.streetText.getInputTextValue("street"),
           "latitude":this.state.latitude,
           "longitude":this.state.longitude,"full_address":this.state.full_address,
           "location_update" :this.state.location_update,
+          
           });
 
         }
@@ -198,12 +300,7 @@ class SearchLocation extends Component {
       
       }
       
-      getDetails() {
-
-        console.log("details in parent",this.refs.details.getPlaceDetails());
-
-      }
-     
+  
 
     render() {
       
@@ -219,7 +316,7 @@ class SearchLocation extends Component {
                   <View style={SearchLocationStyle.viewLineGrey}></View>
                   <CustomButtonWithIcon       
                     type="mat"
-                    onPressHandler={this.getCurrentLocation}
+                    onPressHandler={()=>this.getCurrentLocation()}
                     iconName="crosshairs-gps"
                     iconColor="black"
                     iconSize={20}
@@ -231,6 +328,7 @@ class SearchLocation extends Component {
                     />
 
                   <View style={SearchLocationStyle.viewLineBlack}></View>
+                    
 
                   <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
                       <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
@@ -309,18 +407,37 @@ class SearchLocation extends Component {
 
 const mapStateToProps = state => {
   return {
-    location: state.location.location
+    location: state.location.location,
+    user:state.userdata
   }
 }
+
 
 const mapDispatchToProps = dispatch => {
   return {
     onAdd: (name) => {
       dispatch(addLocation(name))
-    }
+    },
+    onUpdateAddress : (address) => {
+      
+        dispatch(userAddress(address))
+    },
+    addNewAddress :(address) =>{
+      dispatch(addNewAddress(address))
+    },
+    onUpdateUser: (userdata) => {
+      dispatch(userData(userdata))
+    },
+    onUpdateUserId: (id) => {
+      dispatch(getUserId(id))
+    },
+
   }
 }
 
+
+
 export default connect(mapStateToProps,mapDispatchToProps)(SearchLocation)
+
 
 

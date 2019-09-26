@@ -21,7 +21,7 @@ const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
 import AsyncStorage from '@react-native-community/async-storage';
 import firebase from 'react-native-firebase';
 import {connect} from 'react-redux';
-import { userData } from '../redux/store/actions/userDataAction';
+import { userData ,getUserId} from '../redux/store/actions/userDataAction';
     
 
 class Create_Account extends Component {
@@ -85,42 +85,40 @@ class Create_Account extends Component {
                 formdata.append("device_type",ApiUrl.device_type);
                 formdata.append("device_token",this.state.device_token);
 
-                console.log("formdata",formdata);
+               
 
         
                 axios.post(ApiUrl.baseurl + ApiUrl.create_account,formdata)
                 .then(res => {
                  
-                    console.log("mx",res);
-
-                    
-                   
+                   console.log("response account",res);
                     if(res.data.error){
 
                         this.setState({isLoading:false});
-                        Alert.alert("Email Already exists. Please Login!");
+                        Alert.alert(`${res.data.message}`);
 
                     }else{
 
-
+                        console.log("account ",res);
                        
-                        AsyncStorage.setItem('user_id',JSON.stringify(res.data.result.id))
-                         AsyncStorage.setItem("user_name", res.data.result.name)
-                         AsyncStorage.setItem("user_email", res.data.result.email)
-                         AsyncStorage.setItem('user_mobile',res.data.result.mobile)
-                         AsyncStorage.setItem("user_password",res.data.result.txtpassword)
-                        // AsyncStorage.setItem("user_home",res.data.result.homeaddress)
+                      //  AsyncStorage.setItem('user_id',JSON.stringify(res.data.result.id))
+                      
 
                         let userdata = {};
                         Object.assign(userdata,{"user_id":JSON.stringify(res.data.result.id)});
                         Object.assign(userdata,{"user_name": res.data.result.name});
                         Object.assign(userdata,{"user_email":res.data.result.email});
                         Object.assign(userdata,{"user_mobile":res.data.result.mobile});
+                        Object.assign(userdata,{"user_gender":res.data.result.gender});
+                        Object.assign(userdata,{"user_dob":res.data.result.dob});
+                        Object.assign(userdata,{"user_married":res.data.result.married});
+                        Object.assign(userdata,{"user_family_members":res.data.result.family_members});
+                        Object.assign(userdata,{"user_vegitarian":res.data.result.vegitarian});
                         this.props.onUpdateUser(userdata);
-
+                        this.props.onUpdateUserId(JSON.stringify(res.data.result.id));
                         this.setState({isLoading:false});
                         Alert.alert("Your Account created Successfully!");
-                        this.props.navigation.navigate('Bottomtabs');
+                        this.props.navigation.navigate('SearchLocation',{"location_update":1});
     
                         
                     }
@@ -264,7 +262,10 @@ const mapDispatchToProps = dispatch => {
     return {
       onUpdateUser: (userdata) => {
         dispatch(userData(userdata))
-      }
+      },
+      onUpdateUserId: (id) => {
+        dispatch(getUserId(id))
+      },
     }
   }
   

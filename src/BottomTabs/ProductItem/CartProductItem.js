@@ -7,9 +7,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as cartActions from '../../redux/store/actions/cartAction';
 import { connect } from 'react-redux';
 import ScheduleModal from '../../CustomUI/Modal/ScheduleModal';
+import IncrementDecremntButton from '../../CustomUI/CustomButton/IncrementDecremntButton';
+import IncrementDecremantSubscribe from '../../CustomUI/CustomButton/IncrementDecremantSubscribe';
 
 
-class ProductItem extends Component {
+class CartProductItem extends Component {
 
     constructor(props){
         super(props);
@@ -26,6 +28,8 @@ class ProductItem extends Component {
             subscriptionType:null,
 
         }
+
+        
     }
 
    
@@ -34,50 +38,52 @@ class ProductItem extends Component {
 
         return(
 
-            <View style={styles.container}>
-                
-                <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.img}} style={{width:120, height:120,borderRadius:10}}/>
-                <View style={styles.sectionRow}>
-                    <View style={styles.textColumnLeft}>
-                        <Text style={styles.textProductname}>{this.props.data.name}</Text>
-                        <Text style={{lineHeight:20}}>{'\u20B9'}{this.props.data.new_price}</Text>
-                        <Text  style={{lineHeight:20}}>{this.props.data.quantity} left</Text>
-                    </View>
-                    {"L" == "L"  ? 
-    
-                    <View style={styles.textColumnLeft}>
-    
-                        
-                       
-                    </View>
+            <View>
+                <View style={styles.container}>
                     
-                    :
-    
-                    //Add To Cart Button
-                    <View  style={styles.textColumnLeft}>
-                      
-                        <Text style={styles.textBorder}>250g</Text>
-                       
-                        <CustomButton 
+                    <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.product.img}} style={{width:120, height:120,borderRadius:10}}/>
+                    <View style={styles.sectionRow}>
+                    <View style={styles.textColumnLeft}>
+                            <Text style={styles.textProductname}>{this.props.data.product.name}</Text>
+                            <Text style={{lineHeight:20}}>{'\u20B9'}{this.props.data.product.new_price}</Text>
+                            <Text  style={{lineHeight:20}}>{this.props.data.product.quantity} left</Text>
+                        </View>
+                        
+                        
+                            {this.props.data.is_subscribed == 0 ?
+                            
+                            //Add To Cart Button
+                            <View  style={styles.textColumnLeft}>
+                            
+                                <Text style={{fontSize:10, alignSelf:"flex-end",fontWeight:"bold",padding:3,borderRadius:3,borderWidth:1,color:"#FD8D45" ,borderColor:"#FD8D45"}}>Get Once</Text>
+                                
+                                <IncrementDecrementButton  product_id={this.props.data.product.id}  quantity={this.props.data.quantity} price={this.props.data.price} />
+                                
+                                
+                            </View>
+                            :
+                            //Add To Cart Button
+                            <View  style={styles.textColumnLeft}>
+                            
+                                <Text style={{fontSize:10,alignSelf:"flex-end",fontWeight:"bold",padding:4,borderRadius:3,borderWidth:1,color:"#FD8D45" ,borderColor:"#FD8D45"}}>Subscribed</Text>   
+                                <IncrementDecrementSubscribe subscriptionType={this.props.data.subscribed.subscription_type} product_id={this.props.data.product.id}  subscribed_quantity={this.props.data.qauntity} quantity={this.props.data.quantity} price={this.props.data.price} /> 
+                                
+                                
+                            </View> 
+                            }
+                    
 
-                            //Subsccribe work here
-                              onPressHandler={()=> {
-                                this.props.onLoading(true);
-                                 this.props.onAdd(this.props.data.id,this.state.itemPrice,this.props.user.userdata.user_id)
-                               
-                              }}
-                             customButttonStyle={{backgroundColor:"#FD8D45",padding:3, height:30,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"70%"}}
-                             customTextStyle={{ color:'white',fontSize:12}}
-                             text="Add To Cart"  />
+                    
+                    
+                        
                     </View>
-                   
-                    } 
-                   
-                </View>
 
-               
+                
+                </View>
+                
+                <View style={styles.viewLineGrey}></View>
             </View>
-            
+           
            
     
         );
@@ -113,7 +119,7 @@ const mapStateToProps = state => {
     }
   }
 
-  export default connect(mapStateToProps,mapDispatchToProps)(ProductItem);
+  export default connect(mapStateToProps,mapDispatchToProps)(CartProductItem);
 
   const styles = StyleSheet.create({
 
@@ -167,8 +173,14 @@ const mapStateToProps = state => {
         marginTop:10,
 
     },
-    milkRightContains:{
-
-    }
+    viewLineGrey:{
+        width:'100%',
+        height:1,
+        backgroundColor:"#DCDCDC",
+        marginTop:10,
+        marginBottom:10,
+       
+        
+    },
     
 });

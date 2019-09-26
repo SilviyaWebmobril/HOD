@@ -1,7 +1,5 @@
 import React ,{Component} from 'react';
-import {View,Text,StyleSheet,Dimensions,FlatList,Image} from 'react-native';
-
-
+import {View,Text,StyleSheet,Dimensions,FlatList,Image,Alert, ScrollView} from 'react-native';
 import * as HOC from '../../../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -9,13 +7,14 @@ const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
 );
 import CustomLogo  from '../../../CustomUI/Logo/CustomLogo';
 import AsyncStorage from '@react-native-community/async-storage';
-
 var { height } = Dimensions.get('window');
-import userData  from '../../../redux/store/actions/userDataAction';
+import * as userAction   from '../../../redux/store/actions/userDataAction';
 import {connect} from 'react-redux';
-import ApiUrl from '../../../Api/ApiUrl';
-import axios from 'axios';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import capitilize from '../../../utility/helpers';
+import Axios from 'axios';
+import ApiUrl from '../../../Api/ApiUrl';
+import * as cartActions from '../../../redux/store/actions/cartAction';
 
 
 class ViewProfile  extends Component {
@@ -46,53 +45,30 @@ class ViewProfile  extends Component {
             email:"",
             isLoading:true,
             addresses:[],
+            viewAddressModal:false,
+            isLoading:false,
 
         }
     }
 
-    getvalues = async () => {
-
-      let values
-      try {
-        values = await AsyncStorage.multiGet(['user_id','user_name','user_email', 'user_mobile'])
-      } catch(e) {
-        // read error
-      }
-    
-      // this.setState({user_id:values[0][1]});
-      // this.setState({name:values[1][1]});
-      // this.setState({email:values[2][1]});
-      // this.setState({mobile:values[3][1]});
-     // this.setState({address:values[4][1]});
-     
-    
-    
-    }
+   
 
     componentDidMount() {
 
       //this.getvalues();
       console.log("userdata hello",this.props.user);
-      var formdata = new FormData();
-      formdata.append("user_id",this.props.user.userdata.user_id);
-    
-      axios.get(ApiUrl.baseurl+ApiUrl.get_profile+this.props.user.userdata.user_id).then(response => {
+   
 
-        console.log("all addresses",response);
+      //  console.log("all addresses",response.data.result.addresses);
 
-        this.setState({isLoading:false});
-      }).catch(error => {
-        console.log("errrrror",error);
-        this.setState({isLoading:false});
-      });
-
+      
     }
 
 
 
     addNewAddresshandler = () =>{
 
-      this.props.navigation.navigate('SearchLocation',{"location_update":1});
+      this.props.navigation.navigate('SearchLocation',{"location_update":2});
     }
 
     updateProfileHandler = () =>{
@@ -103,16 +79,59 @@ class ViewProfile  extends Component {
       this.props.navigation.navigate('Login',{update:1});
     }
 
+    onRemoveAddresshandler = (id) =>{
+
+      console.log("on remove",id);
+      this.props.onLoading(true);
+      Axios.post(ApiUrl.baseurl+ApiUrl.remove_address+id)
+      .then(response => {
+        this.props.onLoading(false);
+        console.log("removing address view profile",response);
+        if(response.data.error){
+
+          Alert.alert(
+            'Remove Address',
+            "Cannot Remove Primary Address!",
+            [
+         
+            {text: 'OK', onPress: () =>  {console.log("ok")}},
+            ], 
+            { cancelable: false }
+            )
+        
+        }else{
+          Alert.alert(
+            'Remove Address',
+            "Address Removed Successfully!",
+            [
+         
+            {text: 'OK', onPress: () =>  {console.log("ok")}},
+            ], 
+            { cancelable: false }
+            );
+
+          this.props.onRemoveAddress(id);
+         
+        
+        }
+
+      }).catch(error=>{
+        this.props.onLoading(false);
+      })
+    }
+
     renderItem = (data) =>{
       let { item, index } = data;
-      console.log("Address",item.address)
+     
       return(
 
         <View>
           <View style={styles.addressHeadingView}>
-              <Text >{item.address}</Text>
-              <Text onPress={()=>this.addNewAddresshandler()}
-              style={styles.editTextStyle}>Edit</Text>
+              <Text style={{fontWeight:'bold',lineHeight:20,width:'70%'}}>{capitilize(item.homeaddress)}</Text>
+              {/* <Text onPress={()=>this.onEditAddresshandler()}
+              style={styles.editTextStyle}>Edit</Text> */}
+                <Text onPress={()=>this.onRemoveAddresshandler(item.id)}
+              style={styles.editTextStyle}>Remove</Text>
               
           </View>
 
@@ -126,9 +145,13 @@ class ViewProfile  extends Component {
     }
 
 
+
     render(){
         return (
-            <FullSCreenSpinnerAndDismissKeyboardView>
+            <FullSCreenSpinnerAndDismissKeyboardView
+            spinner={this.props.cart.isLoading}
+            style={styles.container}
+             >
                 <View style={{marginRight:10,marginTop:10}}>
                     <Text onPress={()=>this.updateProfileHandler()}
                      style={styles.updateTextStyle}>UPDATE</Text>
@@ -150,23 +173,25 @@ class ViewProfile  extends Component {
                 <View style={styles.viewAddress}>
                   <View style={styles.addressHeadingView}>
                     <Text style={styles.manageAddressText}>Manage Address</Text>
+                    
                     <View style={styles.viewAddressText}>
                       <Text onPress={()=>this.addNewAddresshandler()} style={styles.addAddreesText}>Add New</Text>
                       <View style={styles.viewLine}></View>
                     </View>
                   </View>
-
+                 
+                   
                   <FlatList 
-                      data={this.state.addresses}
+                      data={this.props.user.all_address}
                       keyExtractor={(item, index) => index.toString()}
                       renderItem={this.renderItem.bind(this)}
                       style={{marginBottom:20}}/>
 
+
+
                 </View>
+
                 
-
-
-
             </FullSCreenSpinnerAndDismissKeyboardView>
             
 
@@ -177,17 +202,39 @@ class ViewProfile  extends Component {
 
 
 
+
 const mapStateToProps = state => {
   return {
-    user: state.userdata
+    user: state.userdata,
+    cart:state.cart,
   }
 }
 
-export default connect(mapStateToProps,null)(ViewProfile)
+const mapDisptchToProps = dispatch => {
+
+  return{
+    onRemoveAddress: (id)=>{
+      dispatch(userAction.removeAddress(id))
+    },
+    onLoading : (value) => {
+      dispatch(cartActions.isLoading(value))
+  },
+  }
+}
+
+export default connect(mapStateToProps,mapDisptchToProps)(ViewProfile)
 
 
 
 const styles =  StyleSheet.create({
+
+  
+  container:{
+    flex:1,
+    backgroundColor:'#ffffff',
+  //  margin:20
+
+},
 
   profileViewStyle:{
 
@@ -227,7 +274,7 @@ const styles =  StyleSheet.create({
   viewAddress:{
     backgroundColor:"#ececec",
     width:"100%",
-    height:height/2,
+
     marginTop:20
 
   },
@@ -241,7 +288,7 @@ const styles =  StyleSheet.create({
   manageAddressText:{
 
     lineHeight:30,
-    fontSize:17,
+    fontSize:14,
     color:"black",
     fontWeight:"bold",
     
@@ -253,7 +300,7 @@ const styles =  StyleSheet.create({
   },
   addAddreesText:{
     lineHeight:30,
-    fontSize:15,
+    fontSize:12,
     color:"#FD8D45",
     fontWeight:"bold",
     justifyContent:"flex-end",
@@ -263,23 +310,30 @@ const styles =  StyleSheet.create({
   viewLine:{
     backgroundColor:"#FD8D45",
     height:1,
-    width:60,
+    width:50,
+  },
+  viewLine1:{
+    backgroundColor:"#FD8D45",
+    height:1,
+    width:140,
   },
   viewLineBlack:{
     width:'90%',
     height:1,
     backgroundColor:"#9F9F9F",
-    marginLeft:20,
-    marginRight:20
+    marginLeft:15,
+    marginRight:15
   },
   editTextStyle:{
     color:"#FD8D45",
+    alignSelf:'center',
+    textDecorationLine:"underline"
   },
   viewLineUpdate:{
     backgroundColor:"#FD8D45",
     height:1,
     width:54,
-  justifyContent:"flex-end",
+  justifyContent:"flex-end",  
   alignSelf:"flex-end"
   },
   updateTextStyle:{

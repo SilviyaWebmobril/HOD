@@ -4,7 +4,10 @@ import { DELETE_FROM_CART } from '../actions/types';
 import  { CART_COUNT } from '../actions/types';
 import { ERROR } from '../actions/types';
 import { IS_LOADING } from '../actions/types';
-import { REMOVE_FROM_CART,GET_CART_PRODUCTS ,REMOVE_SUBSCRIBED_FROM_CART} from '../actions/types';
+import { REMOVE_FROM_CART,
+    GET_CART_PRODUCTS ,
+    REMOVE_SUBSCRIBED_FROM_CART,
+    GET_CART_API} from '../actions/types';
 
 
 const initialState = {
@@ -19,7 +22,7 @@ const initialState = {
     total_cart_count:0,
     error :"",
     isLoading:true,
-    all_products:[],
+    all_cart_products:[],
    
 
 }
@@ -345,6 +348,14 @@ export default (state = initialState ,action) => {
                 }
 
             
+            }
+
+        case GET_CART_API :
+
+            var cart_products = [...action.cart_products];
+            return {
+                ...state,
+                all_cart_products:[...cart_products]
             }
            
             

@@ -25,6 +25,7 @@ const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
 import {connect} from 'react-redux';
 
 import AsyncStorage from '@react-native-community/async-storage';
+import * as userAction from '../redux/store/actions/userDataAction';
 
 
 class OTP extends Component {
@@ -63,29 +64,29 @@ class OTP extends Component {
     }
 
     
-    storeValues = async (mobile) => {
+    // storeValues = async (mobile) => {
 
-        AsyncStorage.setItem('user_mobile',mobile)
-        let values;
-        try {
+      
+    //     let values;
+    //     try {
         
-          values = await AsyncStorage.multiGet(['user_id','user_name','user_email', 'user_mobile']);
+    //       values = await AsyncStorage.multiGet(['user_id','user_name','user_email', 'user_mobile']);
 
-          console.log("user profiles",values)
-          let userdata = {};
-          Object.assign(userdata,{"user_id":values[0][1]});
-          Object.assign(userdata,{"user_name": values[1][1]});
-          Object.assign(userdata,{"user_email":values[2][1]});
-          Object.assign(userdata,{"user_mobile":mobile});   
-          Object.assign(userdata,{"user_address":values[4][1]});
-          this.props.onUpdateUser(userdata);
+    //       console.log("user profiles",values)
+    //       let userdata = {};
+    //       Object.assign(userdata,{"user_id":values[0][1]});
+    //       Object.assign(userdata,{"user_name": values[1][1]});
+    //       Object.assign(userdata,{"user_email":values[2][1]});
+    //       Object.assign(userdata,{"user_mobile":mobile});   
+    //       Object.assign(userdata,{"user_address":values[4][1]});
+    //       this.props.onUpdateUser(userdata);
   
-        } catch(e) {
-          // read error
-        }
+    //     } catch(e) {
+    //       // read error
+    //     }
        
       
-      }
+    //   }
 
     onSubmit = async() => {
         clearInterval(this.interval);
@@ -105,33 +106,35 @@ class OTP extends Component {
                         Alert.alert("Invalid OTP");
     
                     }else{
-                        console.log("otp screen",res);
+                      
                         AsyncStorage.setItem('user_id',JSON.stringify(res.data.data.id))
-                        AsyncStorage.setItem("user_name", res.data.data.name)
-                        AsyncStorage.setItem("user_email", res.data.data.email)
-                        AsyncStorage.setItem('user_mobile',res.data.data.mobile)
-                        AsyncStorage.setItem("user_password",res.data.data.txtpassword)
-    
+                        
                         let userdata = {};
                         Object.assign(userdata,{"user_id":JSON.stringify(res.data.data.id)});
                         Object.assign(userdata,{"user_name": res.data.data.name});
                         Object.assign(userdata,{"user_email":res.data.data.email});
                         Object.assign(userdata,{"user_mobile":res.data.data.mobile});   
+                        Object.assign(userdata,{"user_gender":res.data.data.gender});
+                        Object.assign(userdata,{"user_dob":res.data.data.dob});
+                        Object.assign(userdata,{"user_married":res.data.data.married});
+                        Object.assign(userdata,{"user_family_members":res.data.data.family_members});
+                        Object.assign(userdata,{"user_vegitarian":res.data.data.vegitarian});
+                       
                        
                         
                         if(res.data.data.homeaddress !== null){
-                            console.log("not null");
-                          AsyncStorage.setItem("user_home",res.data.data.homeaddress)
+                           
+                        
                           Object.assign(userdata,{"user_address":res.data.data.homeaddress});
                           this.props.onUpdateAddress(res.data.data.homeaddress);
                         }else{
-                          console.log("home null");
-                          AsyncStorage.setItem("user_home","");
+                         
                           Object.assign(userdata,{"user_address":""});
                           this.props.onUpdateAddress(res.data.data.homeaddress);
                         }
                       
                         this.props.onUpdateUser(userdata);
+                        this.props.onUpdateUserId(JSON.stringify(res.data.data.id));
                         this.setState({isLoading:false});
                  
                         this.props.navigation.navigate('Bottomtabs');
@@ -164,9 +167,10 @@ class OTP extends Component {
     
                     }else{
 
-                        this.storeValues(this.props.navigation.getParam('mobile'))
+                        this.props.onUpdateMobile(this.props.navigation.getParam('mobile'));
+                        // this.storeValues(this.props.navigation.getParam('mobile'))
                         
-    
+
                         Alert.alert("Your Mobile no Changed Successfully!");
                         this.props.navigation.navigate('ViewProfile');  
     
@@ -267,13 +271,19 @@ const mapDispatchToProps = dispatch => {
     return {
         
         onUpdateUser: (userdata) => {
-            dispatch(userData(userdata))
+            dispatch(userAction.userData(userdata))
         },
       
         onUpdateAddress : (address) => {
           
-            dispatch(userAddress(address))
-        }
+            dispatch(userAction.userAddress(address))
+        },
+        onUpdateMobile :(mobile) => {
+            dispatch(userAction.changeMobile(mobile))
+        },
+        onUpdateUserId: (id) => {
+            dispatch(userAction.getUserId(id))
+          },
     
     }
   }

@@ -14,6 +14,7 @@ import ProductItem  from './ProductItem/ProductItem';
 import {connect} from 'react-redux';
 import * as cartActions from '../redux/store/actions/cartAction';
 import * as homeActions from '../redux/store/actions/homeAction';
+import * as userAction from '../redux/store/actions/userDataAction';
 
 
 
@@ -50,13 +51,13 @@ class HomeScreen extends  Component {
 
     componentDidMount(){
 
-        
-
-
-        this.props.onHomeScreen(this.props.userdata.userdata.user_id);
        
-        this.setState({getAllProducts:this.props.homescreen.getAllProducts})
+        console.log("useexist",this.props.userdata);
 
+        this.props.onHomeScreen(this.props.userdata.user_id);
+        this.props.getProfile(this.props.userdata.user_id);
+       
+       
        
     }
 
@@ -67,7 +68,7 @@ class HomeScreen extends  Component {
 
     renderItem(data){
         let { item, index } = data;
-        console.log("render item",item);
+       
         return(
             <TouchableOpacity
             onPress={()=>this.onDetailsHandler(item.id,item.name)}
@@ -254,6 +255,9 @@ const mapDispatchToProps = dispatch => {
       },
       onSearchProducts :(value)=>{
           dispatch(homeActions.searchProducts(value))
+      },
+      getProfile:(id) =>{
+          dispatch(userAction.getUserProfile(id))
       }
     }
   }

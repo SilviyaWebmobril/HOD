@@ -18,7 +18,7 @@ export default {
 
  
     // e.g = setLocation:"set_location?user_id=532&name=test&city=noida&locality=noida&street=18&ho_no=18&latitude=77.3434&longitude=81.35435&full_address=g 18 sec 63 noida"
-    setLocation:"set_location?user_id=",
+    setLocation:"add_address?user_id=",
 
     get_video: "video?user_id=",   
     
@@ -63,6 +63,10 @@ export default {
 
     remove_subscribed_product:"remove_subscribed_product",
 
-    search_products : "search_product?product="
+    search_products : "search_product?product=",
+
+    vist_farm :"farm_request",
+
+    remove_address : "remove_address?address_id=",
 
 }

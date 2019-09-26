@@ -13,8 +13,9 @@ const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
 );
 import AsyncStorage from '@react-native-community/async-storage';
 import ApiUrl from '../Api/ApiUrl';
-import { userData ,userAddress} from '../redux/store/actions/userDataAction';
+import { userData ,userAddress, addNewAddress,getUserId} from '../redux/store/actions/userDataAction';
 import { connect } from 'react-redux';
+import { CheckBox } from 'react-native-elements'
 
  class SeacrhLocationContinue extends Component { 
 
@@ -51,28 +52,29 @@ import { connect } from 'react-redux';
             locality:"",
             name:"",
             user_id:"",
-            location_update:""
+            location_update:"",
+            is_primary:false
 
 
 
         }
         
       
-     // this.refs.cityText.setTextInputValue(this.state.city,"city");
+     
+        
     }
 
     componentDidMount = async() => {
 
-      const value = await AsyncStorage.getItem('user_name');
-      const user_id = await AsyncStorage.getItem("user_id");
-
-      console.log("name=",value);
-      console.log("user_id",user_id);
-      this.setState({user_id:user_id});
-      this.setState({"name":value});
+    
+    
+      
+      this.setState({user_id:this.props.user.userdata.user_id});
+      
 
       const { navigation } = this.props;
       const postal_code = navigation.getParam('postal_code', '');
+      this.setState({name:navigation.getParam("name")});
       const city = navigation.getParam('city', '');
       const state = navigation.getParam('state', '');
       const locality = navigation.getParam('locality', '');
@@ -80,79 +82,127 @@ import { connect } from 'react-redux';
       const latitude = navigation.getParam("latitude","");
       const longitude = navigation.getParam("longitude","");
       const full_address = navigation.getParam("full_address","");
+     
       this.setState({location_update :navigation.getParam("location_update")})
-      this.setState({latitude:latitude});
-      this.setState({longitude:longitude});
-      this.setState({full_address:full_address});
-
+      
       this.setState({street:street});
-      console.log("postal_code 11",postal_code);
-      this.setState({postal_code:postal_code},()=>{
-        this.refs.postal_code.setTextInputValue(this.state.postal_code,"pincode")
-      });
       this.setState({city:city});
       this.setState({"locality":locality});
       this.setState({"state":state})
-         
+      this.setState({latitude:latitude});
+      this.setState({longitude:longitude});
+      
+      if(full_address == "" ){
+
+        var fulladdress = street+" "+locality+" "+city;
+        this.setState({full_address:fulladdress});
+
+      }else{
+        this.setState({full_address:full_address});
+
+      }
+    
       
 
     }
 
     onSubmitHandler =() => {
 
-
+      var is_primary ;
+      if(this.state.location_update == 1 ){
+        is_primary = 1
+      }else{
+        if(this.state.is_primary){
+          is_primary = 1;
+        }else{
+          is_primary = 0;
+        }
+     
+      }
     
       axios.post(ApiUrl.baseurl+ApiUrl.setLocation+this.state.user_id+"&name="+this.state.name+"&city="+this.state.city+"&locality="+this.state.locality+
       "&street="+this.state.street+"&ho_no="+this.refs.houseno.getInputTextValue("houseno")+"&latitude="+this.state.latitude+"&longitude="+this.state.longitude+
-      "&full_address="+this.state.full_address+"&landmark="+this.refs.landmark.getInputTextValue("landmark")+"&pin_code="+this.state.postal_code+"&floor_no="+this.refs.floorno.getInputTextValue("floorno"))
+      "&full_address="+this.state.full_address+"&landmark="+this.refs.landmark.getInputTextValue("landmark")+"&pin_code="+this.refs.postal_code.getInputTextValue("pincode")+"&floor_no="+this.refs.floorno.getInputTextValue("floorno")+"&is_primary="+is_primary)
       .then(res => {
         
-        console.log("response ",res);
-
-       // Alert.alert("Your Location Updated Successfully!");
-
-        var address= this.state.city + " " + this.state.locality ;
-        AsyncStorage.setItem("user_home",address)
-        this.props.onUpdateAddress(address);  
-
-       if(this.state.location_update == 0){
-          console.log("on bottom tabs");
-         
-            this.props.navigation.navigate('HomeBottomtabs');
-          //    this.props.navigation.pop();
-
-        Alert.alert(
-          'Location',
-          "Your Location Updated Successfully!",
-          [
-       
-          {text: 'OK', onPress: () =>  {console.log("ok")}},
-          ], 
-          { cancelable: false }
-          )
       
-       }else{
-       
-        this.props.navigation.navigate('ViewProfile');
-
-        Alert.alert(
-          'Location',
-          "Your Location Updated Successfully!",
-          [
-       
-          {text: 'OK', onPress: () =>    {console.log("ok")}},
-          ], 
-          { cancelable: false }
-          )
-       }
-
-       
         
+        if(res.data.error){
+          Alert.alert(
+            'Location',
+            "Something went wrong! Please try again later.",
+            [
+         
+            {text: 'OK', onPress: () =>  {console.log("ok")}},
+            ], 
+            { cancelable: false }
+            )
+        
+        }else{
+
+          if(this.state.is_primary){
+
+            // updating primary address 
+            this.props.onUpdateAddress(this.state.full_address+","+this.refs.postal_code.getInputTextValue("pincode"));  
+          }
+          AsyncStorage.setItem('user_id',this.props.user.userdata.user_id);
+          this.props.onUpdateUserId(this.props.user.userdata.user_id);
+          let userdata = {};
+          Object.assign(userdata,{"user_id":this.props.user.userdata.user_id});
+          Object.assign(userdata,{"user_name": this.props.user.userdata.user_name});
+          Object.assign(userdata,{"user_email":this.props.user.userdata.user_email});
+          Object.assign(userdata,{"user_mobile":this.props.user.userdata.user_mobile});
+          Object.assign(userdata,{"user_gender":this.props.user.userdata.user_gender});
+          Object.assign(userdata,{"user_dob":this.props.user.userdata.user_dob});
+          Object.assign(userdata,{"user_married":this.props.user.userdata.user_married});
+          Object.assign(userdata,{"user_family_members":this.props.user.userdata.user_family_members});
+          Object.assign(userdata,{"user_vegitarian":this.props.user.userdata.user_vegitarian});
+          this.props.onUpdateUser(userdata);
+          this.props.addNewAddress(res.data.data);
+         
+         
+         if(this.state.location_update == 1 ){
+          
+           
+              this.props.navigation.navigate('HomeBottomtabs');
+            //    this.props.navigation.pop();
+  
+            Alert.alert(
+              'Location',
+              "Your Location Updated Successfully!",
+              [
+          
+              {text: 'OK', onPress: () =>  {console.log("ok")}},
+              ], 
+              { cancelable: false }
+              )
+          
+         }else{
+          
+            this.props.navigation.navigate('ViewProfile');
+    
+            Alert.alert(
+              'Location',
+              "Your Location Updated Successfully!",
+              [
+          
+              {text: 'OK', onPress: () =>    {console.log("ok")}},
+              ], 
+              { cancelable: false }
+              )
+          }
+  
+         
+          
+
+        }
+
+     
 
 
       })
       .catch(error => {
-        console.log("my error",error.response)
+        console.log("my error",error)
     });
 
       
@@ -229,6 +279,18 @@ import { connect } from 'react-redux';
                      // onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                   />
 
+                    {this.state.location_update == 2
+                    ?
+                      <CheckBox
+                      title='Make this address as Delivery Address'
+                      checked={this.state.is_primary}
+                      onPress={() => this.setState({is_primary: !this.state.is_primary})}
+                    />
+                    :
+                      <View/>
+                    }
+                   
+
                 <CustomButton 
                    onPressHandler={()=>this.onSubmitHandler()}
                    customButttonStyle={{backgroundColor:"#FD8D45", marginTop:20}}
@@ -251,21 +313,33 @@ import { connect } from 'react-redux';
 }
 
 
+const mapStateToProps = state => {
+  return {
+  
+    user:state.userdata
+  }
+}
+
 
 
 const mapDispatchToProps = dispatch => {
   return {
       
-      onUpdateUser: (userdata) => {
-          dispatch(userData(userdata))
-      },
-    
+    onUpdateUser: (userdata) => {
+      dispatch(userData(userdata))
+    },
+    onUpdateUserId: (id) => {
+      dispatch(getUserId(id))
+    },
       onUpdateAddress : (address) => {
         
           dispatch(userAddress(address))
+      },
+      addNewAddress :(address) =>{
+        dispatch(addNewAddress(address))
       }
   
   }
 }
 
-export default connect(null,mapDispatchToProps)(SeacrhLocationContinue)
+export default connect(mapStateToProps,mapDispatchToProps)(SeacrhLocationContinue)

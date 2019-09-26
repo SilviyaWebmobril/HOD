@@ -32,9 +32,9 @@ class GooglePlacesInput extends Component  {
         fetchDetails={true}
         renderDescription={row => row.description} // custom description render
         onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-        //  console.log(data, details);
+           console.log("map data details",details);
   
-          // console.log("map data",data);
+           console.log("map data",data);
           // console.log("map details",details);
           this.props.onAdd(details)
           this.setState({details:details});
@@ -45,7 +45,8 @@ class GooglePlacesInput extends Component  {
   
         query={{
           // available options: https://developers.google.com/places/web-service/autocomplete
-          key: 'AIzaSyBx5f8NnFiA2kEv7ZcFJVtUs0_6TfZaMPw',
+          //key: 'AIzaSyBx5f8NnFiA2kEv7ZcFJVtUs0_6TfZaMPw',
+          key: 'AIzaSyDg8PQMB0zL8QEiWboQ1v-h0vUr-fXgERE',
           language: 'en', // language of the results
           types: '(cities)' // default: 'geocode'
         }}
@@ -78,7 +79,7 @@ class GooglePlacesInput extends Component  {
         GooglePlacesSearchQuery={{
           // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
           rankby: 'distance',
-          type: 'cities'
+          type: 'pizza'
         }}
         
         GooglePlacesDetailsQuery={{

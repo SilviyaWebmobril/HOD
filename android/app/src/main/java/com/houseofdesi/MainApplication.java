@@ -3,6 +3,7 @@ package com.houseofdesi;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.razorpay.rn.RazorpayPackage;
 
 import com.kishanjvaghela.cardview.RNCardViewPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
@@ -28,13 +29,14 @@ public class MainApplication extends Application implements ReactApplication {
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
     public boolean getUseDeveloperSupport() {
-      return false;
+      return BuildConfig.DEBUG;
     }
 
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RazorpayPackage(),
             new RNCardViewPackage(),
             new RNCWebViewPackage(),
             new RNFirebasePackage(),

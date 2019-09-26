@@ -17,12 +17,12 @@ class CustomTopHeader extends  Component {
     }
    
     componentDidMount(){
-        console.log("address",this.props.userdata);
+      
     }   
 
     SearchLocation = () =>{
 
-        this.props.navigation.navigate('Search',{"location_update":0});
+        this.props.navigation.navigate('Search',{"location_update":1});
     }
 
    

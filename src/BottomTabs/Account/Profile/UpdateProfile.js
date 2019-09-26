@@ -12,10 +12,11 @@ import CustomButton from '../../../CustomUI/CustomButton/CustomButton';
 var { height } = Dimensions.get('window');
 import DatePicker from 'react-native-datepicker';
 import Create_AccountStyle from '../../../Create_Account/Create_AccountStyle';
+import { connect } from 'react-redux';
 
 
 
-export default class UpdateProfile extends Component {
+ class UpdateProfile extends Component {
 
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: "Update Profile",
@@ -36,6 +37,27 @@ export default class UpdateProfile extends Component {
            
         }
     }       
+
+
+    componentDidMount() {
+
+        console.log("user name ",this.props.user.userdata);
+
+        if(this.props.user.userdata.user_name !== null || this.props.user.userdata.user_name !== undefined || this.props.user.userdata.user_name !== ""){
+  
+        this.refs.name.setTextInputValue(this.props.user.userdata.user_name ,'name');
+        }
+        if(this.props.user.userdata.user_gender !== null || this.props.user.userdata.user_gender !== undefined || this.props.user.userdata.user_gender !== ""){
+            this.setState({gender:this.props.user.userdata.user_gender})
+        }
+        if(this.props.user.userdata.user_dob !== null || this.props.user.userdata.user_dob !== undefined || this.props.user.userdata.user_dob !== ""){
+           this.setState({date:this.props.user.userdata.user_dob})
+        }
+        if(this.props.user.userdata.user_married !== null ||this.props.user.userdata.user_married !== undefined || this.props.user.userdata.user_married !== ""){
+            this.setState({Married:this.props.user.userdata.user_married})
+        }
+
+    }
 
     getFormattedDate(date){
         return  date.getFullYear()+'-'+"0"+(date.getMonth()+1)+'-'+"0"+date.getDate();
@@ -96,13 +118,13 @@ export default class UpdateProfile extends Component {
                         borderColor: 'black',
                         overflow: 'hidden'}}>
                         <Picker
-                            selectedValue={this.state.gender}
+                            selectedValue={(this.state && this.state.gender) || 1}
                             style={{marginLeft:10}}
                             onValueChange={(itemValue, itemIndex) =>
                                 this.setState({gender: itemValue})
                             }>
-                            <Picker.Item label="Male" value="1" />
-                            <Picker.Item label="Female" value="2" />
+                            <Picker.Item label="Male" value={1} />
+                            <Picker.Item label="Female" value={2} />
                         </Picker>
                     </View>
                    
@@ -145,13 +167,13 @@ export default class UpdateProfile extends Component {
                         borderColor: 'black',
                         overflow: 'hidden'}}>
                         <Picker
-                            selectedValue={this.state.Married}
+                            selectedValue={(this.state && this.state.Married) || 1}
                             style={{marginLeft:10}}
                             onValueChange={(itemValue, itemIndex) =>
                                 this.setState({Married : itemValue})
                             }>
-                            <Picker.Item label="NO" value="2" />
-                            <Picker.Item label="YES" value="1" />
+                            <Picker.Item label="NO" value={2} />
+                            <Picker.Item label="YES" value={1} />
                         </Picker>
                     </View>
                    
@@ -172,6 +194,16 @@ export default class UpdateProfile extends Component {
     }
 }
 
+
+const mapStateToProps = state => {
+    return {
+      user: state.userdata,
+    
+    }
+  }
+
+
+export default connect(mapStateToProps, null)(UpdateProfile);
 const styles =  StyleSheet.create({
 
     labelTextView:{

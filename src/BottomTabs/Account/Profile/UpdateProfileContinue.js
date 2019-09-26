@@ -34,6 +34,16 @@ class UpdateProfileContinue extends Component{
           }
       }
 
+      componentDidMount(){
+
+        if(this.props.userdata.userdata.user_family_members !== null || this.props.userdata.userdata.user_family_members !== undefined || this.props.userdata.userdata.user_family_members !== ""){
+          
+            this.refs.family_members.setTextInputValue(this.props.userdata.userdata.user_family_members ,'family_members');
+        }
+        if(this.props.userdata.userdata.user_vegitarian !== null || this.props.userdata.userdata.user_vegitarian !== undefined || this.props.userdata.userdata.user_vegitarian !== ""){
+            this.setState({vegetarian:this.props.userdata.userdata.user_vegitarian})
+        }
+      }
 
       updateProfileHandler = () => {
 
@@ -66,18 +76,22 @@ class UpdateProfileContinue extends Component{
                     
                 }else{
 
-                    AsyncStorage.setItem('user_id',JSON.stringify(res.data.result.id))
-                    AsyncStorage.setItem("user_name", res.data.result.name)
-                    AsyncStorage.setItem("user_email", res.data.result.email)
-                    AsyncStorage.setItem('user_mobile',res.data.result.mobile)
                    
-    
+                  
                     let userdata = {};
                     Object.assign(userdata,{"user_id":JSON.stringify(res.data.result.id)});
                     Object.assign(userdata,{"user_name": res.data.result.name});
                     Object.assign(userdata,{"user_email":res.data.result.email});
                     Object.assign(userdata,{"user_mobile":res.data.result.mobile});   
-                    Object.assign(userdata,{"user_address":res.data.result.homeaddress});
+                    Object.assign(userdata,{"user_gender":res.data.result.gender});
+                    Object.assign(userdata,{"user_dob":res.data.result.dob});
+                    Object.assign(userdata,{"user_married":res.data.result.married});
+                    Object.assign(userdata,{"user_family_members":res.data.result.family_members});
+                    Object.assign(userdata,{"user_vegitarian":res.data.result.vegitarian});
+                   
+    
+
+                    
                     this.props.onUpdateUser(userdata);
     
                     Alert.alert("Profile Updated Successfully!");
@@ -127,13 +141,13 @@ class UpdateProfileContinue extends Component{
                     marginTop:10,
                     overflow: 'hidden'}}>
                     <Picker
-                        selectedValue={this.state.vegetarian}
+                        selectedValue={(this.state && this.state.vegetarian) || 1}
                         style={{marginLeft:10, marginRight:10,}}
                         onValueChange={(itemValue, itemIndex) =>
                             this.setState({vegetarian: itemValue})
                         }>
-                        <Picker.Item label="No" value="1" />
-                        <Picker.Item label="Yes" value="1" />
+                        <Picker.Item label="No" value={1} />
+                        <Picker.Item label="Yes" value={2} />
                     </Picker>
                 </View>
 

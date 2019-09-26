@@ -7,13 +7,19 @@ import ApiUrl from '../../../Api/ApiUrl';
 import {IS_LOADING} from '../actions/types';
 import  {REMOVE_FROM_CART,GET_CART_PRODUCTS,
 REMOVE_SUBSCRIBED_FROM_CART,UPDATE_GET_ALL_PRODUCTS_QUANTITY,
-REMOVE_GET_ONCE_GET_ALL_PRODUCTS_QUANTITY } from '../actions/types';
+REMOVE_GET_ONCE_GET_ALL_PRODUCTS_QUANTITY,GET_CART_API } from '../actions/types';
 
 
 export const fetchCartProducts  = (user_id) => {
 
 
     return dispatch => {
+
+        dispatch({
+            type:IS_LOADING,
+            isLoading:true,
+        })
+
         //any async code you want! 
         var formdata  = new FormData();
         formdata.append("user_id",user_id);
@@ -39,10 +45,10 @@ export const fetchCartProducts  = (user_id) => {
 
         }else{
 
-            // creating cart objects get_once / subscribed
+           
             dispatch( {
-                type:GET_CART_PRODUCTS,
-                products:response.data.data,
+                type:GET_CART_API,
+                cart_products:response.data.data,
             })
 
            

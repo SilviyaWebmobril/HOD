@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { createStackNavigator,createBottomTabNavigator,addNavigationHelpers , createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator,createBottomTabNavigator,addNavigationHelpers ,NavigationActions , createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { View ,Image } from  'react-native';
 import After_Splash from '../After_Splash/After_Splash';
 import Login from '../Login/Login';
@@ -24,6 +24,7 @@ import CategoryProduct from '../BottomTabs/screens/CategoryProduct';
 import Support from '../BottomTabs/Account/Support';
 import CategoryProductDetails from  '../BottomTabs/screens/CategoryProductDetails';
 import Cart from '../BottomTabs/screens/Cart';
+import TestComponent from '../BottomTabs/Account/Profile/TestComponent';
 
 const Bottomtabs = createBottomTabNavigator({
 
@@ -157,6 +158,7 @@ const Bottomtabs = createBottomTabNavigator({
 
 const profile = createStackNavigator({
   ViewProfile,
+  TestComponent,
   SearchLocation,
   SearchLocationContinue,
   UpdateProfile,
@@ -228,9 +230,10 @@ const MyApp = createStackNavigator({
      VideoPlayer,
      MyVideo,
      Create_Account,
-     OTP,
      SearchLocation,
      SearchLocationContinue,
+     OTP,
+    
      
     //  Bottomtabs:{
     //   screen:Bottomtabs,
@@ -249,6 +252,8 @@ const AppContainer = createSwitchNavigator({
   MyApp:MyApp,
   Bottomtabs:bottomtabsStack
 });
+
+
 
   
 export default createAppContainer(AppContainer);
