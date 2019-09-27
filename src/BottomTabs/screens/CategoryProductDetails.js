@@ -119,7 +119,7 @@ class CategoryProductDetails extends Component {
             
             <FullSCreenSpinnerAndDismissKeyboardView
             styles={styles.container}
-            spinner={this.state.isLoading}>
+            spinner={this.props.cart_product.isLoading}>
 
                 <Image source={{uri:this.state.img}} width={150} height={150} style={styles.imgStyle} />
                 <View style={styles.viewLineGrey}></View>

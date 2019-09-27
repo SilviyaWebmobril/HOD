@@ -32,6 +32,11 @@ class CartProductItem extends Component {
         
     }
 
+    componentDidMount(){
+
+        console.log("cart ",this.props.data);
+    }
+
    
 
     render(){
@@ -57,7 +62,7 @@ class CartProductItem extends Component {
                             
                                 <Text style={{fontSize:10, alignSelf:"flex-end",fontWeight:"bold",padding:3,borderRadius:3,borderWidth:1,color:"#FD8D45" ,borderColor:"#FD8D45"}}>Get Once</Text>
                                 
-                                <IncrementDecrementButton  product_id={this.props.data.product.id}  quantity={this.props.data.quantity} price={this.props.data.price} />
+                                <IncrementDecrementButton  product_id={this.props.data.product.id}  quantity={this.props.data.quantity} price={this.props.data.product.new_price} />
                                 
                                 
                             </View>
@@ -66,7 +71,7 @@ class CartProductItem extends Component {
                             <View  style={styles.textColumnLeft}>
                             
                                 <Text style={{fontSize:10,alignSelf:"flex-end",fontWeight:"bold",padding:4,borderRadius:3,borderWidth:1,color:"#FD8D45" ,borderColor:"#FD8D45"}}>Subscribed</Text>   
-                                <IncrementDecrementSubscribe subscriptionType={this.props.data.subscribed.subscription_type} product_id={this.props.data.product.id}  subscribed_quantity={this.props.data.qauntity} quantity={this.props.data.quantity} price={this.props.data.price} /> 
+                                <IncrementDecrementSubscribe subscriptionType={this.props.data.subscription_type} product_id={this.props.data.product.id}  subscribed_quantity={this.props.data.qauntity} quantity={this.props.data.quantity} price={this.props.data.product.new_price} /> 
                                 
                                 
                             </View> 

@@ -24,7 +24,6 @@ import CategoryProduct from '../BottomTabs/screens/CategoryProduct';
 import Support from '../BottomTabs/Account/Support';
 import CategoryProductDetails from  '../BottomTabs/screens/CategoryProductDetails';
 import Cart from '../BottomTabs/screens/Cart';
-import TestComponent from '../BottomTabs/Account/Profile/TestComponent';
 
 const Bottomtabs = createBottomTabNavigator({
 
@@ -158,7 +157,6 @@ const Bottomtabs = createBottomTabNavigator({
 
 const profile = createStackNavigator({
   ViewProfile,
-  TestComponent,
   SearchLocation,
   SearchLocationContinue,
   UpdateProfile,
@@ -204,6 +202,7 @@ const bottomtabsStack = createStackNavigator({
   CategoryProduct,
   CategoryProductDetails,
   Support,
+  
   Login, 
   OTP,
   

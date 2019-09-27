@@ -2,7 +2,8 @@ import {HOME_SCREEN,
     UPDATE_GET_ALL_PRODUCTS_QUANTITY,
     CATEGORY_PRODUCTS,
     REMOVE_GET_ONCE_GET_ALL_PRODUCTS_QUANTITY,
-    SEARCH_PRODUCTS
+    SEARCH_PRODUCTS,
+    REMOVE_ITEM_AFTER_PAYMENT_IN_HOME
 } from '../actions/types';
 
 // here for home screen maintaining search products list in other array so that can handle delete press
@@ -195,10 +196,11 @@ export default (state = initialState ,action) => {
             });
 
             // checking for serach_product state if products are present the iterate through them
+            var search_products  =  [...state.search_products];
+          
             if(Array.isArray(state.search_products) && state.search_products.length){
 
-                var search_products  =  [...state.search_products];
-          
+               
                 var updated_item = action.product_item;
               
                 /// updating all list product 
@@ -246,73 +248,58 @@ export default (state = initialState ,action) => {
                 });
             }
 
-             
+            var category_products  =  [...state.category_products];
 
-            // if(Array.isArray(state.category_products) && state.category_products.length){
-            //     category_products.forEach(item => {
+            console.log('get all category product',category_products);
+            if(Array.isArray(state.category_products) && state.category_products.length){
+                category_products.forEach(item => {
 
-            //         if(item.id ===  updated_item.product_id){
+                    if(item.id ===  updated_item.product_id){
                     
-            //             if(updated_item.is_subscribed === 0){
+                        if(updated_item.is_subscribed === 0){
                         
 
-            //                 if(!item.get_once.itemOnCart){
+                            if(!item.get_once.itemOnCart){
 
-            //                     item.get_once.itemOnCart = true;
-            //                     item.get_once.quantity = updated_item.quantity;
+                                item.get_once.itemOnCart = true;
+                                item.get_once.quantity = updated_item.quantity;
 
-            //                 }else{
+                            }else{
 
-            //                     item.get_once.quantity = updated_item.quantity;
-            //                 }
+                                item.get_once.quantity = updated_item.quantity;
+                            }
                             
                         
-            //             }else{
+                        }else{
 
                         
-            //                 if(!item.subscribed.itemOnCart){
+                            if(!item.subscribed.itemOnCart){
 
-            //                     item.subscribed.itemOnCart = true;
-            //                     item.subscribed.quantity = updated_item.quantity;
+                                item.subscribed.itemOnCart = true;
+                                item.subscribed.quantity = updated_item.quantity;
 
-            //                 }else{
+                            }else{
 
-            //                     item.subscribed.quantity = updated_item.quantity;
-            //                 }
+                                item.subscribed.quantity = updated_item.quantity;
+                            }
                             
                             
-            //             }
+                        }
 
-            //         }
+                    }
 
-            //     });
-            // }
-        //    console.log("onadding item ",products);
-           if(Array.isArray(state.search_products) && state.search_products.length > 0){
+                });
+            }
+       
 
-                return{
-                    ...state,
-                    getAllProducts:[...products],
-                    search_products:[...search_products]
-                
-                }
-
-           }else{
-                return{
-                    ...state,
-                    getAllProducts:[...products],
-                
-                }
-           }
-
-        //    return{
-        //     ...state,
-        //     getAllProducts:[...products],
-        
-        // }
-
+            return{
+                ...state,
+                getAllProducts:[...products],
+                category_products:[...category_products],
+                search_products:[...search_products]
+            
+            }
            
-
         case REMOVE_GET_ONCE_GET_ALL_PRODUCTS_QUANTITY:
 
                 var products  =  [...state.getAllProducts];
@@ -324,7 +311,7 @@ export default (state = initialState ,action) => {
 
                         if(item.get_once.quantity > 1){
 
-                            item.get_once.quantity = item.get_once.quantity -1;
+                            item.get_once.quantity = (item.get_once.quantity) -1;
                         }else{
 
                             item.get_once.itemOnCart = false;
@@ -335,9 +322,10 @@ export default (state = initialState ,action) => {
 
                 });
 
+                var search_products  =  [...state.search_products];
                 if(Array.isArray(state.search_products) && state.search_products.length){
 
-                    var search_products  =  [...state.search_products];
+                    
                 
                 
                     search_products.forEach(item => {
@@ -358,50 +346,40 @@ export default (state = initialState ,action) => {
                     });
 
                 }
-                var category_products = [];
+                var category_products = [...state.category_products];
                
-                // if(Array.isArray(state.category_products) && state.category_products.length){
+                if(Array.isArray(state.category_products) && state.category_products.length > 0){
 
-                //     category_products = [...state.category_products];
-                //     category_products.forEach(item => {
+                    
+                    category_products.forEach(item => {
     
-                //         if(item.id == action.product_id){
+                        if(item.id == action.product_id){
     
-                //             if(item.get_once.quantity > 1){
+                            if(item.get_once.quantity > 1){
     
-                //                 item.get_once.quantity = item.get_once.quantity -1;
-                //             }else{
+                                item.get_once.quantity = item.get_once.quantity - 1;
+                            }else{
     
-                //                 item.get_once.itemOnCart = false;
-                //                 item.get_once.quantity = 1;
-                //             }
+                                item.get_once.itemOnCart = false;
+                                item.get_once.quantity = 1;
+                            }
     
-                //         }
+                        }
     
-                //     });
+                    });
     
                     
-                // }
-               
-             
-
-                if(Array.isArray(state.search_products) && state.search_products.length){
-                    return{
-                        ...state,
-                        getAllProducts:[...products],
-                        search_products:[...search_products]
-                       // category_products: [...category_products],
-        
-                    }
-                }else{
-
                 }
+               
                 return{
                     ...state,
                     getAllProducts:[...products],
-                   // category_products: [...category_products],
+                    search_products:[...search_products],
+                    category_products: [...category_products],
     
                 }
+
+              
 
 
         case CATEGORY_PRODUCTS : 
@@ -410,10 +388,6 @@ export default (state = initialState ,action) => {
             var cart_products_getonce = [...state.cart_products_getonce];
             var cart_products_subscribed = [...state.cart_products_subscribed];
 
-            var chk_id =[];
-
-
-            var chk_id =[];
                
             category_products.forEach(item=>{
                 var itemOnCart = false;
@@ -436,7 +410,7 @@ export default (state = initialState ,action) => {
 
                             if(parseInt(cart_item.product.id) === item.id){
 
-                                chk_id.push(item.id);
+                            
                                 
                                 Object.assign(item,{get_once:{
                                 
@@ -451,7 +425,6 @@ export default (state = initialState ,action) => {
                               
                             
                                 Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
-                               // Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
                                 
                                
                             }
@@ -494,15 +467,7 @@ export default (state = initialState ,action) => {
                                     Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
                                     itemOnCart = false;
 
-                                    // if(chk_id.includes(item.id)){
-
-                                    //     Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
-                                    //     itemOnCart = false;
-                                    // }else{
-                                    //     Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
-                                    // }
-                                  
-                                    
+                                   
                                    
                                 }
                             }
@@ -523,119 +488,6 @@ export default (state = initialState ,action) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-               
-            // category_products.forEach(item=>{
-            //     var itemOnCart = false;
-            //         if(cart_products_getonce.length > 0 && cart_products_subscribed.length > 0){
-
-            //             Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
-            //             Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
-                        
-            //         }else if(cart_products_getonce.length > 0){
-
-            //             cart_products_getonce.forEach(cart_item =>{
-    
-                           
-            //                 if(!itemOnCart){
-
-            //                     if(parseInt(cart_item.product.id) === item.id){
-
-            //                         chk_id.push(item.id);
-
-            //                         Object.assign(item,{get_once:{
-                                    
-            //                         itemOnCart:true,is_subscribed:cart_item.is_subscribed,
-            //                         subscription_type:cart_item.subscription_type,quantity:cart_item.quantity,}});
-            //                         itemOnCart = true;
-                               
-                                
-            //                     console.log("in if");
-            //                     }else{
-                                
-            //                         Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
-            //                         Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
-                                    
-            //                         console.log("in else");
-            //                     }
-            
-            //                 }
-                                
-                              
-                          
-                           
-            //             }
-                        
-            //             );
-            //         }
-
-            //         if(cart_products_subscribed.length > 0){
-    
-                       
-            //             var itemOnCart = false;
-    
-            //             cart_products_subscribed.forEach(cart_item =>{
-    
-                           
-            //                     if(!itemOnCart){
-
-            //                         if(parseInt(cart_item.product.id) === item.id){
-
-
-            //                             Object.assign(item,{subscribed:{
-                                            
-            //                                 itemOnCart:true,is_subscribed:cart_item.is_subscribed,
-            //                                 subscription_type:cart_item.subscription_type,subscribed_qauntity:cart_item.quantity
-            //                             }});
-            //                                 itemOnCart = true;
-                                       
-                                        
-                                       
-            //                         }else{
-    
-            //                             if(chk_id.includes(item.id)){
-    
-            //                                 Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
-            //                                 itemOnCart = false;
-            //                             }else{
-            //                                 Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
-            //                             }
-                                      
-                                        
-                                       
-            //                         }
-            //                     }
-                               
-                
-                          
-                           
-            //             });
-            //         }
-    
-            //      });
             return{
             ...state,
             category_products:[...category_products]
@@ -815,6 +667,139 @@ export default (state = initialState ,action) => {
 
 
             }
+
+
+        case REMOVE_ITEM_AFTER_PAYMENT_IN_HOME :
+
+            // update all products item 
+            var products = [...state.getAllProducts];
+            var ids = [...action.product_ids];
+
+           
+            if(products.length >=  action.products_ids){
+
+                products.map(value => {
+
+                    ids.map(item =>{
+                        if(value.id == item){
+
+                           if(value.get_once.itemOnCart){
+
+                                value.get_once.itemOnCart = false;
+                                value.get_once.is_subscribed = null;
+                                value.get_once.subscription_type = null;
+                                value.get_once.quantity = 1;
+                                value.get_once.subscribed_qauntity =  null
+                           }
+                         
+
+
+                        }
+                
+
+                    });
+
+                 
+                })
+            }else{
+
+
+                ids.map(item => {
+
+                    products.map(value =>{
+                        if(value.id == item){
+
+                           if(value.get_once.itemOnCart){
+
+                                value.get_once.itemOnCart = false;
+                                value.get_once.is_subscribed = null;
+                                value.get_once.subscription_type = null;
+                                value.get_once.quantity = 1;
+                                value.get_once.subscribed_qauntity =  null;
+                           }
+                         
+
+
+                        }
+                
+
+                    });
+                });
+
+            }
+
+
+            // for search products 
+
+            var search_prod =  [...state.search_products];
+            if(Array.isArray(state.search_products) && state.search_products.length){
+
+                if(search_prod.length >=  action.products_ids){
+
+                    search_prod.map(value => {
+
+                        ids.map(item =>{
+                            if(value.id == item){
+    
+                               if(value.get_once.itemOnCart){
+    
+                                    value.get_once.itemOnCart = false;
+                                    value.get_once.is_subscribed = null;
+                                    value.get_once.subscription_type = null;
+                                    value.get_once.quantity = 1;
+                                    value.get_once.subscribed_qauntity =  null
+                               }
+                             
+    
+    
+                            }
+                    
+    
+                        });
+    
+                     
+                    })
+                }else{
+
+                    ids.map(item => {
+
+                        search_prod.map(value =>{
+                            if(value.id == item){
+    
+                               if(value.get_once.itemOnCart){
+    
+                                    value.get_once.itemOnCart = false;
+                                    value.get_once.is_subscribed = null;
+                                    value.get_once.subscription_type = null;
+                                    value.get_once.quantity = 1;
+                                    value.get_once.subscribed_qauntity =  null;
+                               }
+                             
+    
+    
+                            }
+                    
+    
+                        });
+                    });
+
+                }
+
+            }
+
+            // category products 
+            
+
+            return {
+
+                ...state,
+                all_products:[...products],
+
+
+            }
+          
+            
+
                
 
 

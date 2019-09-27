@@ -7,6 +7,7 @@ import { IS_LOADING } from '../actions/types';
 import { REMOVE_FROM_CART,
     GET_CART_PRODUCTS ,
     REMOVE_SUBSCRIBED_FROM_CART,
+    REMOVE_ITEM_AFTER_PAYMENT_IN_CART,
     GET_CART_API} from '../actions/types';
 
 
@@ -23,6 +24,8 @@ const initialState = {
     error :"",
     isLoading:true,
     all_cart_products:[],
+    get_once_cart_sum:0.00,
+
    
 
 }
@@ -30,6 +33,8 @@ const initialState = {
 export default (state = initialState ,action) => {
 
     switch(action.type) {
+
+          // in cart reducer from home api for cart_get_once , cart_subscribed
 
         case GET_CART_PRODUCTS :
 
@@ -44,6 +49,7 @@ export default (state = initialState ,action) => {
             let total_count = 0;
             let cart_get_once = {};
             let cart_subscribed ={};
+            
             if(products_getonce.length > 0){
 
               
@@ -107,6 +113,7 @@ export default (state = initialState ,action) => {
           
             let updatedOrNewCartItem ;
             let count ;
+            let get_once_cart_sum;
 
             if(is_subscribed == 0 ){
 
@@ -137,7 +144,7 @@ export default (state = initialState ,action) => {
     
 
                 }
-
+                get_once_cart_sum = parseFloat(state.get_once_cart_sum) + parseFloat(prodPrice)
 
             }else{
 
@@ -172,6 +179,27 @@ export default (state = initialState ,action) => {
 
             }
 
+            // update the Qunatity here for all cart products
+            var all_cart  = [...state.all_cart_products];
+            if(Array.isArray(state.all_cart_products) && state.all_cart_products.length){
+
+              
+                all_cart.forEach(item => {
+
+                    if(item.product.id ===  prodId){
+
+
+                        if(addedproduct.is_subscribed ==  item.is_subscribed){
+                            item.quantity = parseInt(item.quantity) + 1;
+                        }
+                       
+                    
+                      
+                    }
+
+                });
+            }
+
 
         
 
@@ -184,6 +212,8 @@ export default (state = initialState ,action) => {
                     },
                     totalAmount: parseFloat(parseFloat(state.totalAmount) +  parseFloat(prodPrice)),
                     total_cart_count:state.total_cart_count +1,
+                    all_cart_products:[...all_cart],
+                    get_once_cart_sum:get_once_cart_sum
 
                 }
           }else{
@@ -195,6 +225,7 @@ export default (state = initialState ,action) => {
                         },
                         totalAmount: parseFloat(parseFloat(state.totalAmount) + parseFloat(prodPrice)),
                         total_cart_count:state.total_cart_count +1,
+                        all_cart_products:[...all_cart]
                 }
 
             }
@@ -234,16 +265,7 @@ export default (state = initialState ,action) => {
                     total_cart_amount =  parseFloat(state.totalAmount) - parseFloat(state.cart_subscribed[productId].itemPrice);
                     total_cart_count = parseInt(state.total_cart_count) - 1;
                    
-                    // updatedCartItems = {
-                      
-                    //         get_once:{
-                    //             ...state.product_item.get_once,
-                    //         },
-                    //         subscribed:{
-                    //             ...state.product_item.subscribed,[productId]:updatedCartItem
-                    //         }
-                      
-                    // }
+                   
 
                     return {
                         ...state ,
@@ -294,6 +316,36 @@ export default (state = initialState ,action) => {
             let total_cart_amount ; 
             let total_cart_count;
 
+            var all_cart = [...state.all_cart_products];
+          
+            if(Array.isArray(state.all_cart_products) && state.all_cart_products.length){
+         
+                all_cart.map((item,index) => {
+
+                    
+                    if(item.product.id == productId){
+
+                        if(item.is_subscribed == 0){
+                           
+                            if(item.quantity > 1){
+                                item.quantity = parseInt(item.quantity) - 1; 
+                               
+                               
+                            }else{
+
+                                all_cart.splice(index,1);
+                                index--;
+                                
+                            }
+                           
+                        }
+
+                    }
+
+                });
+            }
+           
+
             if(state.cart_get_once[productId]){
 
                 if(state.cart_get_once[productId].itemQuanity > 1){
@@ -312,15 +364,18 @@ export default (state = initialState ,action) => {
 
                     total_cart_amount = parseFloat(state.totalAmount) - parseFloat(state.cart_get_once[productId].itemPrice);
                     total_cart_count = parseInt(state.total_cart_count) - 1;
-
+                    var cart_sum = state.get_once_cart_sum;
+                    cart_sum = parseFloat(cart_sum) - parseFloat(state.cart_get_once[productId].itemPrice);
                   
                     
-                    console.log("cart_get_once after removing item",updatedCartItem);
+                   
                     return {
                         ...state ,
                         cart_get_once:{ ...state.cart_get_once,[productId]:updatedCartItem},
                         totalAmount: parseFloat(total_cart_amount),
                         total_cart_count:total_cart_count,
+                        all_cart_products:[...all_cart],
+                        get_once_cart_sum:cart_sum
         
                     }
                        
@@ -333,6 +388,8 @@ export default (state = initialState ,action) => {
 
                     total_cart_amount = parseFloat(state.totalAmount) - parseFloat(state.cart_get_once[productId].itemPrice);
                     total_cart_count = parseInt(state.total_cart_count) - 1;
+                    var cart_sum = state.get_once_cart_sum;
+                    get_once_cart_sum = parseFloat(cart_sum) - parseFloat(state.cart_get_once[productId].itemPrice);
 
 
                     delete updatedCartItem[productId];
@@ -342,6 +399,8 @@ export default (state = initialState ,action) => {
                         product_item:updatedCartItem,
                         totalAmount: parseFloat(total_cart_amount),
                         total_cart_count:total_cart_count,
+                        all_cart_products:[...all_cart],
+                        get_once_cart_sum:cart_sum
         
                     }
                    
@@ -353,9 +412,19 @@ export default (state = initialState ,action) => {
         case GET_CART_API :
 
             var cart_products = [...action.cart_products];
+            var cart_sum =0.00;
+            console.log("cart sum",cart_sum);
+            cart_products.map(item =>{
+
+                if(item.is_subscribed == 0){
+
+                    cart_sum = parseFloat(cart_sum) + (parseInt(item.quantity) * parseFloat(item.product.new_price)) 
+                }
+            })
             return {
                 ...state,
-                all_cart_products:[...cart_products]
+                all_cart_products:[...cart_products],
+                get_once_cart_sum:cart_sum
             }
            
             
@@ -379,6 +448,35 @@ export default (state = initialState ,action) => {
                 product_item:{},
                 totalAmount:0.00,
                 total_cart_count:0,
+            }
+
+        case REMOVE_ITEM_AFTER_PAYMENT_IN_CART :
+            
+            /// now remove this item from cart and cart_get_once 
+            var all_cart = [...state.all_cart_products];
+            var cart_once = {...state.cart_get_once};
+            var get_once_product_ids =  Object.keys(cart_once);
+            var cart_count = 0 ;
+            
+           
+
+            for( var i = 0; i < all_cart.length; i++){ 
+                if ( all_cart[i].is_subscribed === 0) {
+                    cart_count = cart_count + all_cart[i].quantity;
+                    all_cart.splice(i, 1); 
+                  i--;
+                }
+             }
+           
+           
+
+        
+            return {
+                ...state,
+                total_cart_count:parseInt(state.total_cart_count) - parseInt(cart_count),
+                cart_get_once:{},
+                all_cart_products: [...all_cart],
+
             }
     
 

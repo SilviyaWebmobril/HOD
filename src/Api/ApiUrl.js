@@ -68,5 +68,7 @@ export default {
     vist_farm :"farm_request",
 
     remove_address : "remove_address?address_id=",
+   //user_id=559&payment_id=3543df&net_amt=34.00
+    checkout_cart:"make_payment",
 
 }

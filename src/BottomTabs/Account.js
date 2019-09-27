@@ -31,7 +31,7 @@ class Account extends Component {
       }
       
       transactionHistory = () =>{
-          this.props.navigation.navigate("MyVideo");
+         // this.props.navigation.navigate("TransactionHistory");
       }
 
       onSupportHandler = () =>{
@@ -90,7 +90,7 @@ class Account extends Component {
                             </View>
 
                         </TouchableOpacity>
-                        
+                        <View style={styles.viewLineBlack}></View>
                         <TouchableOpacity
                             style={{alignContent:"flex-start",width:"100%"}}
                             >

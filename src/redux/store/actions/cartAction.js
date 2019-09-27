@@ -7,7 +7,7 @@ import ApiUrl from '../../../Api/ApiUrl';
 import {IS_LOADING} from '../actions/types';
 import  {REMOVE_FROM_CART,GET_CART_PRODUCTS,
 REMOVE_SUBSCRIBED_FROM_CART,UPDATE_GET_ALL_PRODUCTS_QUANTITY,
-REMOVE_GET_ONCE_GET_ALL_PRODUCTS_QUANTITY,GET_CART_API } from '../actions/types';
+REMOVE_GET_ONCE_GET_ALL_PRODUCTS_QUANTITY,GET_CART_API ,REMOVE_ITEM_AFTER_PAYMENT_IN_CART} from '../actions/types';
 
 
 export const fetchCartProducts  = (user_id) => {
@@ -45,6 +45,7 @@ export const fetchCartProducts  = (user_id) => {
 
         }else{
 
+            // in cart reducer
            
             dispatch( {
                 type:GET_CART_API,
@@ -111,11 +112,13 @@ export const addToCart  = (product_id,price,user_id) => {
 
         }else{
 
+            // in cart reducer
             dispatch( {
                 type:ADD_TO_CART,
                 product_item:response.data.data,
             })
     
+            // in home reducer
             dispatch( {
                 type:UPDATE_GET_ALL_PRODUCTS_QUANTITY,
                 product_item:response.data.data,
@@ -401,3 +404,12 @@ export const cartCount = () =>{
         type:CART_COUNT
     }
 }
+
+
+export const removeItemAfterPaymentInCart =  () => {
+
+    return {
+        type:REMOVE_ITEM_AFTER_PAYMENT_IN_CART,
+       
+    }
+} 

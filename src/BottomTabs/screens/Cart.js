@@ -16,6 +16,7 @@ import CartProductItem from '../ProductItem/CartProductItem';
 import CustomButton  from  '../../CustomUI/CustomButton/CustomButton';
 import Create_AccountStyle from '../../Create_Account/Create_AccountStyle';
 import RazorpayCheckout from 'react-native-razorpay';
+import * as homeAction from '../../redux/store/actions/homeAction';
 
 
 
@@ -50,7 +51,8 @@ class Cart extends Component {
 
 
         componentDidMount(){
-            
+        
+           
           this.props.getCartProducts(this.props.user.userdata.user_id);
        
         }
@@ -65,27 +67,60 @@ class Cart extends Component {
         }
 
         onCheckOutHandler= () =>{
-
+            console.log("cart products",this.props.cart_products);
             var options = {
-                description: 'Credits towards consultation',
+                description: '',
                 image: 'https://i.imgur.com/3g7nmJC.png',
                 currency: 'INR',
-                key: 'rzp_test_1DP5mmOlF5G5ag',
-                amount: '5000',
-                name: 'foo',
+                key: 'rzp_test_dUp5Ii1AWLex6g',
+                amount: parseFloat(this.props.cart_products.get_once_cart_sum * 100).toFixed(2),
+                name: this.props.user.userdata.user_name,
                 prefill: {
-                  email: 'void@razorpay.com',
-                  contact: '9191919191',
-                  name: 'Razorpay Software'
+                  email: this.props.user.userdata.user_email,
+                  contact: this.props.user.userdata.user_mobile,
+                  name: 'House Of Desi'
                 },
                 theme: {color: '#F37254'}
               }
               RazorpayCheckout.open(options).then((data) => {
                 // handle success
-                alert(`Success: ${data.razorpay_payment_id}`);
+               
+                var formdata = new FormData();
+                formdata.append("user_id",this.props.user.userdata.user_id);
+                formdata.append("payment_id",data.razorpay_payment_id);
+                formdata.append("net_amt",this.props.cart_products.get_once_cart_sum);
+
+              
+                Axios.post(ApiUrl.baseurl +  ApiUrl.checkout_cart,formdata)
+                .then(response=>{
+                 
+                    if(response.data.error){
+
+                    }else{
+
+                        var arr_id = [] ;
+                        this.props.cart_products.all_cart_products.map(item => {
+
+                            if(item.is_subscribed == 0){
+
+                                arr_id.push(item.product.id);
+                            }
+
+                        })
+
+                        this.props.removeFromHomeAfterPayment(arr_id);
+                        this.props.removeFromCartAfterPayment();
+                    }
+
+                  
+                }).catch(error => {
+                    console.log("cart error after payment",error);
+                    alert("Some Thing went Wrong !. Please try again later");
+                });
               }).catch((error) => {
                 // handle failure
-                alert(`Error: ${error.code} | ${error.description}`);
+                
+                alert(`${error.description}`);
               });
 
         }
@@ -106,7 +141,7 @@ class Cart extends Component {
                 
                 {this.props.cart_products.all_cart_products.length > 0 
                 ?
-                <CustomButton  customButttonStyle={{backgroundColor:"#FD8D45",}}
+                <CustomButton  customButttonStyle={{backgroundColor:"#FD8D45",marginBottom:30}}
                  customTextStyle={{ color:'black'}} onPressHandler = {() => this.onCheckOutHandler()} text="CHECKOUT" />
                   
                 :
@@ -144,6 +179,12 @@ mapDispatchToProps = dispatch =>{
         },
         onLoading : (value) => {
             dispatch(cartActions.isLoading(value))
+        },
+        removeFromCartAfterPayment : () =>{
+            dispatch(cartActions.removeItemAfterPaymentInCart())
+        },
+        removeFromHomeAfterPayment :(arr) => {
+            dispatch(homeAction.removeItemAterPaymentInHome(arr))
         }
     }
 }

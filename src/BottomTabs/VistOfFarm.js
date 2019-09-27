@@ -110,7 +110,7 @@ class VisitOfFarm extends Component{
                             </Text>
                         </View>
                         <CustomTextInput 
-                            inputType="subject"
+                            inputType="subject*"
                             placeholder="Enter Subject" placeholderTextColor='#898785'
                             ref="subject"
                             returnKeyType = { "next" }
@@ -118,7 +118,7 @@ class VisitOfFarm extends Component{
                         />
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
                             <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                                Date
+                                Date*
                             </Text>
                         </View>
                         {/* <CustomTextInput 
@@ -155,7 +155,7 @@ class VisitOfFarm extends Component{
 
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
                             <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                                Time
+                                Time*
                             </Text>
                         </View>
                         <DatePicker
@@ -183,7 +183,7 @@ class VisitOfFarm extends Component{
                         />
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
                             <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                                Message
+                                Message*
                             </Text>
                         </View>
                         <CustomTextInput 

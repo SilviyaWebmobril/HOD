@@ -3,7 +3,7 @@ import { ERROR } from '../actions/types';
 import axios from 'axios';
 import ApiUrl from '../../../Api/ApiUrl';
 import {IS_LOADING} from '../actions/types';
-import  {GET_CART_PRODUCTS,HOME_SCREEN,CATEGORY_PRODUCTS,SEARCH_PRODUCTS,ADD_USER_ADDRESS} from '../actions/types';
+import  {GET_CART_PRODUCTS,HOME_SCREEN,CATEGORY_PRODUCTS,SEARCH_PRODUCTS,REMOVE_ITEM_AFTER_PAYMENT_IN_HOME} from '../actions/types';
 
 
 export const homeScreenProducts = (user_id) =>{
@@ -30,6 +30,7 @@ export const homeScreenProducts = (user_id) =>{
                 home_products:response.data,
             })
 
+            // in cart reducer from home api
             dispatch( {
                 type:GET_CART_PRODUCTS,
                 products_getonce:response.data.cart_products_getonce,
@@ -171,5 +172,15 @@ export const searchProducts  =(value) =>{
 
 
         });
+    }
+}
+
+export const removeItemAterPaymentInHome = (arr) =>{
+
+    return {
+
+        type:REMOVE_ITEM_AFTER_PAYMENT_IN_HOME,
+        product_ids :  arr,
+
     }
 }

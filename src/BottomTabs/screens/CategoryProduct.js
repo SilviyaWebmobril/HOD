@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import {View ,FlatList,Text,StyleSheet,TouchableOpacity,Image} from 'react-native';
+import {View ,FlatList,Text,StyleSheet,TouchableOpacity,Image,Alert} from 'react-native';
 import * as HOC from '../../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -66,9 +66,12 @@ class CategoryProduct extends Component {
 
     
 
-        console.log(this.props.cart.isLoading)
+        if(this.props.homescreen.category_products.length == 0){
+
+            this.props.onCategoryScreen(this.props.navigation.getParam('category_id'));
+        }
        
-        this.props.onCategoryScreen(this.props.navigation.getParam('category_id'));
+     
      
     }
 
@@ -164,7 +167,7 @@ class CategoryProduct extends Component {
 
     renderItem(data){
         let { item, index } = data;
-        console.log("item==>",item);
+       
         return(
             <TouchableOpacity
             onPress={()=>this.onDetailsHandler(item.id)}>
