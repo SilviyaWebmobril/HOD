@@ -15,7 +15,7 @@ export default class SmallButton extends Component {
                  disabled={this.props.disabled}>
 
                     <View
-                    style={styles.buttonView}>
+                    style={[styles.buttonView,this.props.selected]}>
 
                         <Text style={styles.text}>
                             {this.props.buttonText}

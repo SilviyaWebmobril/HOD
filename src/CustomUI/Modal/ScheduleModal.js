@@ -6,13 +6,17 @@ import {
     View,
     TouchableOpacity,
     Slider,
-    SafeAreaView
+    Dimensions,
+    SafeAreaView,
+    TouchableWithoutFeedback
   } from 'react-native';
 import CardView from 'react-native-cardview';
 import CustomSchedule from './CustomSchedule';
 import { connect } from 'react-redux';
 import * as ScheduleAction from '../../redux/store/actions/SchedulerAction';
 import * as cartActions from '../../redux/store/actions/cartAction';
+import Modal from "react-native-modal";
+const deviceWidth = Dimensions.get("window").width;
 
 class ScheduleModal extends Component{
 
@@ -37,80 +41,71 @@ class ScheduleModal extends Component{
       }
 
       onDismissModal = () =>{
-        console.log("hi on cancel");
+        console.log("hi on cancel ScheduleModal");
         this.props.onCancelSchedule();
       }
       
     render(){
+        console.log("on rendering modal");
         return(
-          <TouchableOpacity 
-          onPress={()=>this.onDismissModal()}>
-            <View style={{margin:20}}>
+            <View style={{flex:1}}>
 
-            {!this.state.customSchedule ?
-             
-
-                  <CardView
-                    style={{
-                      backgroundColor: 'white'
-                    }}
+                {!this.state.customSchedule ?
+                    <Modal isVisible={true}
+                    deviceWidth={deviceWidth}
+                    customBackdrop={
+                        <TouchableWithoutFeedback onPress={()=>{this.onDismissModal()}}>
+                            <View style={{ backgroundColor:"white",flex:1}} />
+                        </TouchableWithoutFeedback>
+                    } 
+                    >
                     
-                    cardElevation={7}
-                    cardMaxElevation={7}
-                    cornerRadius={1}
-                    cornerOverlap={false}
-                  >
                     <View style={styles.child}>
-                      <View style={styles.titleView}>
-                        <Text style={styles.title}>Deliver these items on:</Text>
-                      </View>
-                      
-                      <View style={styles.titleView}>
-                        <TouchableOpacity
-                        //onPress={()=>this.addSchedule("1")}
-                        >
-                            <Text style={styles.scheduleTextStyle}>Alternate Days</Text>
-                        </TouchableOpacity> 
-                        <TouchableOpacity
-                        //onPress={()=>this.addSchedule("2")}
-                        >
-                            <Text style={styles.scheduleTextStyle}>Daily</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                        //onPress={()=>this.addSchedule("3")}
-                        >
-                            <Text style={styles.scheduleTextStyle}>Weekdays</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                        //onPress={()=>this.addSchedule("4")}
-                        >
-                            <Text style={styles.scheduleTextStyle}>Weekends</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                        //onPress={()=>this.customSchedule()}
-                        >
-                            <Text style={styles.scheduleTextStyle}>Custom Schedule</Text>
-                        </TouchableOpacity>
-                        
-                      </View>
-                      
-                    </View>
-                  </CardView>
+                            <View style={styles.titleView}>
+                                <Text style={styles.title}>Deliver these items on:</Text>
+                            </View>
+                            
+                            <View style={styles.titleView}>
+                                <TouchableOpacity
+                                //onPress={()=>this.addSchedule("1")}
+                                >
+                                    <Text style={styles.scheduleTextStyle}>Alternate Days</Text>
+                                </TouchableOpacity> 
+                                <TouchableOpacity
+                                //onPress={()=>this.addSchedule("2")}
+                                >
+                                    <Text style={styles.scheduleTextStyle}>Daily</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                //onPress={()=>this.addSchedule("3")}
+                                >
+                                    <Text style={styles.scheduleTextStyle}>Weekdays</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                //onPress={()=>this.addSchedule("4")}
+                                >
+                                    <Text style={styles.scheduleTextStyle}>Weekends</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                onPress={()=>this.customSchedule()}
+                                >
+                                    <Text style={styles.scheduleTextStyle}>Custom Schedule</Text>
+                                </TouchableOpacity>
+                                
+                            </View>
+                            
+                            </View>
+                    </Modal>
 
+                    :
+
+                    <CustomSchedule addSchedule={this.addCustomSchedule.bind(this)}/>
+                }
+
+
+
+            </View>
             
-             
-
-            
-            :
-
-            <CustomSchedule addSchedule={this.addCustomSchedule.bind(this)}/>
-            }
-          
-
-
-        </View>
-        </TouchableOpacity>
-      
         
         );
 
@@ -154,7 +149,12 @@ const styles = StyleSheet.create({
     },
    
     child: {
-      width: 400
+      width: deviceWidth,
+      backgroundColor:"white",
+      alignSelf:"center",
+      elevation:5
+      
+
     },
     titleView: {
       paddingLeft: 25,
