@@ -31,7 +31,7 @@ class Account extends Component {
       }
       
       transactionHistory = () =>{
-         // this.props.navigation.navigate("TransactionHistory");
+          this.props.navigation.navigate("TransactionHistory");
       }
 
       onSupportHandler = () =>{

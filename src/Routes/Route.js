@@ -24,7 +24,7 @@ import CategoryProduct from '../BottomTabs/screens/CategoryProduct';
 import Support from '../BottomTabs/Account/Support';
 import CategoryProductDetails from  '../BottomTabs/screens/CategoryProductDetails';
 import Cart from '../BottomTabs/screens/Cart';
-
+import TransactionHistory from '../BottomTabs/Account/TransactionHistory/TransactionHistory';
 const Bottomtabs = createBottomTabNavigator({
 
   'HomeScreen':{
@@ -202,7 +202,7 @@ const bottomtabsStack = createStackNavigator({
   CategoryProduct,
   CategoryProductDetails,
   Support,
-  
+  TransactionHistory,
   Login, 
   OTP,
   

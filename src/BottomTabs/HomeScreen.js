@@ -71,7 +71,7 @@ class HomeScreen extends  Component {
        
         return(
             <TouchableOpacity
-            onPress={()=>this.onDetailsHandler(item.id,item.name)}
+           // onPress={()=>this.onDetailsHandler(item.id,item.name)}
            >
             <ProductItem data={item} scheduleModal={this.scheduleModalVisible.bind(this)}/>
             </TouchableOpacity>
@@ -115,6 +115,7 @@ class HomeScreen extends  Component {
             }
     
             if(prevProps.cart !== this.props.cart){
+
     
     
     

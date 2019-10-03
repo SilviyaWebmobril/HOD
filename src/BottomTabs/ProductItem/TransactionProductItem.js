@@ -1,5 +1,5 @@
 import React ,{Component} from 'react';
-import {View ,Text,StyleSheet } from 'react-native';
+import {View ,Text,StyleSheet,Image } from 'react-native';
 import * as HOC from '../../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -39,24 +39,27 @@ class TransactionHistory extends Component {
                 
                 <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.product.img}} style={{width:120, height:120,borderRadius:10}}/>
                 <View style={styles.sectionRow}>
-                    <View style={styles.textColumnLeft}>
-                        <Text style={styles.textProductname}>{this.props.data.product.name}</Text>
+                    <View style={styles.sectionColumn}>
+                        <View style={styles.textColumnLeft}>
+                            <Text style={styles.textProductname}>{this.props.data.product.name}</Text>
+                            
+                        </View>
+                        {this.props.data.product.unit_id == 1 ? 
+        
+                        <View style={styles.unitView}>
+        
+                            <Text style={styles.unitViewText}>{this.props.data.weight}L</Text>
+                          
+                        </View>
                         
-                    </View>
-                    {this.props.data.unit_id == 1 ? 
-    
-                    <View>
-    
-                        <Text>{this.props.data.weight}isLoading</Text>
+                        :
+                        <View/>
                     
+                        } 
                     </View>
-                    
-                    :
-                   <View/>
-                
-                    } 
+                   
 
-                    <Text style={styles.textColumnLeft}>{this.props.data.price}</Text>
+                    <Text style={styles.textColumnLeft1}>{this.props.data.price}</Text>
                 
                 </View>
 
@@ -99,9 +102,65 @@ export default connect(mapStateToProps,mapDispatchToProps)(TransactionHistory);
 const styles = StyleSheet.create({
 
     container:{
-        flex:1,
-        backgroundColor:'#ffffff',
+      
+        flexDirection:"row",
+        marginTop:10,
+        marginLeft:10,
+        marginRight:10,
+        //backgroundColor:"red"
+
+    },  
+    sectionRow:{
+        flexDirection:"row",
+        justifyContent:"space-evenly",
+        margin:10,
+    
+    },
+    textColumnLeft:{
+        flexDirection:"column",
+        alignSelf:"flex-start",
+        flex:0.5,
+        marginTop:10
+        
+    },
+    textColumnLeft1:{
+        flexDirection:"column",
+        alignSelf:"flex-end",
+        position:"absolute"
+    },
+    textColumnRight:{
+        flexDirection:"column",
+        alignSelf:"flex-end",
+        position: 'absolute', 
+        textAlign:"right",
+        flex:0.5,
        
+        
+    },
+    textProductname:{
+        fontSize:15,
+        fontWeight:"bold",
+        color:"black",
+        lineHeight:30,
+    },
+    textBorder:{
+        // borderColor:'grey',
+        // borderRadius:1,
+        // borderWidth:0.5,
+        textAlign:"right",
+        padding:2,
+        lineHeight:20,
+        marginTop:10,
+
+    },
+    viewLineGrey:{
+        width:'100%',
+        height:1,
+        backgroundColor:"#DCDCDC",
+        marginTop:10,
+        marginBottom:10,
+       
+        
     },
    
 

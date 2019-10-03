@@ -7,8 +7,12 @@ import ApiUrl from '../../../Api/ApiUrl';
 import {IS_LOADING} from '../actions/types';
 import  {REMOVE_FROM_CART,GET_CART_PRODUCTS,
 REMOVE_SUBSCRIBED_FROM_CART,UPDATE_GET_ALL_PRODUCTS_QUANTITY,
+REMOVE_FROM_CART_SUBSCRIBED_PRODUCTS_HOME,
+ADD_TO_CART_SUBSCRIBED_PRODUCTS_HOME,
+ADD_TO_CART_GETONCE_PRODUCTS_HOME,
+REMOVE_FROM_CART_GETONCE_PRODUCTS_HOME,
 REMOVE_GET_ONCE_GET_ALL_PRODUCTS_QUANTITY,GET_CART_API ,REMOVE_ITEM_AFTER_PAYMENT_IN_CART} from '../actions/types';
-
+import {ADD_SCHEDULER,CANCEL_SCHEDULER} from '../actions/types';
 
 export const fetchCartProducts  = (user_id) => {
 
@@ -124,6 +128,13 @@ export const addToCart  = (product_id,price,user_id) => {
                 product_item:response.data.data,
                 
             })
+
+            // in home reducer
+            dispatch( {
+                type:ADD_TO_CART_GETONCE_PRODUCTS_HOME,
+                product:response.data.data,
+                
+            })
         }
 
      
@@ -190,6 +201,12 @@ export const removeFromCart = (product_id,user_id,price) =>{
 
                     dispatch( {
                         type:REMOVE_GET_ONCE_GET_ALL_PRODUCTS_QUANTITY,
+                        payload:{product_id:product_id,type:0}
+                       
+                    })
+        
+                    dispatch( {
+                        type:REMOVE_FROM_CART_GETONCE_PRODUCTS_HOME,
                         product_id:product_id,
                        
                     })
@@ -206,6 +223,7 @@ export const removeFromCart = (product_id,user_id,price) =>{
             
             }).catch(error => {
         
+               
                 console.log("response on error",error);
         
                 dispatch({
@@ -226,10 +244,14 @@ export const removeFromCart = (product_id,user_id,price) =>{
 
 
 
-export const removeSubscribedFromCart = (product_id,user_id) =>{ 
+export const removeSubscribedFromCart = (product_id,user_id,price) =>{ 
 
     return dispatch => {
 
+            dispatch({
+                type:IS_LOADING,
+                isLoading:true,
+            })
          //any async code you want! 
             var formdata  = new FormData();
             formdata.append("user_id",user_id);
@@ -265,6 +287,19 @@ export const removeSubscribedFromCart = (product_id,user_id) =>{
                         product_id:product_id,
                       
                     })
+
+                    //type 1 means subscribed product
+                    dispatch( {
+                        type:REMOVE_GET_ONCE_GET_ALL_PRODUCTS_QUANTITY,
+                        payload:{product_id:product_id,type:1}
+                       
+                    })
+
+                    dispatch( {
+                        type:REMOVE_FROM_CART_SUBSCRIBED_PRODUCTS_HOME,
+                        product_id:product_id,
+                       
+                    })
         
                     dispatch({
                         type:ERROR,
@@ -299,6 +334,19 @@ export const addOrUpdateSubscriptionToCart = (product_id,price,subscriptipn_type
 
 
     return dispatch => {
+
+            dispatch({
+                type:CANCEL_SCHEDULER,
+                schedule_id:0
+            })
+
+            dispatch({
+                type:IS_LOADING,
+                isLoading:true,
+            })
+    
+
+
 
         //any async code you want! 
            var formdata  = new FormData();
@@ -341,7 +389,21 @@ export const addOrUpdateSubscriptionToCart = (product_id,price,subscriptipn_type
                        type:ADD_TO_CART,
                        product_item:response.data.data,
                      
-                   })
+                   });
+
+                     // in home reducer
+                    dispatch( {
+                        type:UPDATE_GET_ALL_PRODUCTS_QUANTITY,
+                        product_item:response.data.data,
+                        
+                    });
+       
+                      // in home reducer
+                      dispatch( {
+                        type:ADD_TO_CART_SUBSCRIBED_PRODUCTS_HOME,
+                        product:response.data.data,
+                        
+                    });
        
                    dispatch({
                        type:ERROR,

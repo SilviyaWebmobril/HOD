@@ -65,11 +65,8 @@ class CategoryProduct extends Component {
     componentDidMount () {
 
     
-
-        if(this.props.homescreen.category_products.length == 0){
-
-            this.props.onCategoryScreen(this.props.navigation.getParam('category_id'));
-        }
+        this.props.onCategoryScreen(this.props.navigation.getParam('category_id'));
+       
        
      
      

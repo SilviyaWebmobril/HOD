@@ -2,6 +2,10 @@ import {HOME_SCREEN,
     UPDATE_GET_ALL_PRODUCTS_QUANTITY,
     CATEGORY_PRODUCTS,
     REMOVE_GET_ONCE_GET_ALL_PRODUCTS_QUANTITY,
+    REMOVE_FROM_CART_SUBSCRIBED_PRODUCTS_HOME,
+    ADD_TO_CART_SUBSCRIBED_PRODUCTS_HOME,
+    ADD_TO_CART_GETONCE_PRODUCTS_HOME,
+    REMOVE_FROM_CART_GETONCE_PRODUCTS_HOME,
     SEARCH_PRODUCTS,
     REMOVE_ITEM_AFTER_PAYMENT_IN_HOME
 } from '../actions/types';
@@ -134,7 +138,7 @@ export default (state = initialState ,action) => {
     
     
                  });
-
+                
            
             return {
                ...state,
@@ -177,15 +181,15 @@ export default (state = initialState ,action) => {
                     }else{
 
                       
-
+                      
                         if(!item.subscribed.itemOnCart){
 
                             item.subscribed.itemOnCart = true;
-                            item.subscribed.quantity = updated_item.quantity;
+                            item.subscribed.subscribed_qauntity = updated_item.quantity;
 
                         }else{
-
-                            item.subscribed.quantity = updated_item.quantity;
+                            
+                            item.subscribed.subscribed_qauntity = updated_item.quantity;
                         }
                          
                         
@@ -228,15 +232,14 @@ export default (state = initialState ,action) => {
                         }else{
     
                           
-    
                             if(!item.subscribed.itemOnCart){
-    
+
                                 item.subscribed.itemOnCart = true;
-                                item.subscribed.quantity = updated_item.quantity;
+                                item.subscribed.subscribed_qauntity = updated_item.quantity;
     
                             }else{
-    
-                                item.subscribed.quantity = updated_item.quantity;
+                                
+                                item.subscribed.subscribed_qauntity = updated_item.quantity;
                             }
                              
                             
@@ -249,8 +252,8 @@ export default (state = initialState ,action) => {
             }
 
             var category_products  =  [...state.category_products];
-
-            console.log('get all category product',category_products);
+           
+            console.log('get all category product item',updated_item);
             if(Array.isArray(state.category_products) && state.category_products.length){
                 category_products.forEach(item => {
 
@@ -276,12 +279,13 @@ export default (state = initialState ,action) => {
                             if(!item.subscribed.itemOnCart){
 
                                 item.subscribed.itemOnCart = true;
-                                item.subscribed.quantity = updated_item.quantity;
-
+                                item.subscribed.subscribed_qauntity = updated_item.quantity;
+    
                             }else{
-
-                                item.subscribed.quantity = updated_item.quantity;
+                                
+                                item.subscribed.subscribed_qauntity = updated_item.quantity;
                             }
+                             
                             
                             
                         }
@@ -307,16 +311,34 @@ export default (state = initialState ,action) => {
                 
                 products.forEach(item => {
 
-                    if(item.id == action.product_id){
+                    if(item.id == action.payload.product_id){
+                        console.log("item.subscribed.subscribed_qauntity ",item);
+                        if(action.payload.type == 0){
 
-                        if(item.get_once.quantity > 1){
-
-                            item.get_once.quantity = (item.get_once.quantity) -1;
+                           
+                                if(item.get_once.quantity > 1){
+    
+                                    item.get_once.quantity = (item.get_once.quantity) -1;
+                                }else{
+    
+                                    item.get_once.itemOnCart = false;
+                                    item.get_once.quantity = 1;
+                                }
+    
+                           
                         }else{
 
-                            item.get_once.itemOnCart = false;
-                            item.get_once.quantity = 1;
+                            if(item.subscribed.subscribed_qauntity > 1){
+    
+                                item.subscribed.subscribed_qauntity  = (item.subscribed.subscribed_qauntity ) -1;
+                            }else{
+
+                                item.subscribed_qauntity.itemOnCart = false;
+                                item.subscribed.subscribed_qauntity  = 1;
+                            }
                         }
+                       
+
 
                     }
 
@@ -330,16 +352,31 @@ export default (state = initialState ,action) => {
                 
                     search_products.forEach(item => {
     
-                        if(item.id == action.product_id){
+                        if(item.id == action.payload.product_id){
+                            if(action.payload.type == 0){
+
+                           
+                                if(item.get_once.quantity > 1){
     
-                            if(item.get_once.quantity > 1){
+                                    item.get_once.quantity = (item.get_once.quantity) -1;
+                                }else{
     
-                                item.get_once.quantity = item.get_once.quantity -1;
+                                    item.get_once.itemOnCart = false;
+                                    item.get_once.quantity = 1;
+                                }
+    
+                           
+                        }else{
+
+                            if(item.subscribed.subscribed_qauntity > 1){
+    
+                                item.subscribed.subscribed_qauntity  = (item.subscribed.subscribed_qauntity ) -1;
                             }else{
-    
-                                item.get_once.itemOnCart = false;
-                                item.get_once.quantity = 1;
+
+                                item.subscribed_qauntity.itemOnCart = false;
+                                item.subscribed.subscribed_qauntity  = 1;
                             }
+                        }
     
                         }
     
@@ -353,15 +390,31 @@ export default (state = initialState ,action) => {
                     
                     category_products.forEach(item => {
     
-                        if(item.id == action.product_id){
-    
-                            if(item.get_once.quantity > 1){
-    
-                                item.get_once.quantity = item.get_once.quantity - 1;
+                            if(item.id == action.payload.product_id){
+        
+                                if(action.payload.type == 0){
+
+                            
+                                    if(item.get_once.quantity > 1){
+        
+                                        item.get_once.quantity = (item.get_once.quantity) -1;
+                                    }else{
+        
+                                        item.get_once.itemOnCart = false;
+                                        item.get_once.quantity = 1;
+                                    }
+        
+                            
                             }else{
-    
-                                item.get_once.itemOnCart = false;
-                                item.get_once.quantity = 1;
+
+                                if(item.subscribed.subscribed_qauntity > 1){
+        
+                                    item.subscribed.subscribed_qauntity  = (item.subscribed.subscribed_qauntity ) -1;
+                                }else{
+
+                                    item.subscribed_qauntity.itemOnCart = false;
+                                    item.subscribed.subscribed_qauntity  = 1;
+                                }
                             }
     
                         }
@@ -590,15 +643,7 @@ export default (state = initialState ,action) => {
                                         Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
                                         itemOnCart = false;
     
-                                        // if(chk_id.includes(item.id)){
-    
-                                        //     Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
-                                        //     itemOnCart = false;
-                                        // }else{
-                                        //     Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
-                                        // }
-                                      
-                                        
+                                       
                                        
                                     }
                                 }
@@ -797,9 +842,149 @@ export default (state = initialState ,action) => {
 
 
             }
+
+        case REMOVE_FROM_CART_GETONCE_PRODUCTS_HOME :
+
+            var cart_products_getonce  =  [...state.cart_products_getonce];
+            var product_id_removed =  action.product_id;
+            var remove_item  = 0;
           
+            cart_products_getonce.map((item,index) =>{
+
+                if(item.product_id ==  product_id_removed ){
+
+                    if(item.quantity > 1){
+
+                        item.quantity = parseInt(item.quantity) - 1;
+                       
+                    }else{
+                        remove_item = 1;
+
+                    }
+                }
+            });
+
+            if(remove_item == 1){
+
+                for( var i = 0; i < cart_products_getonce.length; i++){ 
+
+                    if(cart_products_getonce[i].product_id ==  product_id_removed ){
+                        if(cart_products_getonce[i].quantity == 1){
+                            cart_products_getonce.splice(i, 1); 
+                            i--;
+                           
+                        }
+                       
+                    }
+                   
+                }
+            }
+           
+           
+            return{
+                ...state,
+                cart_products_getonce:[...cart_products_getonce],
+            }
+
+        case ADD_TO_CART_GETONCE_PRODUCTS_HOME :
+
+                var cart_products_getonce  =  [...state.cart_products_getonce];
+                var product_id_added =  action.product.product_id;
+                var product =  action.product;
+                var not_present = 0;
+              
+                cart_products_getonce.map((item,index) =>{
+                    not_present = 0;
+                    if(item.product_id ==  product_id_added ){
+    
+                        if(item.quantity > 1){
+    
+                            item.quantity = item.quantity + 1;
+                            not_present = 1;
+    
+                        }
+                    }
+                });
+                if(not_present == 0){
+                    cart_products_getonce.push(product);
+                }
+               
+                return{
+                    ...state,
+                    cart_products_getonce:[...cart_products_getonce],
+                }
             
 
+            case REMOVE_FROM_CART_SUBSCRIBED_PRODUCTS_HOME :
+
+                    var cart_products_subscribed  =  [...state.cart_products_subscribed];
+                    var product_id_removed =  action.product_id;
+                    var remove_item = 0;
+                    cart_products_subscribed.map((item,index) =>{
+        
+                        if(item.product_id ==  product_id_removed ){
+        
+                            if(item.quantity > 1){
+        
+                                item.quantity = parseInt(item.quantity) - 1;
+        
+                            }
+                        }else{
+        
+                            remove_item =1;
+                        }
+                    });
+
+                    if(remove_item == 1){
+
+                        for( var i = 0; i < cart_products_subscribed.length; i++){ 
+        
+                            if(cart_products_subscribed[i].product_id ==  product_id_removed ){
+                                if(cart_products_subscribed[i].quantity == 1){
+                                    cart_products_subscribed.splice(i, 1); 
+                                    i--;
+                                   
+                                }
+                               
+                            }
+                           
+                        }
+                    }
+                    console.log("cart_products_subscribed",cart_products_subscribed)
+                    return{
+                        ...state,
+                        cart_products_subscribed:[...cart_products_subscribed],
+                    }
+            
+            case ADD_TO_CART_SUBSCRIBED_PRODUCTS_HOME :
+    
+                    var cart_products_subscribed  =  [...state.cart_products_subscribed];
+                    var product_id_added =  action.product.product_id;
+                    var product =  action.product;
+                    var not_present =0;
+                    
+                    cart_products_subscribed.map((item,index) =>{
+                        not_present = 0;
+                        if(item.product_id ==  product_id_added ){
+        
+                            if(item.quantity > 1){
+        
+                                item.quantity = item.quantity + 1;
+                                not_present = 1;
+        
+                            }
+                        }
+                    });
+                    if(not_present == 0){
+                        cart_products_subscribed.push(product);
+                    }
+                    console.log("cart_products_subscribed",cart_products_subscribed)
+                    return{
+                        ...state,
+                        cart_products_subscribed:[...cart_products_subscribed],
+                    }
+                
+    
                
 
 

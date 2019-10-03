@@ -1,5 +1,5 @@
 import React ,{Component} from 'react';
-import {View ,Text,StyleSheet } from 'react-native';
+import {View ,Text,StyleSheet,FlatList,TouchableOpacity,Image } from 'react-native';
 import * as HOC from '../../../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -9,11 +9,12 @@ import {connect} from 'react-redux';
 import ApiUrl from '../../../Api/ApiUrl';
 import * as cartActions  from '../../../redux/store/actions/cartAction';
 import TransactionProductItem from '../../ProductItem/TransactionProductItem';
+import axios from 'axios';
 
 class TransactionHistory extends Component {
 
     static navigationOptions = ({ navigation, screenProps }) => ({
-        title: 'Transactin History',
+        title: 'Transaction History',
         headerStyle: { backgroundColor: '#FD8D45' },
         headerTitleStyle: { color: 'white' },
         headerTintColor: 'white',
@@ -31,7 +32,7 @@ class TransactionHistory extends Component {
 
         var formdata  = new FormData();
         formdata.append("user_id",this.props.user.userdata.user_id)
-        axios.post(ApiUrl.baseurl +  ApiUrl)
+        axios.post(ApiUrl.baseurl +  ApiUrl.transaction_history,formdata)
         .then(response =>{
 
             this.setState({history:response.data.data});

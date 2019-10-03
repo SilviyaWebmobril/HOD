@@ -37,7 +37,7 @@ class ScheduleModal extends Component{
       }
       addSchedule=(value)=>{
         this.props.onAddSchedule(value);
-        this.props.onAdd(this.props.product_id,this.props.price,value,this.props.user.user_id,0)
+        this.props.onAdd(this.props.product_id,this.props.price,value,this.props.user.user_id,0);
       }
 
       onDismissModal = () =>{
@@ -67,22 +67,22 @@ class ScheduleModal extends Component{
                             
                             <View style={styles.titleView}>
                                 <TouchableOpacity
-                                //onPress={()=>this.addSchedule("1")}
+                                onPress={()=>this.addSchedule("1")}
                                 >
                                     <Text style={styles.scheduleTextStyle}>Alternate Days</Text>
                                 </TouchableOpacity> 
                                 <TouchableOpacity
-                                //onPress={()=>this.addSchedule("2")}
+                                onPress={()=>this.addSchedule("2")}
                                 >
                                     <Text style={styles.scheduleTextStyle}>Daily</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                //onPress={()=>this.addSchedule("3")}
+                                onPress={()=>this.addSchedule("3")}
                                 >
                                     <Text style={styles.scheduleTextStyle}>Weekdays</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                //onPress={()=>this.addSchedule("4")}
+                                onPress={()=>this.addSchedule("4")}
                                 >
                                     <Text style={styles.scheduleTextStyle}>Weekends</Text>
                                 </TouchableOpacity>

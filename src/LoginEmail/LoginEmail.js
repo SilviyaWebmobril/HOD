@@ -127,8 +127,10 @@ class LoginEmail extends Component {
                 
               })
               .catch(error => {
-                  console.log("my error",error.response)
-                  alert("Something went wrong!")
+                  console.log("my error",error)
+                  alert("Check You Netwrok connect and try again!");
+
+                  this.setState({isLoading:false});
               });
 
 

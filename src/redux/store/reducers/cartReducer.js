@@ -77,7 +77,7 @@ export default (state = initialState ,action) => {
                     var sum = parseFloat(item.product.new_price) * parseInt(item.quantity);
                     const cartItem = new CartItem(item.product.name,item.is_subscribed,item.subscription_type,item.quantity,item.product.new_price,parseFloat(sum));
     
-                            Object.assign(cart_subscribed,{"subscribed":{[item.product.id]:cartItem}});
+                            Object.assign(cart_subscribed,{[item.product.id]:cartItem});
                             total_subscribed_quantity = parseInt(total_subscribed_quantity) + parseInt(item.quantity);
                        
                             totalAmount_subscribed =  parseFloat(parseFloat(totalAmount_subscribed) + parseFloat(parseFloat(item.quantity) * parseFloat(item.product.new_price)))
@@ -101,13 +101,14 @@ export default (state = initialState ,action) => {
 
         case ADD_TO_CART :  
 
+            
             const addedproduct = {...action.product_item};
             let is_subscribed  =  addedproduct.is_subscribed;
             let subscryption_type = addedproduct.subscription_type;
             let prodId = addedproduct.product.id;
             let prodPrice = parseFloat(addedproduct.product.new_price).toFixed(2);
             let prodName =  addedproduct.product.name;
-            
+           
           
             let  quantity = addedproduct.quantity ;
           
@@ -121,7 +122,7 @@ export default (state = initialState ,action) => {
 
                     if(state.cart_get_once[prodId]){
 
-                        console.log("state product item updating",state.cart_get_once)
+                       
 
                         // checking if already present
                  
@@ -152,7 +153,7 @@ export default (state = initialState ,action) => {
 
                 if(state.cart_subscribed[prodId]){
 
-
+                 
                         // checking if already present
                  
                           updatedOrNewCartItem =  new CartItem(
@@ -164,9 +165,7 @@ export default (state = initialState ,action) => {
                               parseFloat(state.cart_subscribed[prodId].sum + parseFloat(prodPrice)).toFixed(2)
                           );
     
-                        
-                          
-                
+                     
                 }else{
 
                 quantity = 1;
@@ -247,29 +246,38 @@ export default (state = initialState ,action) => {
             let total_cart_amount ; 
             let total_cart_count;
 
+            
             if(state.cart_subscribed[productId]){
-
+               
                 if(state.cart_subscribed[productId].itemQuanity > 1){
 
                     // reduce the quantity the by 1
+                   
+                    let itemName =   state.cart_subscribed[productId].itemName;
+                    let isSubscribed = state.cart_subscribed[productId].isSubscribed;
+                    let subscryptionType = state.cart_subscribed[productId].subscryptionType;
+                    let itemQuanity = state.cart_subscribed[productId].itemQuanity - 1;
+                    let itemPrice =  state.cart_subscribed[productId].itemPrice;
+                    let sum = parseFloat(state.cart_subscribed[productId].sum) - parseFloat(state.cart_subscribed[productId].itemPrice),
 
                  updatedCartItem = new CartItem(
 
-                        state.cart_subscribed[productId].itemName,
-                        state.cart_subscribed[productId].isSubscribed,
-                        state.cart_subscribed[productId].subscryptionType,
-                        state.cart_subscribed[productId].itemQuanity - 1,
-                        state.cart_subscribed[productId].itemPrice,
-                        parseFloat(state.cart_subscribed[productId].sum) - parseFloat(state.cart_subscribed[productId].itemPrice),
+                        itemName,
+                        isSubscribed,
+                        subscryptionType,
+                        itemQuanity,
+                        itemPrice,
+                        sum
                     );
-                    total_cart_amount =  parseFloat(state.totalAmount) - parseFloat(state.cart_subscribed[productId].itemPrice);
+                    total_cart_amount =  parseFloat(state.totalAmount) - parseFloat(itemPrice);
                     total_cart_count = parseInt(state.total_cart_count) - 1;
                    
-                   
-
+                 
                     return {
                         ...state ,
-                        cart_subscribed: {...state.cart_subscribed,[productId]:updatedCartItem},
+                        cart_subscribed:{
+                            ...state.cart_subscribed,[productId]:updatedCartItem,
+                        },
                         totalAmount: parseFloat(total_cart_amount),
                         total_cart_count:total_cart_count,
         
@@ -288,7 +296,9 @@ export default (state = initialState ,action) => {
     
                     return {
                         ...state ,
-                        product_item:updatedCartItem,
+                        cart_subscribed:{
+                           ...updatedOrNewCartItem,
+                        },
                         totalAmount: parseFloat(total_cart_amount),
                         total_cart_count:total_cart_count,
         

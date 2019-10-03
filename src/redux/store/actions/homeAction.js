@@ -68,7 +68,8 @@ export const categoryProducts  = (category_id) =>{
         dispatch({
             type:IS_LOADING,
             isLoading:true,
-        })
+        });
+        console.log("category fetch",category_id);
 
         axios.post(ApiUrl.baseurl + ApiUrl.get_categories_product+category_id)
         .then(response => {
