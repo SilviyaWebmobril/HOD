@@ -51,9 +51,6 @@ class HomeScreen extends  Component {
 
     componentDidMount(){
 
-       
-        console.log("useexist",this.props.userdata);
-
         this.props.onHomeScreen(this.props.userdata.user_id);
         this.props.getProfile(this.props.userdata.user_id);
        
@@ -71,7 +68,7 @@ class HomeScreen extends  Component {
        
         return(
             <TouchableOpacity
-           // onPress={()=>this.onDetailsHandler(item.id,item.name)}
+            onPress={()=>this.onDetailsHandler(item.id,item.name)}
            >
             <ProductItem data={item} scheduleModal={this.scheduleModalVisible.bind(this)}/>
             </TouchableOpacity>
@@ -80,12 +77,12 @@ class HomeScreen extends  Component {
 
    shouldComponentUpdate (nextProps,nextState){
 
-  //  console.log("shouldComponentUpdate home",nextProps.cart);
-    if(nextProps.getAllProducts != this.props.getAllProducts || nextProps.cart.isLoading != this.props.isLoading){
-        return true;
-    }else{
-        return false;
-    }
+  
+        if(nextProps.getAllProducts != this.props.getAllProducts || nextProps.cart.isLoading != this.props.isLoading){
+            return true;
+        }else{
+            return false;
+        }
     
    }
   
@@ -111,7 +108,7 @@ class HomeScreen extends  Component {
             if(prevProps.schedule_id !==  this.props.schedule_id){
     
                 this.setState({scheduleModalVisible:false})
-                console.log("schedule_id",this.props.schedule_id);
+                
             }
     
             if(prevProps.cart !== this.props.cart){

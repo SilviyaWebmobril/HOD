@@ -210,7 +210,7 @@ export default (state = initialState ,action) => {
                         ...state.cart_get_once,[prodId]:updatedOrNewCartItem,
                     },
                     totalAmount: parseFloat(parseFloat(state.totalAmount) +  parseFloat(prodPrice)),
-                    total_cart_count:state.total_cart_count +1,
+                    total_cart_count:parseInt(state.total_cart_count) +1,
                     all_cart_products:[...all_cart],
                     get_once_cart_sum:get_once_cart_sum
 
@@ -223,7 +223,7 @@ export default (state = initialState ,action) => {
                             ...state.cart_subscribed,[prodId]:updatedOrNewCartItem,
                         },
                         totalAmount: parseFloat(parseFloat(state.totalAmount) + parseFloat(prodPrice)),
-                        total_cart_count:state.total_cart_count +1,
+                        total_cart_count:parseInt(state.total_cart_count) +1,
                         all_cart_products:[...all_cart]
                 }
 
@@ -256,7 +256,7 @@ export default (state = initialState ,action) => {
                     let itemName =   state.cart_subscribed[productId].itemName;
                     let isSubscribed = state.cart_subscribed[productId].isSubscribed;
                     let subscryptionType = state.cart_subscribed[productId].subscryptionType;
-                    let itemQuanity = state.cart_subscribed[productId].itemQuanity - 1;
+                    let itemQuanity = parseInt(state.cart_subscribed[productId].itemQuanity) - 1;
                     let itemPrice =  state.cart_subscribed[productId].itemPrice;
                     let sum = parseFloat(state.cart_subscribed[productId].sum) - parseFloat(state.cart_subscribed[productId].itemPrice),
 
@@ -367,7 +367,7 @@ export default (state = initialState ,action) => {
                         state.cart_get_once[productId].itemName,
                         state.cart_get_once[productId].isSubscribed,
                         state.cart_get_once[productId].subscryptionType,
-                        state.cart_get_once[productId].itemQuanity - 1,
+                        parseInt(state.cart_get_once[productId].itemQuanity) - 1,
                         state.cart_get_once[productId].itemPrice,
                         parseFloat(state.cart_get_once[productId].sum) - parseFloat(state.cart_get_once[productId].itemPrice),
                     );

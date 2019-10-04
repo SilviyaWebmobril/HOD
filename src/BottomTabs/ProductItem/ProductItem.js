@@ -50,7 +50,7 @@ class ProductItem extends Component {
                         {this.props.data.unit.name == "L"  ? 
         
                         <View style={styles.textColumnLeft}>
-        
+                            <Text style={styles.textBorder}>{parseInt(this.props.data.weight)} {this.props.data.unit.name}</Text>
                             {!this.props.data.get_once.itemOnCart
                                 ?
         
@@ -77,7 +77,7 @@ class ProductItem extends Component {
                         
                         {(!this.props.data.subscribed.itemOnCart  ) ?
         
-        
+                                
                                 <CustomButton 
                                     onPressHandler={()=> {
                                     this.props.scheduleModal(this.props.data.id,this.props.data.new_price);
@@ -105,7 +105,7 @@ class ProductItem extends Component {
                             //Add To Cart Button
                                 <View  style={styles.textColumnLeft}>
                                 
-                                <Text style={styles.textBorder}>250g</Text>
+                                <Text style={styles.textBorder}>{parseInt(this.props.data.weight)} {this.props.data.unit.name}</Text>
                                 
                                 <CustomButton 
 
@@ -121,6 +121,7 @@ class ProductItem extends Component {
                             </View>
                         :
                         <View style={styles.textColumnLeft}>
+                                <Text style={styles.textBorder}>{parseInt(this.props.data.weight)} {this.props.data.unit.name}</Text>
                                 <IncrementDecrementButton  product_id={this.props.data.id}  quantity={this.props.data.get_once.quantity} price={this.props.data.new_price} />
                         </View>
                         )

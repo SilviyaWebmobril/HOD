@@ -38,7 +38,9 @@ class CategoryProductDetails extends Component {
             unit:"",
             description:"",
             product_id:"",
-            cart_product:this.props.cart_product
+            cart_product:this.props.cart_product,
+            weight:0,
+            quantity_left:""
 
 
         }
@@ -82,6 +84,8 @@ class CategoryProductDetails extends Component {
             this.setState({old_price:response.data.data.old_price});
             this.setState({new_price:response.data.data.new_price});
            // this.setState({quantity:response.data.data.quantity});
+           this.setState({quantity_left:response.data.data.quantity});
+            this.setState({weight:response.data.data.weight});
             this.setState({unit:response.data.data.unit.name});
             this.setState({productname:response.data.data.name});
             this.setState({description:response.data.data.description});
@@ -127,7 +131,7 @@ class CategoryProductDetails extends Component {
                     <View style={styles.rowLeft}>
                         <Text style={styles.productname}>{this.state.productname}</Text>
                         <View style={styles.unitView}>
-                            <Text style={styles.unitViewText}>1L</Text>
+                            <Text style={styles.unitViewText}>{parseInt(this.state.weight)} {this.state.unit}</Text>
                         </View>
                         <View style={styles.priceView}>
                             <View style={styles.newpricetext}>
@@ -141,8 +145,10 @@ class CategoryProductDetails extends Component {
                     </View>
                     <View style={styles.rowRight}>
                         
-                     
-                    <IncrementDecrementButton  product_id={this.state.product_id}  quantity={this.state.quantity} price={this.state.new_price} />
+                        <View style={styles.oldpricetext}>
+                            <Text style={styles.quantity_left}>{this.state.quantity_left} Left</Text>
+                        </View>
+                        <IncrementDecrementButton  product_id={this.state.product_id}  quantity={this.state.quantity} price={this.state.new_price} />
                     </View>
                 </View>
                
@@ -237,7 +243,8 @@ const styles =  StyleSheet.create({
     rowLeft:{
         alignContent:"flex-start",
         alignSelf:"flex-start",
-        marginLeft:10
+        marginLeft:10,
+        width:"auto"
 
 
     },
@@ -247,6 +254,13 @@ const styles =  StyleSheet.create({
         marginRight:10
         
 
+    },
+    quantity_left:{
+        fontSize:12,
+        fontWeight:"bold",
+        marginBottom:7,
+        alignSelf:"flex-end"
+      
     },
     productname:{
         fontSize:20,
@@ -259,11 +273,12 @@ const styles =  StyleSheet.create({
         borderRadius:2,
         borderWidth:1,
         marginBottom:7,
-        width:30,
+        width:50,
         padding:7
     },
     unitViewText:{
         fontSize:12,
+        alignSelf:"center"
     },
     priceView:{
         flexDirection:"row",

@@ -25,16 +25,18 @@ class TransactionHistory extends Component {
         super(props);
         this.state = {
             history:[],
+            isLoading:true,
         }
     }
 
     componentDidMount(){
 
+       
         var formdata  = new FormData();
         formdata.append("user_id",this.props.user.userdata.user_id)
         axios.post(ApiUrl.baseurl +  ApiUrl.transaction_history,formdata)
         .then(response =>{
-
+           this.setState({isLoading:false})
             this.setState({history:response.data.data});
         }).catch(error => {
 
@@ -47,12 +49,9 @@ class TransactionHistory extends Component {
         let { item, index } = data;
         console.log("item==>",item);
         return(
-            <TouchableOpacity
-            onPress={()=>this.onDetailsHandler(item.id)}>
+           
                 <TransactionProductItem data={item} />
-            </TouchableOpacity>
-            
-      
+           
         );
 
 
@@ -60,7 +59,7 @@ class TransactionHistory extends Component {
     render(){
         return (
             <FullSCreenSpinnerAndDismissKeyboardView 
-                spinner={this.props.isLoading} >
+                spinner={this.state.isLoading} >
 
                 <FlatList
                       

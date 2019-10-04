@@ -140,8 +140,9 @@ const styles =  StyleSheet.create({
     },
     viewText:{
         backgroundColor:'#FD8D45',
-        width:25,
+        width:'auto',
         padding:2.0,
+        minWidth:25,
         borderColor:"grey",
         borderWidth:1
     },

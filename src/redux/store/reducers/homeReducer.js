@@ -155,6 +155,7 @@ export default (state = initialState ,action) => {
             var products  =  [...state.getAllProducts];
           
             var updated_item = action.product_item;
+            console.log("updated_item",updated_item);
           
             /// updating all list product 
             products.forEach(item => {
@@ -318,7 +319,7 @@ export default (state = initialState ,action) => {
                            
                                 if(item.get_once.quantity > 1){
     
-                                    item.get_once.quantity = (item.get_once.quantity) -1;
+                                    item.get_once.quantity = parseInt(item.get_once.quantity) -1;
                                 }else{
     
                                     item.get_once.itemOnCart = false;
@@ -330,10 +331,10 @@ export default (state = initialState ,action) => {
 
                             if(item.subscribed.subscribed_qauntity > 1){
     
-                                item.subscribed.subscribed_qauntity  = (item.subscribed.subscribed_qauntity ) -1;
+                                item.subscribed.subscribed_qauntity  = parseInt(item.subscribed.subscribed_qauntity ) -1;
                             }else{
 
-                                item.subscribed_qauntity.itemOnCart = false;
+                                item.subscribed.itemOnCart = false;
                                 item.subscribed.subscribed_qauntity  = 1;
                             }
                         }
@@ -358,7 +359,7 @@ export default (state = initialState ,action) => {
                            
                                 if(item.get_once.quantity > 1){
     
-                                    item.get_once.quantity = (item.get_once.quantity) -1;
+                                    item.get_once.quantity = parseInt(item.get_once.quantity) -1;
                                 }else{
     
                                     item.get_once.itemOnCart = false;
@@ -370,10 +371,10 @@ export default (state = initialState ,action) => {
 
                             if(item.subscribed.subscribed_qauntity > 1){
     
-                                item.subscribed.subscribed_qauntity  = (item.subscribed.subscribed_qauntity ) -1;
+                                item.subscribed.subscribed_qauntity  = parseInt(item.subscribed.subscribed_qauntity ) -1;
                             }else{
 
-                                item.subscribed_qauntity.itemOnCart = false;
+                                item.subscribed.itemOnCart = false;
                                 item.subscribed.subscribed_qauntity  = 1;
                             }
                         }
@@ -397,7 +398,7 @@ export default (state = initialState ,action) => {
                             
                                     if(item.get_once.quantity > 1){
         
-                                        item.get_once.quantity = (item.get_once.quantity) -1;
+                                        item.get_once.quantity = parseInt(item.get_once.quantity) -1;
                                     }else{
         
                                         item.get_once.itemOnCart = false;
@@ -409,10 +410,10 @@ export default (state = initialState ,action) => {
 
                                 if(item.subscribed.subscribed_qauntity > 1){
         
-                                    item.subscribed.subscribed_qauntity  = (item.subscribed.subscribed_qauntity ) -1;
+                                    item.subscribed.subscribed_qauntity  = parseInt(item.subscribed.subscribed_qauntity ) -1;
                                 }else{
 
-                                    item.subscribed_qauntity.itemOnCart = false;
+                                    item.subscribed.itemOnCart = false;
                                     item.subscribed.subscribed_qauntity  = 1;
                                 }
                             }
@@ -661,43 +662,7 @@ export default (state = initialState ,action) => {
     
                  });
 
-                 /// till now for search products all the get_once and  subcribed object is maintained 
-                 // now filter this data with get_all_products
-
-                //  var get_all_products =  [...state.getAllProducts];
-                //  var tmp_array = [...state.tmp_array];
-                //  var filter_arr = [...state.getAllProducts];
-                //  get_all_products.forEach(item =>{
-
-                //   var found = false;
-
-                //     products.forEach(search_item => {
-                      
-                      
-
-                //             if(item.id !== search_item.id){
-
-                //                 // adding this data to tmp array 
-                //                 // and removing from here
-                //                 tmp_array.push(item); 
-                //                 found =true;
-                            
-    
-                //             }
-                        
-                        
-                //         filter_arr = filter_arr.filter(value => {
-                            
-                //            return value.id !== search_item.id
-                //         })
-
-                //     })
-
-                //  })
-
-                //  console.log("tmp_array",tmp_array);
-
-                //  console.log("search products reducrrr",get_all_products);
+                
                
                 
                 return {
@@ -899,7 +864,7 @@ export default (state = initialState ,action) => {
     
                         if(item.quantity > 1){
     
-                            item.quantity = item.quantity + 1;
+                            item.quantity = parseInt(item.quantity) + 1;
                             not_present = 1;
     
                         }
@@ -920,6 +885,8 @@ export default (state = initialState ,action) => {
                     var cart_products_subscribed  =  [...state.cart_products_subscribed];
                     var product_id_removed =  action.product_id;
                     var remove_item = 0;
+                    console.log("cart_products_subscribed product_id",product_id_removed);
+                    console.log("cart_products_subscribed",cart_products_subscribed);
                     cart_products_subscribed.map((item,index) =>{
         
                         if(item.product_id ==  product_id_removed ){
@@ -928,10 +895,10 @@ export default (state = initialState ,action) => {
         
                                 item.quantity = parseInt(item.quantity) - 1;
         
-                            }
-                        }else{
+                            }else{
         
-                            remove_item =1;
+                                remove_item =1;
+                            }
                         }
                     });
 
@@ -969,7 +936,7 @@ export default (state = initialState ,action) => {
         
                             if(item.quantity > 1){
         
-                                item.quantity = item.quantity + 1;
+                                item.quantity = parseInt(item.quantity) + 1;
                                 not_present = 1;
         
                             }

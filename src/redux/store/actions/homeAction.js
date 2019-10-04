@@ -19,6 +19,7 @@ export const homeScreenProducts = (user_id) =>{
           axios.post(ApiUrl.baseurl+ApiUrl.home_page+user_id)
           .then(response => {
 
+           
             dispatch({
                 type:IS_LOADING,
                 isLoading:false,
@@ -69,29 +70,42 @@ export const categoryProducts  = (category_id) =>{
             type:IS_LOADING,
             isLoading:true,
         });
-        console.log("category fetch",category_id);
+       
 
         axios.post(ApiUrl.baseurl + ApiUrl.get_categories_product+category_id)
         .then(response => {
+            console.log("category fetch",response);
 
+            
+            dispatch({
+                type:IS_LOADING,
+                isLoading:false,
+            })
+        
+            if(response.data.error){
+
+          
+                dispatch({
+                    type:ERROR,
+                    error: `${response.data.message}`
+                    
+                })
+    
+            }else{
+
+      
+      
+                dispatch( {
+                    type:CATEGORY_PRODUCTS,
+                    category_products:response.data.data,
+                })
+      
               
-          dispatch({
-              type:IS_LOADING,
-              isLoading:false,
-          })
+      
 
-
-          dispatch( {
-              type:CATEGORY_PRODUCTS,
-              category_products:response.data.data,
-          })
-
-        //   dispatch( {
-        //       type:GET_CART_PRODUCTS,
-        //       products_getonce:response.data.cart_products_getonce,
-        //       products_subscribed:response.data.cart_products_subscribed,
-        //   })
-
+            }
+        
+         
 
         }).catch(error => {
 

@@ -32,8 +32,9 @@ class ScheduleModal extends Component{
         this.setState({customSchedule:true})
       }
 
-      addCustomSchedule =() =>{
-        this.props.onAddCustomSchedule("5")
+      addCustomSchedule =(sub_type , no_of_days) =>{
+        this.props.onAddSchedule("5");
+        this.props.onAddCustom(this.props.product_id,this.props.price,5,sub_type,no_of_days,this.props.user.user_id,0);
       }
       addSchedule=(value)=>{
         this.props.onAddSchedule(value);
@@ -99,7 +100,7 @@ class ScheduleModal extends Component{
 
                     :
 
-                    <CustomSchedule addSchedule={this.addCustomSchedule.bind(this)}/>
+                    <CustomSchedule  addSchedule={this.addCustomSchedule.bind(this)}/>
                 }
 
 
@@ -130,6 +131,9 @@ const mapDispatchToProps = dispatch =>{
     onAdd: (product_id,price,subscriptipn_type,user_id,update) => {
       dispatch(cartActions.addOrUpdateSubscriptionToCart(product_id,price,subscriptipn_type,user_id,update))
     },
+    onAddCustom: (product_id,price,subscriptipn_type,subtype ,days,user_id,update) => {
+      dispatch(cartActions.addOrUpdateCustomSubscriptionToCart(product_id,price,subscriptipn_type,subtype ,days,user_id,update))
+      },
   }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(ScheduleModal);

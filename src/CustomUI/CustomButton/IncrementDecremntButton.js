@@ -160,7 +160,8 @@ const styles =  StyleSheet.create({
     },
     viewText:{
         backgroundColor:'white',
-        width:25,
+        width:'auto',
+        minWidth:25,
         padding:2.0,
         borderColor:"grey",
         borderWidth:1

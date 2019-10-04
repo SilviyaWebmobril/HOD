@@ -290,6 +290,36 @@ const deviceWidth = Dimensions.get("window").width;
         }
       }
 
+      confirmSchedule = (id) =>{
+          console.log("on confirm",this.refs.no.getInputTextValue("no"));
+
+        var subtype ;
+        var no_of_days ;
+        if(this.state.ondays){
+            if(this.refs.no.getInputTextValue("no") == "invalid"){
+                alert("Please Enter no of days.!");
+                return;
+            }else{
+                subtype =  1;
+                no_of_days = this.refs.no.getInputTextValue("no") ;
+            }
+        }else if(this.state.weekdays){
+            if(this.state.value == ""){
+                alert("Please Select Weekdays.!");
+                return;
+            }else{
+                subtype =  2;
+                no_of_days = this.state.value;
+            }
+        }
+            console.log("on confirm subtype",subtype);
+            console.log("on confirm no_of_days",no_of_days);
+            //this.props.onAddSchedule(id);
+           // this.props.onAdd(this.props.product_id,this.props.price,5,subtype,no_of_days,this.props.user.user_id,0)
+           this.props.addSchedule(subtype,no_of_days)
+        
+      }
+
 
     render(){
         return(
@@ -324,7 +354,7 @@ const deviceWidth = Dimensions.get("window").width;
                                         <Text style={styles.textStyle}>Every</Text>
 
                                         <CustomTextInput 
-                                            customMainView={{width:"20%"}}
+                                            customMainView={{width:'auto',minWidth:"20%"}}
                                             ref="no"
                                             placeHolder="01"
                                             customTextInputView={{width:'70%',marginLeft:10,marginRight:10,height:5,marginTop:10,borderRadius:8}}
@@ -381,7 +411,7 @@ const deviceWidth = Dimensions.get("window").width;
                             </View>
                             <View style={{width:"50%"}}>
                                 <TouchableOpacity
-                                onPress={()=>this.props.addSchedule()}>
+                                onPress={()=> {this.confirmSchedule("5")}}>
                                     <View style={styles.orangeButton}
                                     >   
                                         <Text style={{alignSelf:"center",fontWeight:"bold",color:'white'}}>Confirm</Text>
@@ -389,13 +419,7 @@ const deviceWidth = Dimensions.get("window").width;
                                 </TouchableOpacity>
                             </View>
                         
-                            {/* <CustomButton  
-                            customButttonStyle={{backgroundColor:"grey", marginTop:20,justifyContent:"space-between"}}
-                            customTextStyle={{ color:'#f8f8f8',fontWeight:"bold",alignSelf:"center"}} 
-                            text="Cancel"/>
-                            <CustomButton  customButttonStyle={{backgroundColor:"#FD8D45",justifyContent:"space-between", marginTop:20}}
-                            customTextStyle={{ color:'white',fontWeight:"bold",alignSelf:"center"}} 
-                            text="Confirm" /> */}
+                          
                         </View>
 
                     </View>
@@ -426,9 +450,7 @@ const mapDispatchToProps = dispatch =>{
         onCancelSchedule:() =>{
         dispatch(ScheduleAction.cancelSchedule(0));
         },
-        onAdd: (product_id,price,subscriptipn_type,user_id,update) => {
-        dispatch(cartActions.addOrUpdateSubscriptionToCart(product_id,price,subscriptipn_type,user_id,update))
-        },
+       
     }
 }
 

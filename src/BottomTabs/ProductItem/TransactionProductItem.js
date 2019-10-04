@@ -39,28 +39,26 @@ class TransactionHistory extends Component {
                 
                 <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.product.img}} style={{width:120, height:120,borderRadius:10}}/>
                 <View style={styles.sectionRow}>
-                    <View style={styles.sectionColumn}>
-                        <View style={styles.textColumnLeft}>
-                            <Text style={styles.textProductname}>{this.props.data.product.name}</Text>
+                    <View style={{alignContent:"center",alignItems:"center"}}>
+                        <Text style={{color:"black",marginBottom:10,fontWeight:"bold"}}>{this.props.data.product.name}</Text>
+                        {this.props.data.product.unit_id  ==  1 
+                         ?
                             
-                        </View>
-                        {this.props.data.product.unit_id == 1 ? 
-        
-                        <View style={styles.unitView}>
-        
-                            <Text style={styles.unitViewText}>{this.props.data.weight}L</Text>
-                          
-                        </View>
-                        
+                            <View style={styles.unitView}>
+                                <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)}L</Text>
+                            </View>
                         :
-                        <View/>
-                    
-                        } 
+                           
+                            <View style={styles.unitView}>
+                                <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)} Kg</Text>
+                            </View>
+                        }
+                        
+                       
                     </View>
-                   
-
-                    <Text style={styles.textColumnLeft1}>{this.props.data.price}</Text>
-                
+                    
+                    <Text style={{color:"#FD8D45",fontSize:15,alignSelf:"center"}}>{'\u20B9'}{this.props.data.price}</Text>
+                    
                 </View>
 
             
@@ -109,11 +107,26 @@ const styles = StyleSheet.create({
         marginRight:10,
         //backgroundColor:"red"
 
-    },  
+    }, 
+    unitView:{
+        borderColor:"grey",
+        borderRadius:2,
+        borderWidth:1,
+        marginBottom:7,
+        width:"auto",
+        height:"auto",
+        alignSelf: 'flex-start',
+        padding:7
+    },
+    unitViewText:{
+        fontSize:12,
+    }, 
     sectionRow:{
         flexDirection:"row",
-        justifyContent:"space-evenly",
+        justifyContent:"space-between",
         margin:10,
+        width:200,
+        alignItems:"center"
     
     },
     textColumnLeft:{

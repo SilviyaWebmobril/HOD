@@ -149,7 +149,7 @@ class CategoryProduct extends Component {
     showErrorAlert(error){
 
         Alert.alert(
-            'Support',
+            'Error',
             `${error}`,
             [
          

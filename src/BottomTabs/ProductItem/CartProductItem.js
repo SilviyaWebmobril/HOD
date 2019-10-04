@@ -26,6 +26,7 @@ class CartProductItem extends Component {
             itemSubscribedQuantity:"",
             modalVisible:false,
             subscriptionType:null,
+            subscription_type:""
 
         }
 
@@ -35,13 +36,69 @@ class CartProductItem extends Component {
     componentDidMount(){
 
         console.log("cart ",this.props.data);
+        this.setSubScription();
     }
 
+    setSubScription (){
+
+        var  subscription_type ;
+        if(this.props.data.subscription_type == 1){
+            subscription_type = "Alternate Days";
+            this.setState({subscription_type:subscription_type});
+        }else if(this.props.data.subscription_type == 2){ 
+            subscription_type = "Daily";
+            this.setState({subscription_type:subscription_type});
+        }else if(this.props.data.subscription_type == 3){
+            subscription_type = "Weekdays";
+            this.setState({subscription_type:subscription_type});
+        }else if(this.props.data.subscription_type == 4){
+            subscription_type = "Weekends";
+            this.setState({subscription_type:subscription_type});
+        }else if(this.props.data.subscription_type == 5 ){
+            if(this.props.data.sub_type == 1){
+                subscription_type = "Every "+ this.props.data.no_of_days+" Days";
+                this.setState({subscription_type:subscription_type});
+            }else if(this.props.data.sub_type == 2){
+                var split_days =  this.props.data.no_of_days.split(",") ;
+                subscription_type ="";
+                console.log("split_days 1",subscription_type);
+               
+                if(split_days.includes("1")){
+                  
+                    subscription_type = subscription_type + "Mon - ";
+                    this.setState({subscription_type:subscription_type});
+                } if(split_days.includes("2")){
+                    subscription_type = subscription_type + "Tues - ";
+                    this.setState({subscription_type:subscription_type});
+                }if(split_days.includes("3")){
+                    console.log("split_days 2 wed",subscription_type);
+                    subscription_type = subscription_type + "Wed - ";
+                    this.setState({subscription_type:subscription_type});
+                }if(split_days.includes("4")){
+                    subscription_type = subscription_type + "Thurs - ";
+                    this.setState({subscription_type:subscription_type});
+                } if(split_days.includes("5")){
+                    subscription_type = subscription_type + "Fri - ";
+                    this.setState({subscription_type:subscription_type});
+                }if(split_days.includes("6")){
+                    subscription_type = subscription_type + "Sat - ";
+                    this.setState({subscription_type:subscription_type});
+                } if(split_days.includes("7")){
+                    subscription_type =  subscription_type + "Sun";
+                    this.setState({subscription_type:subscription_type});
+                }
+
+            }
+        }
+
+    }
    
 
     render(){
-
+       
         return(
+
+           
 
             <View>
                 <View style={styles.container}>
@@ -51,7 +108,7 @@ class CartProductItem extends Component {
                     <View style={styles.textColumnLeft}>
                             <Text style={styles.textProductname}>{this.props.data.product.name}</Text>
                             <Text style={{lineHeight:20}}>{'\u20B9'}{this.props.data.product.new_price}</Text>
-                            <Text  style={{lineHeight:20}}>{this.props.data.product.quantity} left</Text>
+                            <Text  style={{lineHeight:20}}>{this.props.data.product.quantity} Left</Text>
                         </View>
                         
                         
@@ -70,15 +127,15 @@ class CartProductItem extends Component {
                             //Add To Cart Button
                             <View  style={styles.textColumnLeft}>
                             
-                                <Text style={{fontSize:10,alignSelf:"flex-end",fontWeight:"bold",padding:4,borderRadius:3,borderWidth:1,color:"#FD8D45" ,borderColor:"#FD8D45"}}>Subscribed</Text>   
-                                <IncrementDecrementSubscribe subscriptionType={this.props.data.subscription_type} product_id={this.props.data.product.id}  subscribed_quantity={this.props.data.qauntity} quantity={this.props.data.quantity} price={this.props.data.product.new_price} /> 
+                                <Text style={{fontSize:10,alignSelf:"flex-end",fontWeight:"bold",padding:4,borderRadius:3,borderWidth:1,color:"#FD8D45" ,borderColor:"#FD8D45"}}>{this.state.subscription_type}</Text>   
+                                <IncrementDecrementSubscribe subscriptionType={this.props.data.subscription_type} product_id={this.props.data.product.id}  subscribed_qauntity={this.props.data.quantity} quantity={this.props.data.quantity} price={this.props.data.product.new_price} />
                                 
                                 
                             </View> 
                             }
                     
 
-                    
+                            
                     
                         
                     </View>
