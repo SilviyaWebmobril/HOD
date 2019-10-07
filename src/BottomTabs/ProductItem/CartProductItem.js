@@ -6,9 +6,6 @@ import IncrementDecrementSubscribe from '../../CustomUI/CustomButton/IncrementDe
 import { useDispatch, useSelector } from 'react-redux';
 import * as cartActions from '../../redux/store/actions/cartAction';
 import { connect } from 'react-redux';
-import ScheduleModal from '../../CustomUI/Modal/ScheduleModal';
-import IncrementDecremntButton from '../../CustomUI/CustomButton/IncrementDecremntButton';
-import IncrementDecremantSubscribe from '../../CustomUI/CustomButton/IncrementDecremantSubscribe';
 
 
 class CartProductItem extends Component {

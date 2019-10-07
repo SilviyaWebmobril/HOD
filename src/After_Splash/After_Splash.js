@@ -17,6 +17,8 @@ import CustomLogo  from '../CustomUI/Logo/CustomLogo';
 import After_SplashStyle from './After_SplashStyle';
 import CustomButton from '../CustomUI/CustomButton/CustomButton';
 import CustomButtonWithIcon from '../CustomUI/CustomButton/CustomButtonWithIcon';
+import { LoginButton } from 'react-native-fbsdk';
+import FBLoginButton from './FBLoginButton';
 
 export default class After_Splash extends Component {
     static navigationOptions = ({ navigation }) => ({
@@ -33,6 +35,11 @@ export default class After_Splash extends Component {
 
     onLoginEmail  = () => {
         this.props.navigation.navigate('LoginEmail');
+    }
+
+    onLoginWithFacebook = () =>{
+
+
     }
 
     render() {
@@ -57,14 +64,15 @@ export default class After_Splash extends Component {
                             /> 
 
 
-                        <CustomButtonWithIcon 
+                        <FBLoginButton />
+                        {/* <CustomButtonWithIcon 
                             customViewIconStyle={{backgroundColor:"#2F4F93",borderTopLeftRadius: 5,borderBottomLeftRadius: 5,}} 
                             iconName="facebook" iconSize={25}
                             iconColor="white"
-                            //onPressHandler={()=> this.onLogin()} 
+                            onPressHandler={()=> this.onLoginWithFacebook()} 
                             customViewTextStyle={{backgroundColor:"#3B5998", borderBottomRightRadius: 5,borderTopRightRadius: 5,fontSize:15}}
                             customText="REGISTER WITH FACEBOOK"
-                            /> 
+                            />  */}
 
                             <View style={{marginTop:25}}></View>
 

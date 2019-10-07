@@ -5,9 +5,10 @@ import { ScrollView} from 'react-native-gesture-handler';
 import CartLayout from '../CustomUI/Cart/CartLayout';
 import ScheduleModal from '../CustomUI/Modal/ScheduleModal';
 import CustomSchedule from '../CustomUI/Modal/CustomSchedule';
+import AlertModal from '../CustomUI/Modal/AlertModal';
 
 export default(Comp: ReactClass<*>) => {
-  return ({contentContainerStyle,scheduleVisible,custom,schedule_product_id,schedule_product_price,itemQuantity , itemTotalPrice,cartLayout, spinner, children, ...props }: Object) => (
+  return ({contentContainerStyle,alertVisible,scheduleVisible,schedule_product_id,schedule_product_price,itemQuantity , itemTotalPrice,cartLayout, spinner, children, ...props }: Object) => (
     <View style={styles.mainView}>
 
       <ScrollView>
@@ -42,16 +43,11 @@ export default(Comp: ReactClass<*>) => {
 
       }
       {/* {
-        customScheduleVisible  && 
-        <View
-        style={[
-          StyleSheet.absoluteFill,
-          { backgroundColor: 'rgba(255,255,255,0.7)', justifyContent: 'center' ,}
-        ]}
-      >
-         <CustomSchedule  />
-      </View>
-
+        alertVisible 
+        ?
+        <AlertModal alertVisible={alertVisible}/>
+        :
+        <View/>
       } */}
       {spinner &&
             <View

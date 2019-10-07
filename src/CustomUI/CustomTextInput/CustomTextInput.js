@@ -40,6 +40,13 @@ class CustomTextInput  extends Component {
                         minLength:6,
                     }
                 },
+                confirmpassword:{
+                    value: "",
+                    valid:false,
+                    validationRules:{
+                        minLength:6,
+                    }
+                },
                 mobile:{
                     value: "",
                     valid:false,
@@ -242,6 +249,13 @@ class CustomTextInput  extends Component {
                 }else{
                     this.setState({errorState:true});
                 }
+            }else if(type == 'confirmpassword'){
+                if(!this.state.controls.confirmpassword.valid){
+                    this.setState({errorState:false});
+                    this.setState({errorMsg:"Password length must be greater than 6 and less than 16"});
+                }else{
+                    this.setState({errorState:true});
+                }
             }else if(type == 'mobile'){
 
                 if(!this.state.controls.mobile.valid){
@@ -402,6 +416,15 @@ class CustomTextInput  extends Component {
 
                 if(this.state.controls.password.valid){
                     return this.state.controls.password.value;
+                }else{
+                    return "invalid";
+                }
+               
+    
+            }else if(type == "confirmpassword"){
+
+                if(this.state.controls.confirmpassword.valid){
+                    return this.state.controls.confirmpassword.value;
                 }else{
                     return "invalid";
                 }

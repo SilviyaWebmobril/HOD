@@ -47,7 +47,6 @@ class ScheduleModal extends Component{
       }
       
     render(){
-        console.log("on rendering modal");
         return(
             <View style={{flex:1}}>
 

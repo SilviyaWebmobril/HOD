@@ -48,13 +48,13 @@ class Login extends Component {
 
     constructor(props){
         super(props);
-        console.log("userdata === >",this.props.userdata.userdata.user_id);
      
         this.state={isFocused:false, onUpdate:this.props.navigation.getParam("update")}
 
         
     }
 
+   
    
     onContinue=()=>{   
 

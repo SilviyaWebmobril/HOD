@@ -53,16 +53,6 @@ class ViewProfile  extends Component {
 
    
 
-    componentDidMount() {
-
-      //this.getvalues();
-      console.log("userdata hello",this.props.user);
-   
-
-      //  console.log("all addresses",response.data.result.addresses);
-
-      
-    }
 
 
 
@@ -81,7 +71,6 @@ class ViewProfile  extends Component {
 
     onRemoveAddresshandler = (id) =>{
 
-      console.log("on remove",id);
       this.props.onLoading(true);
       Axios.post(ApiUrl.baseurl+ApiUrl.remove_address+id)
       .then(response => {

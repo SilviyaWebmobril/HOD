@@ -4,6 +4,7 @@ import { View ,Image } from  'react-native';
 import After_Splash from '../After_Splash/After_Splash';
 import Login from '../Login/Login';
 import LoginEmail from '../LoginEmail/LoginEmail';
+import ForgotPassword from '../LoginEmail/ForgotPassword';
 import OTP from '../OTP/OTP'
 import Create_Account from '../Create_Account/Create_Account';
 import SearchLocation from '../SearchLocation/SearchLocation';
@@ -226,6 +227,7 @@ const MyApp = createStackNavigator({
      After_Splash , 
      Login, 
      LoginEmail,
+     ForgotPassword,
      VideoPlayer,
      MyVideo,
      Create_Account,

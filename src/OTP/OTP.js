@@ -63,31 +63,31 @@ class OTP extends Component {
         this.state.seconds>0?this.setState(prevState => ({seconds: prevState.seconds - 1})): (clearInterval(this.interval),Alert.alert("OTP Expired Please RESEND"),this.setState({disableResend:false}));
     }
 
-    
-    // storeValues = async (mobile) => {
+    resendOTP = () =>{
 
-      
-    //     let values;
-    //     try {
+        this.setState({isLoading:true})
+        var formdata = new FormData();
+        formdata.append("mobile_no",this.props.navigation.getParam('mobile'));
         
-    //       values = await AsyncStorage.multiGet(['user_id','user_name','user_email', 'user_mobile']);
+        Axios.post(ApiUrl.baseurl +ApiUrl.send_mobile_for_otp,formdata).then(response => {
+            this.setState({isLoading:false})
 
-    //       console.log("user profiles",values)
-    //       let userdata = {};
-    //       Object.assign(userdata,{"user_id":values[0][1]});
-    //       Object.assign(userdata,{"user_name": values[1][1]});
-    //       Object.assign(userdata,{"user_email":values[2][1]});
-    //       Object.assign(userdata,{"user_mobile":mobile});   
-    //       Object.assign(userdata,{"user_address":values[4][1]});
-    //       this.props.onUpdateUser(userdata);
-  
-    //     } catch(e) {
-    //       // read error
-    //     }
-       
-      
-    //   }
+            console.log("response send mobile",response);
+            if(response.data.error){
+                Alert.alert(`${response.data.message}`);;
+            }else{
+                //this.props.navigation.navigate('OTP',{mobile:this.refs.mobile.getInputTextValue("mobile"),update:0});
+            }
+            
 
+        }).catch(error => {
+            this.setState({isLoading:false})
+            console.log("error",error);
+        });
+        
+    }
+    
+    
     onSubmit = async() => {
         clearInterval(this.interval);
 
@@ -201,6 +201,7 @@ class OTP extends Component {
     }
       componentDidMount() {
         this.interval = setInterval(() => this.tick(), 1000);
+        
       }
       componentWillUnmount() {
         clearInterval(this.interval);
@@ -236,7 +237,7 @@ class OTP extends Component {
                             />
 
 
-                        <CustomButton onPressHandler={()=>this.onStartTimer()} disabled={this.state.disableResend} text="Resend" customButttonStyle={OTPStyle.customButtomSty} customTextStyle={this.state.disableResend ? OTPStyle.disableCustomResendTextSty : OTPStyle.customResendTextSty}/>
+                        <CustomButton onPressHandler={()=>{this.onStartTimer();this.resendOTP()}} disabled={this.state.disableResend} text="Resend" customButttonStyle={OTPStyle.customButtomSty} customTextStyle={this.state.disableResend ? OTPStyle.disableCustomResendTextSty : OTPStyle.customResendTextSty}/>
 
                         <CustomButton customTextStyle={{ color:'white'}} onPressHandler = {() => this.onSubmit()} text="SUBMIT" />
 

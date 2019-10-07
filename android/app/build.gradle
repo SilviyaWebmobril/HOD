@@ -139,10 +139,12 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-fbsdk')
     implementation project(':react-native-razorpay')
     implementation project(':react-native-cardview')
     implementation project(':react-native-webview')
     implementation project(':react-native-firebase')
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
     implementation project(':@react-native-community_async-storage')
    // implementation project(':react-native-device-token')
     implementation project(':react-native-video')

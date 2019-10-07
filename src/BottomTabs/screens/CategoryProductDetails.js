@@ -40,7 +40,8 @@ class CategoryProductDetails extends Component {
             product_id:"",
             cart_product:this.props.cart_product,
             weight:0,
-            quantity_left:""
+            quantity_left:"",
+            scheduleModalVisible:false
 
 
         }
@@ -68,12 +69,12 @@ class CategoryProductDetails extends Component {
 
     componentDidMount() {
 
-        console.log("cart items",this.props.cart_product);
+       
         this.props.onLoading(true);
         this.setState({isLoading:this.props.cart_product.isLoading});
         axios.post(ApiUrl.baseurl +ApiUrl.get_product_details+ this.props.navigation.getParam('product_id'))
         .then(response =>{
-
+            console.log("response details ",response);
             this.props.onLoading(false);
             this.setState({isLoading:this.props.cart_product.isLoading});
             var  obj = JSON.stringify(response.data.data);
@@ -116,6 +117,23 @@ class CategoryProductDetails extends Component {
       
     }
 
+    scheduleModalVisible = () =>{
+
+        this.setState({scheduleModalVisible:true})
+       
+    }
+
+    componentDidUpdate (prevProps,prevState) {
+
+        if(prevProps.schedule_id !==  this.props.schedule_id){
+    
+            this.setState({scheduleModalVisible:false})
+            
+        }
+
+    }
+
+
     render(){
 
       
@@ -123,6 +141,9 @@ class CategoryProductDetails extends Component {
             
             <FullSCreenSpinnerAndDismissKeyboardView
             styles={styles.container}
+            scheduleVisible={this.state.scheduleModalVisible}
+            schedule_product_id ={this.state.product_id}
+            schedule_product_price = {this.state.new_price}
             spinner={this.props.cart_product.isLoading}>
 
                 <Image source={{uri:this.state.img}} width={150} height={150} style={styles.imgStyle} />
@@ -154,7 +175,7 @@ class CategoryProductDetails extends Component {
                
                 <View style={styles.webViewStyle} pointerEvents="none">
                     <WebView
-                        style={{width:900,height:150}}
+                        style={{width:'auto',minHeight:150,height:'auto'}}
                         originWhitelist={['*']}
                         source={{ html:this.state.description}}
                     />
@@ -171,7 +192,7 @@ class CategoryProductDetails extends Component {
                 }} />
 
                 <CustomButton  customButttonStyle={{backgroundColor:"#FD8D45",marginBottom:40 }} customTextStyle={{ color:'brown'}} 
-                text="SUBSCRIBE" />
+                text="SUBSCRIBE"  onPressHandler={()=>{this.scheduleModalVisible()}}/>
         
 
 
@@ -191,7 +212,8 @@ class CategoryProductDetails extends Component {
 const mapStateToProps = (state) => {
     return {
       cart_product: state.cart,
-      user:state.userdata
+      user:state.userdata,
+      schedule_id: state.schedule,
     }
   }
   

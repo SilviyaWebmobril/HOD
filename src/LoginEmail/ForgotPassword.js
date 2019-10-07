@@ -31,9 +31,9 @@ import axios  from 'axios';
 import firebase from 'react-native-firebase';
 
 
-class LoginEmail extends Component {
+class ForgotPassword extends Component {
     static navigationOptions = ({ navigation }) => ({
-        title: 'Login With Email',
+        title: 'Forgot Password',
         headerStyle: {
             height: 60,
             backgroundColor: '#FD8D45',
@@ -63,30 +63,29 @@ class LoginEmail extends Component {
       }
 
 
-    onSubmit = () => {
+ 
 
-      
-       this.props.navigation.navigate('Create_Account');
-    };
+    changePassword = () =>{
 
-    onLoginHandler = () =>{
+        if((this.refs.passwordText.getInputTextValue("password") !== "invalid") && (this.refs.confirmPasswordText.getInputTextValue("confirmpassword") !== "invalid") && 
+        this.refs.passwordText.getInputTextValue("password").length !== this.refs.confirmPasswordText.getInputTextValue("confirmpassword").length){
 
-        if((this.refs.emailText.getInputTextValue("email") !== "invalid") && (this.refs.passwordText.getInputTextValue("password") !== "invalid")){
+            Alert.alert("Password and Confirm password does not match");
+            return ;
+        }
+
+        if((this.refs.passwordText.getInputTextValue("password") !== "invalid") && (this.refs.confirmPasswordText.getInputTextValue("confirmpassword") !== "invalid")){
 
 
             this.setState({isLoading:true})
            
-            firebase.messaging().getToken()
-            .then(token => {
-            this.setState({device_token:token});
-
+           
 
               var formdata = new FormData();
              
-              formdata.append("email",this.refs.emailText.getInputTextValue("email"));
-              formdata.append("password",this.refs.passwordText.getInputTextValue("password"));
-              formdata.append("device_type",ApiUrl.device_type);
-              formdata.append("device_token",this.state.device_token);
+              formdata.append("password",this.refs.emailText.getInputTextValue("password"));
+              formdata.append("confirm_password",this.refs.passwordText.getInputTextValue("confirmpassword"));
+              
 
               axios.post(ApiUrl.baseurl + ApiUrl.login,formdata)
               .then(res => {
@@ -95,30 +94,12 @@ class LoginEmail extends Component {
                   if(res.data.error){
 
                       this.setState({isLoading:false});
-                      Alert.alert("Please Check Your Email or Password");
+                      Alert.alert("New Password and Confirm Password doesn't match!");
 
                   }else{
 
                         console.log("user login",res.data.result);
-                      AsyncStorage.setItem('user_id',JSON.stringify(res.data.result.id))
-                      
-
-                      let userdata ={};
-                  
-                      Object.assign(userdata,{"user_id":JSON.stringify(res.data.result.id)});
-                      Object.assign(userdata,{"user_name": res.data.result.name});
-                      Object.assign(userdata,{"user_email":res.data.result.email});
-                      Object.assign(userdata,{"user_mobile":res.data.result.mobile});
-                      Object.assign(userdata,{"user_gender":res.data.result.name});
-                      Object.assign(userdata,{"user_dob":res.data.result.dob});
-                      Object.assign(userdata,{"user_married":JSON.stringify(res.data.result.married)});
-                      Object.assign(userdata,{"user_family_members":res.data.result.family_members});
-                      Object.assign(userdata,{"user_vegitarian":JSON.stringify(res.data.result.vegitarian)});
-                      this.props.onUpdateUserId(JSON.stringify(res.data.result.id));
-                      this.props.onUpdateUser(userdata);
-                      this.props.onUpdateAddress(res.data.result.homeaddress);
-                      this.setState({isLoading:false});
-                     // Alert.alert("Your Account created Sucessfuly!");
+                     
                       this.props.navigation.navigate('Bottomtabs');
   
                       
@@ -134,10 +115,6 @@ class LoginEmail extends Component {
               });
 
 
-
-            });
-
-            
 
         }else{
             Alert.alert("All the * marked fields are required");
@@ -161,48 +138,37 @@ class LoginEmail extends Component {
                     
                     </View> */}
                     <View style={{marginLeft:20,width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                        <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>Email*</Text>
-                    </View>
-                    <CustomTextInput 
-                            ref="emailText"
-                            inputType="email"
-                            placeholder="Enter Email"
-                            placeholderTextColor='#898785'
-                            keyboardType='email-address'
-
-                            />
-
-                    <View style={{marginLeft:20,width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                        <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>Password*</Text>
+                        <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>New Password*</Text>
                     </View>
                     <CustomTextInput 
                             ref="passwordText"
                             inputType="password"
-                            placeholder="Enter Password"
+                            placeholder="Enter  New Password"
                             placeholderTextColor='#898785'
                             secureTextEntry={true}
 
                             
                             />
 
-                        <CustomButton   text="Forget Password ?"
-                        onPressHandler={()=>{this.props.navigation.navigate("ForgotPassword")}}
-                         customButttonStyle={{alignItems:"flex-end",backgroundColor:'white',marginTop:0}} 
-                         customTextStyle={{color:'#FD8D45',fontWeight: 'bold',fontSize: 14,textDecorationLine: 'underline'}}/>
+                    <View style={{marginLeft:20,width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                        <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>Confirm Password*</Text>
+                    </View>
+                    <CustomTextInput 
+                            ref="confirmPasswordText"
+                            inputType="confirmpassword"
+                            placeholder="Confirm Password"
+                            placeholderTextColor='#898785'
+                            secureTextEntry={true}
 
- 
-                        <CustomButton customTextStyle={{ color:'white'}} 
-                            onPressHandler={()=>this.onLoginHandler()}
-                            text="LOGIN" />
-
-                        <View style={{margin:25,justifyContent:"center"}}> 
-                            <Text style={{color:'#808080',fontWeight: 'bold',alignSelf:"center", fontSize: 17,justifyContent:"center"}}>OR</Text>
-                        </View>
-
+                            
+                            />
 
                         
-                        <CustomButton  customButttonStyle={{backgroundColor:"#FD8D45", }} customTextStyle={{ color:'black'}} onPressHandler = {() => this.onSubmit()} text="CREATE ACCOUNT" />
+                        <CustomButton customTextStyle={{ color:'white'}} 
+                            onPressHandler={()=>this.changePassword()}
+                            text="Change Password" />
 
+                       
 
                 </View>
 
@@ -237,6 +203,6 @@ const mapDispatchToProps = dispatch => {
     }
   }
   
-  export default connect(null,mapDispatchToProps)(LoginEmail)
+  export default connect(null,mapDispatchToProps)(ForgotPassword)
   
   
