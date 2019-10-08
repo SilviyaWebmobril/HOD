@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { View, StyleSheet, ActivityIndicator} from 'react-native';
+import { View, StyleSheet, ActivityIndicator,RefreshControl} from 'react-native';
 import { ScrollView} from 'react-native-gesture-handler';
 import CartLayout from '../CustomUI/Cart/CartLayout';
 import ScheduleModal from '../CustomUI/Modal/ScheduleModal';
@@ -8,10 +8,16 @@ import CustomSchedule from '../CustomUI/Modal/CustomSchedule';
 import AlertModal from '../CustomUI/Modal/AlertModal';
 
 export default(Comp: ReactClass<*>) => {
-  return ({contentContainerStyle,alertVisible,scheduleVisible,schedule_product_id,schedule_product_price,itemQuantity , itemTotalPrice,cartLayout, spinner, children, ...props }: Object) => (
+  return ({contentContainerStyle,alertVisible,refreshing,onRefresh,scheduleVisible,schedule_product_id,schedule_product_price,itemQuantity , itemTotalPrice,cartLayout, spinner, children, ...props }: Object) => (
     <View style={styles.mainView}>
 
-      <ScrollView>
+      <ScrollView
+      refreshControl ={
+        <RefreshControl
+        refreshing ={refreshing}
+        onRefresh = {onRefresh}
+        
+        />} > 
 
           <Comp {...props}>
             {children}

@@ -9,7 +9,9 @@ export default class FBLoginButton extends Component {
         <LoginButton
           publishPermissions={["email"]}
           onLoginFinished={
+            
             (error, result) => {
+              console.log("facebpook result ",result );
               if (error) {
                 alert("Login failed with error: " + error.message);
               } else if (result.isCancelled) {

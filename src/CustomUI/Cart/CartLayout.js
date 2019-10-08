@@ -15,7 +15,7 @@ CartLayout = (props) => {
           </View>
           <View style={styles.rowRight}>
           <TouchableOpacity 
-            onPress={()=>props.navigation.navigate("ViewProfile")}>
+            onPress={()=>props.navigation.navigate("Cart")}>
                 <View style={styles.rowRight}>
 
                     <Text style={styles.textStyles}>View Cart</Text>

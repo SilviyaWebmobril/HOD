@@ -6,6 +6,7 @@ const After_SplashStyle = StyleSheet.create({
     //flex: 1,
     backgroundColor:'#ffffff',
    // margin:10
+   marginBottom:30
     
   },
  

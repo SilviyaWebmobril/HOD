@@ -67,14 +67,9 @@ class ForgotPassword extends Component {
 
     changePassword = () =>{
 
-        if((this.refs.passwordText.getInputTextValue("password") !== "invalid") && (this.refs.confirmPasswordText.getInputTextValue("confirmpassword") !== "invalid") && 
-        this.refs.passwordText.getInputTextValue("password").length !== this.refs.confirmPasswordText.getInputTextValue("confirmpassword").length){
+        
 
-            Alert.alert("Password and Confirm password does not match");
-            return ;
-        }
-
-        if((this.refs.passwordText.getInputTextValue("password") !== "invalid") && (this.refs.confirmPasswordText.getInputTextValue("confirmpassword") !== "invalid")){
+        if((this.refs.emailText.getInputTextValue("email") !== "invalid") ){
 
 
             this.setState({isLoading:true})
@@ -83,25 +78,22 @@ class ForgotPassword extends Component {
 
               var formdata = new FormData();
              
-              formdata.append("password",this.refs.emailText.getInputTextValue("password"));
-              formdata.append("confirm_password",this.refs.passwordText.getInputTextValue("confirmpassword"));
+              formdata.append("email",this.refs.emailText.getInputTextValue("email"));
               
 
-              axios.post(ApiUrl.baseurl + ApiUrl.login,formdata)
+              axios.post(ApiUrl.baseurl + ApiUrl.forgot_password,formdata)
               .then(res => {
-              
-                 
-                  if(res.data.error){
+                this.setState({isLoading:false});
+                console.log("user login",res.data);
+                  if(res.data.status){
 
-                      this.setState({isLoading:false});
-                      Alert.alert("New Password and Confirm Password doesn't match!");
 
+                    Alert.alert("Invalid Email Id !")
                   }else{
 
-                        console.log("user login",res.data.result);
-                     
-                      this.props.navigation.navigate('Bottomtabs');
-  
+                     this.props.navigation.goBack(null);
+
+                      Alert.alert("Email sent successfully! Please check your mail and Login again.")
                       
                   }
                  
@@ -138,30 +130,18 @@ class ForgotPassword extends Component {
                     
                     </View> */}
                     <View style={{marginLeft:20,width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                        <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>New Password*</Text>
+                        <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>Enter Email*</Text>
                     </View>
                     <CustomTextInput 
-                            ref="passwordText"
-                            inputType="password"
-                            placeholder="Enter  New Password"
+                            ref="emailText"
+                            inputType="email"
+                            placeholder="Enter Your Email"
                             placeholderTextColor='#898785'
-                            secureTextEntry={true}
 
                             
                             />
 
-                    <View style={{marginLeft:20,width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                        <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>Confirm Password*</Text>
-                    </View>
-                    <CustomTextInput 
-                            ref="confirmPasswordText"
-                            inputType="confirmpassword"
-                            placeholder="Confirm Password"
-                            placeholderTextColor='#898785'
-                            secureTextEntry={true}
-
-                            
-                            />
+                   
 
                         
                         <CustomButton customTextStyle={{ color:'white'}} 

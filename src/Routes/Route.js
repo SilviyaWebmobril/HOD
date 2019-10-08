@@ -26,6 +26,9 @@ import Support from '../BottomTabs/Account/Support';
 import CategoryProductDetails from  '../BottomTabs/screens/CategoryProductDetails';
 import Cart from '../BottomTabs/screens/Cart';
 import TransactionHistory from '../BottomTabs/Account/TransactionHistory/TransactionHistory';
+import AboutUs from '../BottomTabs/Account/AboutUs';
+import PrivacyPolicy from '../BottomTabs/Account/PrivacyPolicy';
+
 const Bottomtabs = createBottomTabNavigator({
 
   'HomeScreen':{
@@ -200,6 +203,8 @@ const bottomtabsStack = createStackNavigator({
  
   Cart ,
   MyVideo,
+  AboutUs,
+  PrivacyPolicy,
   CategoryProduct,
   CategoryProductDetails,
   Support,
@@ -228,6 +233,7 @@ const MyApp = createStackNavigator({
      Login, 
      LoginEmail,
      ForgotPassword,
+     
      VideoPlayer,
      MyVideo,
      Create_Account,

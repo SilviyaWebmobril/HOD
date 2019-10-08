@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Alert,View,Text,StyleSheet,TouchableOpacity} from 'react-native';
+import {Alert,View,Text,StyleSheet,TouchableOpacity,Image} from 'react-native';
 import * as HOC from '../HOC/mainHoc';
 import CustomTextInput from '../CustomUI/CustomTextInput/CustomTextInput';
 import CustomButtonWithIcon from '../CustomUI/CustomButton/CustomButtonWithIcon';
@@ -23,19 +23,17 @@ class SearchLocation extends Component {
 
     static navigationOptions = ({ navigation }) => ({
         title: 'Search Location',
-        headerStyle: {
-            height: 60,
-            backgroundColor: '#FD8D45',
-        },
-        headerTitleStyle: {
-            color: 'white',
-            alignSelf: 'center',
-            textAlign: 'center',
-            flex: 1,
-            fontSize: 17,
-        },
-        headerTintColor: 'white',
-        headerRight: (<View></View>)
+        headerStyle: { backgroundColor: '#FD8D45' },
+        headerTitleStyle: { color: 'white' },
+        headerTintColor: 'white', 
+        headerLeft:(
+          <TouchableOpacity
+            onPress={()=>{navigation.pop()}}
+          >
+            <Image source={require('../../Assets/arrow_left.png')} style={{marginLeft:20}} />
+          </TouchableOpacity>
+        
+      )
     });
 
 

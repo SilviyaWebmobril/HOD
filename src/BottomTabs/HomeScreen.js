@@ -33,7 +33,8 @@ class HomeScreen extends  Component {
             scheduleModalVisible:false,
             schedule_product_id:"",
             schedule_product_price:"",
-            searchText:""
+            searchText:"",
+            isRefreshing:false
             
         }
     }
@@ -50,7 +51,7 @@ class HomeScreen extends  Component {
    
 
     componentDidMount(){
-
+        this.setState({isRefreshing:false})
         this.props.onHomeScreen(this.props.userdata.user_id);
         this.props.getProfile(this.props.userdata.user_id);
        
@@ -161,7 +162,16 @@ class HomeScreen extends  Component {
         return this.state.searchText;
     }
 
-        
+    onRefresh = () =>{
+
+        var userdata = [];
+
+        //this.props.onUpdateUser(userdata);
+        this.props.deleteCart();
+        this.setState({isRefreshing:true})
+        this.componentDidMount();
+    }
+
 
     render(){
 
@@ -180,11 +190,13 @@ class HomeScreen extends  Component {
 
         }
 
-
+       
        
         return(
            
             <FullSCreenSpinnerAndDismissKeyboardView
+            onRefresh={this.onRefresh.bind(this)}
+            refreshing={this.state.isRefreshing}
             style={styles.container}
             scheduleVisible={this.state.scheduleModalVisible}
             schedule_product_id ={this.state.schedule_product_id}
@@ -254,6 +266,9 @@ const mapDispatchToProps = dispatch => {
       onSearchProducts :(value)=>{
           dispatch(homeActions.searchProducts(value))
       },
+      deleteCart:()=>{
+        dispatch(cartActions.deleteCart());
+    },
       getProfile:(id) =>{
           dispatch(userAction.getUserProfile(id))
       }

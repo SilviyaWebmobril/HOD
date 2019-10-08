@@ -42,7 +42,11 @@ class CustomTopHeader extends  Component {
                         </TouchableOpacity>
                     </View>
                     <View  style={{ flexDirection:"row",position: 'absolute', right: 0}}>
-                        <Image style={{width:25,height:25,marginRight:10}} source={require('../../Assets/order.png')} />
+                        <TouchableOpacity
+                         onPress={()=>{this.props.navigation.navigate("TransactionHistory")}}>
+                            <Image style={{width:25,height:25,marginRight:10}} source={require('../../Assets/order.png')} />
+                        </TouchableOpacity> 
+                       
                         <Cartbadge img= {0} count={this.props.cart_count.total_cart_count}/>
                     </View>
                 </View>

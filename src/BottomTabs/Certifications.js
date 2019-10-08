@@ -1,5 +1,5 @@
 import React ,{ Component } from 'react';
-import { View ,Text ,StyleSheet,Image,FlatList} from 'react-native';
+import { View ,Text ,StyleSheet,Image,FlatList,RefreshControl} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import * as HOC from '../HOC/mainHoc';
@@ -20,12 +20,13 @@ class Certification extends Component {
         this.state ={
             certificates:[],
             isLoading:true,
+            isRefreshing:false
         }
     }
 
     componentDidMount(){
 
-        console.log("userdata",this.props.userdata);
+        this.setState({isRefreshing:false})        
         axios.get(ApiUrl.baseurl+ApiUrl.get_all_certificates+this.props.userdata.userdata.user_id).then(res => {
 
           
@@ -59,10 +60,19 @@ class Certification extends Component {
         );
     }
 
+    onRefresh = () =>{
+
+        console.log("calling this function");
+        this.setState({isRefreshing:true})
+        this.componentDidMount();
+    }
+
 
     render(){
         return(
             <FullSCreenSpinnerAndDismissKeyboardView style={styles.container} 
+            onRefresh={this.onRefresh.bind(this)}
+            refreshing={this.state.isRefreshing}
             spinner={this.state.isLoading}>
                  <View  style={styles.headerView}>
                     <Text style={styles.textStyle}>Certifications</Text>
@@ -75,7 +85,7 @@ class Certification extends Component {
                       keyExtractor={(item, index) => index.toString()}
                       renderItem={this.renderItem.bind(this)}
                       style={{marginBottom:20}}
-                      />
+                     />
                 </View>
            
             </FullSCreenSpinnerAndDismissKeyboardView>

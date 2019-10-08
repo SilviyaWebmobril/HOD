@@ -42,17 +42,24 @@ class Cart extends Component {
                 cart_products:[],
                 cartCount:false,
                 isLoading:this.props.cart_products.isLoading,
-                cartLength:false
+                cartLength:false,
+                isRefreshing:false
     
     
     
             }
         }
 
+        onRefresh = () =>{
+
+          
+            this.setState({isRefreshing:true})
+            this.componentDidMount();
+        }
 
         componentDidMount(){
         
-           
+           this.setState({isRefreshing:false})
           this.props.getCartProducts(this.props.user.userdata.user_id);
        
         }
@@ -90,10 +97,10 @@ class Cart extends Component {
                 formdata.append("payment_id",data.razorpay_payment_id);
                 formdata.append("net_amt",this.props.cart_products.get_once_cart_sum);
 
-              
+                this.props.onLoading(true);
                 Axios.post(ApiUrl.baseurl +  ApiUrl.checkout_cart,formdata)
                 .then(response=>{
-                 
+                    this.props.onLoading(false);
                     if(response.data.error){
 
                     }else{
@@ -114,8 +121,9 @@ class Cart extends Component {
 
                   
                 }).catch(error => {
+                    this.props.onLoading(false);
                     console.log("cart error after payment",error);
-                    alert("Some Thing went Wrong !. Please try again later");
+                    alert("Something went Wrong !. Please try again later.");
                 });
               }).catch((error) => {
                 // handle failure
@@ -129,6 +137,8 @@ class Cart extends Component {
     render(){
         return (
             <FullSCreenSpinnerAndDismissKeyboardView
+            onRefresh={this.onRefresh.bind(this)}
+            refreshing={this.state.isRefreshing}
               style={styles.container}
               spinner={this.props.cart_products.isLoading}>
                  <FlatList

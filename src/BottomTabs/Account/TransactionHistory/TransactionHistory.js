@@ -25,13 +25,21 @@ class TransactionHistory extends Component {
         super(props);
         this.state = {
             history:[],
-            isLoading:true,
+            isLoading:false,
+            isRefreshing:false
         }
     }
 
-    componentDidMount(){
+    onRefresh = () =>{
 
-       
+          
+        this.setState({isRefreshing:true})
+        this.componentDidMount();
+    }
+
+    componentDidMount(){
+        this.setState({isLoading:true})
+        this.setState({isRefreshing:false})
         var formdata  = new FormData();
         formdata.append("user_id",this.props.user.userdata.user_id)
         axios.post(ApiUrl.baseurl +  ApiUrl.transaction_history,formdata)
@@ -59,6 +67,8 @@ class TransactionHistory extends Component {
     render(){
         return (
             <FullSCreenSpinnerAndDismissKeyboardView 
+            onRefresh={this.onRefresh.bind(this)}
+            refreshing={this.state.isRefreshing}
                 spinner={this.state.isLoading} >
 
                 <FlatList

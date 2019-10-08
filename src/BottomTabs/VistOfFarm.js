@@ -9,10 +9,10 @@ import ApiUrl from '../Api/ApiUrl';
 import * as HOC from '../HOC/mainHoc';
 import Axios from 'axios';
 import { connect } from 'react-redux';
-const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
-const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
-  DismissKeyboardView
-);      
+    const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
+    const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
+    DismissKeyboardView
+    );      
 const today = new Date();
  
 class VisitOfFarm extends Component{
@@ -106,11 +106,11 @@ class VisitOfFarm extends Component{
 
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
                             <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                                Subject
+                                Subject*
                             </Text>
                         </View>
                         <CustomTextInput 
-                            inputType="subject*"
+                            inputType="subject"
                             placeholder="Enter Subject" placeholderTextColor='#898785'
                             ref="subject"
                             returnKeyType = { "next" }

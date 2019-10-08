@@ -73,4 +73,15 @@ export default {
     
     "transaction_history":"transaction_history?user_id=",
 
+    about_us :"http://webmobril.org/dev/hod/api/api_pages?page_id=24",
+
+    privacy_policy :"http://webmobril.org/dev/hod/api/api_pages?page_id=24",
+
+    forgot_password : "forgot_password?",
+
+    facebook_login :"fb_login?",
+
+    logout :"logout?",
+
+
 }

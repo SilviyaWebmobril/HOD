@@ -40,6 +40,7 @@ class CategoryProduct extends Component {
             cartCount:false,
             scheduleModalVisible:false,
             schedule_product_id:"",
+            isRefreshing:false,
             schedule_product_price:""
             
 
@@ -71,6 +72,14 @@ class CategoryProduct extends Component {
      
      
     }
+
+    onRefresh = () =>{
+
+       
+        this.setState({isRefreshing:true})
+        this.componentDidMount();
+    }
+
 
   
 
@@ -180,6 +189,8 @@ class CategoryProduct extends Component {
 
             <FullSCreenSpinnerAndDismissKeyboardView
             style={styles.container}
+            onRefresh={this.onRefresh.bind(this)}
+            refreshing={this.state.isRefreshing}
             scheduleVisible={this.state.scheduleModalVisible}
             schedule_product_id ={this.state.schedule_product_id}
             schedule_product_price = {this.state.schedule_product_price}

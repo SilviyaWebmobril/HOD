@@ -5,7 +5,9 @@ import {
     Text,
     TouchableOpacity,
     SafeAreaView,
-    ScrollView
+    ScrollView,
+    Alert,
+    Platform
 } from 'react-native';
 import * as HOC from '../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
@@ -13,17 +15,31 @@ const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
 );
 import CustomLogo  from '../CustomUI/Logo/CustomLogo';
+import { LoginManager ,AccessToken,GraphRequest,GraphRequestManager} from "react-native-fbsdk";
 
 import After_SplashStyle from './After_SplashStyle';
 import CustomButton from '../CustomUI/CustomButton/CustomButton';
 import CustomButtonWithIcon from '../CustomUI/CustomButton/CustomButtonWithIcon';
-import { LoginButton } from 'react-native-fbsdk';
 import FBLoginButton from './FBLoginButton';
+import Axios from 'axios';
+import ApiUrl from '../Api/ApiUrl';
+import firebase from 'react-native-firebase';
+import AsyncStorage from '@react-native-community/async-storage';  
+import { userData ,getUserId} from '../redux/store/actions/userDataAction'; 
+import {connect } from 'react-redux';
 
-export default class After_Splash extends Component {
+class After_Splash extends Component {
     static navigationOptions = ({ navigation }) => ({
         header: null
     });
+
+    constructor(props){
+        super(props);
+        this.state = {
+            isLoading:false
+        }
+    }
+   
 
     onLogin = () => {
       
@@ -38,14 +54,149 @@ export default class After_Splash extends Component {
     }
 
     onLoginWithFacebook = () =>{
+       this.setState({isLoading:true});
+    firebase.messaging().getToken()
+    .then(token => {
+   
 
+
+    LoginManager.logInWithPermissions(['public_profile', 'email']).then(result => 
+         {
+  
+          if (result.isCancelled) {
+            console.log('Login cancelled')
+
+          } else {
+          
+              AccessToken.getCurrentAccessToken().then(
+             (data) => {
+               let accessToken = data.accessToken
+                //Alert.alert(accessToken.toString())
+  
+               const responseInfoCallback = (error, result) => {
+                 if (error) {
+                     console.log("graph error",error)
+                     //Alert.alert('Error fetching data: ' + error.toString());
+                     this.setState({isLoading:false});
+                     Alert.alert(
+                        'Error',
+                        'Something went wrong ! Please try again later.',
+                        [
+                     
+                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        ], 
+                        { cancelable: false }
+                        )
+                 } else {
+                    console.log("graph result",result.name)
+                   // Alert.alert('Success fetching data: ' + JSON.stringify(result));
+
+                    let formdata = new FormData();
+                    //formdata.append("name",JSON.stringify(result.email));
+                    formdata.append("name",result.name)
+                    formdata.append("email",result.email);
+                    formdata.append("fb_id",result.id);
+                    if(Platform.OS ==  "android"){
+                        formdata.append("device_type","1");
+                    }else{
+                        formdata.append("device_type","2");
+
+                    }
+                    formdata.append("device_token",token);
+                    Axios.post(ApiUrl.baseurl + ApiUrl.facebook_login,formdata)
+                    .then(res=> {
+
+                        console.log("response api",res);
+                       // AsyncStorage.setItem('user_id',JSON.stringify(res.data.result.id))
+                      
+
+                        let userdata ={};
+                    
+                        Object.assign(userdata,{"user_id":JSON.stringify(res.data.result.id)});
+                        Object.assign(userdata,{"user_name": res.data.result.name});
+                        Object.assign(userdata,{"user_email":res.data.result.email});
+                        Object.assign(userdata,{"user_mobile":res.data.result.mobile});
+                        Object.assign(userdata,{"user_gender":res.data.result.name});
+                        Object.assign(userdata,{"user_dob":res.data.result.dob});
+                        Object.assign(userdata,{"user_married":JSON.stringify(res.data.result.married)});
+                        Object.assign(userdata,{"user_family_members":res.data.result.family_members});
+                        Object.assign(userdata,{"user_vegitarian":JSON.stringify(res.data.result.vegitarian)});
+                        this.props.onUpdateUserId(JSON.stringify(res.data.result.id));
+                        this.props.onUpdateUser(userdata);
+                       this.setState({isLoading:false});
+                       // Alert.alert("Your Account created Sucessfuly!");
+                        if(res.data.register_flag == 0){
+
+                            AsyncStorage.setItem('user_id',JSON.stringify(res.data.result.id))
+                           
+                            this.props.navigation.navigate('Bottomtabs');
+        
+                        }else{
+                            Alert.alert("Your Account created Successfully!");
+                            this.props.navigation.navigate('SearchLocation',{"location_update":1});
+        
+                        }
+
+                    }).catch(error => {
+                        this.setState({isLoading:false});
+                        console.log("error", error);
+                        Alert.alert(
+                            'Error',
+                            'Something went wrong ! Please try again later.',
+                            [
+                         
+                            {text: 'OK', onPress: () => console.log('OK Pressed')},
+                            ], 
+                            { cancelable: false }
+                            )
+                    });
+
+
+                 }
+               }
+  
+               const infoRequest = new GraphRequest(
+                 '/me',
+                 {
+                   accessToken: accessToken,
+                   parameters: {
+                     fields: {
+                       string: 'email,name,id'
+                     }
+                   }
+                 },
+                 responseInfoCallback
+               );
+               new GraphRequestManager().addRequest(infoRequest).start();
+             
+               //ToastAndroid.show("Result ..."+ a.toString(),ToastAndroid.LONG)
+  
+             }
+           )
+          }
+  
+    }).catch (error => {
+
+        Alert.alert(
+            'Error',
+            'Something went wrong ! Please try again later.',
+            [
+         
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ], 
+            { cancelable: false }
+            )
+    })
+    
+    });
+    
 
     }
 
     render() {
         return (
-            <FullSCreenSpinnerAndDismissKeyboardView style={After_SplashStyle.container}>
-                <ScrollView>
+            <FullSCreenSpinnerAndDismissKeyboardView spinner={this.state.isLoading} style={After_SplashStyle.container}>
+                
                     <View>
                         <CustomLogo customLogoStyle={{height:180}}/>
              
@@ -64,15 +215,15 @@ export default class After_Splash extends Component {
                             /> 
 
 
-                        <FBLoginButton />
-                        {/* <CustomButtonWithIcon 
+                        
+                        <CustomButtonWithIcon 
                             customViewIconStyle={{backgroundColor:"#2F4F93",borderTopLeftRadius: 5,borderBottomLeftRadius: 5,}} 
                             iconName="facebook" iconSize={25}
                             iconColor="white"
                             onPressHandler={()=> this.onLoginWithFacebook()} 
                             customViewTextStyle={{backgroundColor:"#3B5998", borderBottomRightRadius: 5,borderTopRightRadius: 5,fontSize:15}}
                             customText="REGISTER WITH FACEBOOK"
-                            />  */}
+                            /> 
 
                             <View style={{marginTop:25}}></View>
 
@@ -99,10 +250,7 @@ export default class After_Splash extends Component {
                     
 
                     </View>
-                </ScrollView>
-
                
-
             </FullSCreenSpinnerAndDismissKeyboardView>
              
            
@@ -111,3 +259,20 @@ export default class After_Splash extends Component {
         );
     }
 }
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+      onUpdateUser: (userdata) => {
+        dispatch(userData(userdata))
+      },
+      onUpdateUserId: (id) => {
+        dispatch(getUserId(id))
+      },
+    }
+  }
+  
+  export default connect(null,mapDispatchToProps)(After_Splash)
+  
+  
+  

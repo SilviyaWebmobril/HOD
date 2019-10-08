@@ -1,29 +1,82 @@
 import React , { Component } from 'react';
-import {View, Text,TouchableOpacity,StyleSheet,Image,ScrollView } from 'react-native';
+import {View, Text,TouchableOpacity,StyleSheet,Image,ActivityIndicator,ScrollView ,Alert} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
 import {ADD_USER_DATA} from '../redux/store/actions/types';
 import * as CartAction from '../redux/store/actions/cartAction';
+import Axios from 'axios';
+import ApiUrl from '../Api/ApiUrl';
 
 
 class Account extends Component {
 
 
-    onLogoutHandler = async () => {
-        const keys = ['user_id', 'user_name','user_email','user_mobile','user_password','user_home']
-        try {
-          await AsyncStorage.multiRemove(keys)
-          this.props.navigation.navigate('MyApp');
-        } catch(e) {
-          // remove error
-
+    constructor(props){
+        super(props);
+        this.state = {
+            isLoading:false
         }
+    }
 
-        var userdata = [];
-        this.props.onUpdateUser(userdata);
-        this.props.deleteCart();
+
+    onLogoutHandler = async () => {
+
+        Alert.alert(
+            'Logout',
+            'Are you sure that you want to Logout!',
+            [
+         
+            {text: 'OK', onPress: () => {this.onlogout()}},
+            {text: 'Cancel', onPress: () => {console.log("ok")}},
+            ], 
+            { cancelable: false }
+        )
+       
       
       }
+
+      onlogout =  () => {
+
+        this.setState({isLoading:true});
+        console.log("id",this.props.userdata.userdata.user_id);
+        var  formdata = new FormData();
+        formdata.append("user_id",this.props.userdata.userdata.user_id)
+        Axios.post(ApiUrl.baseurl +  ApiUrl.logout,formdata)
+        .then(response => {
+            console.log("response logout ", response);
+           this.removeData();
+
+        }).catch(error => {
+            
+            Alert.alert(
+                'Network Error',
+                'Check Your Network Connection and Try Again Later!',
+                [
+             
+                {text: 'OK', onPress: () => {console.log("ok")}},
+                ], 
+                { cancelable: false }
+                )
+        });
+
+       
+      }
+ 
+    removeData = async()=>{
+        this.setState({isLoading:false});
+        const keys = ['user_id', 'user_name','user_email','user_mobile','user_password','user_home']
+        try {
+        await AsyncStorage.multiRemove(keys)
+        this.props.navigation.navigate('MyApp');
+        } catch(e) {
+        // remove error
+
+        }
+        var userdata = [];
+
+        this.props.onUpdateUser(userdata);
+        this.props.deleteCart();
+    }
 
       viewProfile = () =>{
 
@@ -38,6 +91,17 @@ class Account extends Component {
 
         this.props.navigation.navigate("Support");
       }   
+      onAboutUsHandler = () =>{
+
+        this.props.navigation.navigate("AboutUs");
+
+      }
+
+      onPrivacyPolicyHandler = () =>{
+          this.props.navigation.navigate("PrivacyPolicy");
+      }
+
+
     render(){
         return(
 
@@ -92,6 +156,7 @@ class Account extends Component {
                         </TouchableOpacity>
                         <View style={styles.viewLineBlack}></View>
                         <TouchableOpacity
+                        onPress={()=>{this.onAboutUsHandler()}}
                             style={{alignContent:"flex-start",width:"100%"}}
                             >
                             <View style={styles.buttonView}>
@@ -102,6 +167,7 @@ class Account extends Component {
                         </TouchableOpacity>
                         <View style={styles.viewLineBlack}></View>
                         <TouchableOpacity
+                        onPress={()=>{this.onPrivacyPolicyHandler()}}
                             style={{alignContent:"flex-start",width:"100%"}}
                             >
                             <View style={styles.buttonView}>
@@ -124,6 +190,16 @@ class Account extends Component {
                         <View style={styles.viewLineBlack}></View>
                     
                     </View>
+                    {this.state.isLoading &&
+                        <View
+                        style={[
+                            StyleSheet.absoluteFill,
+                            { backgroundColor: 'rgba(0, 0, 0, 0.7)', justifyContent: 'center' }
+                        ]}
+                        >
+                        <ActivityIndicator size="large" />
+                        </View>}
+   
                 </ScrollView>
             </View>
 
@@ -188,7 +264,7 @@ const styles =  StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-      userdata: state.userdata.userdata
+      userdata: state.userdata
     }
   }
 

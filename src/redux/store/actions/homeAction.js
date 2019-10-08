@@ -10,6 +10,10 @@ export const homeScreenProducts = (user_id) =>{
 
     return dispatch =>{
 
+        dispatch({
+            type:IS_LOADING,
+            isLoading:true,
+        })
            
 
           //any async code you want! 
