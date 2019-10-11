@@ -18,12 +18,8 @@
 
 #import "FBSDKGraphRequestBody.h"
 
-#import "../../Basics/Internal/FBSDKBasicUtility.h"
-
-#import "FBSDKConstants.h"
 #import "FBSDKCrypto.h"
 #import "FBSDKGraphRequestDataAttachment.h"
-#import "FBSDKInternalUtility.h"
 #import "FBSDKLogger.h"
 #import "FBSDKSettings.h"
 
@@ -58,7 +54,7 @@
 
 - (void)appendUTF8:(NSString *)utf8
 {
-  if (!_data.length) {
+  if (![_data length]) {
     NSString *headerUTF8 = [NSString stringWithFormat:@"--%@%@", _stringBoundary, kNewline];
     NSData *headerData = [headerUTF8 dataUsingEncoding:NSUTF8StringEncoding];
     [_data appendData:headerData];
@@ -75,7 +71,7 @@
     [self appendUTF8:value];
   }];
   if (key && value) {
-    _json[key] = value;
+    [_json setObject:value forKey:key];
   }
   [logger appendFormat:@"\n    %@:\t%@", key, (NSString *)value];
 }
@@ -89,7 +85,7 @@
     [self->_data appendData:data];
   }];
   _json = nil;
-  [logger appendFormat:@"\n    %@:\t<Image - %lu kB>", key, (unsigned long)(data.length / 1024)];
+  [logger appendFormat:@"\n    %@:\t<Image - %lu kB>", key, (unsigned long)([data length] / 1024)];
 }
 
 - (void)appendWithKey:(NSString *)key
@@ -100,7 +96,7 @@
     [self->_data appendData:data];
   }];
   _json = nil;
-  [logger appendFormat:@"\n    %@:\t<Data - %lu kB>", key, (unsigned long)(data.length / 1024)];
+  [logger appendFormat:@"\n    %@:\t<Data - %lu kB>", key, (unsigned long)([data length] / 1024)];
 }
 
 - (void)appendWithKey:(NSString *)key
@@ -114,7 +110,7 @@
     [self->_data appendData:data];
   }];
   _json = nil;
-  [logger appendFormat:@"\n    %@:\t<Data - %lu kB>", key, (unsigned long)(data.length / 1024)];
+  [logger appendFormat:@"\n    %@:\t<Data - %lu kB>", key, (unsigned long)([data length] / 1024)];
 }
 
 - (NSData *)data
@@ -135,7 +131,7 @@
 - (void)_appendWithKey:(NSString *)key
               filename:(NSString *)filename
            contentType:(NSString *)contentType
-          contentBlock:(FBSDKCodeBlock)contentBlock
+          contentBlock:(void(^)(void))contentBlock
 {
   NSMutableArray *disposition = [[NSMutableArray alloc] init];
   [disposition addObject:@"Content-Disposition: form-data"];
@@ -154,15 +150,6 @@
     contentBlock();
   }
   [self appendUTF8:[[NSString alloc] initWithFormat:@"%@--%@%@", kNewline, _stringBoundary, kNewline]];
-}
-
-- (NSData *)compressedData
-{
-  if (!self.data.length || ![[self mimeContentType] isEqualToString:@"application/json"]) {
-    return nil;
-  }
-
-  return [FBSDKBasicUtility gzip:self.data];
 }
 
 @end

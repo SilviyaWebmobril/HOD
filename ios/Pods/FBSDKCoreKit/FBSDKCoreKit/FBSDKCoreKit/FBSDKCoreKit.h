@@ -27,6 +27,7 @@
 #import <FBSDKCoreKit/FBSDKGraphRequest.h>
 #import <FBSDKCoreKit/FBSDKGraphRequestConnection.h>
 #import <FBSDKCoreKit/FBSDKGraphRequestDataAttachment.h>
+#import <FBSDKCoreKit/FBSDKMacros.h>
 #import <FBSDKCoreKit/FBSDKSettings.h>
 #import <FBSDKCoreKit/FBSDKTestUsersManager.h>
 #import <FBSDKCoreKit/FBSDKUtility.h>
@@ -52,5 +53,5 @@
 #import <FBSDKCoreKit/FBSDKDeviceViewControllerBase.h>
 #endif
 
-#define FBSDK_VERSION_STRING @"5.7.0"
-#define FBSDK_TARGET_PLATFORM_VERSION @"v4.0"
+#define FBSDK_VERSION_STRING @"4.38.1"
+#define FBSDK_TARGET_PLATFORM_VERSION @"v3.2"

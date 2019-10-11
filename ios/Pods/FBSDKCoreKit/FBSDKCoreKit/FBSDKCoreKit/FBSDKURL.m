@@ -88,14 +88,14 @@
                 if (sourceApplication) {
                     logData[@"sourceApplication"] = sourceApplication;
                 }
-                if (_targetURL.absoluteString) {
-                    logData[@"targetURL"] = _targetURL.absoluteString;
+                if ([_targetURL absoluteString]) {
+                    logData[@"targetURL"] = [_targetURL absoluteString];
                 }
-                if (_inputURL.absoluteString) {
-                    logData[@"inputURL"] = _inputURL.absoluteString;
+                if ([_inputURL absoluteString]) {
+                    logData[@"inputURL"] = [_inputURL absoluteString];
                 }
-                if (_inputURL.scheme) {
-                    logData[@"inputURLScheme"] = _inputURL.scheme;
+                if ([_inputURL scheme]) {
+                    logData[@"inputURLScheme"] = [_inputURL scheme];
                 }
                 logData[@"forRenderBackToReferrerBar"] = forRenderBackToReferrerBar ? EVENT_YES_VAL : EVENT_NO_VAL;
                 logData[@"forOpenUrl"] = forOpenURLEvent ? EVENT_YES_VAL : EVENT_NO_VAL;
@@ -110,15 +110,15 @@
     return self;
 }
 
-+ (instancetype)URLWithURL:(NSURL *)url {
++ (FBSDKURL *)URLWithURL:(NSURL *)url {
     return [[FBSDKURL alloc] initWithURL:url forOpenInboundURL:NO sourceApplication:nil forRenderBackToReferrerBar:NO];
 }
 
-+ (instancetype)URLWithInboundURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
++ (FBSDKURL *)URLWithInboundURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
     return [[FBSDKURL alloc] initWithURL:url forOpenInboundURL:YES sourceApplication:sourceApplication forRenderBackToReferrerBar:NO];
 }
 
-+ (instancetype)URLForRenderBackToReferrerBarURL:(NSURL *)url {
++ (FBSDKURL *)URLForRenderBackToReferrerBarURL:(NSURL *)url {
     return [[FBSDKURL alloc] initWithURL:url forOpenInboundURL:NO sourceApplication:nil forRenderBackToReferrerBar:YES];
 }
 

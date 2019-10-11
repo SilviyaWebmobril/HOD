@@ -114,7 +114,7 @@ class Cart extends Component {
                             }
 
                         })
-
+                        this.props.onHomeScreen(this.props.user.userdata.user_id);
                         this.props.removeFromHomeAfterPayment(arr_id);
                         this.props.removeFromCartAfterPayment();
                     }
@@ -195,7 +195,10 @@ mapDispatchToProps = dispatch =>{
         },
         removeFromHomeAfterPayment :(arr) => {
             dispatch(homeAction.removeItemAterPaymentInHome(arr))
-        }
+        },
+        onHomeScreen:(user_id) =>{
+            dispatch(homeAction.homeScreenProducts(user_id))
+          },
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Cart);

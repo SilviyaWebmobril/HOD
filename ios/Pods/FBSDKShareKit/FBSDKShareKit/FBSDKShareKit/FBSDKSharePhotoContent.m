@@ -20,11 +20,7 @@
 
 #import <Photos/Photos.h>
 
-#ifdef COCOAPODS
-#import <FBSDKCoreKit/FBSDKCoreKit+Internal.h>
-#else
 #import "FBSDKCoreKit+Internal.h"
-#endif
 #import "FBSDKHashtag.h"
 #import "FBSDKSharePhoto.h"
 #import "FBSDKShareUtility.h"
@@ -81,6 +77,12 @@
 
 #pragma mark - FBSDKSharingContent
 
+- (void)addToParameters:(NSMutableDictionary<NSString *, id> *)parameters
+          bridgeOptions:(FBSDKShareBridgeOptions)bridgeOptions
+{
+  [parameters addEntriesFromDictionary:[self addParameters:parameters bridgeOptions:bridgeOptions]];
+}
+
 - (NSDictionary<NSString *, id> *)addParameters:(NSDictionary<NSString *, id> *)existingParameters
                                   bridgeOptions:(FBSDKShareBridgeOptions)bridgeOptions
 {
@@ -107,9 +109,9 @@
     } else if (photo.imageURL) {
       if (photo.imageURL.isFileURL) {
         // load the contents of the file and bridge the image
-        UIImage *image = [UIImage imageWithContentsOfFile:photo.imageURL.path];
+        UIImage *image = [UIImage imageWithContentsOfFile:[photo.imageURL absoluteString]];
         if (image) {
-          [images addObject:image];
+          [images addObject:photo.image];
         }
       }
     } else if (photo.image) {
@@ -118,9 +120,9 @@
     }
   }
   if (images.count > 0) {
-    [FBSDKBasicUtility dictionary:updatedParameters
-                        setObject:images
-                           forKey:@"photos"];
+    [FBSDKInternalUtility dictionary:updatedParameters
+                           setObject:images
+                              forKey:@"photos"];
   }
 
   return updatedParameters;
@@ -146,14 +148,14 @@
 - (NSUInteger)hash
 {
   NSUInteger subhashes[] = {
-    _contentURL.hash,
-    _hashtag.hash,
-    _peopleIDs.hash,
-    _photos.hash,
-    _placeID.hash,
-    _ref.hash,
-    _pageID.hash,
-    _shareUUID.hash,
+    [_contentURL hash],
+    [_hashtag hash],
+    [_peopleIDs hash],
+    [_photos hash],
+    [_placeID hash],
+    [_ref hash],
+    [_pageID hash],
+    [_shareUUID hash],
   };
   return [FBSDKMath hashWithIntegerArray:subhashes count:sizeof(subhashes) / sizeof(subhashes[0])];
 }
@@ -189,7 +191,7 @@
   return YES;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   if ((self = [self init])) {
     _contentURL = [decoder decodeObjectOfClass:[NSURL class] forKey:FBSDK_SHARE_PHOTO_CONTENT_CONTENT_URL_KEY];

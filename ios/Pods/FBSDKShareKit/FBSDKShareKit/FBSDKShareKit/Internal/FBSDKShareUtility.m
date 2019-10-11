@@ -20,13 +20,9 @@
 
 #import <FBSDKShareKit/FBSDKHashtag.h>
 
-#ifdef COCOAPODS
-#import <FBSDKCoreKit/FBSDKCoreKit+Internal.h>
-#else
 #import "FBSDKCoreKit+Internal.h"
-#endif
 #import "FBSDKShareConstants.h"
-#import "FBSDKShareLinkContent.h"
+#import "FBSDKShareLinkContent+Internal.h"
 
 @implementation FBSDKShareUtility
 
@@ -77,12 +73,12 @@
     return;
   }
   NSArray *components = [key componentsSeparatedByString:@":"];
-  if (components.count < 2) {
+  if ([components count] < 2) {
     NSString *reason = [[NSString alloc] initWithFormat:@"Open Graph keys must be namespaced: %@", key];
     @throw [NSException exceptionWithName:NSInvalidArgumentException reason:reason userInfo:nil];
   }
   for (NSString *component in components) {
-    if (!component.length) {
+    if (![component length]) {
       NSString *reason = [[NSString alloc] initWithFormat:@"Invalid key found in Open Graph dictionary: %@", key];
       @throw [NSException exceptionWithName:NSInvalidArgumentException reason:reason userInfo:nil];
     }
@@ -123,35 +119,31 @@
 {
   NSString *methodName = nil;
   NSMutableDictionary<NSString *, id> *parameters = nil;
-  if ([content isKindOfClass:NSClassFromString(@"FBSDKShareOpenGraphContent")]) {
+  if ([content isKindOfClass:[FBSDKShareOpenGraphContent class]]) {
     methodName = @"share_open_graph";
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    FBSDKShareOpenGraphContent *const openGraphContent = (FBSDKShareOpenGraphContent *)content;
-    FBSDKShareOpenGraphAction *const action = openGraphContent.action;
-#pragma clang diagnostic pop
-    NSDictionary<NSString *, id> *const properties = [self convertOpenGraphValueContainer:action requireNamespace:NO];
-    NSString *const propertiesJSON = [FBSDKBasicUtility JSONStringForObject:properties
-                                                                         error:errorRef
-                                                          invalidObjectHandler:NULL];
+    FBSDKShareOpenGraphContent *openGraphContent = (FBSDKShareOpenGraphContent *)content;
+    FBSDKShareOpenGraphAction *action = openGraphContent.action;
+    NSDictionary<NSString *, id> *properties = [self convertOpenGraphValueContainer:action requireNamespace:NO];
+    NSString *propertiesJSON = [FBSDKInternalUtility JSONStringForObject:properties
+                                                                   error:errorRef
+                                                    invalidObjectHandler:NULL];
     parameters = [NSMutableDictionary new];
-    [FBSDKBasicUtility dictionary:parameters setObject:action.actionType forKey:@"action_type"];
-    [FBSDKBasicUtility dictionary:parameters setObject:propertiesJSON forKey:@"action_properties"];
+    [FBSDKInternalUtility dictionary:parameters setObject:action.actionType forKey:@"action_type"];
+    [FBSDKInternalUtility dictionary:parameters setObject:propertiesJSON forKey:@"action_properties"];
   } else {
     methodName = @"share";
     if ([content isKindOfClass:[FBSDKShareLinkContent class]]) {
       FBSDKShareLinkContent *const linkContent = (FBSDKShareLinkContent *)content;
       if (linkContent.contentURL != nil) {
         parameters = [NSMutableDictionary new];
-        [FBSDKBasicUtility dictionary:parameters setObject:linkContent.contentURL.absoluteString forKey:@"href"];
-        [FBSDKBasicUtility dictionary:parameters setObject:linkContent.quote forKey:@"quote"];
+        [FBSDKInternalUtility dictionary:parameters setObject:linkContent.contentURL.absoluteString forKey:@"href"];
+        [FBSDKInternalUtility dictionary:parameters setObject:linkContent.quote forKey:@"quote"];
       }
     }
   }
   if (parameters) {
-    [FBSDKBasicUtility dictionary:parameters setObject:[self hashtagStringFromHashtag:content.hashtag] forKey:@"hashtag"];
-    [FBSDKBasicUtility dictionary:parameters setObject:content.placeID forKey:@"place"];
-    [FBSDKBasicUtility dictionary:parameters setObject:[FBSDKShareUtility buildWebShareTags:content.peopleIDs] forKey:@"tags"];
+    NSString *hashtagString = [self hashtagStringFromHashtag:content.hashtag];
+    [FBSDKInternalUtility dictionary:parameters setObject:hashtagString forKey:@"hashtag"];
   }
   if (methodNameRef != NULL) {
     *methodNameRef = methodName;
@@ -165,23 +157,8 @@
   return YES;
 }
 
-+ (NSString *)buildWebShareTags:(NSArray<NSString *> *)peopleIDs
-{
-  if (peopleIDs.count > 0) {
-    NSMutableString *tags = [NSMutableString new];
-    for (NSString *tag in peopleIDs) {
-      if (tag.length > 0) {
-        [tags appendFormat:@"%@%@", (tags.length > 0 ? @"," : @""), tag];
-      }
-    }
-    return tags;
-  } else {
-    return nil;
-  }
-}
-
 + (void)buildAsyncWebPhotoContent:(FBSDKSharePhotoContent *)content
-                completionHandler:(FBSDKWebPhotoContentBlock)completion
+                completionHandler:(void(^)(BOOL, NSString *, NSDictionary *))completion
 {
   void(^stageImageCompletion)(NSArray<NSString *> *) = ^(NSArray<NSString *> *stagedURIs) {
     NSString *const methodName = @"share";
@@ -190,13 +167,14 @@
                                       bridgeOptions:FBSDKShareBridgeOptionsWebHashtag
                               shouldFailOnDataError:NO] mutableCopy];
     [parameters removeObjectForKey:@"photos"];
-    NSString *const stagedURIJSONString = [FBSDKBasicUtility JSONStringForObject:stagedURIs
-                                                                           error:nil
-                                                            invalidObjectHandler:NULL];
-    [FBSDKBasicUtility dictionary:parameters
-                        setObject:stagedURIJSONString
-                           forKey:@"media"];
-    [FBSDKBasicUtility dictionary:parameters setObject:[FBSDKShareUtility buildWebShareTags:content.peopleIDs] forKey:@"tags"];
+
+    NSString *const stagedURIJSONString = [FBSDKInternalUtility JSONStringForObject:stagedURIs
+                                                                              error:nil
+                                                               invalidObjectHandler:NULL];
+    [FBSDKInternalUtility dictionary:parameters
+                           setObject:stagedURIJSONString
+                              forKey:@"media"];
+
     if (completion != NULL) {
       completion(YES, methodName, [parameters copy]);
     }
@@ -228,7 +206,7 @@
   } else if ([value isKindOfClass:[NSArray class]]) {
     NSMutableArray *array = [[NSMutableArray alloc] init];
     for (id subValue in (NSArray *)value) {
-      [FBSDKBasicUtility array:array addObject:[self convertOpenGraphValue:subValue]];
+      [FBSDKInternalUtility array:array addObject:[self convertOpenGraphValue:subValue]];
     }
     return [array copy];
   } else {
@@ -240,7 +218,7 @@
 {
   NSMutableDictionary<NSString *, id> *convertedDictionary = [[NSMutableDictionary alloc] init];
   [dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-    [FBSDKBasicUtility dictionary:convertedDictionary setObject:[self convertOpenGraphValue:obj] forKey:key];
+    [FBSDKInternalUtility dictionary:convertedDictionary setObject:[self convertOpenGraphValue:obj] forKey:key];
   }];
   return [convertedDictionary copy];
 }
@@ -250,13 +228,17 @@
   NSMutableDictionary<NSString *, id> *parameters = nil;
   if ([content isKindOfClass:[FBSDKShareLinkContent class]]) {
     FBSDKShareLinkContent *linkContent = (FBSDKShareLinkContent *)content;
-    parameters = [[NSMutableDictionary alloc] init];
-    [FBSDKBasicUtility dictionary:parameters setObject:linkContent.contentURL forKey:@"link"];
-    [FBSDKBasicUtility dictionary:parameters setObject:linkContent.quote forKey:@"quote"];
-    [FBSDKBasicUtility dictionary:parameters setObject:[self hashtagStringFromHashtag:linkContent.hashtag] forKey:@"hashtag"];
-    [FBSDKBasicUtility dictionary:parameters setObject:content.placeID forKey:@"place"];
-    [FBSDKBasicUtility dictionary:parameters setObject:[FBSDKShareUtility buildWebShareTags:content.peopleIDs] forKey:@"tags"];
-    [FBSDKBasicUtility dictionary:parameters setObject:linkContent.ref forKey:@"ref"];
+    parameters = [[NSMutableDictionary alloc] initWithDictionary:linkContent.feedParameters];
+    [FBSDKInternalUtility dictionary:parameters setObject:linkContent.contentURL forKey:@"link"];
+    [FBSDKInternalUtility dictionary:parameters setObject:linkContent.quote forKey:@"quote"];
+    [FBSDKInternalUtility dictionary:parameters setObject:[self hashtagStringFromHashtag:linkContent.hashtag] forKey:@"hashtag"];
+    [FBSDKInternalUtility dictionary:parameters setObject:linkContent.ref forKey:@"ref"];
+#pragma clang diagnostic pop
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    [FBSDKInternalUtility dictionary:parameters setObject:linkContent.contentDescription forKey:@"description"];
+    [FBSDKInternalUtility dictionary:parameters setObject:linkContent.contentTitle forKey:@"name"];
+    [FBSDKInternalUtility dictionary:parameters setObject:linkContent.imageURL forKey:@"picture"];
+#pragma clang diagnostic pop
   }
   return [parameters copy];
 }
@@ -305,26 +287,23 @@
     // This was changed to support a single hashtag; however, the mobile app still expects to receive an array.
     // When hashtag support was added to web dialogs, a single hashtag was passed as a string.
     if (bridgeOptions & FBSDKShareBridgeOptionsWebHashtag) {
-      [FBSDKBasicUtility dictionary:parameters setObject:hashtagString forKey:@"hashtag"];
+      [FBSDKInternalUtility dictionary:parameters setObject:hashtagString forKey:@"hashtag"];
     } else {
-      [FBSDKBasicUtility dictionary:parameters setObject:@[hashtagString] forKey:@"hashtags"];
+      [FBSDKInternalUtility dictionary:parameters setObject:@[hashtagString] forKey:@"hashtags"];
     }
   }
-  [FBSDKBasicUtility dictionary:parameters setObject:shareContent.pageID forKey:@"pageID"];
-  [FBSDKBasicUtility dictionary:parameters setObject:shareContent.shareUUID forKey:@"shareUUID"];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-  if ([shareContent isKindOfClass:NSClassFromString(@"FBSDKShareOpenGraphContent")]) {
+  [FBSDKInternalUtility dictionary:parameters setObject:shareContent.pageID forKey:@"pageID"];
+  [FBSDKInternalUtility dictionary:parameters setObject:shareContent.shareUUID forKey:@"shareUUID"];
+  if ([shareContent isKindOfClass:[FBSDKShareOpenGraphContent class]]) {
     FBSDKShareOpenGraphAction *const action = ((FBSDKShareOpenGraphContent *)shareContent).action;
     [action setArray:shareContent.peopleIDs forKey:@"tags"];
     [action setString:shareContent.placeID forKey:@"place"];
     [action setString:shareContent.ref forKey:@"ref"];
   } else {
-    [FBSDKBasicUtility dictionary:parameters setObject:shareContent.peopleIDs forKey:@"tags"];
-    [FBSDKBasicUtility dictionary:parameters setObject:shareContent.placeID forKey:@"place"];
-    [FBSDKBasicUtility dictionary:parameters setObject:shareContent.ref forKey:@"ref"];
+    [FBSDKInternalUtility dictionary:parameters setObject:shareContent.peopleIDs forKey:@"tags"];
+    [FBSDKInternalUtility dictionary:parameters setObject:shareContent.placeID forKey:@"place"];
+    [FBSDKInternalUtility dictionary:parameters setObject:shareContent.ref forKey:@"ref"];
   }
-#pragma clang diagnostic pop
 
   parameters[@"dataFailuresFatal"] = @(shouldFailOnDataError);
 
@@ -363,14 +342,11 @@
         containsMedia:&containsMedia
        containsPhotos:&containsPhotos
        containsVideos:&containsVideos];
-  } else if ([shareContent isKindOfClass:NSClassFromString(@"FBSDKShareOpenGraphContent")]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+  } else if ([shareContent isKindOfClass:[FBSDKShareOpenGraphContent class]]) {
     [self _testOpenGraphValueContainer:((FBSDKShareOpenGraphContent *)shareContent).action
                          containsMedia:&containsMedia
                         containsPhotos:&containsPhotos
                         containsVideos:&containsVideos];
-#pragma clang diagnostic pop
   }
   if (containsMediaRef != NULL) {
     *containsMediaRef = containsMedia;
@@ -407,10 +383,10 @@
     return [shareContent validateWithOptions:bridgeOptions error:errorRef];
   } else {
     if (errorRef != NULL) {
-      *errorRef = [FBSDKError invalidArgumentErrorWithDomain:FBSDKShareErrorDomain
-                                                        name:@"shareContent"
-                                                       value:shareContent
-                                                     message:nil];
+      *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                       name:@"shareContent"
+                                                      value:shareContent
+                                                    message:nil];
     }
     return NO;
   }
@@ -435,7 +411,7 @@
   } else if ([object isKindOfClass:[NSArray class]]) {
     NSMutableArray *array = [[NSMutableArray alloc] init];
     for (id item in (NSArray *)object) {
-      [FBSDKBasicUtility array:array addObject:[self _convertObject:item]];
+      [FBSDKInternalUtility array:array addObject:[self _convertObject:item]];
     }
     object = array;
   }
@@ -457,9 +433,6 @@
     if (value) {
       NSString *namespace;
       key = [self getOpenGraphNameAndNamespaceFromFullName:key namespace:&namespace];
-      if (!key) {
-        return;
-      }
 
       if (requireNamespace) {
         if ([namespace isEqualToString:@"og"]) {
@@ -472,7 +445,7 @@
       }
     }
   }];
-  if (data.count) {
+  if ([data count]) {
     dictionary[@"data"] = data;
   }
   return dictionary;
@@ -506,9 +479,9 @@
   }
   NSMutableDictionary<NSString *, id> *dictionary = [[NSMutableDictionary alloc] init];
   dictionary[@"user_generated"] = @(photo.userGenerated);
-  [FBSDKBasicUtility dictionary:dictionary setObject:photo.caption forKey:@"caption"];
+  [FBSDKInternalUtility dictionary:dictionary setObject:photo.caption forKey:@"caption"];
 
-  [FBSDKBasicUtility dictionary:dictionary setObject:photo.image ?: photo.imageURL.absoluteString forKey:@"url"];
+  [FBSDKInternalUtility dictionary:dictionary setObject:photo.image ?: photo.imageURL.absoluteString forKey:@"url"];
   return dictionary;
 }
 
@@ -632,17 +605,17 @@
                  name:(NSString *)name
                 error:(NSError *__autoreleasing *)errorRef
 {
-  NSUInteger count = array.count;
+  NSUInteger count = [array count];
   if ((count < minCount) || (count > maxCount)) {
     if (errorRef != NULL) {
       NSString *message = [[NSString alloc] initWithFormat:@"%@ must have %lu to %lu values",
                            name,
                            (unsigned long)minCount,
                            (unsigned long)maxCount];
-      *errorRef = [FBSDKError invalidArgumentErrorWithDomain:FBSDKShareErrorDomain
-                                                        name:name
-                                                       value:array
-                                                     message:message];
+      *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                       name:name
+                                                      value:array
+                                                    message:message];
     }
     return NO;
   } else {
@@ -663,10 +636,10 @@
   }
   if (!URL.isFileURL) {
     if (errorRef != NULL) {
-      *errorRef = [FBSDKError invalidArgumentErrorWithDomain:FBSDKShareErrorDomain
-                                                        name:name
-                                                       value:URL
-                                                     message:nil];
+      *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                       name:name
+                                                      value:URL
+                                                    message:nil];
     }
     return NO;
   }
@@ -677,11 +650,11 @@
                                      options:NSDataReadingMapped
                                        error:&fileError]) {
     if (errorRef != NULL) {
-      *errorRef = [FBSDKError invalidArgumentErrorWithDomain:FBSDKShareErrorDomain
-                                                        name:name
-                                                       value:URL
-                                                     message:@"Error reading file"
-                                             underlyingError:fileError];
+      *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                       name:name
+                                                      value:URL
+                                                    message:@"Error reading file"
+                                            underlyingError:fileError];
     }
     return NO;
   }
@@ -700,10 +673,10 @@
     return YES;
   } else {
     if (errorRef != NULL) {
-      *errorRef = [FBSDKError invalidArgumentErrorWithDomain:FBSDKShareErrorDomain
-                                                        name:name
-                                                       value:URL
-                                                     message:nil];
+      *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                       name:name
+                                                      value:URL
+                                                    message:nil];
     }
     return NO;
   }
@@ -712,13 +685,13 @@
 + (BOOL)validateRequiredValue:(id)value name:(NSString *)name error:(NSError *__autoreleasing *)errorRef
 {
   if (!value ||
-      ([value isKindOfClass:[NSString class]] && !((NSString *)value).length) ||
-      ([value isKindOfClass:[NSArray class]] && !((NSArray *)value).count) ||
-      ([value isKindOfClass:[NSDictionary class]] && !((NSDictionary *)value).count)) {
+      ([value isKindOfClass:[NSString class]] && ![(NSString *)value length]) ||
+      ([value isKindOfClass:[NSArray class]] && ![(NSArray *)value count]) ||
+      ([value isKindOfClass:[NSDictionary class]] && ![(NSDictionary *)value count])) {
     if (errorRef != NULL) {
-      *errorRef = [FBSDKError requiredArgumentErrorWithDomain:FBSDKShareErrorDomain
-                                                         name:name
-                                                      message:nil];
+      *errorRef = [NSError fbRequiredArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                        name:name
+                                                     message:nil];
     }
     return NO;
   }
@@ -734,7 +707,7 @@
                            error:(NSError *__autoreleasing *)errorRef
 {
   for (NSNumber *possibleValue in possibleValues) {
-    if (value == possibleValue.unsignedIntegerValue) {
+    if (value == [possibleValue unsignedIntegerValue]) {
       if (errorRef != NULL) {
         *errorRef = nil;
       }
@@ -742,27 +715,27 @@
     }
   }
   if (errorRef != NULL) {
-    *errorRef = [FBSDKError invalidArgumentErrorWithDomain:FBSDKShareErrorDomain
-                                                      name:argumentName
-                                                     value:@(value)
-                                                   message:nil];
+    *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                     name:argumentName
+                                                    value:@(value)
+                                                  message:nil];
   }
   return NO;
 }
 
 + (BOOL)_validateAssetLibraryVideoURL:(NSURL *)videoURL name:(NSString *)name error:(NSError *__autoreleasing *)errorRef
 {
-  if (!videoURL || [videoURL.scheme.lowercaseString isEqualToString:@"assets-library"]) {
+  if (!videoURL || [[videoURL.scheme lowercaseString] isEqualToString:@"assets-library"]) {
     if (errorRef != NULL) {
       *errorRef = nil;
     }
     return YES;
   } else {
     if (errorRef != NULL) {
-      *errorRef = [FBSDKError invalidArgumentErrorWithDomain:FBSDKShareErrorDomain
-                                                        name:name
-                                                       value:videoURL
-                                                     message:nil];
+      *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                       name:name
+                                                      value:videoURL
+                                                    message:nil];
     }
     return NO;
   }

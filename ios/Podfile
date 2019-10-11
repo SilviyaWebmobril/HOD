@@ -14,6 +14,12 @@ target 'HouseOfDesi' do
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
   pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
+  pod 'FBSDKCoreKit', '4.38.1'
+  pod 'FBSDKLoginKit', '4.38.1'
+  pod 'FBSDKShareKit', '4.38.1'
+
+  pod 'React', :path => '../node_modules/react-native'
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
 
   target 'HouseOfDesiTests' do
     inherit! :search_paths
@@ -36,4 +42,13 @@ target 'HouseOfDesi-tvOS' do
 
 
 
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    if target.name == "React"
+      target.remove_from_project
+    end
+    
+  end
 end

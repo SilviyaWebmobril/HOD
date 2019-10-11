@@ -20,8 +20,6 @@
 
 #import <FBSDKCoreKit/FBSDKCopying.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  NS_ENUM(NSUInteger, FBSDKAppGroupPrivacy)
   Specifies the privacy of a group.
@@ -32,18 +30,16 @@ typedef NS_ENUM(NSUInteger, FBSDKAppGroupPrivacy)
   FBSDKAppGroupPrivacyOpen = 0,
   /** Anyone can see the group and who's in it, but only members can see posts. */
   FBSDKAppGroupPrivacyClosed,
-} NS_SWIFT_NAME(AppGroupPrivacy);
+};
 
 /**
   Converts an FBSDKAppGroupPrivacy to an NSString.
  */
-FOUNDATION_EXPORT NSString *NSStringFromFBSDKAppGroupPrivacy(FBSDKAppGroupPrivacy privacy)
-NS_REFINED_FOR_SWIFT;
+FOUNDATION_EXPORT NSString *NSStringFromFBSDKAppGroupPrivacy(FBSDKAppGroupPrivacy privacy);
 
 /**
   A model for creating an app group.
  */
-NS_SWIFT_NAME(AppGroupContent)
 @interface FBSDKAppGroupContent : NSObject <FBSDKCopying, NSSecureCoding>
 
 /**
@@ -69,5 +65,3 @@ NS_SWIFT_NAME(AppGroupContent)
 - (BOOL)isEqualToAppGroupContent:(FBSDKAppGroupContent *)content;
 
 @end
-
-NS_ASSUME_NONNULL_END

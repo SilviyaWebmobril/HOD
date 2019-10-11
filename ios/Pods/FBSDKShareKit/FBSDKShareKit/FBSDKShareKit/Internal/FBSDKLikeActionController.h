@@ -37,7 +37,6 @@ FOUNDATION_EXPORT NSString *const FBSDKLikeActionControllerDidUpdateNotification
 
 FOUNDATION_EXPORT NSString *const FBSDKLikeActionControllerAnimatedKey;
 
-NS_SWIFT_NAME(LikeActionController)
 @interface FBSDKLikeActionController : NSObject <NSDiscardableContent, NSSecureCoding>
 
 + (BOOL)isDisabled;
@@ -53,5 +52,6 @@ NS_SWIFT_NAME(LikeActionController)
 @property (nonatomic, copy, readonly) NSString *socialSentence;
 
 - (void)refresh;
+- (void)toggleLikeWithSoundEnabled:(BOOL)soundEnabled analyticsParameters:(NSDictionary *)analyticsParameters fromViewController:(UIViewController *)fromViewController;
 
 @end

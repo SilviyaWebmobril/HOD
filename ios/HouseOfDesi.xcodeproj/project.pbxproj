@@ -52,7 +52,6 @@
 		762E1C340AB84DC3A3E57C44 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D4A801532E124703B256EC6B /* FontAwesome5_Regular.ttf */; };
 		790F305E2314F084000F8ABC /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
 		7920102423150BB30068684B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 79200FF723150BB30068684B /* GoogleService-Info.plist */; };
-		80FA4EA1C3954357A9E3E73C /* libRazorpayCheckout.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD80E3A47F3E45EA8CC0FA6A /* libRazorpayCheckout.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8614E3F048C64FB18FAE43D8 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DBDCCEC6E3DF4558BB5F5A16 /* Fontisto.ttf */; };
 		89AF2B04D54A4152BDC34533 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09ABE212318C4215AF31E11B /* SimpleLineIcons.ttf */; };
@@ -64,6 +63,9 @@
 		B92BED5B2E524E9BBEA06B25 /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 017BD514478D401C814CFAD5 /* libRNCAsyncStorage.a */; };
 		BB76C7059EDD4C43AB1FCF58 /* libRNVectorIcons-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63B5B3E94499464A9C2F4260 /* libRNVectorIcons-tvOS.a */; };
 		C1FA20909FEE40B390465576 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A34E6FD514F44D80B2CCFB61 /* libRCTVideo.a */; };
+		CEB07B01234EFBF1008701FF /* Razorpay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEB07AD2234EFBF1008701FF /* Razorpay.framework */; };
+		CEB07B02234EFBF1008701FF /* Razorpay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CEB07AD2234EFBF1008701FF /* Razorpay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CEB07B46234F0249008701FF /* libRazorpayCheckout.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE68F102234C58530024E5C2 /* libRazorpayCheckout.a */; };
 		D29B2BC2FEAB47288306F652 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E62EE395A7F4AF39C8DCF2E /* AntDesign.ttf */; };
 		E39FFF65E0D640BD973C25B2 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E99E331CFF454FAF8B86DAAE /* Ionicons.ttf */; };
 		E5309C63B8824FB986EC344C /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B275C9A2D46477DB1159B5E /* FontAwesome5_Brands.ttf */; };
@@ -418,6 +420,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		CEB07B03234EFBF2008701FF /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				CEB07B02234EFBF1008701FF /* Razorpay.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "../node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = "<group>"; };
@@ -478,6 +494,7 @@
 		B637C4E6BBE3458E9E880AD8 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
 		BFEEB7912D6640968CCB9E0D /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		C2AD55B9ADFF4E8EBBC9A03C /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		CEB07AD2234EFBF1008701FF /* Razorpay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Razorpay.framework; path = "../node_modules/react-native-razorpay/ios/Razorpay.framework"; sourceTree = "<group>"; };
 		D07A603D9FCF492A897DC5B2 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		D4A801532E124703B256EC6B /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		DBDCCEC6E3DF4558BB5F5A16 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
@@ -507,6 +524,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */,
+				CEB07B01234EFBF1008701FF /* Razorpay.framework in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -518,6 +536,7 @@
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
+				CEB07B46234F0249008701FF /* libRazorpayCheckout.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				34A3B6B80AED48938234B3C6 /* libRNGestureHandler.a in Frameworks */,
 				1D7598F9B42A44C195595E09 /* libRNVectorIcons.a in Frameworks */,
@@ -525,7 +544,6 @@
 				B92BED5B2E524E9BBEA06B25 /* libRNCAsyncStorage.a in Frameworks */,
 				B124C46A76B996F673A1FE58 /* libPods-HouseOfDesi.a in Frameworks */,
 				4544801D4D324DDCA1D88D89 /* libRNFirebase.a in Frameworks */,
-				80FA4EA1C3954357A9E3E73C /* libRazorpayCheckout.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -842,6 +860,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				CEB07AD2234EFBF1008701FF /* Razorpay.framework */,
 				13B07FAE1A68108700A75B9A /* HouseOfDesi */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* HouseOfDesiTests */,
@@ -915,6 +934,8 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				D9272CC15FDDD05640776F5D /* [CP] Copy Pods Resources */,
+				CEB07B03234EFBF2008701FF /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1581,6 +1602,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D9272CC15FDDD05640776F5D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HouseOfDesi/Pods-HouseOfDesi-resources.sh",
+				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HouseOfDesi/Pods-HouseOfDesi-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1726,19 +1765,37 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 55CECD45AE4F5B78DB44DA22 /* Pods-HouseOfDesi.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 29BJH2XM73;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/FirebaseAnalytics/Frameworks\"",
+					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
+					"/Users/user/Desktop/HOD/node_modules/react-native-razorpay/ios/",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)..\node_modules\neact-native-gesture-handlerios/**",
-					"$(SRCROOT)..\node_modules\neact-native-vector-iconsRNVectorIconsManager",
-					"$(SRCROOT)..\node_modules\neact-native-videoios/**",
-					"$(SRCROOT)..\node_modules\neact-native-fcmios",
-					"$(SRCROOT)..\node_modules@react-native-community\async-storageios",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-gesture-handlerios/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-vector-iconsRNVectorIconsManager",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-videoios/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-fcmios",
+					"$(SRCROOT)..",
+					"ode_modules@react-native-community\async-storageios",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-					"$(SRCROOT)..\node_modules\neact-native-razorpayios/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-razorpayios/**",
 				);
 				INFOPLIST_FILE = HouseOfDesi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
@@ -1759,20 +1816,38 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 612CD7823385DC2DC7F275D6 /* Pods-HouseOfDesi.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 29BJH2XM73;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/FirebaseAnalytics/Frameworks\"",
+					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
+					"/Users/user/Desktop/HOD/node_modules/react-native-razorpay/ios/",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)..\node_modules\neact-native-gesture-handlerios/**",
-					"$(SRCROOT)..\node_modules\neact-native-vector-iconsRNVectorIconsManager",
-					"$(SRCROOT)..\node_modules\neact-native-videoios/**",
-					"$(SRCROOT)..\node_modules\neact-native-fcmios",
-					"$(SRCROOT)..\node_modules@react-native-community\async-storageios",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-gesture-handlerios/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-vector-iconsRNVectorIconsManager",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-videoios/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-fcmios",
+					"$(SRCROOT)..",
+					"ode_modules@react-native-community\async-storageios",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-					"$(SRCROOT)..\node_modules\neact-native-razorpayios/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-razorpayios/**",
 				);
 				INFOPLIST_FILE = HouseOfDesi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;

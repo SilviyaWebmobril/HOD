@@ -22,8 +22,6 @@
 
 #import <FBSDKShareKit/FBSDKShareOpenGraphValueContainer.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
   An Open Graph Object for sharing.
 
@@ -43,14 +41,13 @@ NS_ASSUME_NONNULL_BEGIN
     @"fitness:metrics:location:longitude": @"2.17403",
  }];
  */
-NS_SWIFT_NAME(ShareOpenGraphObject)
 @interface FBSDKShareOpenGraphObject : FBSDKShareOpenGraphValueContainer <FBSDKCopying, NSSecureCoding>
 
 /**
   Convenience method to build a new action and set the object for the specified key.
  @param properties Properties for the Open Graph object, which will be parsed into the proper models
  */
-+ (instancetype)objectWithProperties:(NSDictionary<NSString *, id> *)properties;
++ (instancetype)objectWithProperties:(NSDictionary *)properties;
 
 /**
   Compares the receiver to another Open Graph Object.
@@ -60,5 +57,3 @@ NS_SWIFT_NAME(ShareOpenGraphObject)
 - (BOOL)isEqualToShareOpenGraphObject:(FBSDKShareOpenGraphObject *)object;
 
 @end
-
-NS_ASSUME_NONNULL_END

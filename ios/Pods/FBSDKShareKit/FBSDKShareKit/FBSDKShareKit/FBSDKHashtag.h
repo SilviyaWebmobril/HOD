@@ -20,12 +20,9 @@
 
 #import <FBSDKCoreKit/FBSDKCopying.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
   Represents a single hashtag that can be used with the share dialog.
  */
-NS_SWIFT_NAME(Hashtag)
 @interface FBSDKHashtag : NSObject <FBSDKCopying, NSSecureCoding>
 
 /**
@@ -33,8 +30,7 @@ NS_SWIFT_NAME(Hashtag)
    `stringRepresentation` property.
  @param hashtagString The hashtag string.
  */
-+ (instancetype)hashtagWithString:(NSString *)hashtagString
-NS_SWIFT_NAME(init(_:));
++ (instancetype)hashtagWithString:(NSString *)hashtagString;
 
 /**
   The hashtag string.
@@ -63,5 +59,3 @@ NS_SWIFT_NAME(init(_:));
 - (BOOL)isEqualToHashtag:(FBSDKHashtag *)hashtag;
 
 @end
-
-NS_ASSUME_NONNULL_END

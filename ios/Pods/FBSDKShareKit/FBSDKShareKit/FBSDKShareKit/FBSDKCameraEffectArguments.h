@@ -20,13 +20,10 @@
 
 #import <FBSDKCoreKit/FBSDKCopying.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  * A container of arguments for a camera effect.
  * An argument is a NSString identified by a NSString key.
  */
-NS_SWIFT_NAME(CameraEffectArguments)
 @interface FBSDKCameraEffectArguments : NSObject <FBSDKCopying, NSSecureCoding>
 
 /**
@@ -34,31 +31,27 @@ NS_SWIFT_NAME(CameraEffectArguments)
  @param string The argument
  @param key The key for the argument
  */
-- (void)setString:(nullable NSString *)string forKey:(NSString *)key
-NS_SWIFT_NAME(set(_:forKey:));
+- (void)setString:(NSString *)string forKey:(NSString *)key;
 
 /**
  Gets a string argument from the container.
  @param key The key for the argument
  @return The string value or nil
  */
-- (nullable NSString *)stringForKey:(NSString *)key;
+- (NSString *)stringForKey:(NSString *)key;
 
 /**
  Sets a string array argument in the container.
  @param array The array argument
  @param key The key for the argument
  */
-- (void)setArray:(nullable NSArray<NSString *> *)array forKey:(NSString *)key
-NS_SWIFT_NAME(set(_:forKey:));
+- (void)setArray:(NSArray<NSString *> *)array forKey:(NSString *)key;
 
 /**
  Gets an array argument from the container.
  @param key The key for the argument
  @return The array argument
  */
-- (nullable NSArray<NSString *> *)arrayForKey:(NSString *)key;
+- (NSArray *)arrayForKey:(NSString *)key;
 
 @end
-
-NS_ASSUME_NONNULL_END

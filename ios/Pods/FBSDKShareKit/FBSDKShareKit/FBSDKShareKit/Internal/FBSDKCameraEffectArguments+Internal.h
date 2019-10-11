@@ -20,6 +20,6 @@
 
 @interface FBSDKCameraEffectArguments ()
 
-- (NSDictionary<NSString *, id> *)allArguments;
+- (NSDictionary *)allArguments;
 
 @end

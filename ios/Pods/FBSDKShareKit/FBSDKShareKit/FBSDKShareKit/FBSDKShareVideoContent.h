@@ -22,13 +22,17 @@
 #import <FBSDKShareKit/FBSDKShareVideo.h>
 #import <FBSDKShareKit/FBSDKSharingContent.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
   A model for video content to be shared.
  */
-NS_SWIFT_NAME(ShareVideoContent)
 @interface FBSDKShareVideoContent : NSObject <FBSDKSharingContent>
+
+/**
+  The photo that represents the video.
+ @return The photo
+ */
+@property (nonatomic, copy) FBSDKSharePhoto *previewPhoto
+DEPRECATED_MSG_ATTRIBUTE("Use `video.previewPhoto`");
 
 /**
   The video to be shared.
@@ -44,5 +48,3 @@ NS_SWIFT_NAME(ShareVideoContent)
 - (BOOL)isEqualToShareVideoContent:(FBSDKShareVideoContent *)content;
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -18,11 +18,7 @@
 
 #import "FBSDKGameRequestContent.h"
 
-#ifdef COCOAPODS
-#import <FBSDKCoreKit/FBSDKCoreKit+Internal.h>
-#else
 #import "FBSDKCoreKit+Internal.h"
-#endif
 #import "FBSDKShareConstants.h"
 #import "FBSDKShareUtility.h"
 
@@ -84,36 +80,36 @@
   }
   BOOL mustHaveobjectID = _actionType == FBSDKGameRequestActionTypeSend
   || _actionType == FBSDKGameRequestActionTypeAskFor;
-  BOOL hasobjectID = _objectID.length > 0;
+  BOOL hasobjectID = [_objectID length] > 0;
   if (mustHaveobjectID ^ hasobjectID) {
     if (errorRef != NULL) {
       NSString *message = @"The objectID is required when the actionType is either send or askfor.";
-      *errorRef = [FBSDKError requiredArgumentErrorWithDomain:FBSDKShareErrorDomain
-                                                         name:@"objectID"
-                                                      message:message];
+      *errorRef = [NSError fbRequiredArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                        name:@"objectID"
+                                                     message:message];
     }
     return NO;
   }
-  BOOL hasTo = _recipients.count > 0;
+  BOOL hasTo = [_recipients count] > 0;
   BOOL hasFilters = _filters != FBSDKGameRequestFilterNone;
-  BOOL hasSuggestions = _recipientSuggestions.count > 0;
+  BOOL hasSuggestions = [_recipientSuggestions count] > 0;
   if (hasTo && hasFilters) {
     if (errorRef != NULL) {
       NSString *message = @"Cannot specify to and filters at the same time.";
-      *errorRef = [FBSDKError invalidArgumentErrorWithDomain:FBSDKShareErrorDomain
-                                                        name:@"recipients"
-                                                       value:_recipients
-                                                     message:message];
+      *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                       name:@"recipients"
+                                                      value:_recipients
+                                                    message:message];
     }
     return NO;
   }
   if (hasTo && hasSuggestions) {
     if (errorRef != NULL) {
       NSString *message = @"Cannot specify to and suggestions at the same time.";
-      *errorRef = [FBSDKError invalidArgumentErrorWithDomain:FBSDKShareErrorDomain
-                                                        name:@"recipients"
-                                                       value:_recipients
-                                                     message:message];
+      *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                       name:@"recipients"
+                                                      value:_recipients
+                                                    message:message];
     }
     return NO;
   }
@@ -121,21 +117,21 @@
   if (hasFilters && hasSuggestions) {
     if (errorRef != NULL) {
       NSString *message = @"Cannot specify filters and suggestions at the same time.";
-      *errorRef = [FBSDKError invalidArgumentErrorWithDomain:FBSDKShareErrorDomain
-                                                        name:@"recipientSuggestions"
-                                                       value:_recipientSuggestions
-                                                     message:message];
+      *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                       name:@"recipientSuggestions"
+                                                      value:_recipientSuggestions
+                                                    message:message];
     }
     return NO;
   }
 
-  if (_data.length > 255) {
+  if ([_data length] > 255) {
     if (errorRef != NULL) {
       NSString *message = @"The data cannot be longer than 255 characters";
-      *errorRef = [FBSDKError invalidArgumentErrorWithDomain:FBSDKShareErrorDomain
-                                                        name:@"data"
-                                                       value:_data
-                                                     message:message];
+      *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                       name:@"data"
+                                                      value:_data
+                                                    message:message];
     }
     return NO;
   }
@@ -165,13 +161,13 @@
 {
   NSUInteger subhashes[] = {
     [FBSDKMath hashWithInteger:_actionType],
-    _data.hash,
+    [_data hash],
     [FBSDKMath hashWithInteger:_filters],
-    _message.hash,
-    _objectID.hash,
-    _recipientSuggestions.hash,
-    _title.hash,
-    _recipients.hash,
+    [_message hash],
+    [_objectID hash],
+    [_recipientSuggestions hash],
+    [_title hash],
+    [_recipients hash],
   };
   return [FBSDKMath hashWithIntegerArray:subhashes count:sizeof(subhashes) / sizeof(subhashes[0])];
 }
@@ -207,7 +203,7 @@
   return YES;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   if ((self = [self init])) {
     _actionType = [decoder decodeIntegerForKey:FBSDK_APP_REQUEST_CONTENT_ACTION_TYPE_KEY];

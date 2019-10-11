@@ -60,10 +60,11 @@ class After_Splash extends Component {
    
 
 
-    LoginManager.logInWithPermissions(['public_profile', 'email']).then(result => 
+    LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(result => 
          {
   
           if (result.isCancelled) {
+            this.setState({isLoading:false});
             console.log('Login cancelled')
 
           } else {
@@ -176,7 +177,7 @@ class After_Splash extends Component {
           }
   
     }).catch (error => {
-
+        this.setState({isLoading:false});
         Alert.alert(
             'Error',
             'Something went wrong ! Please try again later.',

@@ -18,11 +18,7 @@
 
 #import "FBSDKShareMediaContent.h"
 
-#ifdef COCOAPODS
-#import <FBSDKCoreKit/FBSDKCoreKit+Internal.h>
-#else
 #import "FBSDKCoreKit+Internal.h"
-#endif
 #import "FBSDKHashtag.h"
 #import "FBSDKShareConstants.h"
 #import "FBSDKSharePhoto.h"
@@ -71,7 +67,7 @@
   }
 }
 
-- (void)setMedia:(NSArray<id<FBSDKShareMedia>> *)media
+- (void)setMedia:(NSArray *)media
 {
   [FBSDKShareUtility assertCollection:media ofClassStrings:@[NSStringFromClass([FBSDKSharePhoto class]), NSStringFromClass([FBSDKShareVideo class])] name:@"media"];
   if (![FBSDKInternalUtility object:_media isEqualToObject:media]) {
@@ -80,6 +76,12 @@
 }
 
 #pragma mark - FBSDKSharingContent
+
+- (void)addToParameters:(NSMutableDictionary<NSString *, id> *)parameters
+          bridgeOptions:(FBSDKShareBridgeOptions)bridgeOptions
+{
+  // FBSDKShareMediaContent is currently available via the Share extension only (thus no parameterization implemented at this time)
+}
 
 - (NSDictionary<NSString *, id> *)addParameters:(NSDictionary<NSString *, id> *)existingParameters
                                   bridgeOptions:(FBSDKShareBridgeOptions)bridgeOptions
@@ -101,20 +103,20 @@
       FBSDKSharePhoto *photo = (FBSDKSharePhoto *)media;
       if (![photo validateWithOptions:bridgeOptions error:NULL]) {
         if (errorRef != NULL) {
-          *errorRef = [FBSDKError invalidArgumentErrorWithDomain:FBSDKShareErrorDomain
-                                                            name:@"media"
-                                                           value:media
-                                                         message:@"photos must have UIImages"];
+          *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                           name:@"media"
+                                                          value:media
+                                                        message:@"photos must have UIImages"];
         }
         return NO;
       }
     } else if ([media isKindOfClass:[FBSDKShareVideo class]]) {
       if (videoCount > 0) {
         if (errorRef != NULL) {
-          *errorRef = [FBSDKError invalidArgumentErrorWithDomain:FBSDKShareErrorDomain
-                                                            name:@"media"
-                                                           value:media
-                                                         message:@"Only 1 video is allowed"];
+          *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                           name:@"media"
+                                                          value:media
+                                                        message:@"Only 1 video is allowed"];
           return NO;
         }
       }
@@ -129,10 +131,10 @@
 
     } else {
       if (errorRef != NULL) {
-        *errorRef = [FBSDKError invalidArgumentErrorWithDomain:FBSDKShareErrorDomain
-                                                          name:@"media"
-                                                         value:media
-                                                       message:@"Only FBSDKSharePhoto and FBSDKShareVideo are allowed in `media` property"];
+        *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                         name:@"media"
+                                                        value:media
+                                                      message:@"Only FBSDKSharePhoto and FBSDKShareVideo are allowed in `media` property"];
       }
       return NO;
     }
@@ -145,14 +147,14 @@
 - (NSUInteger)hash
 {
   NSUInteger subhashes[] = {
-    _contentURL.hash,
-    _hashtag.hash,
-    _peopleIDs.hash,
-    _media.hash,
-    _placeID.hash,
-    _ref.hash,
-    _pageID.hash,
-    _shareUUID.hash,
+    [_contentURL hash],
+    [_hashtag hash],
+    [_peopleIDs hash],
+    [_media hash],
+    [_placeID hash],
+    [_ref hash],
+    [_pageID hash],
+    [_shareUUID hash],
   };
   return [FBSDKMath hashWithIntegerArray:subhashes count:sizeof(subhashes) / sizeof(subhashes[0])];
 }
@@ -188,7 +190,7 @@
   return YES;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   if ((self = [self init])) {
     _contentURL = [decoder decodeObjectOfClass:[NSURL class] forKey:FBSDK_SHARE_MEDIA_CONTENT_CONTENT_URL_KEY];

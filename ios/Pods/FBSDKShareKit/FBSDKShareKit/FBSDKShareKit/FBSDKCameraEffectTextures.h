@@ -20,13 +20,10 @@
 
 #import <FBSDKCoreKit/FBSDKCopying.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  * A container of textures for a camera effect.
  * A texture for a camera effect is an UIImages identified by a NSString key.
  */
-NS_SWIFT_NAME(CameraEffectTextures)
 @interface FBSDKCameraEffectTextures : NSObject <FBSDKCopying, NSSecureCoding>
 
 /**
@@ -34,16 +31,13 @@ NS_SWIFT_NAME(CameraEffectTextures)
  @param image The UIImage for the texture
  @param key The key for the texture
  */
-- (void)setImage:(nullable UIImage *)image forKey:(NSString *)key
-NS_SWIFT_NAME(set(_:forKey:));
+- (void)setImage:(UIImage *)image forKey:(NSString *)key;
 
 /**
  Gets the image for a texture key.
  @param key The key for the texture
  @return The texture UIImage or nil
  */
-- (nullable UIImage *)imageForKey:(NSString *)key;
+- (UIImage *)imageForKey:(NSString *)key;
 
 @end
-
-NS_ASSUME_NONNULL_END

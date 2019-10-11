@@ -20,27 +20,16 @@
 
 #import <FBSDKShareKit/FBSDKSharingContent.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
-/**
- A protocol for media content (photo or video) to be shared.
- */
-NS_SWIFT_NAME(ShareMedia)
-@protocol FBSDKShareMedia <NSObject>
-
-@end
-
 /**
   A model for media content (photo or video) to be shared.
  */
-NS_SWIFT_NAME(ShareMediaContent)
 @interface FBSDKShareMediaContent : NSObject <FBSDKSharingContent>
 
 /**
   Media to be shared.
  @return Array of the media (FBSDKSharePhoto or FBSDKShareVideo)
  */
-@property (nonatomic, copy) NSArray<id<FBSDKShareMedia>> *media;
+@property (nonatomic, copy) NSArray *media;
 
 /**
   Compares the receiver to another media content.
@@ -50,5 +39,3 @@ NS_SWIFT_NAME(ShareMediaContent)
 - (BOOL)isEqualToShareMediaContent:(FBSDKShareMediaContent *)content;
 
 @end
-
-NS_ASSUME_NONNULL_END

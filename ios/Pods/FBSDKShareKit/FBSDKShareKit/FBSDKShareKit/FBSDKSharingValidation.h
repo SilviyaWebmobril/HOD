@@ -18,8 +18,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  Flags to indicate support for newer bridge options beyond the initial 20130410 implementation.
  */
@@ -31,12 +29,11 @@ typedef NS_OPTIONS(NSUInteger, FBSDKShareBridgeOptions)
   FBSDKShareBridgeOptionsVideoAsset    = 1 << 2,
   FBSDKShareBridgeOptionsVideoData     = 1 << 3,
   FBSDKShareBridgeOptionsWebHashtag    = 1 << 4, // if set, pass the hashtag as a string value, not an array of one string
-} NS_SWIFT_NAME(ShareBridgeOptions);
+};
 
 /**
  A base interface for validation of content and media.
  */
-NS_SWIFT_NAME(SharingValidation)
 @protocol FBSDKSharingValidation
 
 /**
@@ -47,5 +44,3 @@ NS_SWIFT_NAME(SharingValidation)
 - (BOOL)validateWithOptions:(FBSDKShareBridgeOptions)bridgeOptions error:(NSError *__autoreleasing *)errorRef;
 
 @end
-
-NS_ASSUME_NONNULL_END
