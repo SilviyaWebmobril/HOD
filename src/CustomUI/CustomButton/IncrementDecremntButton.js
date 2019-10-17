@@ -58,9 +58,13 @@ class IncrementDecrementButton extends Component {
 
     onMinusHandler = () =>{ 
 
-        this.props.onLoading(true);
-        this.props.onRemove(this.props.product_id,this.props.user.userdata.user_id,this.props.price);
-
+        if(this.props.quantity > 1){
+            
+            this.props.onLoading(true);
+            this.props.onRemove(this.props.product_id,this.props.user.userdata.user_id,this.props.price);
+    
+        }
+       
         if(this.state.quantity == 1){
            // this.setState({disableMinus:true})
          //  this.props.updateGetOnce();
@@ -89,7 +93,7 @@ class IncrementDecrementButton extends Component {
                     </View>
                 </TouchableOpacity>
                 <View style={styles.viewText}>
-                    <Text style={{alignSelf:"center",fontSize:13,fontWeight:"bold"}}>{this.props.quantity}</Text>  
+                    <Text style={{alignSelf:"center",fontSize:12,fontWeight:"bold"}}>{this.props.quantity}</Text>  
                 </View>
                 <TouchableOpacity
                   onPress={()=>this.onPlusHandler()}>
@@ -146,15 +150,19 @@ const styles =  StyleSheet.create({
     },
     viewButton1:{
         backgroundColor:"grey",
-        padding:7,
-        width:22,
+        padding:6.3,
+        width:'auto',
+        height:'auto',
+        minWidth:22,
         borderTopLeftRadius:2,
         borderBottomLeftRadius:2
     },
     viewButton2:{
         backgroundColor:"grey",
-        padding:7,
-        width:22,
+        padding:6.3,
+        width:'auto',
+        height:'auto',
+        minWidth:22,
         borderTopRightRadius:2,
         borderBottomRightRadius:2
     },
@@ -162,7 +170,7 @@ const styles =  StyleSheet.create({
         backgroundColor:'white',
         width:'auto',
         minWidth:25,
-        padding:2.0,
+        padding:2.5,
         borderColor:"grey",
         borderWidth:1
     },

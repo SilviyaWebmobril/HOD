@@ -9,6 +9,7 @@ import ApiUrl from '../Api/ApiUrl';
 import * as HOC from '../HOC/mainHoc';
 import Axios from 'axios';
 import { connect } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
     const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
     const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
     DismissKeyboardView
@@ -17,6 +18,7 @@ const today = new Date();
  
 class VisitOfFarm extends Component{
 
+  
     
 
     constructor(props){
@@ -58,17 +60,36 @@ class VisitOfFarm extends Component{
             formdata.append("user_id",this.props.user.userdata.user_id);
             formdata.append("date",this.formatDate(this.state.date));
             formdata.append("time",this.state.time);
-            formdata.append("message",this.refs.message.getInputTextValue());
-            formdata.append("subject",this.refs.subject.getInputTextValue());
+            formdata.append("message",this.refs.message.getInputTextValue("message"));
+            formdata.append("subject",this.refs.subject.getInputTextValue("subject"));
+            
             Axios.post(ApiUrl.baseurl + ApiUrl.vist_farm,formdata)
             .then(response => {
 
-                console.log("Response on Visit",response);
+              
                 this.setState({isLoading:false});
                 if(response.data.error){
-                    Alert.alert("Something Went Wrong ! Please Try Again Later.");
+
+                    Alert.alert(
+                        'Visit Of Farm Error',
+                        'Something Went Wrong ! Please Try Again Later.',
+                        [
+                     
+                        {text: 'OK', onPress: () => {console.log("ok")}},
+                        ], 
+                        { cancelable: false }
+                        )
                 }else{
-                    Alert.alert("Request has been sent to the admin.");
+                   
+                    Alert.alert(
+                        'Visit Of Farm',
+                        'Request has been sent to the admin.',
+                        [
+                     
+                        {text: 'OK', onPress: () => {this.resetTextInput()}},
+                        ], 
+                        { cancelable: false }
+                        )
                 }
 
             }).catch(error => {
@@ -78,8 +99,31 @@ class VisitOfFarm extends Component{
             });
          }else{
 
-            Alert.alert("All * marked fields are compulsory!");
+          
+            Alert.alert(
+                'Visit Of Farm Error',
+                'All * marked fields are compulsory!',
+                [
+             
+                {text: 'OK', onPress: () => {console.log("ok")}},
+                ], 
+                { cancelable: false }
+                )
          }
+
+       }
+
+
+       resetTextInput = () =>{
+
+        this.refs.subject.resetTextInput("subject");
+        this.refs.message.resetTextInput("message");
+        var  date = new Date();
+        var time1 = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+        this.setState({date:date});
+        this.setState({time:time1});
+
 
        }
         
@@ -87,10 +131,13 @@ class VisitOfFarm extends Component{
     render(){
 
         return(
-            <FullSCreenSpinnerAndDismissKeyboardView style={styles.container} spinner={this.state.isLoading}>
+            <FullSCreenSpinnerAndDismissKeyboardView style={styles.container} refreshing={false} spinner={this.state.isLoading}>
                  <View  style={styles.headerView}>
                     <Text style={styles.textStyle}>Visit Our Farm</Text>
                 </View> 
+                <KeyboardAwareScrollView>
+
+               
               
                     <View style={{marginBottom:30}}>
                         
@@ -203,6 +250,9 @@ class VisitOfFarm extends Component{
 
                     </View>
               
+
+                </KeyboardAwareScrollView>
+                
              
             </FullSCreenSpinnerAndDismissKeyboardView>
             

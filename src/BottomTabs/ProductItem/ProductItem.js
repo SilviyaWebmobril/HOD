@@ -33,6 +33,15 @@ class ProductItem extends Component {
    
    
     render(){
+
+        var product_price ;
+        if(this.props.data.is_discount == 1){
+            product_price  = this.props.data.new_price
+           
+        }else{
+            product_price  = this.props.data.old_price
+          
+        }
        
 
         return(
@@ -44,10 +53,16 @@ class ProductItem extends Component {
                     <View style={styles.sectionRow}>
                         <View style={styles.textColumnLeft}>
                             <Text style={styles.textProductname}>{this.props.data.name}</Text>
-                            <Text style={{lineHeight:20}}>{'\u20B9'}{this.props.data.new_price}</Text>
+                            {this.props.data.product_category.is_discount ==  1 
+                                ?
+                                <Text style={{lineHeight:20}}>{'\u20B9'}{this.props.data.new_price}</Text>
+                                :
+                                <Text style={{lineHeight:20}}>{'\u20B9'}{this.props.data.old_price}</Text>
+                            }
+                            
                             <Text  style={{lineHeight:20}}>{this.props.data.quantity} left</Text>
                         </View>
-                        {this.props.data.unit.name == "L"  ? 
+                        {this.props.data.product_category.allow_subscription == 1  ? 
         
                         <View style={styles.textColumnLeft}>
                             <Text style={styles.textBorder}>{parseInt(this.props.data.weight)} {this.props.data.unit.name}</Text>
@@ -57,11 +72,11 @@ class ProductItem extends Component {
                                 <CustomButton 
                                 onPressHandler={()=> {
                                     this.props.onLoading(true);
-                                    this.props.onAdd(this.props.data.id,this.props.data.new_price,this.props.user.userdata.user_id)
+                                    this.props.onAdd(this.props.data.id,product_price,this.props.user.userdata.user_id)
                                 
                                 }}
                             
-                                customButttonStyle={{backgroundColor:"white",borderColor:"grey",borderWidth:1,borderRadius:2, height:30,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"70%"}}
+                                customButttonStyle={{backgroundColor:"white",borderColor:"grey",borderWidth:1,borderRadius:2, height:35,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"auto",padding:10}}
                                 customTextStyle={{ color:'grey',fontSize:12}}
                                 text="Get Once"  />
         
@@ -69,7 +84,7 @@ class ProductItem extends Component {
                             :
                             
 
-                                <IncrementDecrementButton  product_id={this.props.data.id}  quantity={this.props.data.get_once.quantity} price={this.props.data.new_price} />
+                                <IncrementDecrementButton  product_id={this.props.data.id}  quantity={this.props.data.get_once.quantity} price={this.props.data.is_discount == 1 ? this.props.data.new_price : this.props.data.old_price} />
                             
                             }
                                 
@@ -80,9 +95,9 @@ class ProductItem extends Component {
                                 
                                 <CustomButton 
                                     onPressHandler={()=> {
-                                    this.props.scheduleModal(this.props.data.id,this.props.data.new_price);
+                                    this.props.scheduleModal(this.props.data.id,product_price);
                                     }}
-                                    customButttonStyle={{backgroundColor:"#FD8D45", height:30,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"70%"}}
+                                    customButttonStyle={{backgroundColor:"#FD8D45", height:35,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"auto",padding:10}}
                                     customTextStyle={{ color:'white',fontSize:12}}
                                     text="Subscribe"  />
                             
@@ -92,7 +107,7 @@ class ProductItem extends Component {
                         :
                         
 
-                                <IncrementDecrementSubscribe subscriptionType={this.props.data.subscribed.subscription_type} product_id={this.props.data.id}  subscribed_qauntity={this.props.data.subscribed.subscribed_qauntity} quantity={this.props.data.quantity} price={this.props.data.new_price} />
+                                <IncrementDecrementSubscribe subscriptionType={this.props.data.subscribed.subscription_type} product_id={this.props.data.id}  subscribed_qauntity={this.props.data.subscribed.subscribed_qauntity} quantity={this.props.data.quantity} price={this.props.data.is_discount == 1 ? this.props.data.new_price : this.props.data.old_price} />
                         
                     
                         
@@ -112,17 +127,18 @@ class ProductItem extends Component {
                                     //Subsccribe work here
                                         onPressHandler={()=> {
                                         this.props.onLoading(true);
-                                        this.props.onAdd(this.props.data.id,this.props.data.new_price,this.props.user.userdata.user_id)
+                                       
+                                        this.props.onAdd(this.props.data.id,product_price,this.props.user.userdata.user_id)
                                         
                                         }}
-                                    customButttonStyle={{backgroundColor:"#FD8D45",padding:3, height:30,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"70%"}}
+                                    customButttonStyle={{backgroundColor:"#FD8D45",padding:3, height:35,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"auto",padding:10}}
                                     customTextStyle={{ color:'white',fontSize:12}}
                                     text="Add To Cart"  />
                             </View>
                         :
                         <View style={styles.textColumnLeft}>
                                 <Text style={styles.textBorder}>{parseInt(this.props.data.weight)} {this.props.data.unit.name}</Text>
-                                <IncrementDecrementButton  product_id={this.props.data.id}  quantity={this.props.data.get_once.quantity} price={this.props.data.new_price} />
+                                <IncrementDecrementButton  product_id={this.props.data.id}  quantity={this.props.data.get_once.quantity} price={this.props.data.is_discount == 1 ? this.props.data.new_price : this.props.data.old_price} />
                         </View>
                         )
                     

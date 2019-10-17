@@ -30,6 +30,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import ApiUrl from '../Api/ApiUrl';
 import axios  from 'axios';
 import firebase from 'react-native-firebase';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 
 
 class LoginEmail extends Component {
@@ -152,15 +153,18 @@ class LoginEmail extends Component {
         return (
             <FullSCreenSpinnerAndDismissKeyboardView 
              spinner={this.state.isLoading}
+             refreshing={false}
              style={LoginEmailStyle.container}>
-                <ScrollView showsVerticalScrollIndicator={false}>
+                
                 <View style={{marginBottom:20}}>
+               
 
                     <CustomLogo />
                     {/* <View style={OTPStyle.bottom}>
                     
                     
                     </View> */}
+                     <KeyboardAwareScrollView >
                     <View style={{marginLeft:20,width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
                         <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>Email*</Text>
                     </View>
@@ -186,7 +190,7 @@ class LoginEmail extends Component {
                             
                             />
 
-                        <CustomButton   text="Forget Password ?"
+                        <CustomButton   text="Forgot Password ?"
                         onPressHandler={()=>{this.props.navigation.navigate("ForgotPassword")}}
                          customButttonStyle={{alignItems:"flex-end",backgroundColor:'white',marginTop:0}} 
                          customTextStyle={{color:'#FD8D45',fontWeight: 'bold',fontSize: 14,textDecorationLine: 'underline'}}/>
@@ -204,10 +208,10 @@ class LoginEmail extends Component {
                         
                         <CustomButton  customButttonStyle={{backgroundColor:"#FD8D45", }} customTextStyle={{ color:'black'}} onPressHandler = {() => this.onSubmit()} text="CREATE ACCOUNT" />
 
-
+                        </KeyboardAwareScrollView>
                 </View>
 
-                </ScrollView>
+               
                
                 
                

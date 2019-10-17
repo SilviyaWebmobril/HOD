@@ -196,7 +196,8 @@ class After_Splash extends Component {
 
     render() {
         return (
-            <FullSCreenSpinnerAndDismissKeyboardView spinner={this.state.isLoading} style={After_SplashStyle.container}>
+            <FullSCreenSpinnerAndDismissKeyboardView spinner={this.state.isLoading} refreshing={false}
+             style={After_SplashStyle.container}>
                 
                     <View>
                         <CustomLogo customLogoStyle={{height:180}}/>

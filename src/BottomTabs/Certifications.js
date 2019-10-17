@@ -71,6 +71,7 @@ class Certification extends Component {
     render(){
         return(
             <FullSCreenSpinnerAndDismissKeyboardView style={styles.container} 
+            
             onRefresh={this.onRefresh.bind(this)}
             refreshing={this.state.isRefreshing}
             spinner={this.state.isLoading}>

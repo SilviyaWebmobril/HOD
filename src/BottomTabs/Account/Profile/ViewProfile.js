@@ -1,5 +1,5 @@
 import React ,{Component} from 'react';
-import {View,Text,StyleSheet,Dimensions,FlatList,Image,Alert, ScrollView} from 'react-native';
+import {View,Text,StyleSheet,Dimensions,FlatList,Image,Alert, ScrollView, Platform} from 'react-native';
 import * as HOC from '../../../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -28,7 +28,13 @@ class ViewProfile  extends Component {
       <TouchableOpacity
         onPress={()=>{navigation.pop()}}
       >
+        {Platform.OS === 'android' 
+        ?
         <Image source={require('../../../../Assets/arrow_left.png')} style={{marginLeft:20}} />
+        :
+        <Image source={require('../../../../Assets/back_white_ios.png')} style={{marginLeft:20}} />
+        }
+       
       </TouchableOpacity>
      
   )
@@ -139,6 +145,7 @@ class ViewProfile  extends Component {
         return (
             <FullSCreenSpinnerAndDismissKeyboardView
             spinner={this.props.cart.isLoading}
+            refreshing={false}
             style={styles.container}
              >
                 <View style={{marginRight:10,marginTop:10}}>

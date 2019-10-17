@@ -1,5 +1,5 @@
 import React ,{Component} from 'react';
-import {View,Text,StyleSheet,Dimensions,FlatList,Picker,Alert} from 'react-native';
+import {View,Text,StyleSheet,Dimensions,FlatList,Picker,Alert,Platform} from 'react-native';
 import * as HOC from '../../../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -13,6 +13,9 @@ var { height } = Dimensions.get('window');
 import DatePicker from 'react-native-datepicker';
 import Create_AccountStyle from '../../../Create_Account/Create_AccountStyle';
 import { connect } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import IOSPicker from 'react-native-ios-picker';
+import RNPickerSelect from 'react-native-picker-select';
 
 
 
@@ -33,7 +36,9 @@ import { connect } from 'react-redux';
         this.state= {
             date:this.getFormattedDate(new Date()),
             gender:1,
-            Married:1
+            Married:1,
+            genderData:[{label:"Male",value:1},{label:"Female",value:2}],
+            marriedData:[{label:"YES",value:1},{label:"NO",value:2}]
            
         }
     }       
@@ -43,17 +48,17 @@ import { connect } from 'react-redux';
 
         console.log("user name ",this.props.user.userdata);
 
-        if(this.props.user.userdata.user_name !== null || this.props.user.userdata.user_name !== undefined || this.props.user.userdata.user_name !== ""){
+        if(this.props.user.userdata.user_name !== null && this.props.user.userdata.user_name !== "null" && this.props.user.userdata.user_name !== undefined && this.props.user.userdata.user_name !== ""){
   
         this.refs.name.setTextInputValue(this.props.user.userdata.user_name ,'name');
         }
-        if(this.props.user.userdata.user_gender !== null || this.props.user.userdata.user_gender !== undefined || this.props.user.userdata.user_gender !== ""){
+        if(this.props.user.userdata.user_gender !== null && this.props.user.userdata.user_gender !== "null" && this.props.user.userdata.user_gender !== undefined && this.props.user.userdata.user_gender !== ""){
             this.setState({gender:this.props.user.userdata.user_gender})
         }
-        if(this.props.user.userdata.user_dob !== null || this.props.user.userdata.user_dob !== undefined || this.props.user.userdata.user_dob !== ""){
+        if(this.props.user.userdata.user_dob !== null && this.props.user.userdata.user_dob !== "null" && this.props.user.userdata.user_dob !== undefined && this.props.user.userdata.user_dob !== ""){
            this.setState({date:this.props.user.userdata.user_dob})
         }
-        if(this.props.user.userdata.user_married !== null ||this.props.user.userdata.user_married !== undefined || this.props.user.userdata.user_married !== ""){
+        if(this.props.user.userdata.user_married !== null && this.props.user.userdata.user_married !== "null" && this.props.user.userdata.user_married !== undefined && this.props.user.userdata.user_married !== ""){
             this.setState({Married:this.props.user.userdata.user_married})
         }
 
@@ -65,6 +70,7 @@ import { connect } from 'react-redux';
 
     continueButtonHandler = () =>{
 
+        console.log("gender",this.state.gender)
         if(this.refs.name.getInputTextValue("name") !== "invalid" ){
 
             this.props.navigation.navigate('UpdateProfileContinue',{"name":this.refs.name.getInputTextValue("name"),
@@ -73,7 +79,16 @@ import { connect } from 'react-redux';
                                     "dob":this.state.date,
                                      "married":this.state.Married});
         }else{
-            Alert.alert("All * marked values are compulsory");      
+           
+            Alert.alert(
+                'Update Profile Error',
+                'All * marked fields are compulsory!',
+                [
+             
+                {text: 'OK', onPress: () => {console.log("ok")}},
+                ], 
+                { cancelable: false }
+                )    
         }
 
         
@@ -81,7 +96,8 @@ import { connect } from 'react-redux';
     }
     render(){
         return(
-            <FullSCreenSpinnerAndDismissKeyboardView>
+            <FullSCreenSpinnerAndDismissKeyboardView refreshing={false}>
+                <KeyboardAwareScrollView>
 
                 <View style={{margin:"5%",}}>  
 
@@ -112,22 +128,49 @@ import { connect } from 'react-redux';
                     <View style={styles.labelTextView}>
                         <Text style={styles.labelText}>Gender*</Text>
                     </View>
-                    <View style={{alignSelf:"center",marginBottom:20,height: 50, width:"90%",marginTop:10,borderRadius: 1, 
-                        borderWidth: 1, 
-                        padding:0,
-                        borderColor: 'black',
-                        overflow: 'hidden'}}>
-                        <Picker
-                            selectedValue={(this.state && this.state.gender) || 1}
-                            style={{marginLeft:10}}
-                            onValueChange={(itemValue, itemIndex) =>
-                                this.setState({gender: itemValue})
-                            }>
-                            <Picker.Item label="Male" value={1} />
-                            <Picker.Item label="Female" value={2} />
-                        </Picker>
-                    </View>
-                   
+
+                    {Platform.OS ===  'android'
+
+                        ?
+
+                        (<View style={{marginBottom:20,height: 50, width:"90%",marginTop:10,borderRadius: 1, 
+                            borderWidth: 1, 
+                            padding:0,
+                            borderColor: 'black',
+                            overflow: 'hidden'}}>
+                            <Picker
+                                selectedValue={(this.state && this.state.gender) || 1}
+                                style={{marginLeft:10}}
+                                onValueChange={(itemValue, itemIndex) =>
+                                    this.setState({gender: itemValue})
+                                }>
+                                <Picker.Item label="Male" value={1} />
+                                <Picker.Item label="Female" value={2} />
+                            </Picker>
+                        </View>)
+
+                        //<View/>
+
+                    :
+
+                    <RNPickerSelect
+                    placeholder={{}}
+                    value={(this.state && this.state.gender) || 1}
+                    onValueChange={(itemValue) => this.setState({gender: itemValue})}
+                    items={this.state.genderData}
+                    style={
+                     pickerSelectStyles
+                      }
+                    />
+
+                    //<View/>
+                  
+
+
+                
+                }
+                    
+
 
                     <View style={styles.labelTextView}>
                         <Text style={styles.labelText}>Date Of Birth</Text>
@@ -158,17 +201,21 @@ import { connect } from 'react-redux';
                         }}
                         onDateChange={(date) => {this.setState({date: date})}}
                     />
-                     <View style={styles.labelTextView}>
+                    <View style={styles.labelTextView}>
                         <Text style={styles.labelText}>Married</Text>
                     </View>
+                    {Platform.OS ===  'android'
+                    ?
+
                     <View style={{alignSelf:"center",marginBottom:20,height: 50, width:"90%",marginTop:10,borderRadius: 1, 
                         borderWidth: 1, 
                         padding:0,
                         borderColor: 'black',
                         overflow: 'hidden'}}>
                         <Picker
+                            style={{height: 100, width: 100}}
                             selectedValue={(this.state && this.state.Married) || 1}
-                            style={{marginLeft:10}}
+                            //style={{marginLeft:10}}
                             onValueChange={(itemValue, itemIndex) =>
                                 this.setState({Married : itemValue})
                             }>
@@ -176,7 +223,22 @@ import { connect } from 'react-redux';
                             <Picker.Item label="YES" value={1} />
                         </Picker>
                     </View>
-                   
+
+                    :
+
+                    <RNPickerSelect
+                    
+                    value={(this.state && this.state.Married) || 1}
+                    onValueChange={(itemValue) => this.setState({Married: itemValue})}
+                    items={this.state.marriedData}
+                    style={
+                     pickerSelectStyles
+                      }
+                    />
+
+                        
+                    }
+                    
 
                         <CustomButton 
                         onPressHandler={()=> this.continueButtonHandler()}
@@ -184,10 +246,15 @@ import { connect } from 'react-redux';
                         customTextStyle={{ color:'#48241e'}} 
                         text="CONTINUE"
                     />
-                   
-                </View>
-                
 
+                    </View>
+
+
+
+
+                </KeyboardAwareScrollView>
+
+               
 
             </FullSCreenSpinnerAndDismissKeyboardView>
         );
@@ -217,7 +284,45 @@ const styles =  StyleSheet.create({
         color:'#808080',
         fontWeight: 'bold',
         fontSize: 17,
-    }
+    },
+    inputIOS: {
+        fontSize: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 4,
+        color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
+      },
 
 
 });
+
+
+
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+      fontSize: 16,
+      paddingVertical: 10,
+      paddingHorizontal: 10,
+      borderWidth: 1,
+      borderColor: 'gray',
+      borderRadius: 0,
+      color: 'black',
+      margin:20,
+      paddingRight: 30, // to ensure the text is never behind the icon
+    },
+    inputAndroid: {
+      fontSize: 16,
+      margin:20,
+      paddingHorizontal: 10,
+      paddingVertical: 8,
+      borderWidth: 0.5,
+      borderColor: 'purple',
+      borderRadius: 8,
+      color: 'black',
+      paddingRight: 30, // to ensure the text is never behind the icon
+    },
+  });
+  

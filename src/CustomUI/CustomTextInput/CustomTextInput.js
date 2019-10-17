@@ -170,39 +170,21 @@ class CustomTextInput  extends Component {
 
     this.setState({inputTextValue : ""})   // saving the input value to some text
 
-    if(type == "email"){
 
-        this.setState(prevState => ({
-            ...prevState, // get all the prevstate
-            controls:{
-                ...prevState.controls, // since conytrols is object so  get all prevState contols
-                [type] : {
-                    ...prevState.controls[type],   //  controls having key so get all controls key
-                    value:"" ,
-                    valid: false
-                }
-            
+    this.setState(prevState => ({
+        ...prevState, // get all the prevstate
+        controls:{
+            ...prevState.controls, // since conytrols is object so  get all prevState contols
+            [type] : {
+                ...prevState.controls[type],   //  controls having key so get all controls key
+                value:"" ,
+                valid: false
             }
         
-        })); 
-    }else if(type == "password"){
+        }
+    
+    })); 
 
-        // not working in password
-        this.setState(prevState => ({
-            ...prevState, // get all the prevstate
-            controls:{
-                ...prevState.controls, // since conytrols is object so  get all prevState contols
-                [type] : {
-                    ...prevState.controls[type],   //  controls having key so get all controls key
-                    value:"" ,
-                    valid: false
-                }
-            
-            }
-        
-        })); 
-
-    }
 
   }
 

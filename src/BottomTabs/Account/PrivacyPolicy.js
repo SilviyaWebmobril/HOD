@@ -17,7 +17,7 @@ export default class PrivacyPloicy extends Component {
 
     render(){
         return(
-            <WebView source={{ uri: ApiUrl.privacy_policy }} />
+            <WebView source={{ uri: ApiUrl.privacy_policy }} style={{margin:20}} />
 
         )
     }

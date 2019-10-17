@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { LayoutAnimation, Keyboard, Platform } from 'react-native';
 
 export default (Comp: ReactClass<*>) => {
-  return class KeyboardAware extends Component {
+  return class KeyboardAwareHOC extends Component {
     state = { keyboardOn: false };
     keyboardWillShowSub: Keyboard.addListener;
     keyboardWillHideSub: Keyboard.addListener;

@@ -3,7 +3,7 @@ import { ERROR } from '../actions/types';
 import axios from 'axios';
 import ApiUrl from '../../../Api/ApiUrl';
 import {IS_LOADING} from '../actions/types';
-import  {GET_CART_PRODUCTS,HOME_SCREEN,CATEGORY_PRODUCTS,SEARCH_PRODUCTS,REMOVE_ITEM_AFTER_PAYMENT_IN_HOME} from '../actions/types';
+import  {GET_CART_PRODUCTS,DELETE_SEARCH,HOME_SCREEN,CATEGORY_PRODUCTS,SEARCH_PRODUCTS,REMOVE_ITEM_AFTER_PAYMENT_IN_HOME} from '../actions/types';
 
 
 export const homeScreenProducts = (user_id) =>{
@@ -201,5 +201,12 @@ export const removeItemAterPaymentInHome = (arr) =>{
         type:REMOVE_ITEM_AFTER_PAYMENT_IN_HOME,
         product_ids :  arr,
 
+    }
+}
+
+export const deleteSearch = () => {
+    return {
+        type:DELETE_SEARCH,
+        search_products:[],
     }
 }

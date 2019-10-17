@@ -16,6 +16,7 @@ import ApiUrl from '../Api/ApiUrl';
 import { userData ,userAddress, addNewAddress,getUserId} from '../redux/store/actions/userDataAction';
 import { connect } from 'react-redux';
 import { CheckBox } from 'react-native-elements'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
  class SeacrhLocationContinue extends Component { 
 
@@ -217,8 +218,8 @@ import { CheckBox } from 'react-native-elements'
          
         return (
 
-            <FullSCreenSpinnerAndDismissKeyboardView style = {SearchLocationStyle.container}>
-            <ScrollView>
+            <FullSCreenSpinnerAndDismissKeyboardView style = {SearchLocationStyle.container} refreshing={false}>
+            <KeyboardAwareScrollView >
                 <View style={{  justifyContent: 'center',alignItems: 'center',marginBottom:20,marginTop:20}}>
 
                     <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
@@ -300,7 +301,7 @@ import { CheckBox } from 'react-native-elements'
                  
                 </View>
 
-            </ScrollView>
+            </KeyboardAwareScrollView>
 
 
 

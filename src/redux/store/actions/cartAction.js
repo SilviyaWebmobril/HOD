@@ -211,11 +211,11 @@ export const removeFromCart = (product_id,user_id,price) =>{
                        
                     })
         
-                    dispatch({
-                        type:ERROR,
-                        error:"Remove from cart!"
+                    // dispatch({
+                    //     type:ERROR,
+                    //     error:"Remove from cart!"
                         
-                    })
+                    // })
         
             
                 }
@@ -301,11 +301,11 @@ export const removeSubscribedFromCart = (product_id,user_id,price) =>{
                        
                     })
         
-                    dispatch({
-                        type:ERROR,
-                        error:"Remove from cart!"
+                    // dispatch({
+                    //     type:ERROR,
+                    //     error:"Remove from cart!"
                         
-                    })
+                    // })
         
             
                 }
@@ -406,11 +406,11 @@ export const addOrUpdateSubscriptionToCart = (product_id,price,subscriptipn_type
                         
                     });
        
-                   dispatch({
-                       type:ERROR,
-                       error:"Subscribe to cart"
+                //    dispatch({
+                //        type:ERROR,
+                //        error:"Subscribe to cart"
                        
-                   })
+                 //  })
        
            
                }
@@ -518,11 +518,11 @@ export const addOrUpdateCustomSubscriptionToCart = (product_id,price,subscriptip
                         
                     });
        
-                   dispatch({
-                       type:ERROR,
-                       error:"Subscribe to cart"
+                //    dispatch({
+                //        type:ERROR,
+                //        error:"Subscribe to cart"
                        
-                   })
+                //    })
        
            
                }

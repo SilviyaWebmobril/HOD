@@ -7,7 +7,8 @@ import {HOME_SCREEN,
     ADD_TO_CART_GETONCE_PRODUCTS_HOME,
     REMOVE_FROM_CART_GETONCE_PRODUCTS_HOME,
     SEARCH_PRODUCTS,
-    REMOVE_ITEM_AFTER_PAYMENT_IN_HOME
+    REMOVE_ITEM_AFTER_PAYMENT_IN_HOME,
+    DELETE_SEARCH,
 } from '../actions/types';
 
 // here for home screen maintaining search products list in other array so that can handle delete press
@@ -147,6 +148,15 @@ export default (state = initialState ,action) => {
                 getAllProducts:[...products],
                 cart_products_getonce:[...action.home_products.cart_products_getonce],
                 cart_products_subscribed:[...action.home_products.cart_products_subscribed]
+
+            }
+
+
+        case DELETE_SEARCH :
+            var search_products = action.search_products;
+            return {
+                ...state,
+                search_products:[...search_products]
 
             }
 

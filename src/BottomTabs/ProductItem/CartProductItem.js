@@ -62,27 +62,31 @@ class CartProductItem extends Component {
                
                 if(split_days.includes("1")){
                   
-                    subscription_type = subscription_type + "Mon - ";
+                    subscription_type = subscription_type + "Mon -";
                     this.setState({subscription_type:subscription_type});
                 } if(split_days.includes("2")){
-                    subscription_type = subscription_type + "Tues - ";
+                    subscription_type = subscription_type + "Tues -";
                     this.setState({subscription_type:subscription_type});
                 }if(split_days.includes("3")){
                     console.log("split_days 2 wed",subscription_type);
-                    subscription_type = subscription_type + "Wed - ";
+                    subscription_type = subscription_type + "Wed -";
                     this.setState({subscription_type:subscription_type});
                 }if(split_days.includes("4")){
-                    subscription_type = subscription_type + "Thurs - ";
+                    subscription_type = subscription_type + "Thurs -";
                     this.setState({subscription_type:subscription_type});
                 } if(split_days.includes("5")){
-                    subscription_type = subscription_type + "Fri - ";
+                    subscription_type = subscription_type + "Fri -";
                     this.setState({subscription_type:subscription_type});
                 }if(split_days.includes("6")){
-                    subscription_type = subscription_type + "Sat - ";
+                    subscription_type = subscription_type + "Sat -";
                     this.setState({subscription_type:subscription_type});
                 } if(split_days.includes("7")){
-                    subscription_type =  subscription_type + "Sun";
+                    subscription_type =  subscription_type + "Sun -";
                     this.setState({subscription_type:subscription_type});
+                }
+
+                if(subscription_type !== " "){
+                    subscription_type = subscription_type.substring(0, subscription_type.length - 1);
                 }
 
             }
@@ -104,7 +108,12 @@ class CartProductItem extends Component {
                     <View style={styles.sectionRow}>
                     <View style={styles.textColumnLeft}>
                             <Text style={styles.textProductname}>{this.props.data.product.name}</Text>
-                            <Text style={{lineHeight:20}}>{'\u20B9'}{this.props.data.product.new_price}</Text>
+                            {this.props.data.product.is_discount ==  1 
+                                ?
+                                <Text style={{lineHeight:20}}>{'\u20B9'}{this.props.data.product.new_price}</Text>
+                                :
+                                <Text style={{lineHeight:20}}>{'\u20B9'}{this.props.data.product.old_price}</Text>
+                            }
                             <Text  style={{lineHeight:20}}>{this.props.data.product.quantity} Left</Text>
                         </View>
                         
@@ -116,7 +125,7 @@ class CartProductItem extends Component {
                             
                                 <Text style={{fontSize:10, alignSelf:"flex-end",fontWeight:"bold",padding:3,borderRadius:3,borderWidth:1,color:"#FD8D45" ,borderColor:"#FD8D45"}}>Get Once</Text>
                                 
-                                <IncrementDecrementButton  product_id={this.props.data.product.id}  quantity={this.props.data.quantity} price={this.props.data.product.new_price} />
+                                <IncrementDecrementButton  product_id={this.props.data.product.id}  quantity={this.props.data.quantity} price={this.props.data.product.is_discount == 1 ? this.props.data.product.new_price : this.props.data.product.old_price}  />
                                 
                                 
                             </View>
@@ -125,7 +134,7 @@ class CartProductItem extends Component {
                             <View  style={styles.textColumnLeft}>
                             
                                 <Text style={{fontSize:10,alignSelf:"flex-end",fontWeight:"bold",padding:4,borderRadius:3,borderWidth:1,color:"#FD8D45" ,borderColor:"#FD8D45"}}>{this.state.subscription_type}</Text>   
-                                <IncrementDecrementSubscribe subscriptionType={this.props.data.subscription_type} product_id={this.props.data.product.id}  subscribed_qauntity={this.props.data.quantity} quantity={this.props.data.quantity} price={this.props.data.product.new_price} />
+                                <IncrementDecrementSubscribe subscriptionType={this.props.data.subscription_type} product_id={this.props.data.product.id}  subscribed_qauntity={this.props.data.quantity} quantity={this.props.data.quantity}  price={this.props.data.product.is_discount == 1 ? this.props.data.product.new_price : this.props.data.product.old_price}  />
                                 
                                 
                             </View> 

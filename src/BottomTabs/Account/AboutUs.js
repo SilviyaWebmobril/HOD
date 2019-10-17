@@ -17,7 +17,7 @@ export default class AboutUs extends Component {
 
     render(){
         return(
-            <WebView source={{ uri: ApiUrl.about_us }} />
+            <WebView source={{ uri: ApiUrl.about_us }} style={{margin:20}}/>
 
         )
     }

@@ -55,14 +55,21 @@ export default (state = initialState ,action) => {
               
                 products_getonce.map(item =>{
                    
-                    var sum = parseFloat(item.product.new_price) * parseInt(item.quantity);
-                    const cartItem = new CartItem(item.product.name,item.is_subscribed,item.subscription_type,item.quantity,item.product.new_price,parseFloat(sum));
+                    if(item.product.is_discount == 1){
+                        var product_price  = item.product.new_price;
+                        var sum = parseFloat(item.product.new_price) * parseInt(item.quantity);
+                    }else{
+                        var product_price  = item.product.old_price;
+                        var sum = parseFloat(item.product.old_price) * parseInt(item.quantity);
+                    }
+                   
+                    const cartItem = new CartItem(item.product.name,item.is_subscribed,item.subscription_type,item.quantity,product_price,parseFloat(sum));
     
                       
                             Object.assign(cart_get_once,{[item.product.id]:cartItem})
                             total_get_once_quantity = parseInt(total_get_once_quantity) + parseInt(item.quantity);
                        
-                            totalAmount_get_once =  parseFloat(parseFloat(totalAmount_get_once) + parseFloat(parseFloat(item.quantity) * parseFloat(item.product.new_price)))
+                            totalAmount_get_once =  parseFloat(parseFloat(totalAmount_get_once) + parseFloat(parseFloat(item.quantity) * parseFloat(product_price)))
                 })
 
                
@@ -74,13 +81,20 @@ export default (state = initialState ,action) => {
               
                 products_subscribed.map(item =>{
                    
-                    var sum = parseFloat(item.product.new_price) * parseInt(item.quantity);
-                    const cartItem = new CartItem(item.product.name,item.is_subscribed,item.subscription_type,item.quantity,item.product.new_price,parseFloat(sum));
+                    if(item.product.is_discount == 1){
+                        var product_price  = item.product.new_price;
+                        var sum = parseFloat(item.product.new_price) * parseInt(item.quantity);
+                    }else{
+                        var product_price  = item.product.old_price;
+                        var sum = parseFloat(item.product.old_price) * parseInt(item.quantity);
+                    }
+                   
+                    const cartItem = new CartItem(item.product.name,item.is_subscribed,item.subscription_type,item.quantity,product_price,parseFloat(sum));
     
                             Object.assign(cart_subscribed,{[item.product.id]:cartItem});
                             total_subscribed_quantity = parseInt(total_subscribed_quantity) + parseInt(item.quantity);
                        
-                            totalAmount_subscribed =  parseFloat(parseFloat(totalAmount_subscribed) + parseFloat(parseFloat(item.quantity) * parseFloat(item.product.new_price)))
+                            totalAmount_subscribed =  parseFloat(parseFloat(totalAmount_subscribed) + parseFloat(parseFloat(item.quantity) * parseFloat(product_price)))
                 })
 
                
@@ -106,7 +120,12 @@ export default (state = initialState ,action) => {
             let is_subscribed  =  addedproduct.is_subscribed;
             let subscryption_type = addedproduct.subscription_type;
             let prodId = addedproduct.product.id;
-            let prodPrice = parseFloat(addedproduct.product.new_price).toFixed(2);
+            if(addedproduct.product.is_discount == 1){
+                var  prodPrice = parseFloat(addedproduct.product.new_price).toFixed(2);
+            }else{
+                var prodPrice = parseFloat(addedproduct.product.old_price).toFixed(2);
+            }
+            
             let prodName =  addedproduct.product.name;
            
           
@@ -427,8 +446,13 @@ export default (state = initialState ,action) => {
             cart_products.map(item =>{
 
                 if(item.is_subscribed == 0){
-
-                    cart_sum = parseFloat(cart_sum) + (parseInt(item.quantity) * parseFloat(item.product.new_price)) 
+                    var price  ;
+                    if(item.product.is_discount ==  1){
+                        price = item.product.new_price;
+                    }else{
+                        price =  item.product.old_price;
+                    }
+                    cart_sum = parseFloat(cart_sum) + (parseInt(item.quantity) * parseFloat(price)) 
                 }
             })
             return {

@@ -44,6 +44,7 @@ class TransactionHistory extends Component {
         formdata.append("user_id",this.props.user.userdata.user_id)
         axios.post(ApiUrl.baseurl +  ApiUrl.transaction_history,formdata)
         .then(response =>{
+            console.log("response transaction",response.data.data)
            this.setState({isLoading:false})
             this.setState({history:response.data.data});
         }).catch(error => {

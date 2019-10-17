@@ -34,6 +34,8 @@ const Bottomtabs = createBottomTabNavigator({
   'HomeScreen':{
     screen: HomeScreen ,
     navigationOptions:{
+      header:null,
+      headerMode:"none",
       tabBarLabel:'Home',  
       tabBarIcon: ({focused, tintColor }) => {
    
@@ -157,6 +159,25 @@ const Bottomtabs = createBottomTabNavigator({
   },
 } 
 );
+
+// right after declare `MyTabs`
+Bottomtabs.navigationOptions = ({ navigation }) => {
+  const { routes, index } = navigation.state;
+  const navigationOptions = {};
+  
+ // here's an example, but you can dynamically define title 
+ // however you like given `routes` & `index`
+  
+ if (routes[index].routeName === 'VistOfFarm') {
+    navigationOptions.title = 'VistOfFarm'; 
+
+    return navigationOptions;
+ }else{
+  return null;
+ }
+  
+ 
+}
 
 
 const profile = createStackNavigator({

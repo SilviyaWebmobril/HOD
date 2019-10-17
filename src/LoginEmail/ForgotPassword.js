@@ -29,6 +29,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import ApiUrl from '../Api/ApiUrl';
 import axios  from 'axios';
 import firebase from 'react-native-firebase';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 
 
 class ForgotPassword extends Component {
@@ -120,8 +121,9 @@ class ForgotPassword extends Component {
         return (
             <FullSCreenSpinnerAndDismissKeyboardView 
              spinner={this.state.isLoading}
+             refreshing={false}
              style={LoginEmailStyle.container}>
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <KeyboardAwareScrollView >
                 <View style={{marginBottom:20}}>
 
                     <CustomLogo />
@@ -146,13 +148,13 @@ class ForgotPassword extends Component {
                         
                         <CustomButton customTextStyle={{ color:'white'}} 
                             onPressHandler={()=>this.changePassword()}
-                            text="Change Password" />
+                            text="SUBMIT" />
 
                        
 
                 </View>
 
-                </ScrollView>
+                </KeyboardAwareScrollView>
                
                 
                

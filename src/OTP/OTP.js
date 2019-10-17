@@ -26,6 +26,7 @@ import {connect} from 'react-redux';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import * as userAction from '../redux/store/actions/userDataAction';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 
 
 class OTP extends Component {
@@ -208,8 +209,8 @@ class OTP extends Component {
       }
     render() {
         return (
-            <FullSCreenSpinnerAndDismissKeyboardView style={OTPStyle.container} spinner={this.state.isLoading}>
-                <ScrollView showsVerticalScrollIndicator={false}>
+            <FullSCreenSpinnerAndDismissKeyboardView style={OTPStyle.container} refreshing={false} spinner={this.state.isLoading}>
+                <KeyboardAwareScrollView >
                 <View style={{marginBottom:20}}>
 
                     <CustomLogo />
@@ -248,7 +249,7 @@ class OTP extends Component {
 
                 </View>
 
-                </ScrollView>
+                </KeyboardAwareScrollView>
                
                 
                

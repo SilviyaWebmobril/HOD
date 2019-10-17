@@ -44,7 +44,16 @@ export default class Support extends Component{
 
         if(this.refs.subject.getInputTextValue("subject") == "invalid" || this.refs.message.getInputTextValue("message") == "invalid"){
 
-            Alert.alert("All * marked fields are compulsory!")
+           
+            Alert.alert(
+                'Support Error',
+                'All * marked fields are compulsory!',
+                [
+             
+                {text: 'OK', onPress: () => {console.log("ok")}},
+                ], 
+                { cancelable: false }
+                )
 
         }else{
 
@@ -64,13 +73,21 @@ export default class Support extends Component{
                     'Thank You for your message.One of the member in our team will contact you shortly!',
                     [
                  
-                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'OK', onPress: () => {this.resetTextInput()}},
                     ], 
                     { cancelable: false }
                     )
     
             }).catch(error => {
-                Alert.alert("Something Went wrong !Please try again Later");
+                Alert.alert(
+                    'Support Error',
+                    'Something Went wrong !Please try again Later',
+                    [
+                 
+                    {text: 'OK', onPress: () => {console.log("ok")}},
+                    ], 
+                    { cancelable: false }
+                    )
     
             });
         }
@@ -79,6 +96,15 @@ export default class Support extends Component{
 
         
     }
+
+    resetTextInput = () => {
+
+        this.refs.subject.resetTextInput("subject");
+        this.refs.message.resetTextInput("message");
+
+
+    }
+
 
     render(){
         return(

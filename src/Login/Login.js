@@ -127,8 +127,8 @@ class Login extends Component {
     };
     render() {
         return (
-            <FullSCreenSpinnerAndDismissKeyboardView style={LoginStyle.container}  spinner={this.state.isLoading}>
-                <ScrollView showsVerticalScrollIndicator={false}>
+            <FullSCreenSpinnerAndDismissKeyboardView style={LoginStyle.container} refreshing={false} spinner={this.state.isLoading}>
+                <KeyboardAwareScrollView >
                     <CustomLogo/>
 
                
@@ -154,8 +154,8 @@ class Login extends Component {
                     <CustomButton customTextStyle={{ color:'white'}} onPressHandler = {() => this.onContinue()} text="CONTINUE" />
                     {this.state.onUpdate == 0 ?  
 
-                    <View>
-                        <View style={{margin:25}}> 
+                    <View style={{width:"100%"}}>
+                        <View style={{margin:25,alignSelf:"center"}}> 
                             <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>OR</Text>
                         </View>
 
@@ -174,7 +174,7 @@ class Login extends Component {
                   
                     </View>
 
-                </ScrollView>
+                </KeyboardAwareScrollView>
                
             </FullSCreenSpinnerAndDismissKeyboardView>
         );

@@ -46,7 +46,7 @@ class GooglePlacesInput extends Component  {
         query={{
           // available options: https://developers.google.com/places/web-service/autocomplete
           //key: 'AIzaSyBx5f8NnFiA2kEv7ZcFJVtUs0_6TfZaMPw',
-          key: 'AIzaSyDg8PQMB0zL8QEiWboQ1v-h0vUr-fXgERE',
+          key: 'AIzaSyDKYaLVu8NLmd8r7Ve25-UQqJf7LE-OA7k',
           language: 'en', // language of the results
           types: '(cities)' // default: 'geocode'
         }}

@@ -15,10 +15,16 @@ import {connect} from 'react-redux';
 import * as cartActions from '../redux/store/actions/cartAction';
 import * as homeActions from '../redux/store/actions/homeAction';
 import * as userAction from '../redux/store/actions/userDataAction';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
 
 class HomeScreen extends  Component {
+
+    static navigationOptions = ({ navigation, screenProps }) => ({
+       header:null
+      });
+    
 
     constructor(props){
         super(props);
@@ -135,7 +141,7 @@ class HomeScreen extends  Component {
     showErrorAlert(error){
 
         Alert.alert(
-            'Support',
+            'Error',
             `${error}`,
             [
          
@@ -168,6 +174,7 @@ class HomeScreen extends  Component {
 
         //this.props.onUpdateUser(userdata);
         this.props.deleteCart();
+        this.props.deleteSearch();
         this.setState({isRefreshing:true})
         this.componentDidMount();
     }
@@ -202,7 +209,7 @@ class HomeScreen extends  Component {
             schedule_product_id ={this.state.schedule_product_id}
             schedule_product_price = {this.state.schedule_product_price}
             spinner={this.state.isLoading}>
-                <View >
+                <KeyboardAwareScrollView >
                     <CustomTopHeader address={this.props.userdata.user_address} />
                     <Banners images={this.props.homescreen.banners}/>
                     <HorizontalList products={this.props.homescreen.product} />
@@ -221,7 +228,7 @@ class HomeScreen extends  Component {
 
                     
             
-                </View>
+                </KeyboardAwareScrollView>
 
         
 
@@ -271,6 +278,9 @@ const mapDispatchToProps = dispatch => {
     },
       getProfile:(id) =>{
           dispatch(userAction.getUserProfile(id))
+      },
+      deleteSearch: ()=>{
+        dispatch(homeActions.deleteSearch())
       }
     }
   }

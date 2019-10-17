@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Alert,View,Text,StyleSheet,TouchableOpacity,Image} from 'react-native';
+import {Alert,View,Text,StyleSheet,TouchableOpacity,Image, Platform,} from 'react-native';
 import * as HOC from '../HOC/mainHoc';
 import CustomTextInput from '../CustomUI/CustomTextInput/CustomTextInput';
 import CustomButtonWithIcon from '../CustomUI/CustomButton/CustomButtonWithIcon';
@@ -9,14 +9,20 @@ import SearchLocationStyle from './SearchLocationStyle';
 import CustomButton from '../CustomUI/CustomButton/CustomButton';
 import { ScrollView } from 'react-native-gesture-handler';
 import ApiUrl from '../Api/ApiUrl';
+//const KeyboardAwareView = HOC.KeyboardAwareHOC(View);
+import KeyboardAwareHOC from '../HOC/KeyboardAwareHOC';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
+
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
-  DismissKeyboardView
+  DismissKeyboardView,
+  
+  
 );
 import AsyncStorage from '@react-native-community/async-storage';
 import GooglePlacesInput from './GooglePlacesInput'; 
 import { connect } from 'react-redux';
 import {userAddress,addNewAddress,getUserId,userData} from '../redux/store/actions/userDataAction';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class SearchLocation extends Component {
 
@@ -30,7 +36,13 @@ class SearchLocation extends Component {
           <TouchableOpacity
             onPress={()=>{navigation.pop()}}
           >
+            {Platform.OS === 'android'
+            ?
             <Image source={require('../../Assets/arrow_left.png')} style={{marginLeft:20}} />
+            :
+            <Image source={require('../../Assets/back_white_ios.png')} style={{marginLeft:20}} />
+            }
+            
           </TouchableOpacity>
         
       )
@@ -304,11 +316,16 @@ class SearchLocation extends Component {
       
       return(
 
+          
+
             <FullSCreenSpinnerAndDismissKeyboardView 
+            refreshing={false}
             spinner={this.state.isLoading}
             >
-              {/* <ScrollView showsVerticalScrollIndicator={false}> */}
-                <View style={{  justifyContent: 'center',alignItems: 'center',marginBottom:0}}>
+              
+            <KeyboardAwareScrollView>
+
+            <View style={{  justifyContent: 'center',alignItems: 'center',marginBottom:0}}>
                  <GooglePlacesInput ref="details"/>
                  
                   <View style={SearchLocationStyle.viewLineGrey}></View>
@@ -392,9 +409,16 @@ class SearchLocation extends Component {
                   
 
                   </View>
-                {/* </ScrollView>    */}
+
+
+
+            </KeyboardAwareScrollView>
+            
+           
              </FullSCreenSpinnerAndDismissKeyboardView>
         
+
+            
         );
     }
 

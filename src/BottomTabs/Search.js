@@ -1,5 +1,5 @@
 import React ,{Component} from 'react';
-import {View,TouchableOpacity,FlatList,StyleSheet} from 'react-native';
+import {View,TouchableOpacity,FlatList,StyleSheet,Text} from 'react-native';
 import * as HOC from './../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -18,7 +18,8 @@ import * as homeActions from '../redux/store/actions/homeAction';
 
             isLoading:this.props.cart.isLoading,
             searchText:"",
-            initial:true
+            initial:true,
+            isRefreshing:false
 
         }
     }
@@ -89,10 +90,11 @@ import * as homeActions from '../redux/store/actions/homeAction';
      
     }
 
+
     showErrorAlert(error){
 
         Alert.alert(
-            'Support',
+            'Error',
             `${error}`,
             [
          
@@ -121,6 +123,10 @@ import * as homeActions from '../redux/store/actions/homeAction';
     }
 
 
+    onRefresh = () =>{
+       // this.setState({isRefreshing:true})
+        this.props.deleteSearch();
+    }
 
 
     render(){
@@ -134,22 +140,25 @@ import * as homeActions from '../redux/store/actions/homeAction';
                 return this.props.homescreen.search_products;
             
             }else{
-               
-                return this.props.homescreen.getAllProducts;
+
             }
 
         }
 
 
+
+
         return(
             <FullSCreenSpinnerAndDismissKeyboardView
             style={styles.container}
+            onRefresh={this.onRefresh.bind(this)}
+            refreshing={this.state.isRefreshing}
             scheduleVisible={this.state.scheduleModalVisible}
             schedule_product_id ={this.state.schedule_product_id}
             schedule_product_price = {this.state.schedule_product_price}
             spinner={this.state.isLoading}>
-                <View >
-                    <CustomTextInputWithIcon placeholder="Search for Products.." searchValue={this.state.searchText}  onSearchPress={this.onSearchHandler.bind(this)}/>
+                <View style={{marginTop:20}}>
+                    <CustomTextInputWithIcon placeholder="Search for Products.." onSubmitEditing={this.onSearchHandler.bind(this)} searchValue={this.state.searchText}  onSearchPress={this.onSearchHandler.bind(this)}/>
                    
                         <FlatList
                         
@@ -162,6 +171,13 @@ import * as homeActions from '../redux/store/actions/homeAction';
                     
 
                 </View>
+
+                {this.props.homescreen.search_products.length  == 0
+                ?
+                    <Text style={{alignSelf:'center',textAlignVertical: "center",  textAlign: 'center', justifyContent:"center",    fontSize:15,fontWeight:'bold',color:"grey"}}>No Items Found.</Text>
+                :
+                    <View/>
+                }
                
 
             </FullSCreenSpinnerAndDismissKeyboardView>
@@ -201,6 +217,9 @@ const mapDispatchToProps = dispatch => {
       },
       onSearchProducts :(value)=>{
           dispatch(homeActions.searchProducts(value))
+      },
+      deleteSearch: ()=>{
+        dispatch(homeActions.deleteSearch())
       }
     }
   }

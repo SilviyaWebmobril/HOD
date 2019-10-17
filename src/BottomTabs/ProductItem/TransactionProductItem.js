@@ -33,6 +33,7 @@ class TransactionHistory extends Component {
 
   
     render(){
+        var delivered_on  =   this.props.data.created_at.split(' ');
         return (
             <View>
             <View style={styles.container}>
@@ -40,19 +41,26 @@ class TransactionHistory extends Component {
                 <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.product.img}} style={{width:120, height:120,borderRadius:10}}/>
                 <View style={styles.sectionRow}>
                     <View style={{alignContent:"center",alignItems:"center"}}>
-                        <Text style={{color:"black",marginBottom:10,fontWeight:"bold"}}>{this.props.data.product.name}</Text>
+                        <Text style={{color:"black",marginBottom:10,fontWeight:"bold",alignSelf:"flex-start"}}>{this.props.data.product.name}</Text>
                         {this.props.data.product.unit_id  ==  1 
                          ?
                             
-                            <View style={styles.unitView}>
-                                <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)}L</Text>
-                            </View>
+                                <View style={styles.unitView}>
+                                    <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)}L</Text>
+                                </View>
+                                
+                        
                         :
                            
                             <View style={styles.unitView}>
                                 <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)} Kg</Text>
                             </View>
                         }
+                        <View style={styles.sectionRow1}>
+                            <Text style={{color:"black",fontSize:15,fontWeight:"bold",alignSelf:"center"}}>Delivered On: </Text>
+                            <Text style={{color:"black",fontSize:13,alignSelf:"flex-start"}}> {delivered_on[0]}</Text>
+                        </View>
+
                         
                        
                     </View>
@@ -60,10 +68,14 @@ class TransactionHistory extends Component {
                     <Text style={{color:"#FD8D45",fontSize:15,alignSelf:"center"}}>{'\u20B9'}{this.props.data.price}</Text>
                     
                 </View>
+               
 
+                
+
+               
             
             </View>
-            
+          
        
             <View style={styles.viewLineGrey}></View>
         </View>
@@ -124,6 +136,14 @@ const styles = StyleSheet.create({
     sectionRow:{
         flexDirection:"row",
         justifyContent:"space-between",
+        margin:10,
+        width:200,
+        alignItems:"center"
+    
+    },
+    sectionRow1:{
+        flexDirection:"row",
+        justifyContent:"flex-start",
         margin:10,
         width:200,
         alignItems:"center"

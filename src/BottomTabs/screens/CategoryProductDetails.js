@@ -41,7 +41,9 @@ class CategoryProductDetails extends Component {
             cart_product:this.props.cart_product,
             weight:0,
             quantity_left:"",
-            scheduleModalVisible:false
+            scheduleModalVisible:false,
+            allow_subscription:"",
+            is_discount:""
 
 
         }
@@ -81,7 +83,9 @@ class CategoryProductDetails extends Component {
            
             this.setState({details:JSON.parse(obj)});
 
-            this.setState({img:"http://webmobril.org/dev/hod/"+response.data.data.img})
+            this.setState({img:"http://webmobril.org/dev/hod/"+response.data.data.img},()=>{
+                console.log("img=",this.state.img);
+            })
             this.setState({old_price:response.data.data.old_price});
             this.setState({new_price:response.data.data.new_price});
            // this.setState({quantity:response.data.data.quantity});
@@ -91,6 +95,9 @@ class CategoryProductDetails extends Component {
             this.setState({productname:response.data.data.name});
             this.setState({description:response.data.data.description});
             this.setState({product_id:response.data.data.id});
+            this.setState({is_discount : response.data.data.product_category.is_discount})
+            this.setState({allow_subscription:response.data.data.product_category.allow_subscription});
+
 
            
 
@@ -136,14 +143,22 @@ class CategoryProductDetails extends Component {
 
     render(){
 
+        var price ;
+        if(this.state.is_discount ==  1){
+            price = this.state.new_price;
+        }else{
+            price = this.state.old_price;
+        }
+
       
         return(
             
             <FullSCreenSpinnerAndDismissKeyboardView
             styles={styles.container}
             scheduleVisible={this.state.scheduleModalVisible}
+            refreshing={false}
             schedule_product_id ={this.state.product_id}
-            schedule_product_price = {this.state.new_price}
+            schedule_product_price = {price}
             spinner={this.props.cart_product.isLoading}>
 
                 <Image source={{uri:this.state.img}} width={150} height={150} style={styles.imgStyle} />
@@ -185,15 +200,24 @@ class CategoryProductDetails extends Component {
                 text="GET ONCE" onPressHandler={()=>{
 
                     this.props.onLoading(true);
-                    this.props.onAdd(this.state.product_id,this.state.new_price,this.props.user.userdata.user_id);
+                    this.props.onAdd(this.state.product_id,price,this.props.user.userdata.user_id);
                     
                     Alert.alert("Quantity Updated Successfully!");
 
                 }} />
 
-                <CustomButton  customButttonStyle={{backgroundColor:"#FD8D45",marginBottom:40 }} customTextStyle={{ color:'brown'}} 
-                text="SUBSCRIBE"  onPressHandler={()=>{this.scheduleModalVisible()}}/>
-        
+                {this.state.allow_subscription ==  1 
+
+                 ?
+                    <CustomButton  customButttonStyle={{backgroundColor:"#FD8D45",marginBottom:40 }} customTextStyle={{ color:'brown'}} 
+                    text="SUBSCRIBE"  onPressHandler={()=>{this.scheduleModalVisible()}}/>
+            
+                  :
+
+                    <View/>
+
+                }
+                
 
 
 
@@ -295,7 +319,8 @@ const styles =  StyleSheet.create({
         borderRadius:2,
         borderWidth:1,
         marginBottom:7,
-        width:50,
+        minWidth:40,
+        width:'auto',
         padding:7
     },
     unitViewText:{
