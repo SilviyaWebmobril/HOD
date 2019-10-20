@@ -30,9 +30,17 @@ class ViewProfile  extends Component {
       >
         {Platform.OS === 'android' 
         ?
-        <Image source={require('../../../../Assets/arrow_left.png')} style={{marginLeft:20}} />
+        <View style={{flexDirection:"row"}}>
+            <Image source={require('../../../../Assets/arrow_left.png')} style={{marginLeft:20}} />
+           
+        </View>
+       
         :
-        <Image source={require('../../../../Assets/back_white_ios.png')} style={{marginLeft:20}} />
+        <View style={{flexDirection:"row"}}>
+           <Image source={require('../../../../Assets/back_white_ios.png')} style={{marginLeft:20}} />
+            <Text style={{color:"white"}}>Back</Text>
+        </View>
+       
         }
        
       </TouchableOpacity>

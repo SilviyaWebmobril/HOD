@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import IOSPicker from 'react-native-ios-picker';
 import RNPickerSelect from 'react-native-picker-select';
+import DeviceInfo from 'react-native-device-info';
 
 
 
@@ -100,12 +101,22 @@ import RNPickerSelect from 'react-native-picker-select';
                 <KeyboardAwareScrollView>
 
                 <View style={{margin:"5%",}}>  
-
-                    <View style={styles.labelTextView}>
-                        <Text style={styles.labelText}>
-                            Name*
-                        </Text>
-                    </View> 
+                    {
+                        DeviceInfo.isTablet() 
+                        ?
+                        <View style={styles.labelTextViewTab}>
+                            <Text style={styles.labelText}>
+                                Name*
+                            </Text>
+                        </View> 
+                        :
+                        <View style={styles.labelTextView}>
+                            <Text style={styles.labelText}>
+                                Name*
+                            </Text>
+                        </View> 
+                    }
+                  
                     <CustomTextInput
                         ref="name"
                         inputType="name"
@@ -125,19 +136,31 @@ import RNPickerSelect from 'react-native-picker-select';
                         placeholderTextColor="#898785"
                         returnKeyType={"next"} /> */}
 
-                    <View style={styles.labelTextView}>
-                        <Text style={styles.labelText}>Gender*</Text>
-                    </View>
+                    {
+                        DeviceInfo.isTablet() 
+                        ?
+                        <View style={styles.labelTextViewTab}>
+                            <Text style={styles.labelText}>Gender*</Text>
+                        </View>
 
+                        :
+                        <View style={styles.labelTextView}>
+                            <Text style={styles.labelText}>Gender*</Text>
+                        </View>
+
+                    }
+
+                   
                     {Platform.OS ===  'android'
 
                         ?
 
-                        (<View style={{marginBottom:20,height: 50, width:"90%",marginTop:10,borderRadius: 1, 
-                            borderWidth: 1, 
-                            padding:0,
-                            borderColor: 'black',
-                            overflow: 'hidden'}}>
+                        (<View style={{alignSelf:"center",marginBottom:20,height: 50,marginTop:10,borderRadius: 1, 
+                        borderWidth: 1, 
+                        padding:0,
+                        width:"90%",
+                        borderColor: 'black',
+                        overflow: 'hidden'}}>
                             <Picker
                                 selectedValue={(this.state && this.state.gender) || 1}
                                 style={{marginLeft:10}}
@@ -169,12 +192,22 @@ import RNPickerSelect from 'react-native-picker-select';
 
                 
                 }
-                    
 
-
+                {DeviceInfo.isTablet() 
+                    ?
+                    <View style={styles.labelTextViewTab}>
+                        <Text style={styles.labelText}>Date Of Birth</Text>
+                    </View>
+                    :
                     <View style={styles.labelTextView}>
                         <Text style={styles.labelText}>Date Of Birth</Text>
                     </View>
+
+                }
+                    
+
+
+                   
                     <DatePicker
                         style={{width: "80%",alignSelf:"center",marginTop:15,marginBottom:15}}
                         date={this.state.date}
@@ -201,21 +234,32 @@ import RNPickerSelect from 'react-native-picker-select';
                         }}
                         onDateChange={(date) => {this.setState({date: date})}}
                     />
+
+                    {DeviceInfo.isTablet() 
+                    ?
+                    <View style={styles.labelTextViewTab}>
+                    <Text style={styles.labelText}>Married</Text>
+                    </View>
+                    :
                     <View style={styles.labelTextView}>
                         <Text style={styles.labelText}>Married</Text>
                     </View>
+
+                    }
+                   
                     {Platform.OS ===  'android'
                     ?
 
-                    <View style={{alignSelf:"center",marginBottom:20,height: 50, width:"90%",marginTop:10,borderRadius: 1, 
+                    <View style={{alignSelf:"center",marginBottom:20,height: 50,marginTop:10,borderRadius: 1, 
                         borderWidth: 1, 
                         padding:0,
+                        width:"90%",
                         borderColor: 'black',
                         overflow: 'hidden'}}>
                         <Picker
                             style={{height: 100, width: 100}}
                             selectedValue={(this.state && this.state.Married) || 1}
-                            //style={{marginLeft:10}}
+                            style={{marginLeft:10}}
                             onValueChange={(itemValue, itemIndex) =>
                                 this.setState({Married : itemValue})
                             }>
@@ -280,6 +324,13 @@ const styles =  StyleSheet.create({
         justifyContent:'flex-start',
         alignItems:'flex-start'
     },
+    labelTextViewTab:{
+        width:'90%',
+        marginLeft:40,
+        flexDirection:'column',
+        justifyContent:'flex-start',
+        alignItems:'flex-start'
+    },
     labelText:{
         color:'#808080',
         fontWeight: 'bold',
@@ -311,17 +362,25 @@ const pickerSelectStyles = StyleSheet.create({
       borderRadius: 0,
       color: 'black',
       margin:20,
+      marginLeft:20,
+      width:"90%",
+      marginRight:20,
+      alignSelf:"center",
       paddingRight: 30, // to ensure the text is never behind the icon
     },
     inputAndroid: {
       fontSize: 16,
       margin:20,
+      width:"90%",
       paddingHorizontal: 10,
       paddingVertical: 8,
       borderWidth: 0.5,
       borderColor: 'purple',
       borderRadius: 8,
       color: 'black',
+      marginLeft:20,
+      marginRight:20,
+      alignSelf:"center",
       paddingRight: 30, // to ensure the text is never behind the icon
     },
   });

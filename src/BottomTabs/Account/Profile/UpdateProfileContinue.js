@@ -15,6 +15,7 @@ import {connect} from 'react-redux';
 import { userData } from '../../../redux/store/actions/userDataAction';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import RNPickerSelect from 'react-native-picker-select';
+import DeviceInfo from 'react-native-device-info';
 
 class UpdateProfileContinue extends Component{
 
@@ -174,9 +175,17 @@ class UpdateProfileContinue extends Component{
                 
                 <KeyboardAwareScrollView>
 
-                <View style={styles.labelTextView}>
+                    {DeviceInfo.isTablet()
+                    ?
+                    <View style={styles.labelTextViewTab}>
                         <Text style={styles.labelText}>Family Members</Text>
                     </View>
+                    :
+                    <View style={styles.labelTextView}>
+                        <Text style={styles.labelText}>Family Members</Text>
+                    </View>
+                    }
+                   
                     <CustomTextInput 
                         ref="family_members"
                         inputType="family_members"
@@ -185,9 +194,17 @@ class UpdateProfileContinue extends Component{
                         returnkeyType={"next"}
                         />
                
+               {DeviceInfo.isTablet()
+                    ?
+                    <View style={styles.labelTextViewTab}>
+                        <Text style={styles.labelText}>Vegetarian</Text>
+                    </View>
+                    :
                     <View style={styles.labelTextView}>
                         <Text style={styles.labelText}>Vegetarian</Text>
                     </View>
+                    }
+                   
 
                 {Platform.OS === 'android'
                 ?
@@ -274,6 +291,13 @@ const styles =  StyleSheet.create({
     labelTextView:{
         width:'90%',
         marginLeft:20,
+        flexDirection:'column',
+        justifyContent:'flex-start',
+        alignItems:'flex-start'
+    },
+    labelTextViewTab:{
+        width:'90%',
+        marginLeft:40,
         flexDirection:'column',
         justifyContent:'flex-start',
         alignItems:'flex-start'

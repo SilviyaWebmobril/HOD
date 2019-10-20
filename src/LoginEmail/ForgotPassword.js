@@ -30,6 +30,7 @@ import ApiUrl from '../Api/ApiUrl';
 import axios  from 'axios';
 import firebase from 'react-native-firebase';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
+import DeviceInfo from 'react-native-device-info';
 
 
 class ForgotPassword extends Component {
@@ -124,16 +125,23 @@ class ForgotPassword extends Component {
              refreshing={false}
              style={LoginEmailStyle.container}>
                 <KeyboardAwareScrollView >
-                <View style={{marginBottom:20}}>
-
+               
                     <CustomLogo />
                     {/* <View style={OTPStyle.bottom}>
                     
                     
                     </View> */}
-                    <View style={{marginLeft:20,width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                        <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>Enter Email*</Text>
-                    </View>
+                    {DeviceInfo.isTablet()
+                    ?
+                        <View style={{marginLeft:40,width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                            <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>Enter Email*</Text>
+                        </View>
+                    :
+                        <View style={{marginLeft:20,width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                            <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>Enter Email*</Text>
+                        </View>
+                    }
+                   
                     <CustomTextInput 
                             ref="emailText"
                             inputType="email"
@@ -152,8 +160,7 @@ class ForgotPassword extends Component {
 
                        
 
-                </View>
-
+               
                 </KeyboardAwareScrollView>
                
                 

@@ -117,7 +117,7 @@ class Splash extends Component {
                 {Platform.OS  ===  'android'
                 ?
                 <View style={{marginTop:200 ,width:'100%',alignSelf:"center",marginLeft:60,marginRight:60}}>
-                  <Image  source={require('../../Assets/name_new.png')} style={{alignSelf:"center",width:"90%",height:windowH/5.0}}/>
+                  <Image  source={require('../../Assets/name_new.png')} style={{alignSelf:"center",width:"90%",height:windowH/6.0}}/>
                 </View>
                 :
                 <View style={{marginTop:200 ,width:'100%',alignSelf:"center",marginLeft:60,marginRight:60}}>

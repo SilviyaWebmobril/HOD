@@ -7,6 +7,9 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
 import com.facebook.react.ReactApplication;
+import com.github.wumke.RNExitApp.RNExitAppPackage;
+import com.reactnativecommunity.netinfo.NetInfoPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.razorpay.rn.RazorpayPackage;
 
@@ -46,6 +49,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNExitAppPackage(),
+            new NetInfoPackage(),
+            new RNDeviceInfo(),
             new FBSDKPackage(mCallbackManager),
             new RazorpayPackage(),
             new RNCardViewPackage(),

@@ -10,6 +10,7 @@ const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
 );      
 import axios  from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';   
+import DeviceInfo from 'react-native-device-info';
 
 
 export default class Support extends Component{
@@ -112,12 +113,21 @@ export default class Support extends Component{
             style={styles.container}
             spinner={this.state.isLoading}>
 
-        
+                {DeviceInfo.isTablet()
+                ?
+                <View style={{marginLeft:40,width:'90%',marginTop:20,flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                    <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
+                        Subject*
+                    </Text>
+                </View>
+                :
                 <View style={{marginLeft:20,width:'90%',marginTop:20,flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
                     <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
                         Subject*
                     </Text>
                 </View>
+                }
+               
                 <CustomTextInput 
                     inputType="subject"
                     ref="subject"
@@ -126,12 +136,23 @@ export default class Support extends Component{
                     //onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                 />
 
-
+                {DeviceInfo.isTablet()
+                ?
+                <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                    <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
+                        Message*
+                    </Text>
+                </View>
+                :
                 <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
                     <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
                         Message*
                     </Text>
                 </View>
+                }
+               
+
+              
                 <CustomTextInput 
                     inputType="message"
                     ref="message"

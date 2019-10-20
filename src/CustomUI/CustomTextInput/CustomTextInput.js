@@ -1,7 +1,7 @@
 import React,{useState,forwardRef, useRef, useImperativeHandle,Component} from 'react';
 import {View,TextInput,Text,StyleSheet } from 'react-native';
 import validate from '../../utility/validation';
-
+import DeviceInfo from 'react-native-device-info';
 
 
 class CustomTextInput  extends Component {
@@ -558,14 +558,23 @@ class CustomTextInput  extends Component {
     
                 />
 
+             
+
                 {this.state.errorState ? 
                     <View/>
                     : 
-                   
-                    <Text style={[textInput.errorTextStyle,this.props.customErrorInputStyle]}>
-                        {this.state.errorMsg}
-                    </Text>
-                   
+
+                    (DeviceInfo.isTablet()
+                    ?
+                        <Text style={[textInput.errorTextStyleTablet,this.props.customErrorInputStyle]}>
+                            {this.state.errorMsg}
+                        </Text>
+                    :
+                        <Text style={[textInput.errorTextStyle,this.props.customErrorInputStyle]}>
+                            {this.state.errorMsg}
+                        </Text>
+                    )
+                    
                 } 
                 </View>
                 
@@ -633,6 +642,15 @@ const textInput = StyleSheet.create({
       },
       errorTextStyle:{
         marginLeft:20,
+       
+        justifyContent:'flex-start',
+        alignSelf:"flex-start",
+        color:'red',
+        fontSize:12
+      }
+      ,
+      errorTextStyleTablet:{
+        marginLeft:40,
        
         justifyContent:'flex-start',
         alignSelf:"flex-start",

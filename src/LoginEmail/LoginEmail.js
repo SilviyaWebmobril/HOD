@@ -19,6 +19,7 @@ import CustomButton from '../CustomUI/CustomButton/CustomButton';
 import LoginEmailStyle from './LoginEmailStyle';
 import {connect} from 'react-redux';
 import { userData ,userAddress,getUserId} from '../redux/store/actions/userDataAction';
+import DeviceInfo from 'react-native-device-info';
 
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -157,7 +158,6 @@ class LoginEmail extends Component {
              style={LoginEmailStyle.container}>
                 
                 <View style={{marginBottom:20}}>
-               
 
                     <CustomLogo />
                     {/* <View style={OTPStyle.bottom}>
@@ -165,9 +165,17 @@ class LoginEmail extends Component {
                     
                     </View> */}
                      <KeyboardAwareScrollView >
-                    <View style={{marginLeft:20,width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                        <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>Email*</Text>
-                    </View>
+                     {DeviceInfo.isTablet() 
+                        ?
+                        <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                            <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>Email*</Text>
+                        </View>
+                        :
+                        <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                            <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>Email*</Text>
+                        </View>
+                    }
+                   
                     <CustomTextInput 
                             ref="emailText"
                             inputType="email"
@@ -177,14 +185,23 @@ class LoginEmail extends Component {
 
                             />
 
-                    <View style={{marginLeft:20,width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                        <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>Password*</Text>
-                    </View>
+                    {DeviceInfo.isTablet() 
+                        ?
+                        <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                              <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>Password*</Text>
+                        </View>
+                        :
+                        <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                             <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>Password*</Text>
+                        </View>
+                    }
+                   
                     <CustomTextInput 
                             ref="passwordText"
                             inputType="password"
                             placeholder="Enter Password"
                             placeholderTextColor='#898785'
+                            style={{width:'100%'}}
                             secureTextEntry={true}
 
                             
@@ -209,12 +226,10 @@ class LoginEmail extends Component {
                         <CustomButton  customButttonStyle={{backgroundColor:"#FD8D45", }} customTextStyle={{ color:'black'}} onPressHandler = {() => this.onSubmit()} text="CREATE ACCOUNT" />
 
                         </KeyboardAwareScrollView>
-                </View>
 
-               
-               
-                
-               
+
+                </View>
+                                    
             
             </FullSCreenSpinnerAndDismissKeyboardView>
         );

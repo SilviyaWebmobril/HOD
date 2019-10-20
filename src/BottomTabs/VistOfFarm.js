@@ -9,6 +9,7 @@ import ApiUrl from '../Api/ApiUrl';
 import * as HOC from '../HOC/mainHoc';
 import Axios from 'axios';
 import { connect } from 'react-redux';
+import DeviceInfo from 'react-native-device-info';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
     const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
     const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -139,7 +140,7 @@ class VisitOfFarm extends Component{
 
                
               
-                    <View style={{marginBottom:30}}>
+                    <View style={{marginBottom:30,}}>
                         
                         <View style={styles.addressView}>
                             <Text style={styles.textAddressStyle}>
@@ -150,12 +151,22 @@ class VisitOfFarm extends Component{
                             </Text>
 
                         </View>
-
-                        <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
+                        {DeviceInfo.isTablet()
+                        ?
+                        <View style={{marginLeft:40,marginTop:30,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
                                 Subject*
                             </Text>
                         </View>
+                        :
+                        <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
+                                Subject*
+                            </Text>
+                        </View>
+                        }
+
+                        
                         <CustomTextInput 
                             inputType="subject"
                             placeholder="Enter Subject" placeholderTextColor='#898785'
@@ -163,11 +174,21 @@ class VisitOfFarm extends Component{
                             returnKeyType = { "next" }
                             //onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                         />
-                        <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
+                        {DeviceInfo.isTablet() 
+                        ?
+                        <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
                                 Date*
                             </Text>
                         </View>
+                        :
+                        <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
+                                Date*
+                            </Text>
+                        </View>
+                        }
+                      
                         {/* <CustomTextInput 
                             inputType="name"
                             placeholder="Enter Date" placeholderTextColor='#898785'
@@ -200,11 +221,22 @@ class VisitOfFarm extends Component{
                             onDateChange={(date) => {this.setState({date: date})}}
                         />
 
-                        <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
+                        {DeviceInfo.isTablet() 
+                        ?
+                        <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
                                 Time*
                             </Text>
                         </View>
+                        :
+                        <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
+                                Time*
+                            </Text>
+                        </View>
+                        }
+
+                        
                         <DatePicker
                             style={{width: "80%",alignSelf:"center",marginBottom:10}}
                             date={this.state.time}
@@ -228,11 +260,21 @@ class VisitOfFarm extends Component{
                             }}
                             onDateChange={(time) => {this.setState({time: time})}}
                         />
-                        <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
+                        {DeviceInfo.isTablet() 
+                        ?
+                        <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
                                 Message*
                             </Text>
                         </View>
+                        :
+                        <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
+                                Message*
+                            </Text>
+                        </View>
+                        }
+                      
                         <CustomTextInput 
                             inputType="message"
                             customTxtInputStyle={{height:150}}

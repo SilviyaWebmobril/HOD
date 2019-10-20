@@ -21,6 +21,8 @@ target 'HouseOfDesi' do
   pod 'React', :path => '../node_modules/react-native'
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
 
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+
   target 'HouseOfDesiTests' do
     inherit! :search_paths
     # Pods for testing

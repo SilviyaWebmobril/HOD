@@ -108,6 +108,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -139,6 +140,11 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-exit-app')
+    implementation project(':@react-native-community_netinfo')
+
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation project(':react-native-device-info')
     implementation project(':react-native-fbsdk')
     implementation project(':react-native-razorpay')
     implementation project(':react-native-cardview')
@@ -146,6 +152,7 @@ dependencies {
     implementation project(':react-native-firebase')
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
     implementation project(':@react-native-community_async-storage')
+    implementation "com.google.android.gms:play-services-base:17.1.0"
    // implementation project(':react-native-device-token')
     implementation project(':react-native-video')
     implementation project(':react-native-vector-icons')
