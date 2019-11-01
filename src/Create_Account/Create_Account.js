@@ -274,6 +274,16 @@ class Create_Account extends Component {
                 })
                 .catch(error => {
                     console.log("my error",error.response)
+                    Alert.alert(
+                        'Error',
+                        'Check Your Internet connection and again later!',
+                        [
+                     
+                        {text: 'OK', onPress: () => console.log("ok")},
+                        
+                        ], 
+                        { cancelable: false }
+                        )
                 });
 
 

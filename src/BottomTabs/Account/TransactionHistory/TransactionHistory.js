@@ -50,6 +50,16 @@ class TransactionHistory extends Component {
         }).catch(error => {
 
             console.log("transaction history",error);
+            Alert.alert(
+                'Error',
+                'Check Your Internet connection.',
+                [
+             
+                {text: 'OK', onPress: () => console.log("ok")},
+                
+                ], 
+                { cancelable: false }
+                )
 
         });
     }

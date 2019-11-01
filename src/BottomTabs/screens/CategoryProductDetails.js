@@ -95,7 +95,7 @@ class CategoryProductDetails extends Component {
             this.setState({productname:response.data.data.name});
             this.setState({description:response.data.data.description});
             this.setState({product_id:response.data.data.id});
-            this.setState({is_discount : response.data.data.product_category.is_discount})
+            this.setState({is_discount : response.data.data.is_discount})
             this.setState({allow_subscription:response.data.data.product_category.allow_subscription});
 
 
@@ -169,6 +169,8 @@ class CategoryProductDetails extends Component {
                         <View style={styles.unitView}>
                             <Text style={styles.unitViewText}>{parseInt(this.state.weight)} {this.state.unit}</Text>
                         </View>
+                        {this.state.is_discount ==  1
+                        ?
                         <View style={styles.priceView}>
                             <View style={styles.newpricetext}>
                                 <Text style={styles.newpricetext}>{'\u20B9'}{this.state.new_price}</Text>
@@ -177,14 +179,22 @@ class CategoryProductDetails extends Component {
                                 <Text style={styles.oldpricetext}>{'\u20B9'}{this.state.old_price}</Text>
                             </View>
                         </View>
+                        :
+                        <View style={styles.priceView}>
+                            <View style={styles.newpricetext}>
+                                <Text style={styles.newpricetext}>{'\u20B9'}{this.state.old_price}</Text>
+                            </View>
+                        </View>
+                        }
+                        
 
                     </View>
                     <View style={styles.rowRight}>
                         
-                        <View style={styles.oldpricetext}>
+                        {/* <View style={styles.oldpricetext}>
                             <Text style={styles.quantity_left}>{this.state.quantity_left} Left</Text>
-                        </View>
-                        <IncrementDecrementButton  product_id={this.state.product_id}  quantity={this.state.quantity} price={this.state.new_price} />
+                        </View> */}
+                        <IncrementDecrementButton  product_id={this.state.product_id}  quantity={this.state.quantity} price={this.state.is_discount == 1 ? this.state.new_price : this.state.old_price} />
                     </View>
                 </View>
                
@@ -290,7 +300,7 @@ const styles =  StyleSheet.create({
         alignContent:"flex-start",
         alignSelf:"flex-start",
         marginLeft:10,
-        width:"auto"
+       
 
 
     },

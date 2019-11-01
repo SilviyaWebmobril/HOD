@@ -53,14 +53,14 @@ class ProductItem extends Component {
                     <View style={styles.sectionRow}>
                         <View style={styles.textColumnLeft}>
                             <Text style={styles.textProductname}>{this.props.data.name}</Text>
-                            {this.props.data.product_category.is_discount ==  1 
+                            {this.props.data.is_discount ==  1 
                                 ?
                                 <Text style={{lineHeight:20}}>{'\u20B9'}{this.props.data.new_price}</Text>
                                 :
                                 <Text style={{lineHeight:20}}>{'\u20B9'}{this.props.data.old_price}</Text>
                             }
                             
-                            <Text  style={{lineHeight:20}}>{this.props.data.quantity} left</Text>
+                            {/* <Text  style={{lineHeight:20}}>{this.props.data.quantity} left</Text> */}
                         </View>
                         {this.props.data.product_category.allow_subscription == 1  ? 
         

@@ -86,7 +86,12 @@ class CartProductItem extends Component {
                 }
 
                 if(subscription_type !== " "){
+                    // var lastChar = strVal.slice(-1);
+                    // if (lastChar == ',') {
+                    //     strVal = strVal.slice(0, -1);
+                    // }
                     subscription_type = subscription_type.substring(0, subscription_type.length - 1);
+                    this.setState({subscription_type:subscription_type});
                 }
 
             }
@@ -114,7 +119,7 @@ class CartProductItem extends Component {
                                 :
                                 <Text style={{lineHeight:20}}>{'\u20B9'}{this.props.data.product.old_price}</Text>
                             }
-                            <Text  style={{lineHeight:20}}>{this.props.data.product.quantity} Left</Text>
+                            {/* <Text  style={{lineHeight:20}}>{this.props.data.product.quantity} Left</Text> */}
                         </View>
                         
                         

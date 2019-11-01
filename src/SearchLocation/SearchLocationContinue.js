@@ -203,7 +203,17 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
       })
       .catch(error => {
-        console.log("my error",error)
+        console.log("my error",error);
+        Alert.alert(
+          'Error',
+          'Check Your Internet connection and again later!',
+          [
+       
+          {text: 'OK', onPress: () => console.log("ok")},
+          
+          ], 
+          { cancelable: false }
+          )
     });
 
       

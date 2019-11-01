@@ -53,9 +53,9 @@ class IncrementDecrementSubscribe extends Component {
 
     onMinusHandler = () =>{ 
 
-     if(this.props.quantity > 1){
+     
         this.props.onRemove(this.props.product_id,this.props.user.user_id,this.props.price);
-     }
+    
      
     }
 

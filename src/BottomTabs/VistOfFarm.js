@@ -95,7 +95,17 @@ class VisitOfFarm extends Component{
 
             }).catch(error => {
                 this.setState({isLoading:false});
-                Alert.alert("Check Your network connection!");
+                
+                Alert.alert(
+                    'Error',
+                    'Check Your Internet connection and again later!',
+                    [
+                 
+                    {text: 'OK', onPress: () => console.log("ok")},
+                    
+                    ], 
+                    { cancelable: false }
+                    )
                 console.log("error on Visit",error);
             });
          }else{

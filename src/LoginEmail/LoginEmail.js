@@ -131,7 +131,16 @@ class LoginEmail extends Component {
               })
               .catch(error => {
                   console.log("my error",error)
-                  alert("Check You Netwrok connect and try again!");
+                  Alert.alert(
+                    'Error',
+                    'Check Your Internet connection and again later!',
+                    [
+                 
+                    {text: 'OK', onPress: () => console.log("ok")},
+                    
+                    ], 
+                    { cancelable: false }
+                    )
 
                   this.setState({isLoading:false});
               });

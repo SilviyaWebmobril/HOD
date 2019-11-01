@@ -1,5 +1,5 @@
 import React ,{ Component } from 'react';
-import { View,Image,Text,Dimensions ,Animated, Easing ,ImageBackground, Platform} from 'react-native';
+import { View,Image,Text,Dimensions ,Animated, Easing ,ImageBackground,Alert, Platform} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 const {width, height} = Dimensions.get("window");
 import AsyncStorage from '@react-native-community/async-storage';
@@ -9,6 +9,8 @@ import {connect} from 'react-redux';
 import { userData,userAddress,getUserId } from '../redux/store/actions/userDataAction';
 import * as  cartActions from '../redux/store/actions/cartAction';
 import { NavigationActions, StackActions } from 'react-navigation';
+import RNExitApp from 'react-native-exit-app';
+import NetInfo from "@react-native-community/netinfo";
   
 
 class Splash extends Component {
@@ -19,6 +21,9 @@ class Splash extends Component {
 
     constructor(props){
         super(props);
+        state = {
+          isConnected: true
+        };
         
             this.RotateValueHolder = new Animated.Value(0);
  
@@ -26,19 +31,39 @@ class Splash extends Component {
     }
 
     componentDidMount(){
-      
+       NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
         this.StartImageRotateFunction();
 
         this.interval = setInterval(() => {
 
+          if (this.state.isConnected) {
             this.getMyValue();
+          }else{
+
+            Alert.alert(
+              'Error',
+              'Check Your Internet connection and again later!',
+              [
+           
+              {text: 'OK', onPress: () => RNExitApp.exitApp()},
+              
+              ], 
+              { cancelable: false }
+              )
+          }
           
         
         }, 5000);
         
 
     }
+    componentWillUnmount() {
+      NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
+    }
 
+    handleConnectivityChange = isConnected => {
+      this.setState({ isConnected });
+    };
 
 
     getMyValue = async () => {

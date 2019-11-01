@@ -58,26 +58,10 @@ class IncrementDecrementButton extends Component {
 
     onMinusHandler = () =>{ 
 
-        if(this.props.quantity > 1){
-            
-            this.props.onLoading(true);
-            this.props.onRemove(this.props.product_id,this.props.user.userdata.user_id,this.props.price);
-    
-        }
+        this.props.onLoading(true);
+        this.props.onRemove(this.props.product_id,this.props.user.userdata.user_id,this.props.price);
+
        
-        if(this.state.quantity == 1){
-           // this.setState({disableMinus:true})
-         //  this.props.updateGetOnce();
-        }else{
-           
-            // this.setState(prevState => ({
-               
-            //     quantity :prevState.quantity - 1 
-            // }),()=>{
-
-            // });
-
-        }
     }
 
     render(){
@@ -170,7 +154,7 @@ const styles =  StyleSheet.create({
         backgroundColor:'white',
         width:'auto',
         minWidth:25,
-        padding:2.5,
+        padding:2.2,
         borderColor:"grey",
         borderWidth:1
     },

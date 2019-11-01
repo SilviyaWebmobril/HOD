@@ -115,6 +115,16 @@ class Login extends Component {
                 }).catch(error => {
                     this.setState({isLoading:false})
                     console.log("error",error);
+                    Alert.alert(
+                        'Error',
+                        'Check Your Internet connection and again later!',
+                        [
+                     
+                        {text: 'OK', onPress: () => console.log("ok")},
+                        
+                        ], 
+                        { cancelable: false }
+                        )
                 });
             }else{
                 Alert.alert("Please Enter Mobile No.")

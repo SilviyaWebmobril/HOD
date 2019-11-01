@@ -42,7 +42,10 @@ class TransactionHistory extends Component {
                 <View style={styles.sectionRow}>
                     <View style={{alignContent:"center",alignItems:"center"}}>
                         <Text style={{color:"black",marginBottom:10,fontWeight:"bold",alignSelf:"flex-start"}}>{this.props.data.product.name}</Text>
-                        {this.props.data.product.unit_id  ==  1 
+                        <View style={styles.unitView}>
+                            <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)}{this.props.data.product.unit.name}</Text>
+                        </View>
+                        {/* {this.props.data.product.unit_id  ==  1 
                          ?
                             
                                 <View style={styles.unitView}>
@@ -55,7 +58,7 @@ class TransactionHistory extends Component {
                             <View style={styles.unitView}>
                                 <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)} Kg</Text>
                             </View>
-                        }
+                        } */}
                         <View style={styles.sectionRow1}>
                             <Text style={{color:"black",fontSize:15,fontWeight:"bold",alignSelf:"center"}}>Delivered On: </Text>
                             <Text style={{color:"black",fontSize:13,alignSelf:"flex-start"}}> {delivered_on[0]}</Text>

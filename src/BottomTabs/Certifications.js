@@ -1,5 +1,5 @@
 import React ,{ Component } from 'react';
-import { View ,Text ,StyleSheet,Image,FlatList,RefreshControl} from 'react-native';
+import { View ,Text ,StyleSheet,Image,FlatList,RefreshControl,Alert} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import * as HOC from '../HOC/mainHoc';
@@ -40,6 +40,16 @@ class Certification extends Component {
 
         }).catch( error  => {   
             this.setState({isLoading:false});
+            Alert.alert(
+                'Error',
+                'Check Your Internet connection and again later!',
+                [
+             
+                {text: 'OK', onPress: () => console.log("ok")},
+                
+                ], 
+                { cancelable: false }
+                )
           
         });
 
