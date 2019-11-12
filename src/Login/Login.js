@@ -145,7 +145,7 @@ class Login extends Component {
                     <View style={LoginStyle.bottom}>
                         <View style={{width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
                             <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                                Mobile No.
+                                 Mobile No. 
                             </Text>
                         </View>
                     
@@ -161,15 +161,15 @@ class Login extends Component {
                             />
 
                     
-                    <CustomButton customTextStyle={{ color:'white'}} onPressHandler = {() => this.onContinue()} text="CONTINUE" />
+                    <CustomButton text="   CONTINUE   " customTextStyle={{ color:'white'}} onPressHandler = {() => this.onContinue()}  />
                     {this.state.onUpdate == 0 ?  
 
                     <View style={{width:"100%"}}>
                         <View style={{margin:25,alignSelf:"center"}}> 
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>OR</Text>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}> OR </Text>
                         </View>
 
-                        <CustomButton text="CREATE ACCOUNT"
+                        <CustomButton text=" CREATE ACCOUNT "
                             onPressHandler ={() => this.onCreate_Account()} 
                             customButttonStyle={{backgroundColor:"#FD8D45", }}
                             customTextStyle={{ color:'#48241e'}} />

@@ -3,7 +3,7 @@ import { ERROR } from '../actions/types';
 import axios from 'axios';
 import ApiUrl from '../../../Api/ApiUrl';
 import {IS_LOADING} from '../actions/types';
-import  {GET_CART_PRODUCTS,DELETE_SEARCH,HOME_SCREEN,CATEGORY_PRODUCTS,SEARCH_PRODUCTS,REMOVE_ITEM_AFTER_PAYMENT_IN_HOME} from '../actions/types';
+import  {CLEAR_CATEGORY_PRODUCT,GET_CART_PRODUCTS,DELETE_SEARCH,HOME_SCREEN,CATEGORY_PRODUCTS,SEARCH_PRODUCTS,REMOVE_ITEM_AFTER_PAYMENT_IN_HOME} from '../actions/types';
 
 
 export const homeScreenProducts = (user_id) =>{
@@ -73,6 +73,11 @@ export const categoryProducts  = (category_id) =>{
         dispatch({
             type:IS_LOADING,
             isLoading:true,
+        });
+
+        dispatch({
+            type:CLEAR_CATEGORY_PRODUCT,
+            category_products:[],
         });
        
 

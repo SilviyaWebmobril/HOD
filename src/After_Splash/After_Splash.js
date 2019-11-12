@@ -212,22 +212,22 @@ class After_Splash extends Component {
                             iconColor="white"
                             onPressHandler={()=>this.onLogin()}
                             customViewTextStyle={{backgroundColor:"#BB6822", borderBottomRightRadius: 5,borderTopRightRadius: 5,fontSize:15}}
-                            customText="LOGIN WITH OTP"
+                            customText="LOGIN WITH OTP "
                             customButttonStyle={{marginBottom:25}}
                             /> 
 
 
                         
-                        <CustomButtonWithIcon 
+                        {/* <CustomButtonWithIcon 
                             customViewIconStyle={{backgroundColor:"#2F4F93",borderTopLeftRadius: 5,borderBottomLeftRadius: 5,}} 
                             iconName="facebook" iconSize={25}
                             iconColor="white"
                             onPressHandler={()=> this.onLoginWithFacebook()} 
                             customViewTextStyle={{backgroundColor:"#3B5998", borderBottomRightRadius: 5,borderTopRightRadius: 5,fontSize:15}}
-                            customText="REGISTER WITH FACEBOOK"
+                            customText="REGISTER WITH FACEBOOK "
                             /> 
 
-                            <View style={{marginTop:25}}></View>
+                            <View style={{marginTop:25}}></View> */}
 
                         <CustomButtonWithIcon 
                             customViewIconStyle={{backgroundColor:"#D41519",borderTopLeftRadius: 5,borderBottomLeftRadius: 5,}} 
@@ -235,14 +235,14 @@ class After_Splash extends Component {
                             iconColor="white"
                             onPressHandler={()=> this.onLoginEmail()} 
                             customViewTextStyle={{backgroundColor:"#DB3236", borderBottomRightRadius: 5,borderTopRightRadius: 5,fontSize:15}}
-                            customText="LOGIN WITH EMAIL"
+                            customText="LOGIN WITH EMAIL "
                             />
 
                         <View style={{margin:25}}> 
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>OR</Text>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}> OR </Text>
                         </View>
                         
-                        <CustomButton text="CREATE ACCOUNT" 
+                        <CustomButton text=" CREATE ACCOUNT " 
                             onPressHandler={()=>this.onCreate_Account()} 
                             customButttonStyle={{backgroundColor:"#FD8D45", }}
                             customTextStyle={{ color:'#48241e'}} 

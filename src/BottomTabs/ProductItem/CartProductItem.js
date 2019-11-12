@@ -109,7 +109,7 @@ class CartProductItem extends Component {
             <View>
                 <View style={styles.container}>
                     
-                    <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.product.img}} style={{width:120, height:120,borderRadius:10}}/>
+                    <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.product.img}} resizeMode="contain" style={{width:120, height:120,borderRadius:10}}/>
                     <View style={styles.sectionRow}>
                     <View style={styles.textColumnLeft}>
                             <Text style={styles.textProductname}>{this.props.data.product.name}</Text>
@@ -138,7 +138,7 @@ class CartProductItem extends Component {
                             //Add To Cart Button
                             <View  style={styles.textColumnLeft}>
                             
-                                <Text style={{fontSize:10,alignSelf:"flex-end",fontWeight:"bold",padding:4,borderRadius:3,borderWidth:1,color:"#FD8D45" ,borderColor:"#FD8D45"}}>{this.state.subscription_type}</Text>   
+                                <Text style={{fontSize:10,alignSelf:"flex-end",fontWeight:"bold",padding:4,borderRadius:3,borderWidth:1,color:"#FD8D45" ,borderColor:"#FD8D45"}}>  {this.state.subscription_type}  </Text>   
                                 <IncrementDecrementSubscribe subscriptionType={this.props.data.subscription_type} product_id={this.props.data.product.id}  subscribed_qauntity={this.props.data.quantity} quantity={this.props.data.quantity}  price={this.props.data.product.is_discount == 1 ? this.props.data.product.new_price : this.props.data.product.old_price}  />
                                 
                                 

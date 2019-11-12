@@ -107,7 +107,7 @@ class Account extends Component {
 
             <View style={styles.container}>
                  <View  style={styles.headerView}>
-                    <Text style={styles.textStyle}>Account</Text>
+                    <Text style={styles.textStyle}>  Account  </Text>
                 </View>
                 <ScrollView >
                     <View style={{ alignItems:"center",justifyContent:"center"}}>   
@@ -117,7 +117,7 @@ class Account extends Component {
                             >
                             <View style={styles.buttonView}>
                                 <Image source={require('../../Assets/user1.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
-                                <Text style={styles.btnTextStyle}>Profile</Text>
+                                <Text style={styles.btnTextStyle}>  Profile  </Text>
                             </View>
 
                         </TouchableOpacity>
@@ -129,7 +129,7 @@ class Account extends Component {
                             >
                             <View style={styles.buttonView}>
                                 <Image source={require('../../Assets/transaction.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
-                                <Text style={styles.btnTextStyle}>Transaction History</Text>
+                                <Text style={styles.btnTextStyle}>  Transaction History  </Text>
                             </View>
 
                         </TouchableOpacity>
@@ -139,7 +139,7 @@ class Account extends Component {
                             >
                             <View style={styles.buttonView}>
                                 <Image source={require('../../Assets/code.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
-                                <Text style={styles.btnTextStyle}>Refferal Code</Text>
+                                <Text style={styles.btnTextStyle}>  Refferal Code  </Text>
                             </View>
 
                         </TouchableOpacity>
@@ -150,7 +150,7 @@ class Account extends Component {
                             >
                             <View style={styles.buttonView}>
                                 <Image source={require('../../Assets/support.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
-                                <Text style={styles.btnTextStyle}>Support</Text>
+                                <Text style={styles.btnTextStyle}>  Support  </Text>
                             </View>
 
                         </TouchableOpacity>
@@ -161,7 +161,7 @@ class Account extends Component {
                             >
                             <View style={styles.buttonView}>
                                 <Image source={require('../../Assets/fav.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
-                                <Text style={styles.btnTextStyle}>About Us</Text>
+                                <Text style={styles.btnTextStyle}>  About Us  </Text>
                             </View>
 
                         </TouchableOpacity>
@@ -172,7 +172,7 @@ class Account extends Component {
                             >
                             <View style={styles.buttonView}>
                                 <Image source={require('../../Assets/privacy.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
-                                <Text style={styles.btnTextStyle}>Privacy Policy</Text>
+                                <Text style={styles.btnTextStyle}>  Privacy Policy  </Text>
                             </View>
 
                         </TouchableOpacity>
@@ -183,7 +183,7 @@ class Account extends Component {
                             >
                             <View style={styles.buttonView}>
                                 <Image source={require('../../Assets/signout.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
-                                <Text style={styles.btnTextStyle}>Sign Out</Text>
+                                <Text style={styles.btnTextStyle}> Sign Out  </Text>
                             </View>
 
                         </TouchableOpacity>

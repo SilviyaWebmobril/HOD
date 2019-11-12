@@ -28,9 +28,9 @@ class SearchLocation extends Component {
 
 
     static navigationOptions = ({ navigation }) => ({
-        title: 'Search Location',
+        title: '  Search Location  ',
         headerStyle: { backgroundColor: '#FD8D45' },
-        headerTitleStyle: { color: 'white' },
+        headerTitleStyle: { color: 'white',fontSize:17,flex:1 },
         headerTintColor: 'white', 
         headerLeft:(
           <TouchableOpacity
@@ -346,9 +346,7 @@ class SearchLocation extends Component {
                     
 
                   <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                          Name*
-                      </Text>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  Name*  </Text>
                   </View>
                   <CustomTextInput 
                       ref="nameText"
@@ -359,9 +357,7 @@ class SearchLocation extends Component {
                   />
                   
                   <View style={{marginLeft:0,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                          City*
-                      </Text>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  City*  </Text>
                   </View>
                   <CustomTextInput 
                       inputType="city"
@@ -373,9 +369,7 @@ class SearchLocation extends Component {
                   />
 
                   <View style={{marginLeft:0,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                          Locality*
-                      </Text>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  Locality*  </Text>
                   </View>
                   <CustomTextInput 
                        inputType="locality" 
@@ -387,9 +381,7 @@ class SearchLocation extends Component {
                   />
 
                   <View style={{marginLeft:0,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                          Street*
-                      </Text>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  Street*  </Text>
                   </View>
                   <CustomTextInput 
                        inputType="street"
@@ -403,7 +395,7 @@ class SearchLocation extends Component {
                     onPressHandler={()=> this.continueButtonHandler()}
                     customButttonStyle={{backgroundColor:"#FD8D45"}}
                     customTextStyle={{ color:'#48241e'}} 
-                    text="CONTINUE"
+                    text="  CONTINUE  "
                   />
                   
                   

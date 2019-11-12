@@ -112,17 +112,48 @@ class OTP extends Component {
                         
                         let userdata = {};
                         Object.assign(userdata,{"user_id":JSON.stringify(res.data.data.id)});
-                        Object.assign(userdata,{"user_name": res.data.data.name});
-                        Object.assign(userdata,{"user_email":res.data.data.email});
-                        Object.assign(userdata,{"user_mobile":res.data.data.mobile});   
-                        Object.assign(userdata,{"user_gender":res.data.data.gender});
-                        Object.assign(userdata,{"user_dob":res.data.data.dob});
-                        Object.assign(userdata,{"user_married":res.data.data.married});
-                        Object.assign(userdata,{"user_family_members":res.data.data.family_members});
-                        Object.assign(userdata,{"user_vegitarian":res.data.data.vegitarian});
-                       
-                       
-                        
+                        if(res.data.data.name !== null){
+
+                            Object.assign(userdata,{"user_name": res.data.data.name});
+                        }else{
+                            Object.assign(userdata,{"user_name": ""});
+                        }
+                        if(res.data.data.email !== null){
+                            Object.assign(userdata,{"user_email":res.data.data.email});
+                        }else{
+                            Object.assign(userdata,{"user_email":""});
+                        }
+                        if(res.data.data.mobile !== null){
+                            Object.assign(userdata,{"user_mobile":res.data.data.mobile});  
+                        }else{
+                            Object.assign(userdata,{"user_mobile":""});  
+                        }
+                        if(res.data.data.gender !== null){
+                            Object.assign(userdata,{"user_gender":res.data.data.gender});
+                        }else{
+                            Object.assign(userdata,{"user_gender":""});
+                        }
+                        if(res.data.data.dob){
+                            Object.assign(userdata,{"user_dob":res.data.data.dob});
+                        }else{
+                            Object.assign(userdata,{"user_dob":""});
+                        }
+                        if(res.data.data.married !== null){
+                            Object.assign(userdata,{"user_married":res.data.data.married});
+                        }else{
+                            Object.assign(userdata,{"user_married":""});
+                        }
+                        if(res.data.data.family_members !== null){
+                            Object.assign(userdata,{"user_family_members":res.data.data.family_members});
+                        }else{
+                            Object.assign(userdata,{"user_family_members":""});
+                        }
+                        if(res.data.data.vegitarian !== null){
+                            Object.assign(userdata,{"user_vegitarian":res.data.data.vegitarian});
+                        }else{
+                            Object.assign(userdata,{"user_vegitarian":""});
+                        }
+                    
                         if(res.data.data.homeaddress !== null){
                            
                         
@@ -215,13 +246,13 @@ class OTP extends Component {
 
                     <CustomLogo />
                     <View style={OTPStyle.bottom}>
-                    <Text style={{flexDirection:'row',alignItems:'center',color:'black',fontWeight: 'bold',fontSize: 20,marginBottom:10}}>OTP</Text>
-                    <Text style={{color:'#898785',fontWeight: 'bold',fontSize: 17,marginBottom:20,marginTop:10}}>Phone Number Verification</Text>
+                    <Text style={{flexDirection:'row',alignItems:'center',color:'black',fontWeight: 'bold',fontSize: 20,marginBottom:10}}> OTP </Text>
+                    <Text style={{color:'#898785',fontWeight: 'bold',fontSize: 17,marginBottom:20,marginTop:10}}>    Phone Number Verification   </Text>
                     <View style={OTPStyle.circle}>
-                        <Text style={OTPStyle.Timertxt}>{this.state.seconds}</Text>
+                        <Text style={OTPStyle.Timertxt}> {this.state.seconds} </Text>
                         </View>
                     <View style={{width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                        <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}>OTP</Text>
+                        <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}> OTP </Text>
                     </View>
 
                     </View>
@@ -238,9 +269,9 @@ class OTP extends Component {
                             />
 
 
-                        <CustomButton onPressHandler={()=>{this.onStartTimer();this.resendOTP()}} disabled={this.state.disableResend} text="Resend" customButttonStyle={OTPStyle.customButtomSty} customTextStyle={this.state.disableResend ? OTPStyle.disableCustomResendTextSty : OTPStyle.customResendTextSty}/>
+                        <CustomButton onPressHandler={()=>{this.onStartTimer();this.resendOTP()}} disabled={this.state.disableResend} text=" Resend " customButttonStyle={OTPStyle.customButtomSty} customTextStyle={this.state.disableResend ? OTPStyle.disableCustomResendTextSty : OTPStyle.customResendTextSty}/>
 
-                        <CustomButton customTextStyle={{ color:'white'}} onPressHandler = {() => this.onSubmit()} text="SUBMIT" />
+                        <CustomButton customTextStyle={{ color:'white'}} onPressHandler = {() => this.onSubmit()} text=" SUBMIT " />
 
 
                     </View>

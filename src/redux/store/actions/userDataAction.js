@@ -27,7 +27,7 @@ export const getUserId = (id) => {
 
 export const getUserProfile =  (user_id) => {
 
-    console.log(user_id);
+    console.log("getProfileid",user_id);
 
     return dispatch =>{
 
@@ -76,12 +76,22 @@ export const getUserProfile =  (user_id) => {
                     payload:userdata
                 })
 
-                dispatch({
-                    type:ADD_USER_ADDRESS,
-                    payload:res.data.primary_address.homeaddress
+                if(res.data.primary_address !== null){
+                    dispatch({
+                        type:ADD_USER_ADDRESS,
+                        payload:res.data.primary_address.homeaddress
+        
+                    })
     
-                })
-
+                }else{
+                    dispatch({
+                        type:ADD_USER_ADDRESS,
+                        payload:""
+        
+                    })
+    
+                }
+               
                 dispatch({
                     type:ALL_ADDRESSES,
                     all_address:res.data.result.addresses
@@ -92,6 +102,7 @@ export const getUserProfile =  (user_id) => {
             }
 
           }).catch(error => {
+              console.log("check error",error);
                 dispatch({
                     type:IS_LOADING,
                     isLoading:false,

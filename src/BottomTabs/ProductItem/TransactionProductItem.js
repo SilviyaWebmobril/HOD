@@ -38,12 +38,12 @@ class TransactionHistory extends Component {
             <View>
             <View style={styles.container}>
                 
-                <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.product.img}} style={{width:120, height:120,borderRadius:10}}/>
+                <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.product.img}} resizeMode="contain" style={{width:120, height:120,borderRadius:10}}/>
                 <View style={styles.sectionRow}>
                     <View style={{alignContent:"center",alignItems:"center"}}>
-                        <Text style={{color:"black",marginBottom:10,fontWeight:"bold",alignSelf:"flex-start"}}>{this.props.data.product.name}</Text>
+                        <Text style={{color:"black",marginBottom:10,fontWeight:"bold",alignSelf:"flex-start"}}>  {this.props.data.product.name}  </Text>
                         <View style={styles.unitView}>
-                            <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)}{this.props.data.product.unit.name}</Text>
+                            <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)} {this.props.data.product.unit.name} </Text>
                         </View>
                         {/* {this.props.data.product.unit_id  ==  1 
                          ?
@@ -60,7 +60,7 @@ class TransactionHistory extends Component {
                             </View>
                         } */}
                         <View style={styles.sectionRow1}>
-                            <Text style={{color:"black",fontSize:15,fontWeight:"bold",alignSelf:"center"}}>Delivered On: </Text>
+                            <Text style={{color:"black",fontSize:15,fontWeight:"bold",alignSelf:"center"}}>  Delivered On:  </Text>
                             <Text style={{color:"black",fontSize:13,alignSelf:"flex-start"}}> {delivered_on[0]}</Text>
                         </View>
 
@@ -68,7 +68,7 @@ class TransactionHistory extends Component {
                        
                     </View>
                     
-                    <Text style={{color:"#FD8D45",fontSize:15,alignSelf:"center"}}>{'\u20B9'}{this.props.data.price}</Text>
+                    <Text style={{color:"#FD8D45",fontSize:12,alignSelf:"center",}}>{'\u20B9'} {this.props.data.price} </Text>
                     
                 </View>
                

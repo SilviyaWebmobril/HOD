@@ -18,9 +18,9 @@ import * as cartActions from '../../redux/store/actions/cartAction';
 class CategoryProductDetails extends Component {
 
     static navigationOptions = ({ navigation, screenProps }) => ({
-        title: navigation.getParam('name'),
+        title:      navigation.getParam('name')  ,
         headerStyle: { backgroundColor: '#FD8D45' },
-        headerTitleStyle: { color: 'white' },
+        headerTitleStyle: { color: 'white',fontSize:17,flex:1 },
         headerTintColor: 'white'
       });
 
@@ -161,11 +161,11 @@ class CategoryProductDetails extends Component {
             schedule_product_price = {price}
             spinner={this.props.cart_product.isLoading}>
 
-                <Image source={{uri:this.state.img}} width={150} height={150} style={styles.imgStyle} />
+                <Image source={{uri:this.state.img}} width={150} height={150} resizeMode="contain" style={styles.imgStyle} />
                 <View style={styles.viewLineGrey}></View>
                 <View style={styles.mainRow}>
                     <View style={styles.rowLeft}>
-                        <Text style={styles.productname}>{this.state.productname}</Text>
+                        <Text style={styles.productname}>  {this.state.productname}  </Text>
                         <View style={styles.unitView}>
                             <Text style={styles.unitViewText}>{parseInt(this.state.weight)} {this.state.unit}</Text>
                         </View>
@@ -207,7 +207,7 @@ class CategoryProductDetails extends Component {
                 </View>
 
                 <CustomButton customTextStyle={{ color:'white',}}   customButttonStyle={{marginBottom:25}}
-                text="GET ONCE" onPressHandler={()=>{
+                text="  GET ONCE  " onPressHandler={()=>{
 
                     this.props.onLoading(true);
                     this.props.onAdd(this.state.product_id,price,this.props.user.userdata.user_id);
@@ -220,7 +220,7 @@ class CategoryProductDetails extends Component {
 
                  ?
                     <CustomButton  customButttonStyle={{backgroundColor:"#FD8D45",marginBottom:40 }} customTextStyle={{ color:'brown'}} 
-                    text="SUBSCRIBE"  onPressHandler={()=>{this.scheduleModalVisible()}}/>
+                    text="  SUBSCRIBE "  onPressHandler={()=>{this.scheduleModalVisible()}}/>
             
                   :
 
@@ -330,8 +330,8 @@ const styles =  StyleSheet.create({
         borderWidth:1,
         marginBottom:7,
         minWidth:40,
-        width:'auto',
-        padding:7
+        width:'auto', // set this width to null and try! ,justifyContent:"center"
+        padding:7 
     },
     unitViewText:{
         fontSize:12,

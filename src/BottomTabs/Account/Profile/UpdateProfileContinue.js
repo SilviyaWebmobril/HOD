@@ -22,7 +22,7 @@ class UpdateProfileContinue extends Component{
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: "Update Profile",
         headerStyle: { backgroundColor: '#FD8D45' },
-        headerTitleStyle: { color: 'white' },
+        headerTitleStyle: { color: 'white',fontSize:17,flex:1 },
         headerTintColor: 'white'
       });
 
@@ -178,11 +178,11 @@ class UpdateProfileContinue extends Component{
                     {DeviceInfo.isTablet()
                     ?
                     <View style={styles.labelTextViewTab}>
-                        <Text style={styles.labelText}>Family Members</Text>
+                        <Text style={styles.labelText}>   Family Members  </Text>
                     </View>
                     :
                     <View style={styles.labelTextView}>
-                        <Text style={styles.labelText}>Family Members</Text>
+                        <Text style={styles.labelText}>  Family Members  </Text>
                     </View>
                     }
                    
@@ -197,11 +197,11 @@ class UpdateProfileContinue extends Component{
                {DeviceInfo.isTablet()
                     ?
                     <View style={styles.labelTextViewTab}>
-                        <Text style={styles.labelText}>Vegetarian</Text>
+                        <Text style={styles.labelText}>  Vegetarian  </Text>
                     </View>
                     :
                     <View style={styles.labelTextView}>
-                        <Text style={styles.labelText}>Vegetarian</Text>
+                        <Text style={styles.labelText}>   Vegetarian  </Text>
                     </View>
                     }
                    
@@ -253,7 +253,7 @@ class UpdateProfileContinue extends Component{
                      onPressHandler={()=> this.updateProfileHandler()}
                     customButttonStyle={{backgroundColor:"#FD8D45", marginTop:20}}
                     customTextStyle={{ color:'#48241e'}} 
-                    text="SUBMIT"/>
+                    text="  SUBMIT  "/>
 
                 </KeyboardAwareScrollView>
              

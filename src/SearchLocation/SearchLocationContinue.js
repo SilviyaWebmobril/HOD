@@ -234,7 +234,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
                     <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
                       <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                          House Number*
+                               House Number*
                       </Text>
                     </View>
                     <CustomTextInput 
@@ -247,9 +247,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
                     />
 
                     <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                          Fill the floor No.*
-                      </Text>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  Fill the floor No.*  </Text>
                     </View>
                     <CustomTextInput 
                       inputType="floorno"
@@ -261,9 +259,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
                   />
 
                     <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                          Pincode*
-                      </Text>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  Pincode*  </Text>
                     </View>
                     <CustomTextInput 
                       inputType="pincode"
@@ -277,9 +273,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
                   />
 
                     <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                          Landmark
-                      </Text>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  Landmark  </Text>
                     </View>
                     <CustomTextInput 
                       inputType="landmark"
@@ -306,7 +300,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
                    onPressHandler={()=>this.onSubmitHandler()}
                    customButttonStyle={{backgroundColor:"#FD8D45", marginTop:20}}
                    customTextStyle={{ color:'#48241e'}} 
-                   text="SUBMIT"
+                   text="  SUBMIT  "
                  />
                  
                 </View>

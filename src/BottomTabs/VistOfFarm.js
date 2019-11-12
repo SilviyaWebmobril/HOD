@@ -144,7 +144,7 @@ class VisitOfFarm extends Component{
         return(
             <FullSCreenSpinnerAndDismissKeyboardView style={styles.container} refreshing={false} spinner={this.state.isLoading}>
                  <View  style={styles.headerView}>
-                    <Text style={styles.textStyle}>Visit Our Farm</Text>
+                    <Text style={styles.textStyle}>  Visit Our Farm  </Text>
                 </View> 
                 <KeyboardAwareScrollView>
 
@@ -164,15 +164,11 @@ class VisitOfFarm extends Component{
                         {DeviceInfo.isTablet()
                         ?
                         <View style={{marginLeft:40,marginTop:30,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
-                                Subject*
-                            </Text>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>   Subject*  </Text>
                         </View>
                         :
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
-                                Subject*
-                            </Text>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>  Subject*  </Text>
                         </View>
                         }
 
@@ -188,14 +184,12 @@ class VisitOfFarm extends Component{
                         ?
                         <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
                             <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
-                                Date*
+                                   Date*  
                             </Text>
                         </View>
                         :
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
-                                Date*
-                            </Text>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>  Date*  </Text>
                         </View>
                         }
                       
@@ -235,14 +229,12 @@ class VisitOfFarm extends Component{
                         ?
                         <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
                             <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
-                                Time*
+                                 Time*
                             </Text>
                         </View>
                         :
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
-                                Time*
-                            </Text>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>  Time*  </Text>
                         </View>
                         }
 
@@ -274,14 +266,12 @@ class VisitOfFarm extends Component{
                         ?
                         <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
                             <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
-                                Message*
+                                    Message*     
                             </Text>
                         </View>
                         :
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
-                                Message*
-                            </Text>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>  Message*  </Text>
                         </View>
                         }
                       
@@ -294,7 +284,7 @@ class VisitOfFarm extends Component{
                             returnKeyType = { "next" }
                             //onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                         />
-                        <CustomButton text="SUBMIT" 
+                        <CustomButton text=" SUBMIT " 
                                 onPressHandler={()=>this.onVisitHandler()} 
                                 customButttonStyle={{backgroundColor:"#FD8D45", }}
                                 customTextStyle={{ color:'#48241e'}} 

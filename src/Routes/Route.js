@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { createStackNavigator,createBottomTabNavigator,addNavigationHelpers ,NavigationActions , createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator,createBottomTabNavigator,StackActions,addNavigationHelpers ,NavigationActions , createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { View ,Image } from  'react-native';
 import After_Splash from '../After_Splash/After_Splash';
 import Login from '../Login/Login';
@@ -94,7 +94,7 @@ const Bottomtabs = createBottomTabNavigator({
     }
   },
   'Seacrh':{
-    screen:Search,
+    screen:HomeScreen,
     navigationOptions:{
       tabBarLabel:'Search',  
       tabBarIcon: ({ focused,tintColor }) => {
@@ -112,6 +112,17 @@ const Bottomtabs = createBottomTabNavigator({
         );
         
       },  
+      tabBarOnPress: ({ navigation, defaultHandler }) => {
+        navigation.navigate('HomeScreen',{edit:{iseditable:true}})
+        const resetAction = StackActions.reset({
+          index: 0,
+          key: 'HomeScreen',
+          actions: [NavigationActions.navigate({ routeName: 'Bottomtabs' })],
+        })
+        navigation.dispatch(resetAction);
+      }
+    
+      
     }
     
   },

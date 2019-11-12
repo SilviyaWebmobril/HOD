@@ -10,7 +10,7 @@ export default class AboutUs extends Component {
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: "About Us",
         headerStyle: { backgroundColor: '#FD8D45' },
-        headerTitleStyle: { color: 'white' },
+        headerTitleStyle: { color: 'white',fontSize:17,flex:1 },
         headerTintColor: 'white'
       });
     

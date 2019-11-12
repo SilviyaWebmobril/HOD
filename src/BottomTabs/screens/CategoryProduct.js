@@ -18,9 +18,9 @@ import {connect} from 'react-redux';
 class CategoryProduct extends Component {
 
     static navigationOptions = ({ navigation, screenProps }) => ({
-        title: navigation.getParam('name'),
+        title:navigation.getParam('name')  ,
         headerStyle: { backgroundColor: '#FD8D45' },
-        headerTitleStyle: { color: 'white' },
+        headerTitleStyle: { color: 'white' ,fontSize:17,flex:1},
         headerTintColor: 'white',
         headerRight:(
             <Cartbadge count={navigation.getParam('count', '0')} />
@@ -207,6 +207,15 @@ class CategoryProduct extends Component {
                     renderItem={this.renderItem.bind(this)}
                     style={{marginBottom:20}}
                     />
+
+            {
+                this.props.homescreen.category_products.length == 0 
+                ?
+                <Text style={{fontWeight:"bold",justifyContent:"center",alignSelf:"center",fontSize:15}}>No Products Found.</Text>
+                :
+                <View/>
+
+            }    
                 
 
             </FullSCreenSpinnerAndDismissKeyboardView>

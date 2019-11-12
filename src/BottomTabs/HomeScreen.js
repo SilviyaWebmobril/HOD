@@ -40,7 +40,8 @@ class HomeScreen extends  Component {
             schedule_product_id:"",
             schedule_product_price:"",
             searchText:"",
-            isRefreshing:false
+            isRefreshing:false,
+            iseditable :false,
             
         }
     }
@@ -54,10 +55,17 @@ class HomeScreen extends  Component {
 
     }
 
+    componentWillMount(){
+        console.log("hi");
+    }
    
 
     componentDidMount(){
+        console.log("this.props.navigation.getParam('iseditable') ",this.props.navigation.getParam('iseditable') );
         this.setState({isRefreshing:false})
+        if(this.props.navigation.getParam('iseditable') ){
+            this.setState({iseditable:true})
+        }
         this.props.onHomeScreen(this.props.userdata.user_id);
         this.props.getProfile(this.props.userdata.user_id);
        
@@ -181,6 +189,7 @@ class HomeScreen extends  Component {
 
 
     render(){
+        const { navigation } = this.props;
 
         const flatlistdata = () => {
 
@@ -213,7 +222,7 @@ class HomeScreen extends  Component {
                     <CustomTopHeader address={this.props.userdata.user_address} />
                     <Banners images={this.props.homescreen.banners}/>
                     <HorizontalList products={this.props.homescreen.product} />
-                    <CustomTextInputWithIcon placeholder="Search for Products.." searchValue={this.state.searchText}  onSearchPress={this.onSearchHandler.bind(this)}/>
+                    <CustomTextInputWithIcon placeholder="Search for Products.." isEditable={this.props.navigation.getParam('iseditable') !== undefined ? true : false} searchValue={this.state.searchText}   onSearchPress={this.onSearchHandler.bind(this)}/>
 
                    
                    

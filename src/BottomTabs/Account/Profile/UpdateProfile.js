@@ -25,7 +25,7 @@ import DeviceInfo from 'react-native-device-info';
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: "Update Profile",
         headerStyle: { backgroundColor: '#FD8D45' },
-        headerTitleStyle: { color: 'white' },
+        headerTitleStyle: { color: 'white',fontSize:17,flex:1 },
         headerTintColor: 'white'
       });
     
@@ -140,12 +140,12 @@ import DeviceInfo from 'react-native-device-info';
                         DeviceInfo.isTablet() 
                         ?
                         <View style={styles.labelTextViewTab}>
-                            <Text style={styles.labelText}>Gender*</Text>
+                            <Text style={styles.labelText}> Gender* </Text>
                         </View>
 
                         :
                         <View style={styles.labelTextView}>
-                            <Text style={styles.labelText}>Gender*</Text>
+                            <Text style={styles.labelText}>  Gender*  </Text>
                         </View>
 
                     }
@@ -196,11 +196,11 @@ import DeviceInfo from 'react-native-device-info';
                 {DeviceInfo.isTablet() 
                     ?
                     <View style={styles.labelTextViewTab}>
-                        <Text style={styles.labelText}>Date Of Birth</Text>
+                        <Text style={styles.labelText}> Date Of Birth </Text>
                     </View>
                     :
                     <View style={styles.labelTextView}>
-                        <Text style={styles.labelText}>Date Of Birth</Text>
+                        <Text style={styles.labelText}> Date Of Birth </Text>
                     </View>
 
                 }
@@ -238,11 +238,11 @@ import DeviceInfo from 'react-native-device-info';
                     {DeviceInfo.isTablet() 
                     ?
                     <View style={styles.labelTextViewTab}>
-                    <Text style={styles.labelText}>Married</Text>
+                    <Text style={styles.labelText}> Married </Text>
                     </View>
                     :
                     <View style={styles.labelTextView}>
-                        <Text style={styles.labelText}>Married</Text>
+                        <Text style={styles.labelText}> Married </Text>
                     </View>
 
                     }
@@ -288,7 +288,7 @@ import DeviceInfo from 'react-native-device-info';
                         onPressHandler={()=> this.continueButtonHandler()}
                         customButttonStyle={{backgroundColor:"#FD8D45", marginTop:20}}
                         customTextStyle={{ color:'#48241e'}} 
-                        text="CONTINUE"
+                        text="  CONTINUE "
                     />
 
                     </View>

@@ -22,7 +22,7 @@ class ViewProfile  extends Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
     title: "Profile",
     headerStyle: { backgroundColor: '#FD8D45' },
-    headerTitleStyle: { color: 'white' },
+    headerTitleStyle: { color: 'white' ,fontSize:17,flex:1 },
     headerTintColor: 'white', 
     headerLeft:(
       <TouchableOpacity
@@ -158,7 +158,7 @@ class ViewProfile  extends Component {
              >
                 <View style={{marginRight:10,marginTop:10}}>
                     <Text onPress={()=>this.updateProfileHandler()}
-                     style={styles.updateTextStyle}>UPDATE</Text>
+                     style={styles.updateTextStyle}>  UPDATE  </Text>
                     <View style={styles.viewLineUpdate}></View>
                 </View>
                 <CustomLogo />
@@ -168,7 +168,7 @@ class ViewProfile  extends Component {
                   <Text style={styles.profileEmailMobileStyles}>{this.props.user.userdata.user_email}</Text>
                   <View style={{flexDirection:"row",justifyContent:"center",alignContent:"center"}}>
                     <Text style={{ fontSize:17,lineHeight:30,}}>{this.props.user.userdata.user_mobile}</Text>
-                    <Text onPress={()=>this.onEditMobile()} style={{marginLeft:15,lineHeight:30,textDecorationLine:"underline",fontWeight:"bold", fontSize:15,color:"#FD8D45",}}>EDIT</Text>
+                    <Text onPress={()=>this.onEditMobile()} style={{marginLeft:15,lineHeight:30,textDecorationLine:"underline",fontWeight:"bold", fontSize:15,color:"#FD8D45",}}>  EDIT  </Text>
                   </View>
                
                   
@@ -176,10 +176,10 @@ class ViewProfile  extends Component {
 
                 <View style={styles.viewAddress}>
                   <View style={styles.addressHeadingView}>
-                    <Text style={styles.manageAddressText}>Manage Address</Text>
+                    <Text style={styles.manageAddressText}> Manage Address </Text>
                     
                     <View style={styles.viewAddressText}>
-                      <Text onPress={()=>this.addNewAddresshandler()} style={styles.addAddreesText}>Add New</Text>
+                      <Text onPress={()=>this.addNewAddresshandler()} style={styles.addAddreesText}>  Add New  </Text>
                       <View style={styles.viewLine}></View>
                     </View>
                   </View>

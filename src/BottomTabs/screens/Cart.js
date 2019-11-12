@@ -25,7 +25,7 @@ class Cart extends Component {
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: "Cart",
         headerStyle: { backgroundColor: '#FD8D45' },
-        headerTitleStyle: { color: 'white' },
+        headerTitleStyle: { color: 'white' ,fontSize:17,flex:1},
         headerTintColor: 'white',
        
           
@@ -152,7 +152,7 @@ class Cart extends Component {
                 {this.props.cart_products.all_cart_products.length > 0 
                 ?
                 <CustomButton  customButttonStyle={{backgroundColor:"#FD8D45",marginBottom:30}}
-                 customTextStyle={{ color:'black'}} onPressHandler = {() => this.onCheckOutHandler()} text="CHECKOUT" />
+                 customTextStyle={{ color:'black'}} onPressHandler = {() => this.onCheckOutHandler()} text="  CHECKOUT  " />
                   
                 :
                 <View/>

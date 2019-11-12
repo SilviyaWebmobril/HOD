@@ -49,7 +49,7 @@ class ProductItem extends Component {
             <View>
                 <View style={styles.container}>
                     
-                    <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.img}} style={{width:120, height:120,borderRadius:10}}/>
+                    <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.img}} resizeMode="contain" style={{width:120, height:120,borderRadius:10}}/>
                     <View style={styles.sectionRow}>
                         <View style={styles.textColumnLeft}>
                             <Text style={styles.textProductname}>{this.props.data.name}</Text>
@@ -65,7 +65,7 @@ class ProductItem extends Component {
                         {this.props.data.product_category.allow_subscription == 1  ? 
         
                         <View style={styles.textColumnLeft}>
-                            <Text style={styles.textBorder}>{parseInt(this.props.data.weight)} {this.props.data.unit.name}</Text>
+                            <Text style={styles.textBorder}>  {parseInt(this.props.data.weight)}  {this.props.data.unit.name}</Text>
                             {!this.props.data.get_once.itemOnCart
                                 ?
         
@@ -78,7 +78,7 @@ class ProductItem extends Component {
                             
                                 customButttonStyle={{backgroundColor:"white",borderColor:"grey",borderWidth:1,borderRadius:2, height:35,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"auto",padding:10}}
                                 customTextStyle={{ color:'grey',fontSize:12}}
-                                text="Get Once"  />
+                                text="  Get Once "  />
         
                             
                             :
@@ -99,7 +99,7 @@ class ProductItem extends Component {
                                     }}
                                     customButttonStyle={{backgroundColor:"#FD8D45", height:35,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"auto",padding:10}}
                                     customTextStyle={{ color:'white',fontSize:12}}
-                                    text="Subscribe"  />
+                                    text=" Subscribe "  />
                             
                             
                             
@@ -133,7 +133,7 @@ class ProductItem extends Component {
                                         }}
                                     customButttonStyle={{backgroundColor:"#FD8D45",padding:3, height:35,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"auto",padding:10}}
                                     customTextStyle={{ color:'white',fontSize:12}}
-                                    text="Add To Cart"  />
+                                    text="  Add To Cart "  />
                             </View>
                         :
                         <View style={styles.textColumnLeft}>

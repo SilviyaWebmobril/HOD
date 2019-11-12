@@ -30,6 +30,7 @@ const CustomTextInputWithIcon = React.forwardRef((props,ref) => {
 
           <TextInput
               style={{flex:1}}
+              autoFocus = {props.isEditable}
               placeholder={props.placeholder}
               underlineColorAndroid="transparent"
             placeholder={props.placeholder}

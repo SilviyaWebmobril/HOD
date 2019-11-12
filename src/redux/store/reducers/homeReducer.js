@@ -1,6 +1,7 @@
 import {HOME_SCREEN,
     UPDATE_GET_ALL_PRODUCTS_QUANTITY,
     CATEGORY_PRODUCTS,
+    CLEAR_CATEGORY_PRODUCT,
     REMOVE_GET_ONCE_GET_ALL_PRODUCTS_QUANTITY,
     REMOVE_FROM_CART_SUBSCRIBED_PRODUCTS_HOME,
     ADD_TO_CART_SUBSCRIBED_PRODUCTS_HOME,
@@ -313,6 +314,12 @@ export default (state = initialState ,action) => {
                 category_products:[...category_products],
                 search_products:[...search_products]
             
+            }
+
+        case CLEAR_CATEGORY_PRODUCT :
+            return{
+                ...state,
+                category_products:action.category_products
             }
            
         case REMOVE_GET_ONCE_GET_ALL_PRODUCTS_QUANTITY:
