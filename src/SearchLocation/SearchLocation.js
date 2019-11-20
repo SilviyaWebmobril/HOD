@@ -87,8 +87,10 @@ class SearchLocation extends Component {
       this.setState({name:this.props.user.userdata.user_name});
 
       this.setState({isLoading:true});
+      if(this.props.user.userdata.user_name !== null){
+        this.refs.nameText.setTextInputValue(this.props.user.userdata.user_name,"name");
+      }
      
-      this.refs.nameText.setTextInputValue(this.props.user.userdata.user_name,"name");
 
       navigator.geolocation.getCurrentPosition(
         (position) => {

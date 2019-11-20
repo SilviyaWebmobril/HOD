@@ -45,6 +45,7 @@ class TransactionHistory extends Component {
                         <View style={styles.unitView}>
                             <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)} {this.props.data.product.unit.name} </Text>
                         </View>
+                        <Text style={{color:"#FD8D45",fontSize:12,alignSelf:"flex-start",}}>{'\u20B9'} {this.props.data.price} </Text>
                         {/* {this.props.data.product.unit_id  ==  1 
                          ?
                             
@@ -68,7 +69,7 @@ class TransactionHistory extends Component {
                        
                     </View>
                     
-                    <Text style={{color:"#FD8D45",fontSize:12,alignSelf:"center",}}>{'\u20B9'} {this.props.data.price} </Text>
+                    
                     
                 </View>
                

@@ -50,8 +50,8 @@ export default (state = initialState ,action) => {
                     
                     if(cart_products_getonce.length >0 && cart_products_subscribed.length > 0){
 
-                        Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
-                        Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
+                        Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
+                        Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
                         
 
                     }
@@ -80,7 +80,7 @@ export default (state = initialState ,action) => {
 
                                   
                                 
-                                    Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
+                                    Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
                                    // Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
                                     
                                     console.log("in else");
@@ -94,7 +94,7 @@ export default (state = initialState ,action) => {
                         });
                     }else{
 
-                        Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
+                        Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
                     }
 
                     if(cart_products_subscribed.length > 0){
@@ -121,7 +121,7 @@ export default (state = initialState ,action) => {
                                        
                                     }else{
 
-                                        Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
+                                        Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
                                         itemOnCart = false;
     
                                      
@@ -134,12 +134,14 @@ export default (state = initialState ,action) => {
                         });
                     }else{
 
-                        Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
+                        Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
                     }
                    
     
     
                  });
+
+                 console.log("get products",products);
                 
            
             return {
@@ -336,11 +338,11 @@ export default (state = initialState ,action) => {
                            
                                 if(item.get_once.quantity > 1){
     
-                                    item.get_once.quantity = parseInt(item.get_once.quantity) -1;
+                                    item.get_once.quantity = parseInt(item.get_once.quantity) - 1;
                                 }else{
     
                                     item.get_once.itemOnCart = false;
-                                    item.get_once.quantity = 1;
+                                    item.get_once.quantity = 0;
                                 }
     
                            
@@ -348,11 +350,11 @@ export default (state = initialState ,action) => {
 
                             if(item.subscribed.subscribed_qauntity > 1){
     
-                                item.subscribed.subscribed_qauntity  = parseInt(item.subscribed.subscribed_qauntity ) -1;
+                                item.subscribed.subscribed_qauntity  = parseInt(item.subscribed.subscribed_qauntity ) - 1;
                             }else{
 
                                 item.subscribed.itemOnCart = false;
-                                item.subscribed.subscribed_qauntity  = 1;
+                                item.subscribed.subscribed_qauntity  = 0;
                             }
                         }
                        
@@ -380,7 +382,7 @@ export default (state = initialState ,action) => {
                                 }else{
     
                                     item.get_once.itemOnCart = false;
-                                    item.get_once.quantity = 1;
+                                    item.get_once.quantity = 0;
                                 }
     
                            
@@ -392,7 +394,7 @@ export default (state = initialState ,action) => {
                             }else{
 
                                 item.subscribed.itemOnCart = false;
-                                item.subscribed.subscribed_qauntity  = 1;
+                                item.subscribed.subscribed_qauntity  = 0;
                             }
                         }
     
@@ -419,7 +421,7 @@ export default (state = initialState ,action) => {
                                     }else{
         
                                         item.get_once.itemOnCart = false;
-                                        item.get_once.quantity = 1;
+                                        item.get_once.quantity = 0;
                                     }
         
                             
@@ -431,7 +433,7 @@ export default (state = initialState ,action) => {
                                 }else{
 
                                     item.subscribed.itemOnCart = false;
-                                    item.subscribed.subscribed_qauntity  = 1;
+                                    item.subscribed.subscribed_qauntity  = 0;
                                 }
                             }
     
@@ -465,8 +467,8 @@ export default (state = initialState ,action) => {
                 
                 if(cart_products_getonce.length >0 && cart_products_subscribed.length > 0){
 
-                    Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
-                    Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
+                    Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
+                    Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
                     
 
                 }
@@ -495,7 +497,7 @@ export default (state = initialState ,action) => {
 
                               
                             
-                                Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
+                                Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
                                 
                                
                             }
@@ -508,7 +510,7 @@ export default (state = initialState ,action) => {
                     });
                 }else{
 
-                    Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
+                    Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
                 }
 
                 if(cart_products_subscribed.length > 0){
@@ -535,7 +537,7 @@ export default (state = initialState ,action) => {
                                    
                                 }else{
 
-                                    Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
+                                    Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
                                     itemOnCart = false;
 
                                    
@@ -549,7 +551,7 @@ export default (state = initialState ,action) => {
                     });
                 }else{
 
-                    Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
+                    Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
                 }
                
 
@@ -588,8 +590,8 @@ export default (state = initialState ,action) => {
                     
                     if(cart_products_getonce.length >0 && cart_products_subscribed.length > 0){
 
-                        Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
-                        Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
+                        Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
+                        Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
                         
 
                     }
@@ -618,7 +620,7 @@ export default (state = initialState ,action) => {
 
                                   
                                 
-                                    Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
+                                    Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
                                     
                                    
                                 }
@@ -631,7 +633,7 @@ export default (state = initialState ,action) => {
                         });
                     }else{
 
-                        Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
+                        Object.assign(item,{get_once:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
                     }
 
                     if(cart_products_subscribed.length > 0){
@@ -658,7 +660,7 @@ export default (state = initialState ,action) => {
                                        
                                     }else{
 
-                                        Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
+                                        Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
                                         itemOnCart = false;
     
                                        
@@ -672,7 +674,7 @@ export default (state = initialState ,action) => {
                         });
                     }else{
 
-                        Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:1,subscribed_qauntity:null}});
+                        Object.assign(item,{subscribed:{itemOnCart:false,is_subscribed:null,subscription_type:null,quantity:0,subscribed_qauntity:null}});
                     }
                    
     
@@ -715,7 +717,7 @@ export default (state = initialState ,action) => {
                                 value.get_once.itemOnCart = false;
                                 value.get_once.is_subscribed = null;
                                 value.get_once.subscription_type = null;
-                                value.get_once.quantity = 1;
+                                value.get_once.quantity = 0;
                                 value.get_once.subscribed_qauntity =  null
                            }
                          
@@ -741,7 +743,7 @@ export default (state = initialState ,action) => {
                                 value.get_once.itemOnCart = false;
                                 value.get_once.is_subscribed = null;
                                 value.get_once.subscription_type = null;
-                                value.get_once.quantity = 1;
+                                value.get_once.quantity = 0;
                                 value.get_once.subscribed_qauntity =  null;
                            }
                          
@@ -773,7 +775,7 @@ export default (state = initialState ,action) => {
                                     value.get_once.itemOnCart = false;
                                     value.get_once.is_subscribed = null;
                                     value.get_once.subscription_type = null;
-                                    value.get_once.quantity = 1;
+                                    value.get_once.quantity = 0;
                                     value.get_once.subscribed_qauntity =  null
                                }
                              
@@ -798,7 +800,7 @@ export default (state = initialState ,action) => {
                                     value.get_once.itemOnCart = false;
                                     value.get_once.is_subscribed = null;
                                     value.get_once.subscription_type = null;
-                                    value.get_once.quantity = 1;
+                                    value.get_once.quantity = 0;
                                     value.get_once.subscribed_qauntity =  null;
                                }
                              

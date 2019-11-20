@@ -380,6 +380,7 @@ export default (state = initialState ,action) => {
                 if(state.cart_get_once[productId].itemQuanity > 1){
 
                     // reduce the quantity the by 1
+                    console.log("reduce the amount by 1",state.cart_get_once[productId])
                   
                     updatedCartItem = new CartItem(
 
@@ -413,18 +414,22 @@ export default (state = initialState ,action) => {
                   
                 }else{
 
+                    console.log("already 1",state.cart_get_once[productId])
                     updatedCartItem = {...state.cart_get_once};
 
                     total_cart_amount = parseFloat(state.totalAmount) - parseFloat(state.cart_get_once[productId].itemPrice);
                     total_cart_count = parseInt(state.total_cart_count) - 1;
                     var cart_sum = state.get_once_cart_sum;
-                    get_once_cart_sum = parseFloat(cart_sum) - parseFloat(state.cart_get_once[productId].itemPrice);
+                    cart_sum = parseFloat(cart_sum) - parseFloat(state.cart_get_once[productId].itemPrice);
 
-
+                    
                     delete updatedCartItem[productId];
+
+                    console.log("already 1 deleted",get_once_cart_sum);
 
                     return {
                         ...state ,
+                        cart_get_once:updatedCartItem,
                         product_item:updatedCartItem,
                         totalAmount: parseFloat(total_cart_amount),
                         total_cart_count:total_cart_count,

@@ -60,6 +60,7 @@ class Cart extends Component {
         componentDidMount(){
         
            this.setState({isRefreshing:false})
+           console.log("user",this.props.user.user_address);
           this.props.getCartProducts(this.props.user.userdata.user_id);
        
         }
@@ -73,64 +74,125 @@ class Cart extends Component {
             );
         }
 
+        checkUserDetails = () =>{
+
+            if(this.props.user.userdata.user_name == null  || this.props.user.user_address == null){
+                return false;
+            }else{
+                return true;
+            }
+        }
+
         onCheckOutHandler= () =>{
-            console.log("cart products",this.props.cart_products);
-            var options = {
-                description: '',
-                image: 'https://i.imgur.com/3g7nmJC.png',
-                currency: 'INR',
-                key: 'rzp_test_dUp5Ii1AWLex6g',
-                amount: parseFloat(this.props.cart_products.get_once_cart_sum * 100).toFixed(2),
-                name: this.props.user.userdata.user_name,
-                prefill: {
-                  email: this.props.user.userdata.user_email,
-                  contact: this.props.user.userdata.user_mobile,
-                  name: 'House Of Desi'
-                },
-                theme: {color: '#F37254'}
-              }
-              RazorpayCheckout.open(options).then((data) => {
-                // handle success
-               
-                var formdata = new FormData();
-                formdata.append("user_id",this.props.user.userdata.user_id);
-                formdata.append("payment_id",data.razorpay_payment_id);
-                formdata.append("net_amt",this.props.cart_products.get_once_cart_sum);
 
-                this.props.onLoading(true);
-                Axios.post(ApiUrl.baseurl +  ApiUrl.checkout_cart,formdata)
-                .then(response=>{
-                    this.props.onLoading(false);
-                    if(response.data.error){
+           
+            if( this.checkUserDetails()){
 
-                    }else{
 
-                        var arr_id = [] ;
-                        this.props.cart_products.all_cart_products.map(item => {
+                console.log("cart products",this.props.cart_products);
+                var options = {
+                    description: '',
+                    image: 'https://i.imgur.com/3g7nmJC.png',
+                    currency: 'INR',
+                    key: 'rzp_test_dUp5Ii1AWLex6g',
+                    amount: parseFloat(this.props.cart_products.get_once_cart_sum * 100).toFixed(2),
+                    name: this.props.user.userdata.user_name,
+                    prefill: {
+                      email: this.props.user.userdata.user_email,
+                      contact: this.props.user.userdata.user_mobile,
+                      name: 'House Of Desi'
+                    },
+                    theme: {color: '#F37254'}
+                  }
+                  RazorpayCheckout.open(options).then((data) => {
+                    // handle success
+                   
+                    var formdata = new FormData();
+                    formdata.append("user_id",this.props.user.userdata.user_id);
+                    formdata.append("payment_id",data.razorpay_payment_id);
+                    formdata.append("net_amt",this.props.cart_products.get_once_cart_sum);
+    
+                    this.props.onLoading(true);
+                    Axios.post(ApiUrl.baseurl +  ApiUrl.checkout_cart,formdata)
+                    .then(response=>{
+                        this.props.onLoading(false);
+                        if(response.data.error){
+    
+                        }else{
+    
+                            var arr_id = [] ;
+                            this.props.cart_products.all_cart_products.map(item => {
+    
+                                if(item.is_subscribed == 0){
+    
+                                    arr_id.push(item.product.id);
+                                }
+    
+                            })
+                            this.props.onHomeScreen(this.props.user.userdata.user_id);
+                            this.props.removeFromHomeAfterPayment(arr_id);
+                            this.props.removeFromCartAfterPayment();
+                            Alert.alert(
+                                'Checkout',
+                                'Thank You for completing the order.',
+                                [
+                             
+                               
+                                {text: 'Ok', onPress: () => console.log("ok")},
+                                {text: 'Check Transaction', onPress: () => this.props.navigation.navigate("TransactionHistory")},
+                                ], 
+                                { cancelable: false }
+                                )
+                        }
+    
+                      
+                    }).catch(error => {
+                        this.props.onLoading(false);
+                        console.log("cart error after payment",error);
+                        //alert("Something went Wrong !. Please try again later.");
+                        Alert.alert(
+                            'Error',
+                            'Something went Wrong !. Please try again later.',
+                            [
+                         
+                            {text: 'OK', onPress: () => console.log("ok")},
+                            ], 
+                            { cancelable: false }
+                            )
+                    });
+                  }).catch((error) => {
+                    // handle failure
+                    
+                   
+                    Alert.alert(
+                        'Error',
+                        `${error.description}`,
+                        [
+                     
+                        {text: 'OK', onPress: () => console.log("ok")},
+                        ], 
+                        { cancelable: false }
+                        )
+                    
+                  });
+    
 
-                            if(item.is_subscribed == 0){
+            }else{
 
-                                arr_id.push(item.product.id);
-                            }
 
-                        })
-                        this.props.onHomeScreen(this.props.user.userdata.user_id);
-                        this.props.removeFromHomeAfterPayment(arr_id);
-                        this.props.removeFromCartAfterPayment();
-                    }
-
-                  
-                }).catch(error => {
-                    this.props.onLoading(false);
-                    console.log("cart error after payment",error);
-                    alert("Something went Wrong !. Please try again later.");
-                });
-              }).catch((error) => {
-                // handle failure
+                Alert.alert(
+                    'Error',
+                    'Please Complete your and Address Details to Checkout!',
+                    [
+                 
+                    {text: 'OK', onPress: () => this.props.navigation.navigate("ViewProfile")},
+                    ], 
+                    { cancelable: false }
+                    )
                 
-                alert(`${error.description}`);
-              });
 
+            }
+           
         }
     
 
@@ -199,6 +261,7 @@ mapDispatchToProps = dispatch =>{
         onHomeScreen:(user_id) =>{
             dispatch(homeAction.homeScreenProducts(user_id))
           },
+         
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Cart);

@@ -30,6 +30,8 @@ class Login extends Component {
 
   
     static navigationOptions = ({ navigation }) => ({
+
+        header :null,
         title:navigation.getParam("update") == 0 ? 'LOGIN WITH OTP' : "UPDATE MOBILE",
         headerStyle: {
             height: 60,
@@ -58,78 +60,34 @@ class Login extends Component {
    
     onContinue=()=>{   
 
-         //  update param to check wheater usr is login currently or udating mobile no. update =0 (Login) , update= 1(Change mobile)
-        if(this.props.navigation.getParam("update") == 0){
+        if(this.refs.mobile.getInputTextValue("mobile") !== "invalid"){
 
-            // 
+            this.setState({isLoading:true});
 
-            if(this.refs.mobile.getInputTextValue("mobile") !== "invalid"){
+            var formdata = new FormData();
+            formdata.append("mobile_no",this.refs.mobile.getInputTextValue("mobile"));
+           
+            Axios.post(ApiUrl.baseurl +ApiUrl.send_mobile_for_otp,formdata).then(response => {
+                this.setState({isLoading:false})
 
-                this.setState({isLoading:true});
-    
-                var formdata = new FormData();
-                formdata.append("mobile_no",this.refs.mobile.getInputTextValue("mobile"));
+                console.log("response send mobile",response);
+                if(response.data.error){
+                    Alert.alert(`${response.data.message}`);;
+                }else{
+                    this.props.navigation.navigate('OTP',{mobile:this.refs.mobile.getInputTextValue("mobile"),update:0});
+                }
                
-                Axios.post(ApiUrl.baseurl +ApiUrl.send_mobile_for_otp,formdata).then(response => {
-                    this.setState({isLoading:false})
-    
-                    console.log("response send mobile",response);
-                    if(response.data.error){
-                        Alert.alert(`${response.data.message}`);;
-                    }else{
-                        this.props.navigation.navigate('OTP',{mobile:this.refs.mobile.getInputTextValue("mobile"),update:0});
-                    }
-                   
-    
-                }).catch(error => {
-                    this.setState({isLoading:false})
-                    console.log("error",error);
-                });
-               
-           }else{
-               Alert.alert("Please Enter Mobile No.")
-           }
-            
-        }else{
 
-            if(this.refs.mobile.getInputTextValue("mobile") !== "invalid"){
-
-                this.setState({isLoading:true});
-    
-                console.log("userdata === >",this.props.userdata);
-                var formdata = new FormData();  
-                formdata.append("mobile_no",this.refs.mobile.getInputTextValue("mobile"));
-                formdata.append("user_id",this.props.userdata.userdata.user_id);
-               
-                Axios.post(ApiUrl.baseurl +ApiUrl.update_mobile_no,formdata).then(response => {
-                    this.setState({isLoading:false})
-    
-                    console.log("response send mobile",response);
-                    if(response.data.error){
-                        Alert.alert(`${response.data.message}`);
-                    }else{
-                        this.props.navigation.navigate('OTP',{mobile:this.refs.mobile.getInputTextValue("mobile"),update:1});
-                    }
-                   
-    
-                }).catch(error => {
-                    this.setState({isLoading:false})
-                    console.log("error",error);
-                    Alert.alert(
-                        'Error',
-                        'Check Your Internet connection and again later!',
-                        [
-                     
-                        {text: 'OK', onPress: () => console.log("ok")},
-                        
-                        ], 
-                        { cancelable: false }
-                        )
-                });
-            }else{
-                Alert.alert("Please Enter Mobile No.")
-            }   
-        }
+            }).catch(error => {
+                this.setState({isLoading:false})
+                console.log("error",error);
+            });
+           
+       }else{
+           Alert.alert("Please Enter Mobile No.")
+       }
+        
+        
 
     };
     onCreate_Account = () => {
@@ -141,7 +99,11 @@ class Login extends Component {
                 <KeyboardAwareScrollView >
                     <CustomLogo/>
 
-               
+                   
+                    <Text style={{color:'#FD8D45',fontWeight: 'bold',fontSize: 20, alignSelf:"center",margin:20}}>
+                            LOGIN WITH OTP
+                    </Text>
+                   
                     <View style={LoginStyle.bottom}>
                         <View style={{width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
                             <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
@@ -162,9 +124,9 @@ class Login extends Component {
 
                     
                     <CustomButton text="   CONTINUE   " customTextStyle={{ color:'white'}} onPressHandler = {() => this.onContinue()}  />
-                    {this.state.onUpdate == 0 ?  
+                    
 
-                    <View style={{width:"100%"}}>
+                    {/* <View style={{width:"100%"}}>
                         <View style={{margin:25,alignSelf:"center"}}> 
                             <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}> OR </Text>
                         </View>
@@ -174,14 +136,9 @@ class Login extends Component {
                             customButttonStyle={{backgroundColor:"#FD8D45", }}
                             customTextStyle={{ color:'#48241e'}} />
 
-                    </View>
+                    </View> */}
 
-                    :
-                    <View/>
                     
-                    
-                    }
-                  
                     </View>
 
                 </KeyboardAwareScrollView>

@@ -61,7 +61,16 @@ class OTP extends Component {
        
       }
       tick() {
-        this.state.seconds>0?this.setState(prevState => ({seconds: prevState.seconds - 1})): (clearInterval(this.interval),Alert.alert("OTP Expired Please RESEND"),this.setState({disableResend:false}));
+        this.state.seconds>0?this.setState(prevState => ({seconds: prevState.seconds - 1})): (clearInterval(this.interval), Alert.alert(
+            'Resend OTP',
+            `OTP Expired Please RESEND`,
+            [
+         
+            {text: 'OK', onPress: () => console.log("ok")},
+            
+            ], 
+            { cancelable: false }
+            ),this.setState({disableResend:false}));
     }
 
     resendOTP = () =>{
@@ -75,7 +84,17 @@ class OTP extends Component {
 
             console.log("response send mobile",response);
             if(response.data.error){
-                Alert.alert(`${response.data.message}`);;
+               
+                Alert.alert(
+                    'OTP',
+                    `${response.data.message}`,
+                    [
+                 
+                    {text: 'OK', onPress: () => console.log("ok")},
+                    
+                    ], 
+                    { cancelable: false }
+                    )
             }else{
                 //this.props.navigation.navigate('OTP',{mobile:this.refs.mobile.getInputTextValue("mobile"),update:0});
             }
@@ -84,6 +103,16 @@ class OTP extends Component {
         }).catch(error => {
             this.setState({isLoading:false})
             console.log("error",error);
+            Alert.alert(
+                'Error',
+                'Check Your Internet connection and again later!',
+                [
+             
+                {text: 'OK', onPress: () => console.log("ok")},
+                
+                ], 
+                { cancelable: false }
+                )
         });
         
     }
@@ -104,7 +133,17 @@ class OTP extends Component {
                     if(res.data.error){
     
                       
-                        Alert.alert("Invalid OTP");
+                      
+                        Alert.alert(
+                            'OTP',
+                            'Invalid OTP',
+                            [
+                         
+                            {text: 'OK', onPress: () => console.log("ok")},
+                            
+                            ], 
+                            { cancelable: false }
+                            )
     
                     }else{
                       
@@ -175,10 +214,32 @@ class OTP extends Component {
                 }).catch(error => {
                     this.setState({isLoading:false});
                     console.log("error",error);
+                    Alert.alert(
+                        'Error',
+                        'Check Your Internet Connection!',
+                        [
+                     
+                        {text: 'OK', onPress: () => console.log("ok")},
+                        
+                        ], 
+                        { cancelable: false }
+                        )
+                    
                 });
     
             }else{
-                Alert.alert("Please Enter valid OTP!.")
+               
+                Alert.alert(
+                    'OTP',
+                    'Please Enter valid OTP!',
+                    [
+                 
+                    {text: 'OK', onPress: () => console.log("ok")},
+                    
+                    ], 
+                    { cancelable: false }
+                    )
+                
             }
 
         }else{
@@ -195,25 +256,67 @@ class OTP extends Component {
                     if(res.data.error){
     
                       
-                        Alert.alert("Invalid OTP");
+                       
+                        Alert.alert(
+                            'OTP',
+                            'Invalid OTP',
+                            [
+                         
+                            {text: 'OK', onPress: () => console.log("ok")},
+                            
+                            ], 
+                            { cancelable: false }
+                            )
     
                     }else{
 
                         this.props.onUpdateMobile(this.props.navigation.getParam('mobile'));
                         // this.storeValues(this.props.navigation.getParam('mobile'))
+                       
+                        Alert.alert(
+                            'OTP',
+                            'Your Mobile no Updated Successfully!',
+                            [
+                         
+                            {text: 'OK', onPress: () => console.log("ok")},
+                            
+                            ], 
+                            { cancelable: false }
+                            )
+    
                         
-
-                        Alert.alert("Your Mobile no Changed Successfully!");
                         this.props.navigation.navigate('ViewProfile');  
     
                     }
                 }).catch(error => {
                     this.setState({isLoading:false});
                     console.log("error",error);
+                    Alert.alert(
+                        'OTP',
+                        'Check Your Internet Connection!',
+                        [
+                     
+                        {text: 'OK', onPress: () => console.log("ok")},
+                        
+                        ], 
+                        { cancelable: false }
+                        )
+                    
                 });
     
             }else{
-                Alert.alert("Please Enter valid OTP!.")
+              
+                Alert.alert(
+                    'OTP',
+                    'Please Enter valid OTP!.',
+                    [
+                 
+                    {text: 'OK', onPress: () => console.log("ok")},
+                    
+                    ], 
+                    { cancelable: false }
+                    )
+
             }
 
         }

@@ -47,7 +47,7 @@ class CustomTopHeader extends  Component {
                             <Image style={{width:25,height:25,marginRight:10}} source={require('../../Assets/order.png')} />
                         </TouchableOpacity> 
                        
-                        <Cartbadge img= {0} count={this.props.cart_count.total_cart_count}/>
+                        <Cartbadge img= {0} count={this.props.cart_count.total_cart_count} nav={this.props.navigation}/>
                     </View>
                 </View>
                 <View style={styles.locationView}>

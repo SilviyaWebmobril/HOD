@@ -22,7 +22,7 @@ const LoginStyle = StyleSheet.create({
       
       },
       bottom:{
-        marginTop:0,
+        marginTop:10,
         flex: 0.55,
         justifyContent: 'center',
         alignItems: 'center',

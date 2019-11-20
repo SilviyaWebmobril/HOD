@@ -28,6 +28,7 @@ import Cart from '../BottomTabs/screens/Cart';
 import TransactionHistory from '../BottomTabs/Account/TransactionHistory/TransactionHistory';
 import AboutUs from '../BottomTabs/Account/AboutUs';
 import PrivacyPolicy from '../BottomTabs/Account/PrivacyPolicy';
+import UpdateMobile from '../BottomTabs/Account/Profile/UpdateMobile';
 
 const Bottomtabs = createBottomTabNavigator({
 
@@ -113,11 +114,15 @@ const Bottomtabs = createBottomTabNavigator({
         
       },  
       tabBarOnPress: ({ navigation, defaultHandler }) => {
-        navigation.navigate('HomeScreen',{edit:{iseditable:true}})
+        console.log("hi iam in tabbarpress");
+       // navigation.navigate('HomeScreen',{iseditable:1})
         const resetAction = StackActions.reset({
           index: 0,
-          key: 'HomeScreen',
-          actions: [NavigationActions.navigate({ routeName: 'Bottomtabs' })],
+          //key: 'HomeScreen',
+          actions: [NavigationActions.navigate({ routeName: 'HomeBottomtabs',
+          params: {
+            iseditable: 1   // this second parameter is for sending the params
+        }  })],
         })
         navigation.dispatch(resetAction);
       }
@@ -197,7 +202,7 @@ const profile = createStackNavigator({
   SearchLocationContinue,
   UpdateProfile,
   UpdateProfileContinue,
-  Login, 
+  UpdateMobile, 
   OTP,
   
 },{
@@ -261,7 +266,7 @@ const bottomtabsStack = createStackNavigator({
 const MyApp = createStackNavigator({
   //   MainLogin,
    
-     After_Splash , 
+    //  After_Splash , 
      Login, 
      LoginEmail,
      ForgotPassword,
@@ -281,7 +286,7 @@ const MyApp = createStackNavigator({
     //   }
     // },
    },{
-     initialRouteName: 'After_Splash',
+     initialRouteName: 'Login',
      transitionConfig: () => fromRight(500),
    },);
  

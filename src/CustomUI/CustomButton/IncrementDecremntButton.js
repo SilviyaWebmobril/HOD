@@ -34,6 +34,7 @@ class IncrementDecrementButton extends Component {
         }
         if(prevProps.quantity !== this.props.quantity){
 
+            console.log("on commponentDIDUODATE");
             this.setState({quantity:this.props.quantity })
         }
 
@@ -58,9 +59,18 @@ class IncrementDecrementButton extends Component {
 
     onMinusHandler = () =>{ 
 
-        this.props.onLoading(true);
-        this.props.onRemove(this.props.product_id,this.props.user.userdata.user_id,this.props.price);
+        // this.props.onLoading(true);
+        // this.props.onRemove(this.props.product_id,this.props.user.userdata.user_id,this.props.price);
 
+
+       
+
+        if(this.props.quantity > 0){
+            this.props.onLoading(true);
+            this.props.onRemove(this.props.product_id,this.props.user.userdata.user_id,this.props.price);
+            
+        }
+      
        
     }
 

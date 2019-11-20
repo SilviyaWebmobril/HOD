@@ -21,13 +21,16 @@ class CategoryProductDetails extends Component {
         title:      navigation.getParam('name')  ,
         headerStyle: { backgroundColor: '#FD8D45' },
         headerTitleStyle: { color: 'white',fontSize:17,flex:1 },
-        headerTintColor: 'white'
+        headerTintColor: 'white',
+        headerRight:(
+            <Cartbadge count={navigation.getParam('count', '0')} nav={navigation} />
+        )
       });
 
       constructor(props) {
         super(props);
         this.state= {
-
+            cartCount:false,
             isLoading:this.props.cart_product.isLoading,
             details:null,
             img:"",
@@ -49,6 +52,9 @@ class CategoryProductDetails extends Component {
         }
     }
 
+
+    
+
     static getDerivedStateFromProps(props, state) {
        
         if (props.cart_product !== state.cart_product) {
@@ -59,7 +65,7 @@ class CategoryProductDetails extends Component {
               };
           }else{
             return{
-                quantity:1
+                quantity:0
             }
           }
          
@@ -69,7 +75,15 @@ class CategoryProductDetails extends Component {
         return null;
       }
 
+
     componentDidMount() {
+        console.log("total",this.props.cart.total_cart_count );
+        this.props.navigation.setParams({ 'count': this.props.cart.total_cart_count });
+        if(this.props.cart.total_cart_count > 0){
+            this.setState({cartCount:true})
+        }else{
+            this.setState({cartCount:false})
+        }
 
        
         this.props.onLoading(true);
@@ -100,7 +114,7 @@ class CategoryProductDetails extends Component {
 
 
            
-
+            console.log("res ->",this.props.cart_product.cart_get_once[response.data.data.id])
             if(this.props.cart_product.cart_get_once[response.data.data.id]){
 
                 this.setState({quantity:this.props.cart_product.cart_get_once[response.data.data.id].itemQuanity},()=>{
@@ -108,7 +122,7 @@ class CategoryProductDetails extends Component {
                 });
             
             }else{
-                this.setState({quantity:1});
+                this.setState({quantity:0});
             }
 
 
@@ -138,8 +152,25 @@ class CategoryProductDetails extends Component {
             
         }
 
+        if(prevProps.navigation.getParam('count', '0') != this.props.cart.total_cart_count){
+            this.props.navigation.setParams({ 'count': this.props.cart.total_cart_count })
+            if(this.props.cart.total_cart_count > 0){
+                if(!this.state.cartCount){
+                    this.setState({cartCount:true})
+                }
+               
+            }else{
+                if(this.state.cartCount){
+                    this.setState({cartCount:false})
+                }
+                
+            }
+        }
+
+
     }
 
+  
 
     render(){
 
@@ -194,7 +225,12 @@ class CategoryProductDetails extends Component {
                         {/* <View style={styles.oldpricetext}>
                             <Text style={styles.quantity_left}>{this.state.quantity_left} Left</Text>
                         </View> */}
-                        <IncrementDecrementButton  product_id={this.state.product_id}  quantity={this.state.quantity} price={this.state.is_discount == 1 ? this.state.new_price : this.state.old_price} />
+                        {this.state.quantity >= 1 ?
+                         <IncrementDecrementButton  product_id={this.state.product_id}  quantity={this.state.quantity} price={this.state.is_discount == 1 ? this.state.new_price : this.state.old_price} />
+                        :
+                        <View/>
+                        }
+                       
                     </View>
                 </View>
                
@@ -207,12 +243,11 @@ class CategoryProductDetails extends Component {
                 </View>
 
                 <CustomButton customTextStyle={{ color:'white',}}   customButttonStyle={{marginBottom:25}}
-                text="  GET ONCE  " onPressHandler={()=>{
+                text="  ADD TO CART  " onPressHandler={()=>{
 
                     this.props.onLoading(true);
                     this.props.onAdd(this.state.product_id,price,this.props.user.userdata.user_id);
-                    
-                    Alert.alert("Quantity Updated Successfully!");
+                   
 
                 }} />
 
@@ -245,6 +280,7 @@ class CategoryProductDetails extends Component {
 
 const mapStateToProps = (state) => {
     return {
+      cart:state.cart,
       cart_product: state.cart,
       user:state.userdata,
       schedule_id: state.schedule,

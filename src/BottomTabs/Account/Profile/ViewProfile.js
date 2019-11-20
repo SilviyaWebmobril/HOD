@@ -80,7 +80,7 @@ class ViewProfile  extends Component {
     }
 
     onEditMobile = ()=>{
-      this.props.navigation.navigate('Login',{update:1});
+      this.props.navigation.navigate('UpdateMobile',{update:1});
     }
 
     onRemoveAddresshandler = (id) =>{

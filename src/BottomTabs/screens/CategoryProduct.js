@@ -23,7 +23,7 @@ class CategoryProduct extends Component {
         headerTitleStyle: { color: 'white' ,fontSize:17,flex:1},
         headerTintColor: 'white',
         headerRight:(
-            <Cartbadge count={navigation.getParam('count', '0')} />
+            <Cartbadge count={navigation.getParam('count', '0')} nav={navigation} />
         )
           
         
@@ -51,19 +51,15 @@ class CategoryProduct extends Component {
        
     }
 
-    componentWillMount(){
+     
+    componentDidMount () {
+
         this.props.navigation.setParams({ 'count': this.props.cart.total_cart_count });
         if(this.props.cart.total_cart_count > 0){
             this.setState({cartCount:true})
         }else{
             this.setState({cartCount:false})
         }
-
-     
-     }
-
-     
-    componentDidMount () {
 
     
         this.props.onCategoryScreen(this.props.navigation.getParam('category_id'));

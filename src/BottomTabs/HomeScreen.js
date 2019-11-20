@@ -220,9 +220,15 @@ class HomeScreen extends  Component {
             spinner={this.state.isLoading}>
                 <KeyboardAwareScrollView >
                     <CustomTopHeader address={this.props.userdata.user_address} />
-                    <Banners images={this.props.homescreen.banners}/>
+                    {this.props.homescreen.banners.length > 0
+                    ?
+                        <Banners images={this.props.homescreen.banners}/>
+                    :
+                        <View/>
+                    }
+                    
                     <HorizontalList products={this.props.homescreen.product} />
-                    <CustomTextInputWithIcon placeholder="Search for Products.." isEditable={this.props.navigation.getParam('iseditable') !== undefined ? true : false} searchValue={this.state.searchText}   onSearchPress={this.onSearchHandler.bind(this)}/>
+                    <CustomTextInputWithIcon placeholder="Search for Products.." isEditable={this.props.navigation.getParam('iseditable',"") == 1 ? true : false} searchValue={this.state.searchText}   onSearchPress={this.onSearchHandler.bind(this)}/>
 
                    
                    
