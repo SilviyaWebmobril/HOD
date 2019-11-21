@@ -109,16 +109,19 @@ class CartProductItem extends Component {
             <View>
                 <View style={styles.container}>
                     
-                    <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.product.img}} resizeMode="contain" style={{width:120, height:120,borderRadius:10}}/>
+                    <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.product.img}} resizeMode="contain" style={{width:120,alignSelf:"center",flex:0.5, height:120,borderRadius:10}}/>
                     <View style={styles.sectionRow}>
                     <View style={styles.textColumnLeft}>
                             <Text style={styles.textProductname}>{this.props.data.product.name}</Text>
-                            {this.props.data.product.is_discount ==  1 
-                                ?
-                                <Text style={{lineHeight:20}}>{'\u20B9'}{this.props.data.product.new_price}</Text>
-                                :
-                                <Text style={{lineHeight:20}}>{'\u20B9'}{this.props.data.product.old_price}</Text>
-                            }
+                            <View style={styles.sectionTextRow}>
+                                {this.props.data.product.is_discount ==  1 
+                                    ?
+                                    <Text style={{lineHeight:20,marginTop:0,alignSelf:"center"}}>{'\u20B9'}{this.props.data.product.new_price}</Text>
+                                    :
+                                    <Text style={{lineHeight:20,marginTop:0,alignSelf:"center"}}>{'\u20B9'}{this.props.data.product.old_price}</Text>
+                                }
+                            </View>
+                           
                             {/* <Text  style={{lineHeight:20}}>{this.props.data.product.quantity} Left</Text> */}
                         </View>
                         
@@ -126,7 +129,7 @@ class CartProductItem extends Component {
                             {this.props.data.is_subscribed == 0 ?
                             
                             //Add To Cart Button
-                            <View  style={styles.textColumnLeft}>
+                            <View  style={{justifyContent:"flex-end",alignContent:"flex-end",alignItems:"flex-end"}}>
                             
                                 <Text style={{fontSize:10, alignSelf:"flex-end",fontWeight:"bold",padding:3,borderRadius:3,borderWidth:1,color:"#FD8D45" ,borderColor:"#FD8D45"}}>Get Once</Text>
                                 
@@ -136,7 +139,7 @@ class CartProductItem extends Component {
                             </View>
                             :
                             //Add To Cart Button
-                            <View  style={styles.textColumnLeft}>
+                            <View  style={{justifyContent:"flex-end",alignContent:"flex-end",alignItems:"flex-end"}}>
                             
                                 <Text style={{fontSize:10,alignSelf:"flex-end",fontWeight:"bold",padding:4,borderRadius:3,borderWidth:1,color:"#FD8D45" ,borderColor:"#FD8D45"}}>  {this.state.subscription_type}  </Text>   
                                 <IncrementDecrementSubscribe subscriptionType={this.props.data.subscription_type} product_id={this.props.data.product.id}  subscribed_qauntity={this.props.data.quantity} quantity={this.props.data.quantity}  price={this.props.data.product.is_discount == 1 ? this.props.data.product.new_price : this.props.data.product.old_price}  />
@@ -198,21 +201,34 @@ const mapStateToProps = state => {
 
     container:{
       
+      
         flexDirection:"row",
-        marginTop:10,
-        marginLeft:10,
-        marginRight:10,
-        //backgroundColor:"red"
+        justifyContent:"space-between",
+        alignItems:"center",
+        alignContent:"space-between",
+        paddingTop:10,
+        paddingBottom:0,
+        paddingLeft:20,
+        paddingRight:10,
 
     },
     sectionRow:{
+        flex:1.5,
+        paddingTop:10,
+        paddingBottom:10,
+        paddingLeft:10,
+        paddingRight:10,
         flexDirection:"row",
-        flex:1,
-        margin:10,
-        
-        alignSelf:"center"
-       
-
+        justifyContent:"space-between",
+        alignItems:"center",
+        alignContent:"space-between",
+       // backgroundColor:"green"
+      
+    },
+    sectionTextRow:{
+        flexDirection:"row",
+        justifyContent:"flex-start",
+        alignItems:"flex-start",
     },
     textColumnLeft:{
         flexDirection:"column",

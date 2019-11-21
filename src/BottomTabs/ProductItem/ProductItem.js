@@ -45,116 +45,117 @@ class ProductItem extends Component {
        
 
         return(
-
-            <View>
+            <View >
                 <View style={styles.container}>
-                    
-                    <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.img}} resizeMode="contain" style={{width:120, height:120,borderRadius:10}}/>
+                    <Image source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.img}} resizeMode="contain" style={{width:120,alignSelf:"center",flex:0.5, height:120,borderRadius:10}}/>
                     <View style={styles.sectionRow}>
-                        <View style={styles.textColumnLeft}>
+                        <View >
                             <Text style={styles.textProductname}>{this.props.data.name}</Text>
+                            <View style={styles.sectionTextRow}>
                             {this.props.data.is_discount ==  1 
                                 ?
-                                <Text style={{lineHeight:20}}>{'\u20B9'}{this.props.data.new_price}</Text>
+                                <Text style={{lineHeight:20,marginTop:0,alignSelf:"center"}}>{'\u20B9'}{this.props.data.new_price}</Text>
                                 :
-                                <Text style={{lineHeight:20}}>{'\u20B9'}{this.props.data.old_price}</Text>
+                                <Text style={{lineHeight:20,marginTop:0,alignSelf:"center"}}>{'\u20B9'}{this.props.data.old_price}</Text>
                             }
+                                
+                            </View>
                             
-                            {/* <Text  style={{lineHeight:20}}>{this.props.data.quantity} left</Text> */}
                         </View>
                         {this.props.data.product_category.allow_subscription == 1  ? 
         
-                        <View style={styles.textColumnLeft}>
-                            <Text style={styles.textBorder}>  {parseInt(this.props.data.weight)}  {this.props.data.unit.name}</Text>
-                            {!this.props.data.get_once.itemOnCart
-                                ?
-        
-                                <CustomButton 
-                                onPressHandler={()=> {
-                                    this.props.onLoading(true);
-                                    this.props.onAdd(this.props.data.id,product_price,this.props.user.userdata.user_id)
+                            <View style={{justifyContent:"flex-end",alignContent:"flex-end",alignItems:"flex-end"}}>
                                 
-                                }}
+                                    <Text style={styles.textBorder}>  {parseInt(this.props.data.weight)}{this.props.data.unit.name} </Text>
+                           
+                                {!this.props.data.get_once.itemOnCart
+                                    ?
+
+                                    <CustomButton 
+                                    onPressHandler={()=> {
+                                        this.props.onLoading(true);
+                                        this.props.onAdd(this.props.data.id,product_price,this.props.user.userdata.user_id)
+                                    
+                                    }}
+                                
+                                    customButttonStyle={{backgroundColor:"white",borderColor:"grey",borderWidth:1,borderRadius:2, height:35,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"auto",padding:10}}
+                                    customTextStyle={{ color:'grey',fontSize:12}}
+                                    text="  Get Once "  />
+
+                                
+                                :
+                                
+
+                                    <IncrementDecrementButton  product_id={this.props.data.id}  quantity={this.props.data.get_once.quantity} price={this.props.data.is_discount == 1 ? this.props.data.new_price : this.props.data.old_price} />
+                                
+                                }
+                                    
                             
-                                customButttonStyle={{backgroundColor:"white",borderColor:"grey",borderWidth:1,borderRadius:2, height:35,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"auto",padding:10}}
-                                customTextStyle={{ color:'grey',fontSize:12}}
-                                text="  Get Once "  />
-        
+                            
+                                {(!this.props.data.subscribed.itemOnCart  ) ?
+
+                                        
+                                        <CustomButton 
+                                            onPressHandler={()=> {
+                                            this.props.scheduleModal(this.props.data.id,product_price);
+                                            }}
+                                            customButttonStyle={{backgroundColor:"#FD8D45", height:35,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"auto",padding:10}}
+                                            customTextStyle={{ color:'white',fontSize:12}}
+                                            text=" Subscribe "  />
+                                    
+                                    
+                                    
+                                
+                                :
+                                
+
+                                        <IncrementDecrementSubscribe subscriptionType={this.props.data.subscribed.subscription_type} product_id={this.props.data.id}  subscribed_qauntity={this.props.data.subscribed.subscribed_qauntity} quantity={this.props.data.quantity} price={this.props.data.is_discount == 1 ? this.props.data.new_price : this.props.data.old_price} />
+                                
+                            
+                                
+                                }
+                            
+                            </View>
                             
                             :
-                            
-
-                                <IncrementDecrementButton  product_id={this.props.data.id}  quantity={this.props.data.get_once.quantity} price={this.props.data.is_discount == 1 ? this.props.data.new_price : this.props.data.old_price} />
-                            
-                            }
-                                
-                        
-                        
-                        {(!this.props.data.subscribed.itemOnCart  ) ?
-        
-                                
-                                <CustomButton 
-                                    onPressHandler={()=> {
-                                    this.props.scheduleModal(this.props.data.id,product_price);
-                                    }}
-                                    customButttonStyle={{backgroundColor:"#FD8D45", height:35,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"auto",padding:10}}
-                                    customTextStyle={{ color:'white',fontSize:12}}
-                                    text=" Subscribe "  />
-                            
-                            
-                            
-                        
-                        :
-                        
-
-                                <IncrementDecrementSubscribe subscriptionType={this.props.data.subscribed.subscription_type} product_id={this.props.data.id}  subscribed_qauntity={this.props.data.subscribed.subscribed_qauntity} quantity={this.props.data.quantity} price={this.props.data.is_discount == 1 ? this.props.data.new_price : this.props.data.old_price} />
-                        
-                    
-                        
-                        }
-                        
-                        </View>
-                        
-                        :
-                        (!this.props.data.get_once.itemOnCart ? 
-                            //Add To Cart Button
-                                <View  style={styles.textColumnLeft}>
-                                
-                                <Text style={styles.textBorder}>{parseInt(this.props.data.weight)} {this.props.data.unit.name}</Text>
-                                
-                                <CustomButton 
-
-                                    //Subsccribe work here
-                                        onPressHandler={()=> {
-                                        this.props.onLoading(true);
-                                       
-                                        this.props.onAdd(this.props.data.id,product_price,this.props.user.userdata.user_id)
+                            (!this.props.data.get_once.itemOnCart ? 
+                                //Add To Cart Button
+                                <View  style={{justifyContent:"flex-end",alignContent:"flex-end",alignItems:"flex-end"}}>
+                                   
                                         
-                                        }}
-                                    customButttonStyle={{backgroundColor:"#FD8D45",padding:3, height:35,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"auto",padding:10}}
-                                    customTextStyle={{ color:'white',fontSize:12}}
-                                    text="  Add To Cart "  />
-                            </View>
-                        :
-                        <View style={styles.textColumnLeft}>
-                                <Text style={styles.textBorder}>{parseInt(this.props.data.weight)} {this.props.data.unit.name}</Text>
-                                <IncrementDecrementButton  product_id={this.props.data.id}  quantity={this.props.data.get_once.quantity} price={this.props.data.is_discount == 1 ? this.props.data.new_price : this.props.data.old_price} />
-                        </View>
-                        )
-                    
-                    
+                                    <Text style={styles.textBorder}>{parseInt(this.props.data.weight)} {this.props.data.unit.name}</Text>
+                                    
+                                    <CustomButton 
+
+                                        //Subsccribe work here
+                                            onPressHandler={()=> {
+                                            this.props.onLoading(true);
+                                        
+                                            this.props.onAdd(this.props.data.id,product_price,this.props.user.userdata.user_id)
+                                            
+                                            }}
+                                        customButttonStyle={{backgroundColor:"#FD8D45",padding:3, height:35,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"auto",padding:10}}
+                                        customTextStyle={{ color:'white',fontSize:12}}
+                                        text="  Add To Cart "  />
+                                </View>
+                            :
+                                <View style={{justifyContent:"flex-end",alignContent:"flex-end",alignItems:"flex-end"}}>
+                                        <Text style={styles.textBorder}>{parseInt(this.props.data.weight)} {this.props.data.unit.name}</Text>
+                                        <IncrementDecrementButton  product_id={this.props.data.id}  quantity={this.props.data.get_once.quantity} price={this.props.data.is_discount == 1 ? this.props.data.new_price : this.props.data.old_price} />
+                                </View>
+                            )
+                        
+                        
                         } 
-                    
+                        
                     </View>
 
-                
+                               
                 </View>
-                
-           
+               
                 <View style={styles.viewLineGrey}></View>
             </View>
            
-    
         );
     
 
@@ -195,34 +196,47 @@ const mapStateToProps = state => {
     container:{
       
         flexDirection:"row",
-        marginTop:10,
-        marginLeft:10,
-        marginRight:10,
+        justifyContent:"space-between",
+        alignItems:"center",
+        alignContent:"space-between",
+        paddingTop:10,
+        paddingBottom:0,
+        paddingLeft:20,
+        paddingRight:10,
         //backgroundColor:"red"
 
     },
     sectionRow:{
+        flex:1.5,
+        paddingTop:10,
+        paddingBottom:10,
+        paddingLeft:10,
+        paddingRight:10,
         flexDirection:"row",
-        flex:1,
-        margin:10,
-        
-        alignSelf:"center"
-       
-
+        justifyContent:"space-between",
+        alignItems:"center",
+        alignContent:"space-between",
+       // backgroundColor:"green"
+      
+    },
+    sectionTextRow:{
+        flexDirection:"row",
+        justifyContent:"flex-start",
+        alignItems:"flex-start",
     },
     textColumnLeft:{
-        flexDirection:"column",
-        alignSelf:"flex-start",
-        flex:0.5,
-        marginTop:10
-        
+       width:"auto",
+    
+       // alignSelf:"flex-start",
+      //  flex:1,
+
     },
     textColumnRight:{
         flexDirection:"column",
         alignSelf:"flex-end",
-        position: 'absolute', 
+      
         textAlign:"right",
-        flex:0.5,
+        flex:1,
        
         
     },
@@ -230,16 +244,21 @@ const mapStateToProps = state => {
         fontSize:15,
         fontWeight:"bold",
         color:"black",
-        lineHeight:30,
+        lineHeight:20,
+        marginTop:20,
+        marginBottom:10
     },
     textBorder:{
-        // borderColor:'grey',
-        // borderRadius:1,
-        // borderWidth:0.5,
-        textAlign:"right",
+       borderColor:"grey",
+        textAlign:"center",
         padding:2,
+        
+        borderRadius:2,
         lineHeight:20,
-        marginTop:10,
+        width:"auto",
+        borderWidth:1
+        
+       // marginTop:10,
 
     },
     viewLineGrey:{

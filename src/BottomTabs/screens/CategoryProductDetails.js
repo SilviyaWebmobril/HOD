@@ -90,7 +90,7 @@ class CategoryProductDetails extends Component {
         this.setState({isLoading:this.props.cart_product.isLoading});
         axios.post(ApiUrl.baseurl +ApiUrl.get_product_details+ this.props.navigation.getParam('product_id'))
         .then(response =>{
-            console.log("response details ",response);
+          
             this.props.onLoading(false);
             this.setState({isLoading:this.props.cart_product.isLoading});
             var  obj = JSON.stringify(response.data.data);
@@ -355,23 +355,25 @@ const styles =  StyleSheet.create({
       
     },
     productname:{
-        fontSize:20,
+        fontSize:17,
         fontWeight:"bold",
         marginBottom:7
       
     },
     unitView:{
+        justifyContent:"flex-start",
+        alignItems:"flex-start",
         borderColor:"grey",
-        borderRadius:2,
-        borderWidth:1,
-        marginBottom:7,
-        minWidth:40,
-        width:'auto', // set this width to null and try! ,justifyContent:"center"
-        padding:7 
+       
     },
     unitViewText:{
         fontSize:12,
-        alignSelf:"center"
+        padding:5 ,
+        alignSelf:"flex-start",
+        borderRadius:2,
+        borderWidth:1,
+        marginBottom:7,
+        width:'auto', // set this width to null and try! ,justifyContent:"center"
     },
     priceView:{
         flexDirection:"row",
