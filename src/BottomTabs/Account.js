@@ -1,5 +1,5 @@
 import React , { Component } from 'react';
-import {View, Text,TouchableOpacity,StyleSheet,Image,ActivityIndicator,ScrollView ,Alert} from 'react-native';
+import {View, Text,TouchableOpacity,StyleSheet,Image,ActivityIndicator,ScrollView ,Platform ,Alert} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
 import {ADD_USER_DATA} from '../redux/store/actions/types';
@@ -23,7 +23,7 @@ class Account extends Component {
 
         Alert.alert(
             'Logout',
-            'Are you sure that you want to Logout!',
+            'Are you sure you want to Logout!',
             [
          
             {text: 'OK', onPress: () => {this.onlogout()}},
@@ -49,7 +49,7 @@ class Account extends Component {
         }).catch(error => {
             
             Alert.alert(
-                'Network Error',
+                'Error',
                 'Check Your Network Connection and Try Again Later!',
                 [
              
@@ -218,7 +218,8 @@ const styles =  StyleSheet.create({
     },
     headerView:{
         backgroundColor:"#FD8D45",
-        height:60,
+        paddingTop:Platform.OS == 'android' ? 0 : 40,
+        height:Platform.OS == 'android' ? 60 : 80,
         width:"100%",
         borderBottomLeftRadius:10,
         borderBottomRightRadius:10,

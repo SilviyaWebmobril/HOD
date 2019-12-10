@@ -43,9 +43,10 @@ class TransactionHistory extends Component {
                     <View style={{alignContent:"center",alignItems:"center"}}>
                         <Text style={{color:"black",marginBottom:10,fontWeight:"bold",alignSelf:"flex-start"}}>  {this.props.data.product.name}  </Text>
                         <View style={styles.unitView}>
-                            <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)} {this.props.data.product.unit.name} </Text>
+                            <Text style={styles.unitViewText}> {parseInt(this.props.data.product.weight)} {this.props.data.product.unit.name}  </Text>
                         </View>
                         <Text style={{color:"#FD8D45",fontSize:12,alignSelf:"flex-start",}}>{'\u20B9'} {this.props.data.price} </Text>
+                        <Text style={{color:"#FD8D45",fontSize:12,alignSelf:"flex-start",marginTop:5}}> Quantity : {this.props.data.quantity} </Text>
                         {/* {this.props.data.product.unit_id  ==  1 
                          ?
                             
@@ -61,7 +62,7 @@ class TransactionHistory extends Component {
                             </View>
                         } */}
                         <View style={styles.sectionRow1}>
-                            <Text style={{color:"black",fontSize:15,fontWeight:"bold",alignSelf:"center"}}>  Delivered On:  </Text>
+                            <Text style={{color:"black",fontSize:13,fontWeight:"bold",alignSelf:"flex-start"}}>  Delivered On:  </Text>
                             <Text style={{color:"black",fontSize:13,alignSelf:"flex-start"}}> {delivered_on[0]}</Text>
                         </View>
 
@@ -129,10 +130,8 @@ const styles = StyleSheet.create({
         borderRadius:2,
         borderWidth:1,
         marginBottom:7,
-        width:"auto",
-        height:"auto",
-        alignSelf: 'flex-start',
-        padding:7
+        alignSelf:"flex-start",
+        padding:2
     },
     unitViewText:{
         fontSize:12,
@@ -141,16 +140,17 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent:"space-between",
         margin:10,
-        width:200,
-        alignItems:"center"
+        flex:1,
+        //width:200,
+        alignItems:"flex-start"
     
     },
     sectionRow1:{
         flexDirection:"row",
         justifyContent:"flex-start",
-        margin:10,
-        width:200,
-        alignItems:"center"
+        marginTop:5,
+        // width:200,
+        alignItems:"flex-start"
     
     },
     textColumnLeft:{

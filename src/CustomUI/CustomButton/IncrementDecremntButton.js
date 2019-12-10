@@ -87,7 +87,7 @@ class IncrementDecrementButton extends Component {
                     </View>
                 </TouchableOpacity>
                 <View style={styles.viewText}>
-                    <Text style={{alignSelf:"center",fontSize:12,fontWeight:"bold"}}>{this.props.quantity}</Text>  
+                    <Text style={{alignSelf:"center",fontSize:12,fontWeight:"bold"}}> {this.props.quantity} </Text>  
                 </View>
                 <TouchableOpacity
                   onPress={()=>this.onPlusHandler()}>
@@ -147,7 +147,7 @@ const styles =  StyleSheet.create({
         padding:6.3,
         width:'auto',
         height:'auto',
-        minWidth:22,
+       
         borderTopLeftRadius:2,
         borderBottomLeftRadius:2
     },
@@ -163,7 +163,7 @@ const styles =  StyleSheet.create({
     viewText:{
         backgroundColor:'white',
         width:'auto',
-        minWidth:25,
+        minWidth:2.5,
         padding:2.2,
         borderColor:"grey",
         borderWidth:1

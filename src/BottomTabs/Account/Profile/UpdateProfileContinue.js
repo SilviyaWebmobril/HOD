@@ -58,7 +58,7 @@ class UpdateProfileContinue extends Component{
             if(this.refs.family_members.getInputTextValue("family_members") === "invalid"){
                 family = "";
                 Alert.alert(
-                    'Update Profile Error',
+                    'Update Profile',
                     'Please Enter Family Members',
                     [
                  
@@ -90,7 +90,7 @@ class UpdateProfileContinue extends Component{
     
                        
                         Alert.alert(
-                            'Update Profile Error',
+                            'Update Profile',
                             'Something went wrong! Please try again later.',
                             [
                          
@@ -137,7 +137,7 @@ class UpdateProfileContinue extends Component{
                 }).catch(error => {
                     this.setState({isLoading:false});
                     Alert.alert(
-                        'Update Profile Error',
+                        'Error',
                         'Check Your Network Connection!',
                         [
                      
@@ -156,7 +156,7 @@ class UpdateProfileContinue extends Component{
         }else{
             
             Alert.alert(
-                'Update Profile Error',
+                'Update Profile',
                 'Please Accepts Terms and Condition !',
                 [
              
@@ -182,7 +182,7 @@ class UpdateProfileContinue extends Component{
                     </View>
                     :
                     <View style={styles.labelTextView}>
-                        <Text style={styles.labelText}>  Family Members  </Text>
+                        <Text style={styles.labelText}>   Family Members*   </Text>
                     </View>
                     }
                    
@@ -201,7 +201,7 @@ class UpdateProfileContinue extends Component{
                     </View>
                     :
                     <View style={styles.labelTextView}>
-                        <Text style={styles.labelText}>   Vegetarian  </Text>
+                        <Text style={styles.labelText}>    Vegetarian*   </Text>
                     </View>
                     }
                    

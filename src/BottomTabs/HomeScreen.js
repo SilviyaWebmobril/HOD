@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-import { View , Text ,StyleSheet,TouchableOpacity,Alert,FlatList} from  'react-native';
+import { View , Text ,StyleSheet,TouchableOpacity,Alert,FlatList,Platform} from  'react-native';
 import CustomTopHeader  from './CustomTopHeader';
 import * as HOC from '../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
@@ -226,9 +226,15 @@ class HomeScreen extends  Component {
                     :
                         <View/>
                     }
-                    
-                    <HorizontalList products={this.props.homescreen.product} />
-                    <CustomTextInputWithIcon placeholder="Search for Products.." isEditable={this.props.navigation.getParam('iseditable',"") == 1 ? true : false} searchValue={this.state.searchText}   onSearchPress={this.onSearchHandler.bind(this)}/>
+                    {
+                        this.props.homescreen.product.length > 0
+                        ?
+                        <HorizontalList products={this.props.homescreen.product} />
+                        :
+                        <View/>
+                    }
+                  
+                    <CustomTextInputWithIcon keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'} placeholder="Search for Products.." isEditable={this.props.navigation.getParam('iseditable',"") == 1 ? true : false} searchValue={this.state.searchText}   onSearchPress={this.onSearchHandler.bind(this)}/>
 
                    
                    
@@ -239,7 +245,15 @@ class HomeScreen extends  Component {
                         renderItem={(item) =>this.renderItem(item)}
                         style={{marginBottom:20}}
                         />
-                   
+
+
+                    {this.props.homescreen.getAllProducts.length  == 0
+                    ?
+                        <Text style={{alignSelf:'center',textAlignVertical: "center",  textAlign: 'center', justifyContent:"center",    fontSize:15,fontWeight:'bold',color:"grey"}}>No Products Found.</Text>
+                    :
+                        <View/>
+                    }
+                    
 
                     
             

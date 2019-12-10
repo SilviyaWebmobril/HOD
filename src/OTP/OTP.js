@@ -119,11 +119,13 @@ class OTP extends Component {
     
     
     onSubmit = async() => {
-        clearInterval(this.interval);
+       
 
         if(this.props.navigation.getParam("update") ==0 ){
 
+
             if(this.refs.otp.getInputTextValue("otp") !== "invalid"){
+                
                 this.setState({isLoading:true})
                 var formdata = new FormData();
                 formdata.append("mobile_no",this.props.navigation.getParam('mobile'));
@@ -146,7 +148,7 @@ class OTP extends Component {
                             )
     
                     }else{
-                      
+                        clearInterval(this.interval);
                         AsyncStorage.setItem('user_id',JSON.stringify(res.data.data.id))
                         
                         let userdata = {};
@@ -246,6 +248,7 @@ class OTP extends Component {
 
             console.log("on update");
             if(this.refs.otp.getInputTextValue("otp") !== "invalid"){
+                clearInterval(this.interval);
                 this.setState({isLoading:true})
                 var formdata = new FormData();
                 formdata.append("mobile_no",this.props.navigation.getParam('mobile'));

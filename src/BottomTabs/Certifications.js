@@ -1,5 +1,5 @@
 import React ,{ Component } from 'react';
-import { View ,Text ,StyleSheet,Image,FlatList,RefreshControl,Alert} from 'react-native';
+import { View ,Text ,StyleSheet,Image,FlatList,RefreshControl,Alert,Platform} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import * as HOC from '../HOC/mainHoc';
@@ -123,7 +123,8 @@ const styles =  StyleSheet.create({
     },
     headerView:{
         backgroundColor:"#FD8D45",
-        height:60,
+        paddingTop:Platform.OS == 'android' ? 0 : 40,
+        height:Platform.OS == 'android' ? 60 : 80,
         width:"100%",
         borderBottomLeftRadius:10,
         borderBottomRightRadius:10,

@@ -146,7 +146,7 @@ class Splash extends Component {
                 </View>
                 :
                 <View style={{marginTop:200 ,width:'100%',alignSelf:"center",marginLeft:60,marginRight:60}}>
-                  <Image  source={require('../../Assets/name_new.png')} style={{alignSelf:"center",width:"90%",height:windowH/4.5}}/>
+                  <Image  source={require('../../Assets/name_new.png')} resizeMode="contain" style={{alignSelf:"center",width:"90%",height:windowH/4.5}}/>
                 </View>
                 }
                

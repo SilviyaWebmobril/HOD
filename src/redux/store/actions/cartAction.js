@@ -41,11 +41,11 @@ export const fetchCartProducts  = (user_id) => {
         if(response.data.error ){
 
           
-            dispatch({
-                type:ERROR,
-                error:`${response.data.message}`
+            // dispatch({
+            //     type:ERROR,
+            //     error:`${response.data.message}`
                 
-            })
+            // })
 
         }else{
 

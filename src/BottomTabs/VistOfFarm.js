@@ -1,5 +1,5 @@
 import React ,{Component} from 'react';
-import {View,Text,StyleSheet, Alert} from 'react-native';
+import {View,Text,StyleSheet, Alert, Platform} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { isProgram } from '@babel/types';
 import CustomButton from '../CustomUI/CustomButton/CustomButton';
@@ -112,7 +112,7 @@ class VisitOfFarm extends Component{
 
           
             Alert.alert(
-                'Visit Of Farm Error',
+                'Visit Of Farm',
                 'All * marked fields are compulsory!',
                 [
              
@@ -312,7 +312,8 @@ const styles =  StyleSheet.create({
     },
     headerView:{
         backgroundColor:"#FD8D45",
-        height:60,
+        paddingTop:Platform.OS == 'android' ? 0 : 40,
+        height:Platform.OS == 'android' ? 60 : 80,
         width:"100%",
         borderBottomLeftRadius:10,
         borderBottomRightRadius:10,

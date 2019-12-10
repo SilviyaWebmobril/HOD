@@ -1,5 +1,5 @@
 import React ,{Component} from 'react';
-import {View ,StyleSheet,Text,Alert} from 'react-native';
+import {View ,StyleSheet,Text,Alert,Platform} from 'react-native';
 import CustomButton from '../CustomUI/CustomButton/CustomButton';
 import CustomTextInput from '../CustomUI/CustomTextInput/CustomTextInput';
 import SearchLocationStyle from './SearchLocationStyle';
@@ -42,7 +42,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
         super(props);
 
         this.state ={
-           
+            loading:false,
             isFocusedHouse:false,
             isFocusedPincode:false,
             isFocusedFloor:false,
@@ -120,103 +120,124 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
         }
      
       }
-    
-      axios.post(ApiUrl.baseurl+ApiUrl.setLocation+this.state.user_id+"&name="+this.state.name+"&city="+this.state.city+"&locality="+this.state.locality+
-      "&street="+this.state.street+"&ho_no="+this.refs.houseno.getInputTextValue("houseno")+"&latitude="+this.state.latitude+"&longitude="+this.state.longitude+
-      "&full_address="+this.state.full_address+"&landmark="+this.refs.landmark.getInputTextValue("landmark")+"&pin_code="+this.refs.postal_code.getInputTextValue("pincode")+"&floor_no="+this.refs.floorno.getInputTextValue("floorno")+"&is_primary="+is_primary)
-      .then(res => {
-        
-      
-        
-        if(res.data.error){
-          Alert.alert(
-            'Location',
-            "Something went wrong! Please try again later.",
-            [
-         
-            {text: 'OK', onPress: () =>  {console.log("ok")}},
-            ], 
-            { cancelable: false }
-            )
-        
-        }else{
-
-          if(this.state.is_primary){
-
-            // updating primary address 
-            this.props.onUpdateAddress(this.state.full_address+","+this.refs.postal_code.getInputTextValue("pincode"));  
-          }
-          AsyncStorage.setItem('user_id',this.props.user.userdata.user_id);
-          this.props.onUpdateUserId(this.props.user.userdata.user_id);
-          let userdata = {};
-          Object.assign(userdata,{"user_id":this.props.user.userdata.user_id});
-          Object.assign(userdata,{"user_name": this.props.user.userdata.user_name});
-          Object.assign(userdata,{"user_email":this.props.user.userdata.user_email});
-          Object.assign(userdata,{"user_mobile":this.props.user.userdata.user_mobile});
-          Object.assign(userdata,{"user_gender":this.props.user.userdata.user_gender});
-          Object.assign(userdata,{"user_dob":this.props.user.userdata.user_dob});
-          Object.assign(userdata,{"user_married":this.props.user.userdata.user_married});
-          Object.assign(userdata,{"user_family_members":this.props.user.userdata.user_family_members});
-          Object.assign(userdata,{"user_vegitarian":this.props.user.userdata.user_vegitarian});
-          this.props.onUpdateUser(userdata);
-          this.props.addNewAddress(res.data.data);
-         
-         
-         if(this.state.location_update == 1 ){
-          
-           
-              this.props.navigation.navigate('HomeBottomtabs');
-            //    this.props.navigation.pop();
-  
-            Alert.alert(
-              'Location',
-              "Your Location Updated Successfully!",
-              [
-          
-              {text: 'OK', onPress: () =>  {console.log("ok")}},
-              ], 
-              { cancelable: false }
-              )
-          
-         }else{
-          
-            this.props.navigation.navigate('ViewProfile');
-    
-            Alert.alert(
-              'Location',
-              "Your Location Updated Successfully!",
-              [
-          
-              {text: 'OK', onPress: () =>    {console.log("ok")}},
-              ], 
-              { cancelable: false }
-              )
-          }
-  
-         
-          
-
-        }
-
      
+      console.log("house no",this.refs.houseno.getInputTextValue("houseno"));
 
+      if(this.refs.houseno.getInputTextValue("houseno") == "invalid" || this.refs.floorno.getInputTextValue("floorno") == "invalid" || this.refs.postal_code.getInputTextValue("pincode") == "invalid"){
 
-      })
-      .catch(error => {
-        console.log("my error",error);
         Alert.alert(
-          'Error',
-          'Check Your Internet connection and again later!',
+          'Location',
+          "All * marked fields are compulsory!",
           [
-       
-          {text: 'OK', onPress: () => console.log("ok")},
-          
+      
+          {text: 'OK', onPress: () =>  {console.log("ok")}},
           ], 
           { cancelable: false }
           )
-    });
 
+
+      }else{
+
+          this.setState({isLoading:true});
+          axios.post(ApiUrl.baseurl+ApiUrl.setLocation+this.state.user_id+"&name="+this.state.name+"&city="+this.state.city+"&locality="+this.state.locality+
+          "&street="+this.state.street+"&ho_no="+this.refs.houseno.getInputTextValue("houseno")+"&latitude="+this.state.latitude+"&longitude="+this.state.longitude+
+          "&full_address="+this.state.full_address+"&landmark="+this.refs.landmark.getInputTextValue("landmark")+"&pin_code="+this.refs.postal_code.getInputTextValue("pincode")+"&floor_no="+this.refs.floorno.getInputTextValue("floorno")+"&is_primary="+is_primary)
+          .then(res => {
+            
+          
+            this.setState({isLoading:false});
+            if(res.data.error){
+              Alert.alert(
+                'Location',
+                "Something went wrong! Please try again later.",
+                [
+            
+                {text: 'OK', onPress: () =>  {console.log("ok")}},
+                ], 
+                { cancelable: false }
+                )
+            
+            }else{
+    
+                if(this.state.is_primary){
       
+                  // updating primary address 
+                  this.props.onUpdateAddress(this.state.full_address+","+this.refs.postal_code.getInputTextValue("pincode"));  
+                }
+                AsyncStorage.setItem('user_id',this.props.user.userdata.user_id);
+                this.props.onUpdateUserId(this.props.user.userdata.user_id);
+                let userdata = {};
+                Object.assign(userdata,{"user_id":this.props.user.userdata.user_id});
+                Object.assign(userdata,{"user_name": this.props.user.userdata.user_name});
+                Object.assign(userdata,{"user_email":this.props.user.userdata.user_email});
+                Object.assign(userdata,{"user_mobile":this.props.user.userdata.user_mobile});
+                Object.assign(userdata,{"user_gender":this.props.user.userdata.user_gender});
+                Object.assign(userdata,{"user_dob":this.props.user.userdata.user_dob});
+                Object.assign(userdata,{"user_married":this.props.user.userdata.user_married});
+                Object.assign(userdata,{"user_family_members":this.props.user.userdata.user_family_members});
+                Object.assign(userdata,{"user_vegitarian":this.props.user.userdata.user_vegitarian});
+                this.props.onUpdateUser(userdata);
+                this.props.addNewAddress(res.data.data);
+            
+            
+              if(this.state.location_update == 1 ){
+              
+              
+                  this.props.navigation.navigate('HomeBottomtabs');
+                //    this.props.navigation.pop();
+      
+                  Alert.alert(
+                    'Location',
+                    "Your Location Updated Successfully!",
+                    [
+                
+                    {text: 'OK', onPress: () =>  {console.log("ok")}},
+                    ], 
+                    { cancelable: false }
+                    )
+              
+              }else{
+              
+                  this.props.navigation.navigate('ViewProfile');
+          
+                  Alert.alert(
+                    'Location',
+                    "Your Location Updated Successfully!",
+                    [
+                
+                    {text: 'OK', onPress: () =>    {console.log("ok")}},
+                    ], 
+                    { cancelable: false }
+                    )
+              }
+      
+            
+              
+    
+            }
+    
+        
+    
+    
+          })
+          .catch(error => {
+            console.log("my error",error);
+            this.setState({isLoading:false});
+            Alert.alert(
+              'Error',
+              'Check Your Internet connection and again later!',
+              [
+          
+              {text: 'OK', onPress: () => console.log("ok")},
+              
+              ], 
+              { cancelable: false }
+              )
+        });
+    
+      }
+    
+     
 
 
        // this.props.navigation.navigate('Bottomtabs');
@@ -228,14 +249,12 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
          
         return (
 
-            <FullSCreenSpinnerAndDismissKeyboardView style = {SearchLocationStyle.container} refreshing={false}>
+            <FullSCreenSpinnerAndDismissKeyboardView style = {SearchLocationStyle.container} refreshing={false}  spinner={this.state.isLoading}>
             <KeyboardAwareScrollView >
                 <View style={{  justifyContent: 'center',alignItems: 'center',marginBottom:20,marginTop:20}}>
 
                     <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                               House Number*
-                      </Text>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  House Number*  </Text>
                     </View>
                     <CustomTextInput 
                        inputType="houseno"
@@ -247,7 +266,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
                     />
 
                     <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  Fill the floor No.*  </Text>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  Floor No.*  </Text>
                     </View>
                     <CustomTextInput 
                       inputType="floorno"

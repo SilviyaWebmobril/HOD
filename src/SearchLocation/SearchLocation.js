@@ -267,12 +267,6 @@ class SearchLocation extends Component {
 
 
 
-
-
-
-
-
-
           })
           .catch(error=>{
             // handle error
@@ -289,9 +283,17 @@ class SearchLocation extends Component {
       continueButtonHandler = () =>{
       
         if(this.refs.nameText.getInputTextValue("name") == "invalid" || this.refs.cityText.getInputTextValue("city") == "invalid"
-        || this.refs.localityText.getInputTextValue("locality") == "invalid" || this.refs.streetText.getInputTextValue("street") == "invalid"){
+         || this.refs.localityText.getInputTextValue("locality") == "invalid" || this.refs.streetText.getInputTextValue("street") == "invalid"){
 
-          Alert.alert("All * marked fields are compulsory!")
+          Alert.alert(
+            'Location',
+            "All * marked fields are required!",
+            [
+        
+            {text: 'OK', onPress: () =>  {console.log("ok")}},
+            ], 
+            { cancelable: false }
+            )
 
         }else{
 

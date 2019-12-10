@@ -82,7 +82,7 @@ import DeviceInfo from 'react-native-device-info';
         }else{
            
             Alert.alert(
-                'Update Profile Error',
+                'Update Profile',
                 'All * marked fields are compulsory!',
                 [
              
@@ -111,9 +111,7 @@ import DeviceInfo from 'react-native-device-info';
                         </View> 
                         :
                         <View style={styles.labelTextView}>
-                            <Text style={styles.labelText}>
-                                Name*
-                            </Text>
+                            <Text style={styles.labelText}>  Name*  </Text>
                         </View> 
                     }
                   
@@ -140,12 +138,12 @@ import DeviceInfo from 'react-native-device-info';
                         DeviceInfo.isTablet() 
                         ?
                         <View style={styles.labelTextViewTab}>
-                            <Text style={styles.labelText}> Gender* </Text>
+                            <Text style={styles.labelText}>  Gender* </Text>
                         </View>
 
                         :
                         <View style={styles.labelTextView}>
-                            <Text style={styles.labelText}>  Gender*  </Text>
+                            <Text style={styles.labelText}>   Gender*  </Text>
                         </View>
 
                     }
@@ -200,7 +198,7 @@ import DeviceInfo from 'react-native-device-info';
                     </View>
                     :
                     <View style={styles.labelTextView}>
-                        <Text style={styles.labelText}> Date Of Birth </Text>
+                        <Text style={styles.labelText}>  Date Of Birth*  </Text>
                     </View>
 
                 }
@@ -238,11 +236,11 @@ import DeviceInfo from 'react-native-device-info';
                     {DeviceInfo.isTablet() 
                     ?
                     <View style={styles.labelTextViewTab}>
-                    <Text style={styles.labelText}> Married </Text>
+                    <Text style={styles.labelText}>  Married  </Text>
                     </View>
                     :
                     <View style={styles.labelTextView}>
-                        <Text style={styles.labelText}> Married </Text>
+                        <Text style={styles.labelText}>  Married*  </Text>
                     </View>
 
                     }

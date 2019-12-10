@@ -165,7 +165,7 @@ class Cart extends Component {
                     
                    
                     Alert.alert(
-                        'Error',
+                        'Checkout',
                         `${error.description}`,
                         [
                      
@@ -181,7 +181,7 @@ class Cart extends Component {
 
 
                 Alert.alert(
-                    'Error',
+                    'Checkout',
                     'Please Complete your and Address Details to Checkout!',
                     [
                  

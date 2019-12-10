@@ -85,6 +85,22 @@ class ViewProfile  extends Component {
 
     onRemoveAddresshandler = (id) =>{
 
+      Alert.alert(
+        'Remove Address',
+        "Are you sure you want to remove this address ?",
+        [
+     
+        {text: 'OK', onPress: () =>  {this.removeAdd(id)}},
+        {text: 'CANCEL', onPress: () =>  {console.log("ok")}},
+        ], 
+        { cancelable: false }
+        );
+
+      
+    }
+
+    removeAdd(id){
+
       this.props.onLoading(true);
       Axios.post(ApiUrl.baseurl+ApiUrl.remove_address+id)
       .then(response => {
@@ -159,7 +175,7 @@ class ViewProfile  extends Component {
                 <View style={{marginRight:10,marginTop:10}}>
                     <Text onPress={()=>this.updateProfileHandler()}
                      style={styles.updateTextStyle}>  UPDATE  </Text>
-                    <View style={styles.viewLineUpdate}></View>
+                    
                 </View>
                 <CustomLogo />
 
@@ -168,7 +184,7 @@ class ViewProfile  extends Component {
                   <Text style={styles.profileEmailMobileStyles}>{this.props.user.userdata.user_email}</Text>
                   <View style={{flexDirection:"row",justifyContent:"center",alignContent:"center"}}>
                     <Text style={{ fontSize:17,lineHeight:30,}}>{this.props.user.userdata.user_mobile}</Text>
-                    <Text onPress={()=>this.onEditMobile()} style={{marginLeft:15,lineHeight:30,textDecorationLine:"underline",fontWeight:"bold", fontSize:15,color:"#FD8D45",}}>  EDIT  </Text>
+                    <Text onPress={()=>this.onEditMobile()} style={{marginLeft:15,lineHeight:30,textDecorationLine:"underline",fontWeight:"bold", fontSize:15,color:"#FD8D45",}}> EDIT </Text>
                   </View>
                
                   
@@ -176,11 +192,11 @@ class ViewProfile  extends Component {
 
                 <View style={styles.viewAddress}>
                   <View style={styles.addressHeadingView}>
-                    <Text style={styles.manageAddressText}> Manage Address </Text>
+                    <Text style={styles.manageAddressText}>  Manage Address  </Text>
                     
                     <View style={styles.viewAddressText}>
-                      <Text onPress={()=>this.addNewAddresshandler()} style={styles.addAddreesText}>  Add New  </Text>
-                      <View style={styles.viewLine}></View>
+                      <Text onPress={()=>this.addNewAddresshandler()} style={styles.addAddreesText}> Add New </Text>
+                      {/* <View style={styles.viewLine}></View> */}
                     </View>
                   </View>
                  
@@ -303,7 +319,9 @@ const styles =  StyleSheet.create({
   
   },
   addAddreesText:{
+  
     lineHeight:30,
+    textDecorationLine:"underline",
     fontSize:12,
     color:"#FD8D45",
     fontWeight:"bold",
@@ -342,7 +360,8 @@ const styles =  StyleSheet.create({
   },
   updateTextStyle:{
     color:"#FD8D45",
-    textAlign:"right"
+    textAlign:"right",
+    textDecorationLine:"underline"
   }
   
 

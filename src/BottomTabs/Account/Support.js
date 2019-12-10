@@ -47,7 +47,7 @@ export default class Support extends Component{
 
            
             Alert.alert(
-                'Support Error',
+                'Support',
                 'All * marked fields are compulsory!',
                 [
              
@@ -81,7 +81,7 @@ export default class Support extends Component{
     
             }).catch(error => {
                 Alert.alert(
-                    'Support Error',
+                    'Support',
                     'Something Went wrong !Please try again Later',
                     [
                  

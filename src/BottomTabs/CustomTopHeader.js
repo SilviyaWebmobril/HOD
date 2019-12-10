@@ -1,5 +1,5 @@
 import React ,{Component}  from 'react';
-import {View ,Text,StyleSheet,Image} from   'react-native';
+import {View ,Text,StyleSheet,Image,Platform} from   'react-native';
 import SearchLocationStyle from '../SearchLocation/SearchLocationStyle';
 import {connect} from 'react-redux';
 import  capitilize  from '../utility/helpers';
@@ -88,7 +88,7 @@ const styles =  StyleSheet.create({
        height:90,
        marginLeft:20,
        marginRight:20,
-       marginTop:20
+       marginTop:Platform.OS == 'android' ? 20 :40
       
        
     },

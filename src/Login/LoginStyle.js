@@ -4,7 +4,11 @@ const LoginStyle = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor:'#ffffff',
-        margin:10
+        marginLeft:10,
+        marginRight:10,
+        marginTop:40,
+        justifyContent:"center"
+
       },
       // txtInput: {
       //   margin:15,
