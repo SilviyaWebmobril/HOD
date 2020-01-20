@@ -1,7 +1,7 @@
 import { ADD_USER_DATA,REMOVE_ADDRESS,ADD_NEW_ADDRESS } from './types';
 import axios from 'axios';
 import ApiUrl from '../../../Api/ApiUrl';
-import { ADD_USER_ADDRESS,CHANGE_MOBILE,USER_ID ,IS_LOADING,ERROR,ALL_ADDRESSES} from './types';
+import { ADD_USER_ADDRESS,CHANGE_MOBILE,USER_ID ,IS_LOADING,ERROR,ALL_ADDRESSES,CHANGE_PRIMARY_ADDRESS_STATUS} from './types';
 
 export const userData = userDataObj => {
     return {
@@ -138,5 +138,13 @@ export const addNewAddress = (item) =>{
     return {
         type:ADD_NEW_ADDRESS,
         payload:item
+    }
+}
+
+export const changePrimaryStatus = (address_id) => {
+
+    return{
+        type:CHANGE_PRIMARY_ADDRESS_STATUS,
+        payload:address_id
     }
 }

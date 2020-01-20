@@ -22,7 +22,8 @@ class CustomTopHeader extends  Component {
 
     SearchLocation = () =>{
 
-        this.props.navigation.navigate('Search',{"location_update":1});
+        //this.props.navigation.navigate('Search',{"location_update":1});
+        this.props.navigation.navigate('SelectAddress');
     }
 
    
@@ -34,17 +35,17 @@ class CustomTopHeader extends  Component {
             <View style={styles.container}>
                 <View style={styles.deliveryLocationSection}>
                     <View style={{alignItems:"flex-start", flexDirection:"row",}}>
-                        <Image style={{width:25,height:25}}  source={require('../../Assets/location1.png')} />
+                        <Image style={{width:25,height:25}}  source={require('../Assets/location1.png')} />
                         <Text style={styles.textStyle}>Delivery Location</Text>
                         <TouchableOpacity
                         onPress={()=>{this.SearchLocation()}}>
-                            <Image style={{width:15,height:15,marginLeft:10,marginTop:8}}  source={require('../../Assets/pencil.png')} />
+                            <Image style={{width:15,height:15,marginLeft:10,marginTop:8}}  source={require('../Assets/pencil.png')} />
                         </TouchableOpacity>
                     </View>
                     <View  style={{ flexDirection:"row",position: 'absolute', right: 0}}>
                         <TouchableOpacity
                          onPress={()=>{this.props.navigation.navigate("TransactionHistory")}}>
-                            <Image style={{width:25,height:25,marginRight:10}} source={require('../../Assets/order.png')} />
+                            <Image style={{width:25,height:25,marginRight:10}} source={require('../Assets/order.png')} />
                         </TouchableOpacity> 
                        
                         <Cartbadge img= {0} count={this.props.cart_count.total_cart_count} nav={this.props.navigation}/>
@@ -60,7 +61,7 @@ class CustomTopHeader extends  Component {
                          }
                     </Text>
                     
-                    <Image style={{width:'60%',height:20,marginTop:10,marginBottom:0}} source={require('../../Assets/curve.png')} />
+                    <Image style={{width:'60%',height:20,marginTop:10,marginBottom:0}} source={require('../Assets/curve.png')} />
                     <View style={styles.viewLineBlack}></View>
                 </View>
               
@@ -98,6 +99,7 @@ const styles =  StyleSheet.create({
       
     },
     textStyle:{
+        fontFamily:"Roboto-Light",
         fontSize:17,
         marginTop:4,
     },
@@ -105,6 +107,7 @@ const styles =  StyleSheet.create({
         flexDirection:"column"
     },
     locationTextStyle:{
+        fontFamily:"Roboto-Light",
         fontSize:14,
         fontWeight:"bold",
         lineHeight:20,

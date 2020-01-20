@@ -31,7 +31,7 @@ class UpdateMobile extends Component {
   
     static navigationOptions = ({ navigation }) => ({
 
-        title: "UPDATE MOBILE",
+        title: "Update Mobile",
         headerStyle: {
             height: 60,
             backgroundColor: '#FD8D45',
@@ -39,9 +39,9 @@ class UpdateMobile extends Component {
         headerTitleStyle: {
             color: 'white',
             alignSelf: 'center',
-            textAlign: 'center',
-            flex: 1,
+                       flex: 1,
             fontSize: 17,
+            
         },
         headerTintColor: 'white',
         headerRight: (<View></View>)
@@ -155,9 +155,7 @@ class UpdateMobile extends Component {
                
                     <View style={LoginStyle.bottom}>
                         <View style={{width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                                 Mobile No. 
-                            </Text>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:'Roboto-Light',}}>Mobile No.</Text>
                         </View>
                     
 
@@ -177,7 +175,7 @@ class UpdateMobile extends Component {
 
                     <View style={{width:"100%"}}>
                         <View style={{margin:25,alignSelf:"center"}}> 
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}> OR </Text>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17, fontFamily:"Roboto-Light"}}> OR </Text>
                         </View>
 
                         <CustomButton text=" CREATE ACCOUNT "

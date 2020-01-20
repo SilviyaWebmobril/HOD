@@ -22,7 +22,12 @@ class UpdateProfileContinue extends Component{
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: "Update Profile",
         headerStyle: { backgroundColor: '#FD8D45' },
-        headerTitleStyle: { color: 'white',fontSize:17,flex:1 },
+        headerTitleStyle: { color: 'white',
+        alignSelf: 'center',
+        textAlign: 'center',
+        flex: 1,
+        fontSize: 17,
+        },
         headerTintColor: 'white'
       });
 
@@ -178,11 +183,11 @@ class UpdateProfileContinue extends Component{
                     {DeviceInfo.isTablet()
                     ?
                     <View style={styles.labelTextViewTab}>
-                        <Text style={styles.labelText}>   Family Members  </Text>
+                        <Text style={styles.labelText}>Family Members*</Text>
                     </View>
                     :
                     <View style={styles.labelTextView}>
-                        <Text style={styles.labelText}>   Family Members*   </Text>
+                        <Text style={styles.labelText}>Family Members*</Text>
                     </View>
                     }
                    
@@ -197,11 +202,11 @@ class UpdateProfileContinue extends Component{
                {DeviceInfo.isTablet()
                     ?
                     <View style={styles.labelTextViewTab}>
-                        <Text style={styles.labelText}>  Vegetarian  </Text>
+                        <Text style={styles.labelText}>Vegetarian</Text>
                     </View>
                     :
                     <View style={styles.labelTextView}>
-                        <Text style={styles.labelText}>    Vegetarian*   </Text>
+                        <Text style={styles.labelText}>Vegetarian*</Text>
                     </View>
                     }
                    
@@ -303,6 +308,7 @@ const styles =  StyleSheet.create({
         alignItems:'flex-start'
     },
     labelText:{
+        fontFamily:"Roboto-Light",
         color:'#808080',
         fontWeight: 'bold',
         fontSize: 17,

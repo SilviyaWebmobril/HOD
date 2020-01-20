@@ -4,7 +4,7 @@ import {View ,Image,StyleSheet} from 'react-native';
 const CustomLogo  = (props) => {
     return(
         <View style={[logoStyle.logoTop , props.customLogoStyle]}>
-            <Image source={require('../../../Assets/logo1.png')}/>
+            <Image source={require('../../Assets/logo1.png')}/>
         </View>
     );
 }

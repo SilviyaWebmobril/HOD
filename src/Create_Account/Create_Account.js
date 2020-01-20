@@ -316,9 +316,7 @@ class Create_Account extends Component {
                         <View style={Create_AccountStyle.Create_Accountbottom}>
                       
                             <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                                <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                                    Name*
-                                </Text>
+                                <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Name*</Text>
                             </View>   
                             <CustomTextInput 
                                 ref="nameText"
@@ -330,9 +328,7 @@ class Create_Account extends Component {
                             />
 
                             <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                                <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                                    Email*
-                                </Text>
+                                <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Email*</Text>
                             </View>   
                             <CustomTextInput 
                                 ref="emailText"
@@ -345,9 +341,7 @@ class Create_Account extends Component {
                             />
 
                             <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                                <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                                    Password*
-                                </Text>
+                                <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Password*</Text>
                             </View>   
                             <CustomTextInput 
                                 ref="passwordText"
@@ -359,9 +353,7 @@ class Create_Account extends Component {
                                 //onSubmitEditing={() => { this.secondTextInput.focus(); }}
                             />
                             <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                                <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                                    Mobile*
-                                </Text>
+                                <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Mbile*</Text>
                             </View>
                             <CustomTextInput 
                                 ref="mobileText"   
@@ -374,9 +366,7 @@ class Create_Account extends Component {
                             />
                         
                             <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                                <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                                    Refferal Code(optional)*Terms Apply
-                                </Text>
+                                <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Refferal Code(optional)*Terms Apply</Text>
                             </View>
                             <CustomTextInput 
                                 ref="referralCodeText"
@@ -395,7 +385,7 @@ class Create_Account extends Component {
                     
                                
                                 <View style={{width:'100%',justifyContent:'center',alignItems: 'center',margin:20}}> 
-                                    <Text style={{color:'#808080',margin:5,fontWeight: 'bold',fontSize: 17,}}>OR</Text>
+                                    <Text style={{color:'#808080',margin:5,fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>OR</Text>
                                 </View>
                                 <CustomButtonWithIcon 
                                     customViewIconStyle={{backgroundColor:"#2F4F93",borderTopLeftRadius: 5,borderBottomLeftRadius: 5,}} 

@@ -25,7 +25,12 @@ import DeviceInfo from 'react-native-device-info';
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: "Update Profile",
         headerStyle: { backgroundColor: '#FD8D45' },
-        headerTitleStyle: { color: 'white',fontSize:17,flex:1 },
+        headerTitleStyle: {  color: 'white',
+        alignSelf: 'center',
+        textAlign: 'center',
+        flex: 1,
+        fontSize: 17,
+        },
         headerTintColor: 'white'
       });
     
@@ -105,13 +110,11 @@ import DeviceInfo from 'react-native-device-info';
                         DeviceInfo.isTablet() 
                         ?
                         <View style={styles.labelTextViewTab}>
-                            <Text style={styles.labelText}>
-                                Name*
-                            </Text>
+                            <Text style={styles.labelText}> Name*</Text>
                         </View> 
                         :
                         <View style={styles.labelTextView}>
-                            <Text style={styles.labelText}>  Name*  </Text>
+                            <Text style={styles.labelText}>Name*</Text>
                         </View> 
                     }
                   
@@ -138,12 +141,12 @@ import DeviceInfo from 'react-native-device-info';
                         DeviceInfo.isTablet() 
                         ?
                         <View style={styles.labelTextViewTab}>
-                            <Text style={styles.labelText}>  Gender* </Text>
+                            <Text style={styles.labelText}>Gender*</Text>
                         </View>
 
                         :
                         <View style={styles.labelTextView}>
-                            <Text style={styles.labelText}>   Gender*  </Text>
+                            <Text style={styles.labelText}>Gender*</Text>
                         </View>
 
                     }
@@ -194,11 +197,11 @@ import DeviceInfo from 'react-native-device-info';
                 {DeviceInfo.isTablet() 
                     ?
                     <View style={styles.labelTextViewTab}>
-                        <Text style={styles.labelText}> Date Of Birth </Text>
+                        <Text style={styles.labelText}>Date Of Birth</Text>
                     </View>
                     :
                     <View style={styles.labelTextView}>
-                        <Text style={styles.labelText}>  Date Of Birth*  </Text>
+                        <Text style={styles.labelText}>Date Of Birth*</Text>
                     </View>
 
                 }
@@ -236,11 +239,11 @@ import DeviceInfo from 'react-native-device-info';
                     {DeviceInfo.isTablet() 
                     ?
                     <View style={styles.labelTextViewTab}>
-                    <Text style={styles.labelText}>  Married  </Text>
+                    <Text style={styles.labelText}>Married</Text>
                     </View>
                     :
                     <View style={styles.labelTextView}>
-                        <Text style={styles.labelText}>  Married*  </Text>
+                        <Text style={styles.labelText}>Married*</Text>
                     </View>
 
                     }
@@ -316,6 +319,7 @@ export default connect(mapStateToProps, null)(UpdateProfile);
 const styles =  StyleSheet.create({
 
     labelTextView:{
+        
         width:'90%',
         marginLeft:20,
         flexDirection:'column',
@@ -330,11 +334,13 @@ const styles =  StyleSheet.create({
         alignItems:'flex-start'
     },
     labelText:{
+        fontFamily:"Roboto-Light",
         color:'#808080',
         fontWeight: 'bold',
         fontSize: 17,
     },
     inputIOS: {
+        fontFamily:"Roboto-Light",
         fontSize: 16,
         paddingVertical: 12,
         paddingHorizontal: 10,

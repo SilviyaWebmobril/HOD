@@ -81,7 +81,7 @@ class VideoPlayer extends Component {
                        style={styles.videoContainer}/>
                 {paused &&
                 <Image style={styles.videoIcon}
-                       source={require("../../Assets/play_icon.png")}/>}
+                       source={require("../Assets/play_icon.png")}/>}
             </TouchableOpacity>
             {this.state.onVideoEndddd 
             ?

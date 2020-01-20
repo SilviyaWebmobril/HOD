@@ -26,10 +26,10 @@ const CustomTextInputWithIcon = React.forwardRef((props,ref) => {
        
         <View style={styles.SectionStyle}>
 
-        <Image source={require('../../../Assets/search1.png')} style={styles.ImageStyle} />
+        <Image source={require('../../Assets/search1.png')} style={styles.ImageStyle} />
 
           <TextInput
-              style={{flex:1}}
+              style={{flex:1,fontFamily:"Roboto-Light",}}
               autoFocus = {props.isEditable}
               placeholder={props.placeholder}
               underlineColorAndroid="transparent"
@@ -37,6 +37,7 @@ const CustomTextInputWithIcon = React.forwardRef((props,ref) => {
             keyboardType={props.keyboardType}
             secureTextEntry={props.secureTextEntry}
             placeholderTextColor={props.placeholderTextColor}
+            onFocus={props.onFocus}
             onChangeText={(value)=> {props.onSearchPress(value)}}
             value={ props.searchValue}
             onSubmitEditing={props.onSubmitEditing}

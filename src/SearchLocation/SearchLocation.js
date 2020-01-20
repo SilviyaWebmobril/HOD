@@ -30,7 +30,7 @@ class SearchLocation extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: '  Search Location  ',
         headerStyle: { backgroundColor: '#FD8D45' },
-        headerTitleStyle: { color: 'white',fontSize:17,flex:1 },
+        headerTitleStyle: { color: 'white',fontSize:17,flex:1 ,fontFamily:"Roboto-Light",},
         headerTintColor: 'white', 
         headerLeft:(
           <TouchableOpacity
@@ -38,9 +38,9 @@ class SearchLocation extends Component {
           >
             {Platform.OS === 'android'
             ?
-            <Image source={require('../../Assets/arrow_left.png')} style={{marginLeft:20}} />
+            <Image source={require('../Assets/arrow_left.png')} style={{marginLeft:20}} />
             :
-            <Image source={require('../../Assets/back_white_ios.png')} style={{marginLeft:20}} />
+            <Image source={require('../Assets/back_white_ios.png')} style={{marginLeft:20}} />
             }
             
           </TouchableOpacity>
@@ -350,7 +350,7 @@ class SearchLocation extends Component {
                     
 
                   <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  Name*  </Text>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Name*</Text>
                   </View>
                   <CustomTextInput 
                       ref="nameText"
@@ -361,7 +361,7 @@ class SearchLocation extends Component {
                   />
                   
                   <View style={{marginLeft:0,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  City*  </Text>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>City*</Text>
                   </View>
                   <CustomTextInput 
                       inputType="city"
@@ -373,7 +373,7 @@ class SearchLocation extends Component {
                   />
 
                   <View style={{marginLeft:0,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  Locality*  </Text>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Locality*</Text>
                   </View>
                   <CustomTextInput 
                        inputType="locality" 
@@ -385,7 +385,7 @@ class SearchLocation extends Component {
                   />
 
                   <View style={{marginLeft:0,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  Street*  </Text>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Street*</Text>
                   </View>
                   <CustomTextInput 
                        inputType="street"

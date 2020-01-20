@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -76,6 +75,14 @@
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
 		F6075123BE4E4B2EA294CB0F /* libRNExitApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD21BFA61E7B44288093597B /* libRNExitApp.a */; };
+		D5690E1489E944E282889698 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC413AB3A6D74AF1B6B5BBF8 /* Roboto-LightItalic.ttf */; };
+		21520126044B474482BE5820 /* Alegreya-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 79D6F31D00744C78A49F7FF3 /* Alegreya-Regular.ttf */; };
+		F036D5609FC1481482FFF5EA /* Philosopher-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 166757BD75D74CA1957E181D /* Philosopher-Regular.ttf */; };
+		A7A878AF08974457B8BFF684 /* alegreya-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 00D33B6FDD1942C898E8E026 /* alegreya-regular.ttf */; };
+		4A88D4C8481E46F19D7362AE /* philosopher-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D60A653AA434DE1BEEB98E3 /* philosopher-regular.ttf */; };
+		AAFD5628C515421F89723B79 /* roboto-lightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 984FB957D16F4F0496F2D6BB /* roboto-lightItalic.ttf */; };
+		725E7E1B53194908BA1CE7C5 /* Alegreya-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F019D00CB3C4342878DD294 /* Alegreya-Bold.ttf */; };
+		7780DEBB5C7A47D983A3C677 /* Philosopher-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB3A01B25A4968B2FC65A6 /* Philosopher-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -552,6 +559,14 @@
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		FFA6156FB0E44656993C6B29 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		FFE9E47868B34B318F070D88 /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
+		DC413AB3A6D74AF1B6B5BBF8 /* Roboto-LightItalic.ttf */ = {isa = PBXFileReference; name = "Roboto-LightItalic.ttf"; path = "../assets/fonts/Roboto-LightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		79D6F31D00744C78A49F7FF3 /* Alegreya-Regular.ttf */ = {isa = PBXFileReference; name = "Alegreya-Regular.ttf"; path = "../assets/fonts/Alegreya-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		166757BD75D74CA1957E181D /* Philosopher-Regular.ttf */ = {isa = PBXFileReference; name = "Philosopher-Regular.ttf"; path = "../assets/fonts/Philosopher-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		00D33B6FDD1942C898E8E026 /* alegreya-regular.ttf */ = {isa = PBXFileReference; name = "alegreya-regular.ttf"; path = "../assets/fonts/alegreya-regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9D60A653AA434DE1BEEB98E3 /* philosopher-regular.ttf */ = {isa = PBXFileReference; name = "philosopher-regular.ttf"; path = "../assets/fonts/philosopher-regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		984FB957D16F4F0496F2D6BB /* roboto-lightItalic.ttf */ = {isa = PBXFileReference; name = "roboto-lightItalic.ttf"; path = "../assets/fonts/roboto-lightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1F019D00CB3C4342878DD294 /* Alegreya-Bold.ttf */ = {isa = PBXFileReference; name = "Alegreya-Bold.ttf"; path = "../assets/fonts/Alegreya-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8ACB3A01B25A4968B2FC65A6 /* Philosopher-Bold.ttf */ = {isa = PBXFileReference; name = "Philosopher-Bold.ttf"; path = "../assets/fonts/Philosopher-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -808,6 +823,14 @@
 				8DB7E7FE600740EB84AE535F /* Octicons.ttf */,
 				09ABE212318C4215AF31E11B /* SimpleLineIcons.ttf */,
 				C2AD55B9ADFF4E8EBBC9A03C /* Zocial.ttf */,
+				DC413AB3A6D74AF1B6B5BBF8 /* Roboto-LightItalic.ttf */,
+				79D6F31D00744C78A49F7FF3 /* Alegreya-Regular.ttf */,
+				166757BD75D74CA1957E181D /* Philosopher-Regular.ttf */,
+				00D33B6FDD1942C898E8E026 /* alegreya-regular.ttf */,
+				9D60A653AA434DE1BEEB98E3 /* philosopher-regular.ttf */,
+				984FB957D16F4F0496F2D6BB /* roboto-lightItalic.ttf */,
+				1F019D00CB3C4342878DD294 /* Alegreya-Bold.ttf */,
+				8ACB3A01B25A4968B2FC65A6 /* Philosopher-Bold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1594,6 +1617,14 @@
 				7920102423150BB30068684B /* GoogleService-Info.plist in Resources */,
 				89AF2B04D54A4152BDC34533 /* SimpleLineIcons.ttf in Resources */,
 				3C7C02B9A47048E284BDC9FF /* Zocial.ttf in Resources */,
+				D5690E1489E944E282889698 /* Roboto-LightItalic.ttf in Resources */,
+				21520126044B474482BE5820 /* Alegreya-Regular.ttf in Resources */,
+				F036D5609FC1481482FFF5EA /* Philosopher-Regular.ttf in Resources */,
+				A7A878AF08974457B8BFF684 /* alegreya-regular.ttf in Resources */,
+				4A88D4C8481E46F19D7362AE /* philosopher-regular.ttf in Resources */,
+				AAFD5628C515421F89723B79 /* roboto-lightItalic.ttf in Resources */,
+				725E7E1B53194908BA1CE7C5 /* Alegreya-Bold.ttf in Resources */,
+				7780DEBB5C7A47D983A3C677 /* Philosopher-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

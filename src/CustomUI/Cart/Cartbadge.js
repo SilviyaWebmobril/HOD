@@ -11,7 +11,7 @@ Cartbadge = (props) => {
         onPress={()=>props.nav.navigate("Cart")}>
         <View style={styles.container}>
             
-            <ImageBackground  source={props.img == 0 ? require('../../../Assets/cart.png') :  require('../../../Assets/cart_white.png')} style={{width:30,height:30}}>
+            <ImageBackground  source={props.img == 0 ? require('../../Assets/cart.png') :  require('../../Assets/cart_white.png')} style={{width:30,height:30}}>
                 {props.count > 0 
                     ?
                     <View style={props.img == 0 ? styles.circleBlack : styles.circleWhite}>
@@ -72,6 +72,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center', 
         alignItems: 'center'
        },
-    countBlack:{color:'white',fontSize:13},
-    countWhite:{color:'black',fontSize:13}
+    countBlack:{color:'white',fontSize:13,fontFamily:"Roboto-Light",},
+    countWhite:{color:'black',fontSize:13,fontFamily:"Roboto-Light",}
 })

@@ -48,6 +48,7 @@ const buttonStyle =  StyleSheet.create({
 
     },
     txtStyle:{
+        fontFamily:"Roboto-Light",
         fontSize:17,
         fontWeight:'bold',
         color:'#808080'

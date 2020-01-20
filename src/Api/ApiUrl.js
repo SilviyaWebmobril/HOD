@@ -83,5 +83,9 @@ export default {
 
     logout :"logout?",
 
+    get_farm_address:"get_farm_address",
+
+    set_user_primary_address :"set_user_primary_address",
+
 
 }

@@ -37,6 +37,7 @@ class OTP extends Component {
             backgroundColor: '#FD8D45',
         },
         headerTitleStyle: {
+            fontFamily:"Roboto-Light",
             color: 'white',
             alignSelf: 'center',
             textAlign: 'center',
@@ -352,13 +353,13 @@ class OTP extends Component {
 
                     <CustomLogo />
                     <View style={OTPStyle.bottom}>
-                    <Text style={{flexDirection:'row',alignItems:'center',color:'black',fontWeight: 'bold',fontSize: 20,marginBottom:10}}> OTP </Text>
-                    <Text style={{color:'#898785',fontWeight: 'bold',fontSize: 17,marginBottom:20,marginTop:10}}>    Phone Number Verification   </Text>
+                    <Text style={{flexDirection:'row',alignItems:'center',color:'black',fontWeight: 'bold',fontSize: 20,marginBottom:10,fontFamily:"Roboto-Light",}}>OTP</Text>
+                    <Text style={{color:'#898785',fontWeight: 'bold',fontSize: 17,marginBottom:20,marginTop:10,fontFamily:"Roboto-Light",}}>Phone Number Verification</Text>
                     <View style={OTPStyle.circle}>
                         <Text style={OTPStyle.Timertxt}> {this.state.seconds} </Text>
                         </View>
                     <View style={{width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                        <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}> OTP </Text>
+                        <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,fontFamily:"Roboto-Light",}}>OTP</Text>
                     </View>
 
                     </View>
@@ -377,7 +378,7 @@ class OTP extends Component {
 
                         <CustomButton onPressHandler={()=>{this.onStartTimer();this.resendOTP()}} disabled={this.state.disableResend} text=" Resend " customButttonStyle={OTPStyle.customButtomSty} customTextStyle={this.state.disableResend ? OTPStyle.disableCustomResendTextSty : OTPStyle.customResendTextSty}/>
 
-                        <CustomButton customTextStyle={{ color:'white'}} onPressHandler = {() => this.onSubmit()} text=" SUBMIT " />
+                        <CustomButton customTextStyle={{ color:'white'}} onPressHandler = {() => this.onSubmit()} text="SUBMIT" />
 
 
                     </View>

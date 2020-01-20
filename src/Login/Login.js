@@ -38,6 +38,7 @@ class Login extends Component {
             backgroundColor: '#FD8D45',
         },
         headerTitleStyle: {
+            fontFamily:"Roboto-Light",
             color: 'white',
             alignSelf: 'center',
             textAlign: 'center',
@@ -100,15 +101,11 @@ class Login extends Component {
                     <CustomLogo/>
 
                    
-                    <Text style={{color:'#FD8D45',fontWeight: 'bold',fontSize: 20, alignSelf:"center",margin:20}}>
-                            LOGIN WITH OTP
-                    </Text>
+                    <Text style={{color:'#FD8D45',fontWeight: 'bold',fontSize: 20, alignSelf:"center",margin:20,fontFamily:"Roboto-Light",}}>LOGIN WITH OTP</Text>
                    
                     <View style={LoginStyle.bottom}>
                         <View style={{width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                                 Mobile No. 
-                            </Text>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Mobile No.</Text>
                         </View>
                     
 
@@ -123,7 +120,7 @@ class Login extends Component {
                             />
 
                     
-                    <CustomButton text="   CONTINUE   " customTextStyle={{ color:'white'}} onPressHandler = {() => this.onContinue()}  />
+                    <CustomButton text="CONTINUE" customTextStyle={{ color:'white'}} onPressHandler = {() => this.onContinue()}  />
                     
 
                     {/* <View style={{width:"100%"}}>

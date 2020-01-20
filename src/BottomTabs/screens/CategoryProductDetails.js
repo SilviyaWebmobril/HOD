@@ -20,7 +20,7 @@ class CategoryProductDetails extends Component {
     static navigationOptions = ({ navigation, screenProps }) => ({
         title:      navigation.getParam('name')  ,
         headerStyle: { backgroundColor: '#FD8D45' },
-        headerTitleStyle: { color: 'white',fontSize:17,flex:1 },
+        headerTitleStyle: { color: 'white',fontSize:17,flex:1 ,fontFamily:"Roboto-Light",},
         headerTintColor: 'white',
         headerRight:(
             <Cartbadge count={navigation.getParam('count', '0')} nav={navigation} />
@@ -196,7 +196,7 @@ class CategoryProductDetails extends Component {
                 <View style={styles.viewLineGrey}></View>
                 <View style={styles.mainRow}>
                     <View style={styles.rowLeft}>
-                        <Text style={styles.productname}>  {this.state.productname}  </Text>
+                        <Text style={styles.productname}>{this.state.productname}</Text>
                         <View style={styles.unitView}>
                             <Text style={styles.unitViewText}>{parseInt(this.state.weight)} {this.state.unit}</Text>
                         </View>
@@ -243,7 +243,7 @@ class CategoryProductDetails extends Component {
                 </View>
 
                 <CustomButton customTextStyle={{ color:'white',}}   customButttonStyle={{marginBottom:25}}
-                text="  ADD TO CART  " onPressHandler={()=>{
+                text="ADD TO CART" onPressHandler={()=>{
 
                     this.props.onLoading(true);
                     this.props.onAdd(this.state.product_id,price,this.props.user.userdata.user_id);
@@ -251,17 +251,17 @@ class CategoryProductDetails extends Component {
 
                 }} />
 
-                {this.state.allow_subscription ==  1 
+                {/* {this.state.allow_subscription ==  1 
 
                  ?
                     <CustomButton  customButttonStyle={{backgroundColor:"#FD8D45",marginBottom:40 }} customTextStyle={{ color:'brown'}} 
-                    text="  SUBSCRIBE "  onPressHandler={()=>{this.scheduleModalVisible()}}/>
+                    text="SUBSCRIBE"  onPressHandler={()=>{this.scheduleModalVisible()}}/>
             
                   :
 
                     <View/>
 
-                }
+                } */}
                 
 
 
@@ -355,8 +355,8 @@ const styles =  StyleSheet.create({
       
     },
     productname:{
+        fontFamily:"Philosopher-Bold",
         fontSize:17,
-        fontWeight:"bold",
         marginBottom:7
       
     },
@@ -367,6 +367,7 @@ const styles =  StyleSheet.create({
        
     },
     unitViewText:{
+        fontFamily:"philosopher-regular",
         fontSize:12,
         padding:5 ,
         alignSelf:"flex-start",
@@ -381,25 +382,26 @@ const styles =  StyleSheet.create({
       
     },
     newpricetext:{
+        fontFamily:"philosopher-regular",
         fontSize:15,
-        fontWeight:"bold",
         color:"#FD8D45",
         marginRight:5
     },
     oldpricetext:{
+        fontFamily:"philosopher-regular",
         fontSize:15,
-        fontWeight:"bold",
         color:"grey",
         marginRight:5,
         textDecorationLine: 'line-through',
          textDecorationStyle: 'solid'
     },
     offerText:{
+        fontFamily:"philosopher-regular",
         fontSize:15,
         color:"#FD8D45"
     },
     quantityText:{
-        fontWeight:'bold',
+        fontFamily:"philosopher-regular",
         color:"grey",
         fontSize:15,
         alignSelf:"flex-end"

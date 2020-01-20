@@ -24,8 +24,8 @@ class Cart extends Component {
 
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: "Cart",
-        headerStyle: { backgroundColor: '#FD8D45' },
-        headerTitleStyle: { color: 'white' ,fontSize:17,flex:1},
+        headerStyle: { backgroundColor: '#FD8D45', },
+        headerTitleStyle: { color: 'white' ,fontSize:17,flex:1,fontFamily:"Roboto-Light",},
         headerTintColor: 'white',
        
           
@@ -221,7 +221,7 @@ class Cart extends Component {
                 }
                 {this.props.cart_products.all_cart_products.length  == 0
                 ?
-                    <Text style={{alignSelf:'center',textAlignVertical: "center",  textAlign: 'center', justifyContent:"center",    fontSize:15,fontWeight:'bold',color:"grey"}}>No Items In Cart</Text>
+                    <Text style={{fontFamily:"Roboto-Light",alignSelf:'center',textAlignVertical: "center",  textAlign: 'center', justifyContent:"center",    fontSize:15,fontWeight:'bold',color:"grey"}}>No Items In Cart</Text>
                 :
                     <View/>
                 }

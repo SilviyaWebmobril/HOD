@@ -91,7 +91,7 @@ class GooglePlacesInput extends Component  {
         predefinedPlaces={[homePlace, workPlace]}
   
         debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-        renderLeftButton={()  => <Image source={require('../../Assets/search2.png')} style={{width:30 ,height:30,alignSelf:"center",marginLeft:5}}/>}
+        renderLeftButton={()  => <Image source={require('../Assets/search2.png')} style={{width:30 ,height:30,alignSelf:"center",marginLeft:5}}/>}
         // renderRightButton={() => <Text>Custom text after the input</Text>}
       />
     );

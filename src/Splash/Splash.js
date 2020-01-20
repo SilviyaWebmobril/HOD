@@ -1,14 +1,11 @@
 import React ,{ Component } from 'react';
 import { View,Image,Text,Dimensions ,Animated, Easing ,ImageBackground,Alert, Platform} from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 const {width, height} = Dimensions.get("window");
 import AsyncStorage from '@react-native-community/async-storage';
 const windowW= Dimensions.get('window').width
 const windowH = Dimensions.get('window').height
 import {connect} from 'react-redux';
 import { userData,userAddress,getUserId } from '../redux/store/actions/userDataAction';
-import * as  cartActions from '../redux/store/actions/cartAction';
-import { NavigationActions, StackActions } from 'react-navigation';
 import RNExitApp from 'react-native-exit-app';
 import NetInfo from "@react-native-community/netinfo";
   
@@ -123,30 +120,30 @@ class Splash extends Component {
           });
       
         return(
-            <ImageBackground source={require('../../Assets/bg.jpg')} style={{alignItems:"center",justifyContent:"center",flex:1}}>
+            <ImageBackground source={require('../Assets/bg.jpg')} style={{alignItems:"center",justifyContent:"center",flex:1}}>
             {/* <ScrollView style={{flex:1}}> */}
                 
                 <View style={{alignItems:"center",justifyContent:"center",marginLeft:10,marginRight:10,alignSelf:"center",position:'absolute',top:Dimensions.get('window').height * 0.33}}>
                     
                     {Platform.OS  ===  'android'
                     ?
-                    <Image source={require('../../Assets/h_new.png')} style={{alignSelf:"center", position: 'absolute', height: height/5.8,width: width/5.8,margin:20}}  />
+                    <Image source={require('../Assets/h_new.png')} style={{alignSelf:"center", position: 'absolute', height: height/5.8,width: width/5.8,margin:20}}  />
                     :
-                    <Image source={require('../../Assets/h_newone.png')} style={{alignSelf:"center", position: 'absolute', height:100,width: 50,margin:40}}  />
+                    <Image source={require('../Assets/h_newone.png')} style={{alignSelf:"center", position: 'absolute', height:100,width: 50,margin:40}}  />
                     }
-                    <Animated.Image   source={require('../../Assets/imgone.png')} style={{alignSelf:"center", height:300,width: 300, position: 'absolute', transform: [{rotate: RotateData}] }}  />
-                    <Image  source={require('../../Assets/imgthree.png')} style={{alignSelf:"center",   position: 'absolute', height: 200,width: 200}}  />
-                    <Image  source={require('../../Assets/imgtwo.png')} style={{alignSelf:"center",   position: 'absolute', height: 250,width: 250}}  />
+                    <Animated.Image   source={require('../Assets/imgone.png')} style={{alignSelf:"center", height:300,width: 300, position: 'absolute', transform: [{rotate: RotateData}] }}  />
+                    <Image  source={require('../Assets/imgthree.png')} style={{alignSelf:"center",   position: 'absolute', height: 200,width: 200}}  />
+                    <Image  source={require('../Assets/imgtwo.png')} style={{alignSelf:"center",   position: 'absolute', height: 250,width: 250}}  />
                 
                 </View>
                 {Platform.OS  ===  'android'
                 ?
                 <View style={{marginTop:200 ,width:'100%',alignSelf:"center",marginLeft:60,marginRight:60,top:30}}>
-                  <Image  source={require('../../Assets/name_new.png')} style={{alignSelf:"center",width:"90%",height:windowH/6.0}}/>
+                  <Image  source={require('../Assets/name_new.png')} style={{alignSelf:"center",width:"90%",height:windowH/6.0}}/>
                 </View>
                 :
                 <View style={{marginTop:200 ,width:'100%',alignSelf:"center",marginLeft:60,marginRight:60}}>
-                  <Image  source={require('../../Assets/name_new.png')} resizeMode="contain" style={{alignSelf:"center",width:"90%",height:windowH/4.5}}/>
+                  <Image  source={require('../Assets/name_new.png')} resizeMode="contain" style={{alignSelf:"center",width:"90%",height:windowH/4.5}}/>
                 </View>
                 }
                

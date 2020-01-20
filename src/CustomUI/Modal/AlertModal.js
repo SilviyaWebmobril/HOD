@@ -32,7 +32,7 @@ class AlertModal extends Component {
                         
                             
                             <View style={styles.rowone}>
-                                <Image source={require('../../../Assets/logo1.png')}/>
+                                <Image source={require('../../Assets/logo1.png')}/>
                                 <Text style={styles.title}>{this.props.cart.error_title}</Text>
 
                             </View >
@@ -49,7 +49,7 @@ class AlertModal extends Component {
                                 >
                                     <View style={styles.orangeButton}
                                     >   
-                                        <Text style={{alignSelf:"center",fontWeight:"bold",color:'white'}}>Confirm</Text>
+                                        <Text style={{alignSelf:"center",fontWeight:"bold",color:'white',fontFamily:"Roboto-Light",}}>Confirm</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>
@@ -119,11 +119,13 @@ const styles = StyleSheet.create({
         
       },
       titleDeliver:{
+        fontFamily:"Roboto-Light",
         fontSize: 13,
         color: "#FD8D45",
         fontWeight:'bold',
       },
       title: {
+        fontFamily:"Roboto-Light",
         fontSize: 15,
         color: "black",
         fontWeight:'bold',

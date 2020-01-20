@@ -9,7 +9,6 @@ const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
 import Banners from '../Banners/Banner';
 import HorizontalList from '../CustomUI/HorizontalList/HorizontalList';
 import CustomTextInputWithIcon from '../CustomUI/CustomTextInput/CustomTextInputWithIcon';
-import {images}  from  '../CustomUI/HorizontalList/imageUri';
 import ProductItem  from './ProductItem/ProductItem';
 import {connect} from 'react-redux';
 import * as cartActions from '../redux/store/actions/cartAction';
@@ -29,7 +28,7 @@ class HomeScreen extends  Component {
     constructor(props){
         super(props);
         this.state={
-            images: [...images],
+            //images: [...images],
             isLoading:this.props.cart.isLoading,
             product:[],
             banners:[],
@@ -42,6 +41,7 @@ class HomeScreen extends  Component {
             searchText:"",
             isRefreshing:false,
             iseditable :false,
+            hideComponent:false
             
         }
     }
@@ -147,20 +147,28 @@ class HomeScreen extends  Component {
     }
 
     showErrorAlert(error){
-
-        Alert.alert(
-            'Error',
-            `${error}`,
-            [
+        this.props.onError("")
+        // Alert.alert(
+        //     'Error',
+        //     `${error}`,
+        //     [
          
-            {text: 'OK', onPress: () => this.props.onError("")},
-            ], 
-            { cancelable: false }
-            )
+        //     {text: 'OK', onPress: () => this.props.onError("")},
+        //     ], 
+        //     { cancelable: false }
+        //     )
+    }
+
+    onSearchPress = () => {
+        this.setState({hideComponent:true},()=>{
+            this.refs._scrollView.scrollToPosition(0); 
+
+        })
+       
     }
 
     onSearchHandler = (value)=>{
-
+       
         this.setState({searchText:value},()=>{
 
             console.log("value === ",this.state.searchText);
@@ -178,6 +186,7 @@ class HomeScreen extends  Component {
 
     onRefresh = () =>{
 
+        this.setState({hideComponent:false});
         var userdata = [];
 
         //this.props.onUpdateUser(userdata);
@@ -218,23 +227,37 @@ class HomeScreen extends  Component {
             schedule_product_id ={this.state.schedule_product_id}
             schedule_product_price = {this.state.schedule_product_price}
             spinner={this.state.isLoading}>
-                <KeyboardAwareScrollView >
-                    <CustomTopHeader address={this.props.userdata.user_address} />
-                    {this.props.homescreen.banners.length > 0
+                <KeyboardAwareScrollView ref='_scrollView'>
+
+                    {!this.state.hideComponent
                     ?
-                        <Banners images={this.props.homescreen.banners}/>
-                    :
-                        <View/>
-                    }
-                    {
+                    <View>
+                        <CustomTopHeader address={this.props.userdata.user_address} />
+                            {this.props.homescreen.banners.length > 0
+                            ?
+                                <Banners images={this.props.homescreen.banners}/>
+                            :
+                                <View/>
+                            }
+                            {
                         this.props.homescreen.product.length > 0
                         ?
                         <HorizontalList products={this.props.homescreen.product} />
                         :
                         <View/>
                     }
+                    </View>
                   
-                    <CustomTextInputWithIcon keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'} placeholder="Search for Products.." isEditable={this.props.navigation.getParam('iseditable',"") == 1 ? true : false} searchValue={this.state.searchText}   onSearchPress={this.onSearchHandler.bind(this)}/>
+                    :
+                    <View/>
+                    }
+                    
+                  
+                    <CustomTextInputWithIcon keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
+                    placeholder="Search for Products.." isEditable={this.props.navigation.getParam('iseditable',"") == 1 ? true : false} 
+                    searchValue={this.state.searchText} 
+                    onFocus={()=>{this.onSearchPress()}}   
+                    onSearchPress={this.onSearchHandler.bind(this)}/>
 
                    
                    
@@ -249,7 +272,7 @@ class HomeScreen extends  Component {
 
                     {this.props.homescreen.getAllProducts.length  == 0
                     ?
-                        <Text style={{alignSelf:'center',textAlignVertical: "center",  textAlign: 'center', justifyContent:"center",    fontSize:15,fontWeight:'bold',color:"grey"}}>No Products Found.</Text>
+                        <Text style={{fontFamily:"Roboto-Light",alignSelf:'center',textAlignVertical: "center",  textAlign: 'center', justifyContent:"center",    fontSize:15,fontWeight:'bold',color:"grey"}}>No Products Found.</Text>
                     :
                         <View/>
                     }

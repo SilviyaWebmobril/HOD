@@ -177,11 +177,11 @@ class LoginEmail extends Component {
                      {DeviceInfo.isTablet() 
                         ?
                         <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}> Email* </Text>
+                            <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,fontFamily:"Roboto-Light",}}>Email*</Text>
                         </View>
                         :
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}> Email* </Text>
+                            <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,fontFamily:"Roboto-Light",}}>Email*</Text>
                         </View>
                     }
                    
@@ -197,11 +197,11 @@ class LoginEmail extends Component {
                     {DeviceInfo.isTablet() 
                         ?
                         <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                              <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}> Password* </Text>
+                              <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,fontFamily:"Roboto-Light",}}>Password*</Text>
                         </View>
                         :
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                             <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}> Password* </Text>
+                             <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,fontFamily:"Roboto-Light",}}>Password*</Text>
                         </View>
                     }
                    
@@ -216,7 +216,7 @@ class LoginEmail extends Component {
                             
                             />
 
-                        <CustomButton   text=" Forgot Password ? "
+                        <CustomButton   text="Forgot Password ?"
                         onPressHandler={()=>{this.props.navigation.navigate("ForgotPassword")}}
                          customButttonStyle={{alignItems:"flex-end",backgroundColor:'white',marginTop:0}} 
                          customTextStyle={{color:'#FD8D45',fontWeight: 'bold',fontSize: 14,textDecorationLine: 'underline'}}/>
@@ -224,15 +224,15 @@ class LoginEmail extends Component {
  
                         <CustomButton customTextStyle={{ color:'white'}} 
                             onPressHandler={()=>this.onLoginHandler()}
-                            text=" LOGIN " />
+                            text="LOGIN" />
 
                         <View style={{margin:25,justifyContent:"center"}}> 
-                            <Text style={{color:'#808080',fontWeight: 'bold',alignSelf:"center", fontSize: 17,justifyContent:"center"}}> OR </Text>
+                            <Text style={{color:'#808080',fontWeight: 'bold',alignSelf:"center", fontSize: 17,justifyContent:"center",fontFamily:"Roboto-Light",}}>OR</Text>
                         </View>
 
 
                         
-                        <CustomButton  customButttonStyle={{backgroundColor:"#FD8D45", }} customTextStyle={{ color:'black'}} onPressHandler = {() => this.onSubmit()} text=" CREATE ACCOUNT " />
+                        <CustomButton  customButttonStyle={{backgroundColor:"#FD8D45", }} customTextStyle={{ color:'black'}} onPressHandler = {() => this.onSubmit()} text="CREATE ACCOUNT" />
 
                         </KeyboardAwareScrollView>
 

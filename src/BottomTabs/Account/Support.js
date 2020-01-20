@@ -116,13 +116,11 @@ export default class Support extends Component{
                 {DeviceInfo.isTablet()
                 ?
                 <View style={{marginLeft:40,width:'90%',marginTop:20,flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                    <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>
-                        Subject*
-                    </Text>
+                    <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Subject*</Text>
                 </View>
                 :
                 <View style={{marginLeft:20,width:'90%',marginTop:20,flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                    <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}> Subject* </Text>
+                    <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Subject*</Text>
                 </View>
                 }
                
@@ -137,11 +135,11 @@ export default class Support extends Component{
                 {DeviceInfo.isTablet()
                 ?
                 <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                    <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}> Message* </Text>
+                    <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Message*</Text>
                 </View>
                 :
                 <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                    <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  Message* </Text>
+                    <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Message*</Text>
                 </View>
                 }
                

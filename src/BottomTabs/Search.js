@@ -174,7 +174,7 @@ import * as homeActions from '../redux/store/actions/homeAction';
 
                 {this.props.homescreen.search_products.length  == 0
                 ?
-                    <Text style={{alignSelf:'center',textAlignVertical: "center",  textAlign: 'center', justifyContent:"center",    fontSize:15,fontWeight:'bold',color:"grey"}}>No Items Found.</Text>
+                    <Text style={{alignSelf:'center',textAlignVertical: "center",  textAlign: 'center', justifyContent:"center",    fontSize:15,fontWeight:'bold',color:"grey",fontFamily:"Roboto-Light",}}>No Items Found.</Text>
                 :
                     <View/>
                 }

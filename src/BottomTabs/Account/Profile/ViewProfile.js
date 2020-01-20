@@ -6,8 +6,6 @@ const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
 );
 import CustomLogo  from '../../../CustomUI/Logo/CustomLogo';
-import AsyncStorage from '@react-native-community/async-storage';
-var { height } = Dimensions.get('window');
 import * as userAction   from '../../../redux/store/actions/userDataAction';
 import {connect} from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -17,12 +15,18 @@ import ApiUrl from '../../../Api/ApiUrl';
 import * as cartActions from '../../../redux/store/actions/cartAction';
 
 
+
 class ViewProfile  extends Component {
 
   static navigationOptions = ({ navigation, screenProps }) => ({
     title: "Profile",
     headerStyle: { backgroundColor: '#FD8D45' },
-    headerTitleStyle: { color: 'white' ,fontSize:17,flex:1 },
+    headerTitleStyle: {  color: 'white',
+      alignSelf: 'center',
+      textAlign: 'center',
+      flex: 1,
+      fontSize: 17,
+     },
     headerTintColor: 'white', 
     headerLeft:(
       <TouchableOpacity
@@ -31,13 +35,13 @@ class ViewProfile  extends Component {
         {Platform.OS === 'android' 
         ?
         <View style={{flexDirection:"row"}}>
-            <Image source={require('../../../../Assets/arrow_left.png')} style={{marginLeft:20}} />
+            <Image source={require('../../../Assets/arrow_left.png')} style={{marginLeft:20}} />
            
         </View>
        
         :
         <View style={{flexDirection:"row"}}>
-           <Image source={require('../../../../Assets/back_white_ios.png')} style={{marginLeft:20}} />
+           <Image source={require('../../../Assets/back_white_ios.png')} style={{marginLeft:20}} />
             <Text style={{color:"white"}}>Back</Text>
         </View>
        
@@ -149,8 +153,8 @@ class ViewProfile  extends Component {
               <Text style={{fontWeight:'bold',lineHeight:20,width:'70%'}}>{capitilize(item.homeaddress)}</Text>
               {/* <Text onPress={()=>this.onEditAddresshandler()}
               style={styles.editTextStyle}>Edit</Text> */}
-                <Text onPress={()=>this.onRemoveAddresshandler(item.id)}
-              style={styles.editTextStyle}>Remove</Text>
+              <Text onPress={()=>this.onRemoveAddresshandler(item.id)}
+                style={styles.editTextStyle}>Remove</Text>
               
           </View>
 
@@ -170,11 +174,13 @@ class ViewProfile  extends Component {
             <FullSCreenSpinnerAndDismissKeyboardView
             spinner={this.props.cart.isLoading}
             refreshing={false}
+            addressModal={this.state.viewAddressModal}
             style={styles.container}
+            cancelCallback={()=>{console.log("hello");this.setState({viewAddressModal:false})}}
              >
                 <View style={{marginRight:10,marginTop:10}}>
                     <Text onPress={()=>this.updateProfileHandler()}
-                     style={styles.updateTextStyle}>  UPDATE  </Text>
+                     style={styles.updateTextStyle}>UPDATE</Text>
                     
                 </View>
                 <CustomLogo />
@@ -192,10 +198,13 @@ class ViewProfile  extends Component {
 
                 <View style={styles.viewAddress}>
                   <View style={styles.addressHeadingView}>
-                    <Text style={styles.manageAddressText}>  Manage Address  </Text>
+                   
+                    <Text style={styles.manageAddressText}>Manage Address</Text>
                     
                     <View style={styles.viewAddressText}>
-                      <Text onPress={()=>this.addNewAddresshandler()} style={styles.addAddreesText}> Add New </Text>
+                     
+                      <Text onPress={()=>this.addNewAddresshandler()} style={styles.addAddreesText}>Add New</Text>
+                      <Text style={styles.addAddreesText} onPress={()=> {this.setState({viewAddressModal:true})}}>Set Primary Address</Text>
                       {/* <View style={styles.viewLine}></View> */}
                     </View>
                   </View>
@@ -210,12 +219,11 @@ class ViewProfile  extends Component {
 
 
                 </View>
+               
 
                 
             </FullSCreenSpinnerAndDismissKeyboardView>
             
-
-
         )
     }
 }
@@ -306,7 +314,7 @@ const styles =  StyleSheet.create({
 
   },
   manageAddressText:{
-
+    fontFamily:"Roboto-Light",
     lineHeight:30,
     fontSize:14,
     color:"black",
@@ -319,8 +327,8 @@ const styles =  StyleSheet.create({
   
   },
   addAddreesText:{
-  
-    lineHeight:30,
+    fontFamily:"Roboto-Light",
+    lineHeight:20,
     textDecorationLine:"underline",
     fontSize:12,
     color:"#FD8D45",
@@ -347,6 +355,7 @@ const styles =  StyleSheet.create({
     marginRight:15
   },
   editTextStyle:{
+    fontFamily:"Roboto-Light",
     color:"#FD8D45",
     alignSelf:'center',
     textDecorationLine:"underline"
@@ -360,6 +369,7 @@ const styles =  StyleSheet.create({
   },
   updateTextStyle:{
     color:"#FD8D45",
+    fontFamily:"Roboto-Light",
     textAlign:"right",
     textDecorationLine:"underline"
   }

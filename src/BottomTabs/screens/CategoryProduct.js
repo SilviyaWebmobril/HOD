@@ -152,16 +152,16 @@ class CategoryProduct extends Component {
    
 
     showErrorAlert(error){
-
-        Alert.alert(
-            'Error',
-            `${error}`,
-            [
+        this.props.onError("")
+        // Alert.alert(
+        //     'Error',
+        //     `${error}`,
+        //     [
          
-            {text: 'OK', onPress: () => this.props.onError("")},
-            ], 
-            { cancelable: false }
-            )
+        //     {text: 'OK', onPress: () => this.props.onError("")},
+        //     ], 
+        //     { cancelable: false }
+        //     )
         }
 
         
@@ -207,7 +207,7 @@ class CategoryProduct extends Component {
             {
                 this.props.homescreen.category_products.length == 0 
                 ?
-                <Text style={{fontWeight:"bold",justifyContent:"center",alignSelf:"center",fontSize:15}}>No Products Found.</Text>
+                <Text style={{fontFamily:"Roboto-Light",fontWeight:"bold",justifyContent:"center",alignSelf:"center",fontSize:15}}>No Products Found.</Text>
                 :
                 <View/>
 

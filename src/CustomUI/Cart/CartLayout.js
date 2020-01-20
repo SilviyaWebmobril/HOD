@@ -19,7 +19,7 @@ CartLayout = (props) => {
                 <View style={styles.rowRight}>
 
                     <Text style={styles.textStyles}>View Cart</Text>
-                    <Image source={require('../../../Assets/cart_white.png')} style={{width:20,height:20,marginLeft:4}} />
+                    <Image source={require('../../Assets/cart_white.png')} style={{width:20,height:20,marginLeft:4}} />
                 
                 </View>
             
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
       margin:20,
   },
   textStyles:{
+      fontFamily:"Roboto-Light",
       fontSize:12,
       fontWeight:"bold",
       color:"white"

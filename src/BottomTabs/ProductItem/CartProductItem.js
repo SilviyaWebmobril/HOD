@@ -116,10 +116,12 @@ class CartProductItem extends Component {
                             <View style={styles.sectionTextRow}>
                                 {this.props.data.product.is_discount ==  1 
                                     ?
-                                    <Text style={{lineHeight:20,marginTop:0,alignSelf:"center"}}>{'\u20B9'}{parseFloat(parseFloat(this.props.data.product.new_price) * parseFloat(this.props.data.quantity)).toFixed(2)}</Text>
+                                    <Text style={{lineHeight:20,marginTop:0,alignSelf:"center",fontFamily:"philosopher-regular",}}>{'\u20B9'}{parseFloat(parseFloat(this.props.data.product.new_price) * parseFloat(this.props.data.quantity)).toFixed(2)}</Text>
                                     :
-                                    <Text style={{lineHeight:20,marginTop:0,alignSelf:"center"}}>{'\u20B9'}{parseFloat(parseFloat(this.props.data.product.old_price) * parseFloat(this.props.data.quantity)).toFixed(2)}</Text>
+                                    <Text style={{lineHeight:20,marginTop:0,alignSelf:"center",fontFamily:"philosopher-regular",}}>{'\u20B9'}{parseFloat(parseFloat(this.props.data.product.old_price) * parseFloat(this.props.data.quantity)).toFixed(2)}</Text>
                                 }
+                                
+                                
                             </View>
                            
                             {/* <Text  style={{lineHeight:20}}>{this.props.data.product.quantity} Left</Text> */}
@@ -141,7 +143,7 @@ class CartProductItem extends Component {
                             //Add To Cart Button
                             <View  style={{justifyContent:"flex-end",alignContent:"flex-end",alignItems:"flex-end"}}>
                             
-                                <Text style={{fontSize:10,alignSelf:"flex-end",fontWeight:"bold",padding:4,borderRadius:3,borderWidth:1,color:"#FD8D45" ,borderColor:"#FD8D45"}}>  {this.state.subscription_type}  </Text>   
+                                <Text style={{fontSize:10,alignSelf:"flex-end",fontFamily:"philosopher-regular",padding:4,borderRadius:3,borderWidth:1,color:"#FD8D45" ,borderColor:"#FD8D45"}}>  {this.state.subscription_type}  </Text>   
                                 <IncrementDecrementSubscribe subscriptionType={this.props.data.subscription_type} product_id={this.props.data.product.id}  subscribed_qauntity={this.props.data.quantity} quantity={this.props.data.quantity}  price={this.props.data.product.is_discount == 1 ? this.props.data.product.new_price : this.props.data.product.old_price}  />
                                 
                                 
@@ -247,8 +249,8 @@ const mapStateToProps = state => {
         
     },
     textProductname:{
+        fontFamily:"Philosopher-Bold",
         fontSize:15,
-        fontWeight:"bold",
         color:"black",
         lineHeight:30,
     },

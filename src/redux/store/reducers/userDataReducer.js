@@ -1,6 +1,6 @@
 import { ADD_USER_DATA,REMOVE_ADDRESS, ADD_NEW_ADDRESS } from '../actions/types';
 import User from '../../../models/User';
-import { ADD_USER_ADDRESS ,CHANGE_MOBILE,USER_ID,ALL_ADDRESSES} from '../actions/types';
+import { ADD_USER_ADDRESS ,CHANGE_MOBILE,USER_ID,ALL_ADDRESSES,CHANGE_PRIMARY_ADDRESS_STATUS} from '../actions/types';
 
 
 const initialState = {
@@ -85,6 +85,23 @@ const initialState = {
                 ...state,
                 all_address:[...address_array]
 
+            }
+
+        case CHANGE_PRIMARY_ADDRESS_STATUS :
+            var address_id = action.payload;
+            let all_address = [...state.all_address];
+            all_address.forEach(ele => {
+
+                if(address_id == ele.id){
+                    ele.primary_status = 1;
+                }else{
+                    ele.primary_status = 0;
+                }
+
+            });
+            return {
+                ...state,
+                all_address:[...all_address]
             }
 
         default:

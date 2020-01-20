@@ -19,8 +19,7 @@ const today = new Date();
  
 class VisitOfFarm extends Component{
 
-  
-    
+   
 
     constructor(props){
         super(props);
@@ -29,9 +28,10 @@ class VisitOfFarm extends Component{
             isFocusedDate:false,
             isFocuseddate:false,
             isFocusedMessage:false,
-            date: new Date(),
+            date: this.formatDate(new Date()),
             time : today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
             isLoading:false,
+            farm_address:""
 
         }
     }
@@ -44,12 +44,41 @@ class VisitOfFarm extends Component{
         var month = new_date.getMonth();
         var year = new_date.getFullYear();
         if(month <10){
-            newmonth = "0"+month;
+            newmonth = "0"+(month+1);
         }else{
-            newmonth = month;
+            newmonth = month+1;
         }
+        console.log(year+"-"+newmonth+"-"+day);
         return year+"-"+newmonth+"-"+day;
 
+    }
+
+    componentDidMount(){
+
+       
+        Axios.get(ApiUrl.baseurl+ApiUrl.get_farm_address)
+            .then(response => {
+
+                if(response.data.status){
+
+                    this.setState({farm_address:response.data.data.address})
+                }
+
+            }).catch(error =>{
+
+                console.log("error",error);
+
+                Alert.alert(
+                    'Visit Of Farm Error',
+                    'Something Went Wrong ! Please Try Again Later.',
+                    [
+                 
+                    {text: 'OK', onPress: () => {console.log("ok")}},
+                    ], 
+                    { cancelable: false }
+                    )
+
+            })
     }
 
 
@@ -59,11 +88,12 @@ class VisitOfFarm extends Component{
             this.setState({isLoading:true});
             var formdata = new FormData();
             formdata.append("user_id",this.props.user.userdata.user_id);
-            formdata.append("date",this.formatDate(this.state.date));
+            formdata.append("date",this.state.date);
             formdata.append("time",this.state.time);
             formdata.append("message",this.refs.message.getInputTextValue("message"));
             formdata.append("subject",this.refs.subject.getInputTextValue("subject"));
-            
+            console.log("formdata visit",formdata);
+
             Axios.post(ApiUrl.baseurl + ApiUrl.vist_farm,formdata)
             .then(response => {
 
@@ -144,7 +174,7 @@ class VisitOfFarm extends Component{
         return(
             <FullSCreenSpinnerAndDismissKeyboardView style={styles.container} refreshing={false} spinner={this.state.isLoading}>
                  <View  style={styles.headerView}>
-                    <Text style={styles.textStyle}>  Visit Our Farm  </Text>
+                    <Text style={styles.headerTextStyle}>Visit Our Farm</Text>
                 </View> 
                 <KeyboardAwareScrollView>
 
@@ -153,22 +183,17 @@ class VisitOfFarm extends Component{
                     <View style={{marginBottom:30,}}>
                         
                         <View style={styles.addressView}>
-                            <Text style={styles.textAddressStyle}>
-                                Our Address: 23-D,N Block,
-                            </Text>
-                            <Text style={styles.textAddressStyle}>
-                                Saket, New Delhi
-                            </Text>
-
+                            <Text style={styles.textAddressStyle} numberOfLines={2}>Our Address: {this.state.farm_address}</Text>
+                            
                         </View>
                         {DeviceInfo.isTablet()
                         ?
-                        <View style={{marginLeft:40,marginTop:30,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>   Subject*  </Text>
+                        <View style={{marginLeft:40,marginTop:60,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                            <Text style={{color:'#808080',fontSize: 14,ffontFamily:"Philosopher-Bold",}}>Subject*</Text>
                         </View>
                         :
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>  Subject*  </Text>
+                            <Text style={{color:'#808080',fontSize: 14,fontFamily:"Philosopher-Bold",}}>Subject*</Text>
                         </View>
                         }
 
@@ -183,13 +208,11 @@ class VisitOfFarm extends Component{
                         {DeviceInfo.isTablet() 
                         ?
                         <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
-                                   Date*  
-                            </Text>
+                            <Text style={{color:'#808080',fontSize: 14,fontFamily:"Philosopher-Bold",}}>Date* </Text>
                         </View>
                         :
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>  Date*  </Text>
+                            <Text style={{color:'#808080',fontSize: 14,fontFamily:"Philosopher-Bold",}}>Date*</Text>
                         </View>
                         }
                       
@@ -228,13 +251,11 @@ class VisitOfFarm extends Component{
                         {DeviceInfo.isTablet() 
                         ?
                         <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
-                                 Time*
-                            </Text>
+                            <Text style={{color:'#808080',fontSize: 14,fontFamily:"Philosopher-Bold",}}>Time*</Text>
                         </View>
                         :
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>  Time*  </Text>
+                            <Text style={{color:'#808080',fontSize: 14,fontFamily:"Philosopher-Bold",}}>Time*</Text>
                         </View>
                         }
 
@@ -265,13 +286,11 @@ class VisitOfFarm extends Component{
                         {DeviceInfo.isTablet() 
                         ?
                         <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>
-                                    Message*     
-                            </Text>
+                            <Text style={{color:'#808080',fontSize: 14,fontFamily:"Philosopher-Bold",}}>Message*</Text>
                         </View>
                         :
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 14,}}>  Message*  </Text>
+                            <Text style={{color:'#808080',fontSize: 14,fontFamily:"Philosopher-Bold",}}>Message*</Text>
                         </View>
                         }
                       
@@ -321,15 +340,22 @@ const styles =  StyleSheet.create({
         justifyContent:"center"
 
     },
-    textStyle:{
-        fontSize:20,
+    headerTextStyle:{
         fontWeight:"bold",
+        fontSize:20,
+        color:"white",
+        alignSelf:"center",
+        textAlign:"center",
+    },
+    textStyle:{
+        fontFamily:"Philosopher-Bold",
+        fontSize:20,
         color:"white",
         alignSelf:"center",
         textAlign:"center",
     },
     addressView:{
-        height:80,
+        height:null,
         width:"100%",
         flexDirection:"column",
         backgroundColor:"#ececec",
@@ -338,12 +364,14 @@ const styles =  StyleSheet.create({
 
     },
     textAddressStyle:{
-
+        fontFamily:"Philosopher-Bold",
         fontSize:20,
-        fontWeight:"bold",
         color:"grey",
         textAlign:"center",
-        alignSelf:"center"
+        alignSelf:"center",
+        lineHeight:20,
+        margin:20
+        
 
     },
     customtxtInput: {

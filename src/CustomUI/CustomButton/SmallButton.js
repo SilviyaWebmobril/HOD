@@ -47,6 +47,7 @@ const styles  = StyleSheet.create({
         borderRadius:2
     },
     text:{
+        fontFamily:"Roboto-Light",
         fontSize:12,
         color:"black",
         justifyContent:"center",

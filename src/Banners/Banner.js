@@ -13,7 +13,7 @@ const Banner = (props) => {
       
         return (
             <View key={index}>
-                <Image style={styles.imageStyle} source={{uri:"https://www.webmobril.org/dev/hod/"+image.img}} />
+                <Image style={styles.imageStyle} source={{uri:"https://www.webmobril.org/dev/hod/"+image.img}} resizeMethod="resize" />
             </View>
         );
     
@@ -44,29 +44,33 @@ const Banner = (props) => {
             flex:1,
             backgroundColor: '#fff',
             justifyContent: 'center',
-            marginTop:40,
+            alignItems:"center",
             
         },
         viewLineBlack:{
-            width:'100%',
+            width:"90%",
             height:1,
             backgroundColor:"#9F9F9F",
-            marginTop:8,
+             marginTop:10,
             marginBottom:10,
-            marginLeft:20,
-            marginRight:20
+            // marginLeft:10,
+            // marginRight:10,
+
+           
             
         },
 
         imageStyle: {
-            width: "90%",
+           width:Dimensions.get('window').width * 0.9,
              height: BannerHeight , 
              alignSelf:"center",
             borderRadius:20,
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 1,
-            shadowRadius: 2,    
+            shadowRadius: 2,  
+            alignSelf:"center"  ,
+            marginTop:20
            
            
          

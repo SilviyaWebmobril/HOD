@@ -27,6 +27,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
             backgroundColor: '#FD8D45',
         },
         headerTitleStyle: {
+          fontFamily:"Roboto-Light",
             color: 'white',
             alignSelf: 'center',
             textAlign: 'center',
@@ -254,7 +255,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
                 <View style={{  justifyContent: 'center',alignItems: 'center',marginBottom:20,marginTop:20}}>
 
                     <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  House Number*  </Text>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>House Number*</Text>
                     </View>
                     <CustomTextInput 
                        inputType="houseno"
@@ -266,7 +267,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
                     />
 
                     <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  Floor No.*  </Text>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Floor No.*</Text>
                     </View>
                     <CustomTextInput 
                       inputType="floorno"
@@ -278,7 +279,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
                   />
 
                     <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  Pincode*  </Text>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Pincode*</Text>
                     </View>
                     <CustomTextInput 
                       inputType="pincode"
@@ -292,7 +293,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
                   />
 
                     <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,}}>  Landmark  </Text>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Landmark</Text>
                     </View>
                     <CustomTextInput 
                       inputType="landmark"

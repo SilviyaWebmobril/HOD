@@ -8,9 +8,10 @@ import ScheduleModal from '../CustomUI/Modal/ScheduleModal';
 import CustomSchedule from '../CustomUI/Modal/CustomSchedule';
 import AlertModal from '../CustomUI/Modal/AlertModal';
 import { KeyboardAwareHOC } from './mainHoc';
+import AddressModal from '../CustomUI/Modal/AddressModal';
 
 export default(Comp: ReactClass<*>) => {
-  return ({contentContainerStyle,alertVisible,refreshing,onRefresh,scheduleVisible,schedule_product_id,schedule_product_price,itemQuantity , itemTotalPrice,cartLayout, spinner, children, ...props }: Object) => (
+  return ({contentContainerStyle,alertVisible,refreshing,onRefresh,scheduleVisible,schedule_product_id,schedule_product_price,itemQuantity , itemTotalPrice,cartLayout, spinner,addressModal,cancelCallback, children, ...props }: Object) => (
 
    
       // <KeyboardAwareScrollView >
@@ -71,6 +72,17 @@ export default(Comp: ReactClass<*>) => {
               >
                 <ActivityIndicator size="large" />
               </View>}
+
+
+        {addressModal && 
+          <View 
+          style={[
+            StyleSheet.absoluteFill,
+            { backgroundColor: 'rgba(0,0,0,0.7)', justifyContent: 'center' ,alignItems:"center"}
+          ]}>
+            <AddressModal cancelCallback={cancelCallback}/>
+          </View>
+        }
 
 
 

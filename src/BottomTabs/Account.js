@@ -107,7 +107,7 @@ class Account extends Component {
 
             <View style={styles.container}>
                  <View  style={styles.headerView}>
-                    <Text style={styles.textStyle}>  Account  </Text>
+                    <Text style={styles.headertextStyle}>Account</Text>
                 </View>
                 <ScrollView >
                     <View style={{ alignItems:"center",justifyContent:"center"}}>   
@@ -116,8 +116,8 @@ class Account extends Component {
                             onPress={()=> this.viewProfile()}
                             >
                             <View style={styles.buttonView}>
-                                <Image source={require('../../Assets/user1.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
-                                <Text style={styles.btnTextStyle}>  Profile  </Text>
+                                <Image source={require('../Assets/user1.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
+                                <Text style={styles.btnTextStyle}>Profile</Text>
                             </View>
 
                         </TouchableOpacity>
@@ -128,8 +128,8 @@ class Account extends Component {
                             style={{alignContent:"flex-start",width:"100%"}}
                             >
                             <View style={styles.buttonView}>
-                                <Image source={require('../../Assets/transaction.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
-                                <Text style={styles.btnTextStyle}>  Transaction History  </Text>
+                                <Image source={require('../Assets/transaction.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
+                                <Text style={styles.btnTextStyle}>Transaction History</Text>
                             </View>
 
                         </TouchableOpacity>
@@ -138,8 +138,8 @@ class Account extends Component {
                             style={{alignContent:"flex-start",width:"100%"}}
                             >
                             <View style={styles.buttonView}>
-                                <Image source={require('../../Assets/code.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
-                                <Text style={styles.btnTextStyle}>  Refferal Code  </Text>
+                                <Image source={require('../Assets/code.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
+                                <Text style={styles.btnTextStyle}>Refferal Code</Text>
                             </View>
 
                         </TouchableOpacity>
@@ -149,8 +149,8 @@ class Account extends Component {
                             onPress={()=>this.onSupportHandler()}
                             >
                             <View style={styles.buttonView}>
-                                <Image source={require('../../Assets/support.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
-                                <Text style={styles.btnTextStyle}>  Support  </Text>
+                                <Image source={require('../Assets/support.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
+                                <Text style={styles.btnTextStyle}>Support</Text>
                             </View>
 
                         </TouchableOpacity>
@@ -160,8 +160,8 @@ class Account extends Component {
                             style={{alignContent:"flex-start",width:"100%"}}
                             >
                             <View style={styles.buttonView}>
-                                <Image source={require('../../Assets/fav.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
-                                <Text style={styles.btnTextStyle}>  About Us  </Text>
+                                <Image source={require('../Assets/fav.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
+                                <Text style={styles.btnTextStyle}>About Us</Text>
                             </View>
 
                         </TouchableOpacity>
@@ -171,8 +171,8 @@ class Account extends Component {
                             style={{alignContent:"flex-start",width:"100%"}}
                             >
                             <View style={styles.buttonView}>
-                                <Image source={require('../../Assets/privacy.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
-                                <Text style={styles.btnTextStyle}>  Privacy Policy  </Text>
+                                <Image source={require('../Assets/privacy.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
+                                <Text style={styles.btnTextStyle}>Privacy Policy</Text>
                             </View>
 
                         </TouchableOpacity>
@@ -182,8 +182,8 @@ class Account extends Component {
                             style={{alignContent:"flex-start",width:"100%"}}
                             >
                             <View style={styles.buttonView}>
-                                <Image source={require('../../Assets/signout.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
-                                <Text style={styles.btnTextStyle}> Sign Out  </Text>
+                                <Image source={require('../Assets/signout.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
+                                <Text style={styles.btnTextStyle}>Sign Out</Text>
                             </View>
 
                         </TouchableOpacity>
@@ -227,9 +227,16 @@ const styles =  StyleSheet.create({
         justifyContent:"center"
 
     },
-    textStyle:{
-        fontSize:20,
+    headertextStyle:{
         fontWeight:"bold",
+        fontSize:20,
+        color:"white",
+        alignSelf:"center",
+        textAlign:"center",   
+    },
+    textStyle:{
+        fontFamily:"Philosopher-Bold",
+        fontSize:20,
         color:"white",
         alignSelf:"center",
         textAlign:"center",
@@ -245,7 +252,8 @@ const styles =  StyleSheet.create({
         
     },
     btnTextStyle:{
-        fontWeight:"bold",
+        fontFamily:"Philosopher-Bold",
+        //fontWeight:"bold",
         color:"grey",
         fontSize:17
     },

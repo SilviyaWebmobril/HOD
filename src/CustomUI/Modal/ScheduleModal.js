@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
       
     },
     title: {
+      fontFamily:"Roboto-Light",
       fontSize: 15,
       color: "#FD8D45",
       fontWeight:'bold'

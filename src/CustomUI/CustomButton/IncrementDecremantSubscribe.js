@@ -68,7 +68,7 @@ class IncrementDecrementSubscribe extends Component {
                 onPress={()=>this.onMinusHandler()} 
                >
                     <View style={styles.viewButton1}>
-                        <Image source={require('../../../Assets/minus.png')} style={styles.imageStyle}/>
+                        <Image source={require('../../Assets/minus.png')} style={styles.imageStyle}/>
                     </View>
                 </TouchableOpacity>
                 <View style={styles.viewText}>
@@ -77,7 +77,7 @@ class IncrementDecrementSubscribe extends Component {
                 <TouchableOpacity
                   onPress={()=>this.onPlusHandler()}>
                     <View style={styles.viewButton2}>
-                        <Image source={require('../../../Assets/plus.png')} style={styles.imageStyle} />
+                        <Image source={require('../../Assets/plus.png')} style={styles.imageStyle} />
                     </View>
                 </TouchableOpacity>
 
@@ -146,6 +146,7 @@ const styles =  StyleSheet.create({
         borderBottomRightRadius:2
     },
     viewText:{
+        fontFamily:"Roboto-Light",
         backgroundColor:'#FD8D45',
         width:'auto',
         padding:2.2,

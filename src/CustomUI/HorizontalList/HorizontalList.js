@@ -1,6 +1,5 @@
 import React ,{ Component}  from 'react';
 import { View ,Text,StyleSheet, Image,FlatList,Dimensions,TouchableHighlight}   from 'react-native';
-import {images} from './imageUri';
 import { withNavigation } from 'react-navigation';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -12,7 +11,7 @@ class HorizontalList extends  Component {
         super(props);
        
         this.state = {
-            images : [...images]
+            images : []
         }
 
        
@@ -35,7 +34,7 @@ class HorizontalList extends  Component {
                         <View>
                             <Image source={{uri:"http://webmobril.org/dev/hod/"+item.cat_img}} 
                             style={styles.cardView}/>
-                            <Image source={require('../../../Assets/overlay.png')} style={styles.topImageStyle} />
+                            <Image source={require('../../Assets/overlay.png')} style={styles.topImageStyle} />
                             <Text  numberOfLines={3} style={styles.textStyle}>{item.name}</Text>
                         </View>
                     </TouchableHighlight>
@@ -49,7 +48,7 @@ class HorizontalList extends  Component {
     render(){
     
         return(
-            <View >
+            <View style={{marginTop:10}}>
                 
                 <FlatList
                         
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
         borderRadius:10,
         marginLeft:10,
         marginRight:8,
-        marginTop:5,
+        marginTop:10,
         marginBottom:10,
         borderColor:"#E8E8E8",
          borderWidth:1
@@ -105,6 +104,7 @@ const styles = StyleSheet.create({
         marginBottom:10
     },
     textStyle:{
+        fontFamily:"Philosopher-Bold",
         fontSize:17,
         position: 'absolute',
         alignSelf:"center",
@@ -113,7 +113,6 @@ const styles = StyleSheet.create({
         marginLeft:35,
         alignItems:"center",
         justifyContent:"center",
-        fontWeight:"bold",
         color:'white'
     }
 

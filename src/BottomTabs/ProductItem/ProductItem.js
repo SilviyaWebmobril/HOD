@@ -51,15 +51,19 @@ class ProductItem extends Component {
                     <View style={styles.sectionRow}>
                         <View >
                             <Text style={styles.textProductname}>{this.props.data.name}</Text>
-                            <View style={styles.sectionTextRow}>
+                            {/* <View style={styles.sectionTextRow}> */}
+                           
                             {this.props.data.is_discount ==  1 
                                 ?
-                                <Text style={{lineHeight:20,marginTop:0,alignSelf:"center"}}>{'\u20B9'}{this.props.data.new_price}</Text>
+                                <View style={{justifyContent:"flex-start",alignItems:"flex-start"}}>
+                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"Philosopher-Bold",color:"#FD8D45",}}>{'\u20B9'}{this.props.data.new_price}</Text>
+                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"philosopher-regular",textDecorationLine: 'line-through',textDecorationStyle: 'solid'}}>{'\u20B9'}{this.props.data.old_price}</Text>
+                                </View>
                                 :
-                                <Text style={{lineHeight:20,marginTop:0,alignSelf:"center"}}>{'\u20B9'}{this.props.data.old_price}</Text>
+                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"philosopher-regular",}}>{'\u20B9'}{this.props.data.old_price}</Text>
                             }
                                 
-                            </View>
+                            {/* </View> */}
                             
                         </View>
                         {this.props.data.product_category.allow_subscription == 1  ? 
@@ -92,7 +96,7 @@ class ProductItem extends Component {
                                     
                             
                             
-                                {(!this.props.data.subscribed.itemOnCart  ) ?
+                                {/* {(!this.props.data.subscribed.itemOnCart  ) ?
 
                                         
                                         <CustomButton 
@@ -113,7 +117,7 @@ class ProductItem extends Component {
                                 
                             
                                 
-                                }
+                                } */}
                             
                             </View>
                             
@@ -241,18 +245,19 @@ const mapStateToProps = state => {
         
     },
     textProductname:{
+        fontFamily:"Philosopher-Bold",
         fontSize:15,
-        fontWeight:"bold",
+        //fontWeight:"bold",
         color:"black",
         lineHeight:20,
         marginTop:20,
-        marginBottom:10
+        marginBottom:5
     },
     textBorder:{
        borderColor:"grey",
         textAlign:"center",
         padding:2,
-        
+        fontFamily:"philosopher-regular",
         borderRadius:2,
         lineHeight:20,
         width:"auto",

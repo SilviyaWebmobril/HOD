@@ -29,6 +29,7 @@ import TransactionHistory from '../BottomTabs/Account/TransactionHistory/Transac
 import AboutUs from '../BottomTabs/Account/AboutUs';
 import PrivacyPolicy from '../BottomTabs/Account/PrivacyPolicy';
 import UpdateMobile from '../BottomTabs/Account/Profile/UpdateMobile';
+import SelectAddress from '../SearchLocation/SelectAddress';
 
 const Bottomtabs = createBottomTabNavigator({
 
@@ -41,8 +42,8 @@ const Bottomtabs = createBottomTabNavigator({
       tabBarIcon: ({focused, tintColor }) => {
    
         const image = focused
-        ? require('../../Assets/home.png')
-        : require('../../Assets/home-grey.png')
+        ? require('../Assets/home.png')
+        : require('../Assets/home-grey.png')
 
         return(
 
@@ -62,8 +63,8 @@ const Bottomtabs = createBottomTabNavigator({
       tabBarIcon: ({focused, tintColor }) => {
 
        const image =  focused
-      ? require('../../Assets/visit.png')
-      : require('../../Assets/visit-grey.png')
+      ? require('../Assets/visit.png')
+      : require('../Assets/visit-grey.png')
       return(
 
         <View>  
@@ -82,8 +83,8 @@ const Bottomtabs = createBottomTabNavigator({
       tabBarIcon: ({focused, tintColor }) => {
 
         const image =  focused
-        ? require('../../Assets/certificate.png') 
-        : require('../../Assets/certificate-grey.png')
+        ? require('../Assets/certificate.png') 
+        : require('../Assets/certificate-grey.png')
         return (
 
           <View>  
@@ -101,8 +102,8 @@ const Bottomtabs = createBottomTabNavigator({
       tabBarIcon: ({ focused,tintColor }) => {
 
         const image =  focused
-        ? require('../../Assets/search2.png') 
-        : require('../../Assets/search1.png')
+        ? require('../Assets/search2.png') 
+        : require('../Assets/search1.png')
 
         return(
 
@@ -138,8 +139,8 @@ const Bottomtabs = createBottomTabNavigator({
       tabBarIcon: ({focused, tintColor }) => {
 
         const image =  focused
-        ? require('../../Assets/user.png')
-        : require('../../Assets/user1.png')
+        ? require('../Assets/user.png')
+        : require('../Assets/user1.png')
 
 
         return(
@@ -211,6 +212,7 @@ const profile = createStackNavigator({
 });
 
 const search = createStackNavigator({
+  SelectAddress,
   SearchLocation,
   SearchLocationContinue,
 });

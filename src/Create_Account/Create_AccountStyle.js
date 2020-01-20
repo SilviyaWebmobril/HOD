@@ -53,6 +53,7 @@ const Create_AccountStyle = StyleSheet.create({
         borderColor: '#48241e'
       },
       btntxt:{
+        fontFamily:"Roboto-Light",
         color:'#ffffff',
         fontWeight: 'bold',
         fontSize: 17,

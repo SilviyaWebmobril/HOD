@@ -405,7 +405,7 @@ const deviceWidth = Dimensions.get("window").width;
                                     >
                                     <View style={styles.greyButton}
                                     >   
-                                        <Text style={{alignSelf:"center",fontWeight:"bold",color:'white'}}>Cancel</Text>
+                                        <Text style={{alignSelf:"center",fontWeight:"bold",color:'white',fontFamily:"Roboto-Light",}}>Cancel</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>
@@ -414,7 +414,7 @@ const deviceWidth = Dimensions.get("window").width;
                                 onPress={()=> {this.confirmSchedule("5")}}>
                                     <View style={styles.orangeButton}
                                     >   
-                                        <Text style={{alignSelf:"center",fontWeight:"bold",color:'white'}}>Confirm</Text>
+                                        <Text style={{alignSelf:"center",fontWeight:"bold",color:'white',fontFamily:"Roboto-Light",}}>Confirm</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>
@@ -485,17 +485,20 @@ const styles = StyleSheet.create({
         
       },
       titleDeliver:{
+        fontFamily:"Roboto-Light",
         fontSize: 13,
         color: "#FD8D45",
         fontWeight:'bold',
       },
       title: {
+        fontFamily:"Roboto-Light",
         fontSize: 15,
         color: "black",
         fontWeight:'bold',
        
       },
       textStyle: {
+        fontFamily:"Roboto-Light",
         fontSize: 14,
         color: "grey",
         fontWeight:'bold',

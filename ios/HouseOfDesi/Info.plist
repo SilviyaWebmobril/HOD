@@ -61,6 +61,14 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>Roboto-LightItalic.ttf</string>
+		<string>Alegreya-Regular.ttf</string>
+		<string>Philosopher-Regular.ttf</string>
+		<string>alegreya-regular.ttf</string>
+		<string>philosopher-regular.ttf</string>
+		<string>roboto-lightItalic.ttf</string>
+		<string>Alegreya-Bold.ttf</string>
+		<string>Philosopher-Bold.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
@@ -78,12 +86,12 @@
 	<false/>
 	<key>CFBundleURLTypes</key>
 	<array>
-	<dict>
-		<key>CFBundleURLSchemes</key>
-		<array>
-		<string>fb462972570974215</string>
-		</array>
-	</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb462972570974215</string>
+			</array>
+		</dict>
 	</array>
 	<key>FacebookAppID</key>
 	<string>462972570974215</string>
@@ -91,10 +99,10 @@
 	<string>HouseOfDesi</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-	<string>fbapi</string>
-	<string>fb-messenger-share-api</string>
-	<string>fbauth2</string>
-	<string>fbshareextension</string>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
 	</array>
 </dict>
 </plist>

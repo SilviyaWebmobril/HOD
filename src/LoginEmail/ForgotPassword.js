@@ -143,11 +143,11 @@ class ForgotPassword extends Component {
                     {DeviceInfo.isTablet()
                     ?
                         <View style={{marginLeft:40,width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}> Enter Email* </Text>
+                            <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,fontFamily:"Roboto-Light",}}>Enter Email*</Text>
                         </View>
                     :
                         <View style={{marginLeft:20,width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,}}> Enter Email* </Text>
+                            <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,fontFamily:"Roboto-Light",}}>Enter Email*</Text>
                         </View>
                     }
                    

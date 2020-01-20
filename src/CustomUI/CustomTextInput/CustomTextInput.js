@@ -602,6 +602,7 @@ const textInput = StyleSheet.create({
     },
 
     txtInput: {
+        fontFamily:"Roboto-Light",
         width:'90%',
         padding:10,
         borderColor: 'gray',
@@ -642,7 +643,7 @@ const textInput = StyleSheet.create({
       },
       errorTextStyle:{
         marginLeft:20,
-       
+        fontFamily:"Roboto-Light",
         justifyContent:'flex-start',
         alignSelf:"flex-start",
         color:'red',
