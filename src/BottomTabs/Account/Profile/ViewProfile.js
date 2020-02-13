@@ -279,7 +279,7 @@ const styles =  StyleSheet.create({
     lineHeight:30,
     fontSize:20,
     color:"black",
-    fontWeight:"bold",
+    fontFamily:'roboto-bold',
     alignItems:"center",
     justifyContent:"center",
     textAlign:"center"
@@ -296,7 +296,8 @@ const styles =  StyleSheet.create({
     alignSelf:"center",
     alignItems:"center",
     justifyContent:"center",
-    textAlign:"center"
+    textAlign:"center",
+    fontFamily:'roboto-bold',
 
   },
   viewAddress:{
@@ -314,11 +315,10 @@ const styles =  StyleSheet.create({
 
   },
   manageAddressText:{
-    fontFamily:"Roboto-Light",
+    fontFamily:'roboto-bold',
     lineHeight:30,
     fontSize:14,
     color:"black",
-    fontWeight:"bold",
     
 
   },
@@ -327,7 +327,7 @@ const styles =  StyleSheet.create({
   
   },
   addAddreesText:{
-    fontFamily:"Roboto-Light",
+    fontFamily:'roboto-light',
     lineHeight:20,
     textDecorationLine:"underline",
     fontSize:12,
@@ -355,7 +355,7 @@ const styles =  StyleSheet.create({
     marginRight:15
   },
   editTextStyle:{
-    fontFamily:"Roboto-Light",
+    fontFamily:'roboto-light',
     color:"#FD8D45",
     alignSelf:'center',
     textDecorationLine:"underline"
@@ -369,7 +369,7 @@ const styles =  StyleSheet.create({
   },
   updateTextStyle:{
     color:"#FD8D45",
-    fontFamily:"Roboto-Light",
+    fontFamily:'roboto-light',
     textAlign:"right",
     textDecorationLine:"underline"
   }

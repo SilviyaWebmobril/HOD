@@ -59,9 +59,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RNCWebViewPackage(),
             new RNFirebasePackage(),
             new AsyncStoragePackage(),
-
             new ReactVideoPackage(),
-
             new VectorIconsPackage(),
             new RNGestureHandlerPackage(),
             new RNFirebaseMessagingPackage()

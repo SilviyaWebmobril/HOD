@@ -189,11 +189,11 @@ class VisitOfFarm extends Component{
                         {DeviceInfo.isTablet()
                         ?
                         <View style={{marginLeft:40,marginTop:60,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontSize: 14,ffontFamily:"Philosopher-Bold",}}>Subject*</Text>
+                            <Text style={{color:'#808080',fontSize: 14, fontFamily:'roboto-bold',}}>Subject*</Text>
                         </View>
                         :
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontSize: 14,fontFamily:"Philosopher-Bold",}}>Subject*</Text>
+                            <Text style={{color:'#808080',fontSize: 14, fontFamily:'roboto-bold',}}>Subject*</Text>
                         </View>
                         }
 
@@ -208,11 +208,11 @@ class VisitOfFarm extends Component{
                         {DeviceInfo.isTablet() 
                         ?
                         <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontSize: 14,fontFamily:"Philosopher-Bold",}}>Date* </Text>
+                            <Text style={{color:'#808080',fontSize: 14, fontFamily:'roboto-bold',}}>Date* </Text>
                         </View>
                         :
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontSize: 14,fontFamily:"Philosopher-Bold",}}>Date*</Text>
+                            <Text style={{color:'#808080',fontSize: 14, fontFamily:'roboto-bold',}}>Date*</Text>
                         </View>
                         }
                       
@@ -251,11 +251,11 @@ class VisitOfFarm extends Component{
                         {DeviceInfo.isTablet() 
                         ?
                         <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontSize: 14,fontFamily:"Philosopher-Bold",}}>Time*</Text>
+                            <Text style={{color:'#808080',fontSize: 14,fontFamily:'roboto-bold',}}>Time*</Text>
                         </View>
                         :
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontSize: 14,fontFamily:"Philosopher-Bold",}}>Time*</Text>
+                            <Text style={{color:'#808080',fontSize: 14, fontFamily:'roboto-bold',}}>Time*</Text>
                         </View>
                         }
 
@@ -286,11 +286,11 @@ class VisitOfFarm extends Component{
                         {DeviceInfo.isTablet() 
                         ?
                         <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontSize: 14,fontFamily:"Philosopher-Bold",}}>Message*</Text>
+                            <Text style={{color:'#808080',fontSize: 14, fontFamily:'roboto-bold',}}>Message*</Text>
                         </View>
                         :
                         <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontSize: 14,fontFamily:"Philosopher-Bold",}}>Message*</Text>
+                            <Text style={{color:'#808080',fontSize: 14, fontFamily:'roboto-bold',}}>Message*</Text>
                         </View>
                         }
                       
@@ -341,14 +341,14 @@ const styles =  StyleSheet.create({
 
     },
     headerTextStyle:{
-        fontWeight:"bold",
+        fontFamily:'roboto-bold',
         fontSize:20,
         color:"white",
         alignSelf:"center",
         textAlign:"center",
     },
     textStyle:{
-        fontFamily:"Philosopher-Bold",
+        fontFamily:'roboto-bold',
         fontSize:20,
         color:"white",
         alignSelf:"center",
@@ -364,7 +364,7 @@ const styles =  StyleSheet.create({
 
     },
     textAddressStyle:{
-        fontFamily:"Philosopher-Bold",
+        fontFamily:'roboto-bold',
         fontSize:20,
         color:"grey",
         textAlign:"center",

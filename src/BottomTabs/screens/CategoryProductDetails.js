@@ -355,7 +355,7 @@ const styles =  StyleSheet.create({
       
     },
     productname:{
-        fontFamily:"Philosopher-Bold",
+        fontFamily:'roboto-bold',
         fontSize:17,
         marginBottom:7
       
@@ -367,7 +367,7 @@ const styles =  StyleSheet.create({
        
     },
     unitViewText:{
-        fontFamily:"philosopher-regular",
+        fontFamily:'roboto-light',
         fontSize:12,
         padding:5 ,
         alignSelf:"flex-start",
@@ -382,13 +382,13 @@ const styles =  StyleSheet.create({
       
     },
     newpricetext:{
-        fontFamily:"philosopher-regular",
+        fontFamily:'roboto-light',
         fontSize:15,
         color:"#FD8D45",
         marginRight:5
     },
     oldpricetext:{
-        fontFamily:"philosopher-regular",
+        fontFamily:'roboto-light',
         fontSize:15,
         color:"grey",
         marginRight:5,
@@ -396,12 +396,12 @@ const styles =  StyleSheet.create({
          textDecorationStyle: 'solid'
     },
     offerText:{
-        fontFamily:"philosopher-regular",
+        fontFamily:'roboto-light',
         fontSize:15,
         color:"#FD8D45"
     },
     quantityText:{
-        fontFamily:"philosopher-regular",
+        fontFamily:'roboto-light',
         color:"grey",
         fontSize:15,
         alignSelf:"flex-end"

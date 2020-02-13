@@ -155,7 +155,7 @@ class UpdateMobile extends Component {
                
                     <View style={LoginStyle.bottom}>
                         <View style={{width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:'Roboto-Light',}}>Mobile No.</Text>
+                            <Text style={{color:'#808080',fontSize: 17,fontFamily:'roboto-light',}}>Mobile No.</Text>
                         </View>
                     
 
@@ -175,7 +175,7 @@ class UpdateMobile extends Component {
 
                     <View style={{width:"100%"}}>
                         <View style={{margin:25,alignSelf:"center"}}> 
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17, fontFamily:"Roboto-Light"}}> OR </Text>
+                            <Text style={{color:'#808080',fontSize: 17, fontFamily:"roboto-light"}}> OR </Text>
                         </View>
 
                         <CustomButton text=" CREATE ACCOUNT "

@@ -709,6 +709,9 @@ export default (state = initialState ,action) => {
 
                 products.map(value => {
 
+                    // change display stock here
+                    value.quantity = value.quantity - 1;
+
                     ids.map(item =>{
                         if(value.id == item){
 
@@ -736,6 +739,8 @@ export default (state = initialState ,action) => {
                 ids.map(item => {
 
                     products.map(value =>{
+
+                        // change display stock here
                         if(value.id == item){
 
                            if(value.get_once.itemOnCart){
@@ -767,6 +772,7 @@ export default (state = initialState ,action) => {
 
                     search_prod.map(value => {
 
+                        value.quantity = value.quantity - 1;
                         ids.map(item =>{
                             if(value.id == item){
     

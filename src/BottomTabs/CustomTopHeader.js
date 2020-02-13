@@ -34,25 +34,25 @@ class CustomTopHeader extends  Component {
 
             <View style={styles.container}>
                 <View style={styles.deliveryLocationSection}>
-                    <View style={{alignItems:"flex-start", flexDirection:"row",}}>
+                    <View style={{alignItems:"flex-start", flexDirection:"row",flex:1}}>
                         <Image style={{width:25,height:25}}  source={require('../Assets/location1.png')} />
                         <Text style={styles.textStyle}>Delivery Location</Text>
                         <TouchableOpacity
                         onPress={()=>{this.SearchLocation()}}>
-                            <Image style={{width:15,height:15,marginLeft:10,marginTop:8}}  source={require('../Assets/pencil.png')} />
+                            <Image style={{width:15,height:15,marginLeft:10,marginTop:2}}  source={require('../Assets/pencil.png')} />
                         </TouchableOpacity>
                     </View>
-                    <View  style={{ flexDirection:"row",position: 'absolute', right: 0}}>
+                    <View  style={{ flexDirection:"row",justifyContent:'flex-end',flex:1}}>
                         <TouchableOpacity
                          onPress={()=>{this.props.navigation.navigate("TransactionHistory")}}>
-                            <Image style={{width:25,height:25,marginRight:10}} source={require('../Assets/order.png')} />
+                            <Image style={{width:22,height:22,marginRight:10}} source={require('../Assets/order.png')} />
                         </TouchableOpacity> 
                        
                         <Cartbadge img= {0} count={this.props.cart_count.total_cart_count} nav={this.props.navigation}/>
                     </View>
                 </View>
                 <View style={styles.locationView}>
-                    <Text style={styles.locationTextStyle}numberOfLines = { 2} >
+                    <Text style={styles.locationTextStyle}numberOfLines = {1} >
                      { this.props.address != null ?
 
                          capitilize(this.props.address)
@@ -61,7 +61,7 @@ class CustomTopHeader extends  Component {
                          }
                     </Text>
                     
-                    <Image style={{width:'60%',height:20,marginTop:10,marginBottom:0}} source={require('../Assets/curve.png')} />
+                    <Image style={{width:'100%',height:20,marginTop:10,marginBottom:0}} source={require('../Assets/curve.png')} />
                     <View style={styles.viewLineBlack}></View>
                 </View>
               
@@ -96,12 +96,13 @@ const styles =  StyleSheet.create({
     deliveryLocationSection:{
 
         flexDirection:"row",
+        
       
     },
     textStyle:{
         fontFamily:"Roboto-Light",
-        fontSize:17,
-        marginTop:4,
+        fontSize:18,
+       
     },
     locationView:{
         flexDirection:"column"

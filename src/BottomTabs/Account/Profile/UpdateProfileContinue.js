@@ -308,9 +308,8 @@ const styles =  StyleSheet.create({
         alignItems:'flex-start'
     },
     labelText:{
-        fontFamily:"Roboto-Light",
+        fontFamily:"roboto-light",
         color:'#808080',
-        fontWeight: 'bold',
         fontSize: 17,
     }
 

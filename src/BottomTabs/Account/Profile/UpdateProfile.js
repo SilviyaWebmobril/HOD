@@ -334,13 +334,12 @@ const styles =  StyleSheet.create({
         alignItems:'flex-start'
     },
     labelText:{
-        fontFamily:"Roboto-Light",
+        fontFamily:"roboto-bold",
         color:'#808080',
-        fontWeight: 'bold',
         fontSize: 17,
     },
     inputIOS: {
-        fontFamily:"Roboto-Light",
+        fontFamily:"roboto-light",
         fontSize: 16,
         paddingVertical: 12,
         paddingHorizontal: 10,

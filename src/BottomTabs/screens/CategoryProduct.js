@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
     },
     textStyles:{
         fontSize:14,
-        fontWeight:"bold",
+        fontFamily:'roboto-bold',
         color:"white"
     }
 

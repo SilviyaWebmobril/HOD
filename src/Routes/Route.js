@@ -30,6 +30,7 @@ import AboutUs from '../BottomTabs/Account/AboutUs';
 import PrivacyPolicy from '../BottomTabs/Account/PrivacyPolicy';
 import UpdateMobile from '../BottomTabs/Account/Profile/UpdateMobile';
 import SelectAddress from '../SearchLocation/SelectAddress';
+import OfferTerms from '../Banners/OfferTerms';
 
 const Bottomtabs = createBottomTabNavigator({
 
@@ -240,6 +241,7 @@ const bottomtabsStack = createStackNavigator({
     }
   },
  
+  OfferTerms,
   Cart ,
   MyVideo,
   AboutUs,

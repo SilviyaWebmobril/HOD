@@ -41,12 +41,12 @@ class TransactionHistory extends Component {
                 <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.product.img}} resizeMode="contain" style={{width:120, height:120,borderRadius:10}}/>
                 <View style={styles.sectionRow}>
                     <View style={{alignContent:"center",alignItems:"center"}}>
-                        <Text style={{color:"black",marginBottom:10,alignSelf:"flex-start",fontFamily:"Philosopher-Bold",}}>{this.props.data.product.name}</Text>
+                        <Text style={{color:"black",marginBottom:10,alignSelf:"flex-start",fontFamily:"roboto-bold",}}>{this.props.data.product.name}</Text>
                         <View style={styles.unitView}>
                             <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)} {this.props.data.product.unit.name}</Text>
                         </View>
-                        <Text style={{color:"#FD8D45",fontSize:12,alignSelf:"flex-start",fontFamily:"philosopher-regular",}}>{'\u20B9'} {this.props.data.price} </Text>
-                        <Text style={{color:"#FD8D45",fontSize:12,alignSelf:"flex-start",marginTop:5,fontFamily:"philosopher-regular",}}>Quantity : {this.props.data.quantity}</Text>
+                        <Text style={{color:"#FD8D45",fontSize:12,alignSelf:"flex-start",fontFamily:"roboto-light",}}>{'\u20B9'} {this.props.data.price} </Text>
+                        <Text style={{color:"#FD8D45",fontSize:12,alignSelf:"flex-start",marginTop:5,fontFamily:"roboto-light",}}>Quantity : {this.props.data.quantity}</Text>
                         {/* {this.props.data.product.unit_id  ==  1 
                          ?
                             
@@ -62,8 +62,8 @@ class TransactionHistory extends Component {
                             </View>
                         } */}
                         <View style={styles.sectionRow1}>
-                            <Text style={{color:"black",fontSize:13,alignSelf:"flex-start",fontFamily:"Philosopher-Bold",}}>Delivered On: </Text>
-                            <Text style={{color:"black",fontSize:13,alignSelf:"flex-start",fontFamily:"philosopher-regular",}}> {delivered_on[0]}</Text>
+                            <Text style={{color:"black",fontSize:13,alignSelf:"flex-start",fontFamily:"roboto-bold",}}>Delivered On: </Text>
+                            <Text style={{color:"black",fontSize:13,alignSelf:"flex-start",fontFamily:"roboto-light",}}> {delivered_on[0]}</Text>
                         </View>
 
                         
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
         padding:2
     },
     unitViewText:{
-        fontFamily:"philosopher-regular",
+        fontFamily:"roboto-light",
         fontSize:12,
     }, 
     sectionRow:{
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
         
     },
     textProductname:{
-        fontFamily:"Philosopher-Bold",
+        fontFamily:"roboto-bold",
         fontSize:15,
         color:"black",
         lineHeight:30,

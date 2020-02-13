@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-import { View , Text ,StyleSheet,TouchableOpacity,Alert,FlatList,Platform} from  'react-native';
+import { View , Text ,StyleSheet,TouchableOpacity,Alert,FlatList,Platform,TouchableWithoutFeedback} from  'react-native';
 import CustomTopHeader  from './CustomTopHeader';
 import * as HOC from '../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
@@ -15,6 +15,7 @@ import * as cartActions from '../redux/store/actions/cartAction';
 import * as homeActions from '../redux/store/actions/homeAction';
 import * as userAction from '../redux/store/actions/userDataAction';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Keyboard } from 'react-native';
 
 
 
@@ -41,7 +42,8 @@ class HomeScreen extends  Component {
             searchText:"",
             isRefreshing:false,
             iseditable :false,
-            hideComponent:false
+            hideComponent:false,
+            showTextInput:false,
             
         }
     }
@@ -160,7 +162,8 @@ class HomeScreen extends  Component {
     }
 
     onSearchPress = () => {
-        this.setState({hideComponent:true},()=>{
+       
+        this.setState({hideComponent:true,showTextInput:true},()=>{
             this.refs._scrollView.scrollToPosition(0); 
 
         })
@@ -186,7 +189,7 @@ class HomeScreen extends  Component {
 
     onRefresh = () =>{
 
-        this.setState({hideComponent:false});
+        this.setState({hideComponent:false,showTextInput:false});
         var userdata = [];
 
         //this.props.onUpdateUser(userdata);
@@ -227,7 +230,8 @@ class HomeScreen extends  Component {
             schedule_product_id ={this.state.schedule_product_id}
             schedule_product_price = {this.state.schedule_product_price}
             spinner={this.state.isLoading}>
-                <KeyboardAwareScrollView ref='_scrollView'>
+                <KeyboardAwareScrollView ref='_scrollView'
+                >
 
                     {!this.state.hideComponent
                     ?
@@ -235,7 +239,9 @@ class HomeScreen extends  Component {
                         <CustomTopHeader address={this.props.userdata.user_address} />
                             {this.props.homescreen.banners.length > 0
                             ?
-                                <Banners images={this.props.homescreen.banners}/>
+                                
+                                <Banners images={this.props.homescreen.banners} navigate={true}/>
+                              
                             :
                                 <View/>
                             }
@@ -252,13 +258,15 @@ class HomeScreen extends  Component {
                     <View/>
                     }
                     
-                  
+                    
                     <CustomTextInputWithIcon keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
                     placeholder="Search for Products.." isEditable={this.props.navigation.getParam('iseditable',"") == 1 ? true : false} 
                     searchValue={this.state.searchText} 
-                    onFocus={()=>{this.onSearchPress()}}   
+                    onFocus={()=>{this.onSearchPress()}}  
+                    textpress={()=>{this.onSearchPress()}} 
+                    showTextInput={this.state.showTextInput}
                     onSearchPress={this.onSearchHandler.bind(this)}/>
-
+                  
                    
                    
                     <FlatList
@@ -281,9 +289,6 @@ class HomeScreen extends  Component {
                     
             
                 </KeyboardAwareScrollView>
-
-        
-
 
             </FullSCreenSpinnerAndDismissKeyboardView>
              

@@ -1,7 +1,7 @@
 import React from 'react';
-import {View,StyleSheet,Dimensions,Image,Platform} from 'react-native';
+import {View,StyleSheet,Dimensions,Image,Platform,TouchableOpacity} from 'react-native';
 import Carousel from 'react-native-banner-carousel';
-
+import { withNavigation } from 'react-navigation';
 
 const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 170;
@@ -13,10 +13,20 @@ const Banner = (props) => {
       
         return (
             <View key={index}>
+                <TouchableOpacity onPress={()=> props.navigation.navigate('OfferTerms',{"banner_id":image.id})}>
                 <Image style={styles.imageStyle} source={{uri:"https://www.webmobril.org/dev/hod/"+image.img}} resizeMethod="resize" />
+                </TouchableOpacity>
             </View>
         );
     
+    }
+
+    renderImage = (image,index) => {
+
+        return(
+            <Image key={index} style={styles.imageStyle} source={{uri:"https://www.webmobril.org/dev/hod/"+image.img}} resizeMethod="resize" />
+        );
+
     }
      
 
@@ -29,14 +39,14 @@ const Banner = (props) => {
                     index={0}
                     pageSize={BannerWidth}
                 >
-                    {props.images.map((image, index) => renderPage(image, index))}
+                    {props.images.map((image, index) => props.navigate ? renderPage(image, index) : renderImage(image,index))}
                 </Carousel>
                 <View style={styles.viewLineBlack}></View>
             </View>
         );
     }
 
-    export default Banner;
+    export default withNavigation(Banner) ;
 
 
     const styles = StyleSheet.create({
@@ -45,6 +55,7 @@ const Banner = (props) => {
             backgroundColor: '#fff',
             justifyContent: 'center',
             alignItems:"center",
+            marginTop:30
             
         },
         viewLineBlack:{

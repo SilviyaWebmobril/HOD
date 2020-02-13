@@ -30,7 +30,10 @@ class ProductItem extends Component {
         
     }
 
-   
+   componentDidMount(){
+
+    console.log("display_ stock",this.props.data.display_stock);
+   }
    
     render(){
 
@@ -55,15 +58,17 @@ class ProductItem extends Component {
                            
                             {this.props.data.is_discount ==  1 
                                 ?
-                                <View style={{justifyContent:"flex-start",alignItems:"flex-start"}}>
-                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"Philosopher-Bold",color:"#FD8D45",}}>{'\u20B9'}{this.props.data.new_price}</Text>
-                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"philosopher-regular",textDecorationLine: 'line-through',textDecorationStyle: 'solid'}}>{'\u20B9'}{this.props.data.old_price}</Text>
+                                <View style={{justifyContent:"flex-start",alignItems:"flex-start",flexDirection:'row'}}>
+                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"roboto-bold",color:"#FD8D45",}}>{'\u20B9'}{this.props.data.new_price}{"   "}</Text>
+                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"roboto-light",textDecorationLine: 'line-through',textDecorationStyle: 'solid'}}>{'\u20B9'}{this.props.data.old_price}</Text>
                                 </View>
                                 :
-                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"philosopher-regular",}}>{'\u20B9'}{this.props.data.old_price}</Text>
+                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"roboto-light",}}>{'\u20B9'}{this.props.data.old_price}</Text>
                             }
                                 
                             {/* </View> */}
+
+                        <Text>{this.props.data.quantity} left</Text>
                             
                         </View>
                         {this.props.data.product_category.allow_subscription == 1  ? 
@@ -90,7 +95,7 @@ class ProductItem extends Component {
                                 :
                                 
 
-                                    <IncrementDecrementButton  product_id={this.props.data.id}  quantity={this.props.data.get_once.quantity} price={this.props.data.is_discount == 1 ? this.props.data.new_price : this.props.data.old_price} />
+                                    <IncrementDecrementButton  product_id={this.props.data.id}  quantity={this.props.data.get_once.quantity} price={this.props.data.is_discount == 1 ? this.props.data.new_price : this.props.data.old_price} stock_available={this.props.data.quantity} />
                                 
                                 }
                                     
@@ -145,7 +150,7 @@ class ProductItem extends Component {
                             :
                                 <View style={{justifyContent:"flex-end",alignContent:"flex-end",alignItems:"flex-end"}}>
                                         <Text style={styles.textBorder}>{parseInt(this.props.data.weight)} {this.props.data.unit.name}</Text>
-                                        <IncrementDecrementButton  product_id={this.props.data.id}  quantity={this.props.data.get_once.quantity} price={this.props.data.is_discount == 1 ? this.props.data.new_price : this.props.data.old_price} />
+                                        <IncrementDecrementButton  product_id={this.props.data.id}  quantity={this.props.data.get_once.quantity} price={this.props.data.is_discount == 1 ? this.props.data.new_price : this.props.data.old_price} stock_available={this.props.data.quantity} />
                                 </View>
                             )
                         
@@ -245,7 +250,7 @@ const mapStateToProps = state => {
         
     },
     textProductname:{
-        fontFamily:"Philosopher-Bold",
+        fontFamily:"roboto-bold",
         fontSize:15,
         //fontWeight:"bold",
         color:"black",
@@ -257,7 +262,7 @@ const mapStateToProps = state => {
        borderColor:"grey",
         textAlign:"center",
         padding:2,
-        fontFamily:"philosopher-regular",
+        fontFamily:"roboto-light",
         borderRadius:2,
         lineHeight:20,
         width:"auto",

@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
       headerTextStyle:{
           color:"white",
           textAlign:"center",
-          fontFamily:"Philosopher-Bold",
+          fontFamily:'roboto-bold',
           fontSize:14,
           textAlign:"center",
       },
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
         marginTop:5
       },
       manageAddressText:{
-        fontFamily:"Roboto-Light",
+        fontFamily:'roboto-light',
         lineHeight:30,
         fontSize:14,
         color:"black",
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     
       },
       addAddreesText:{
-        fontFamily:"Roboto-Light",
+        fontFamily:'roboto-light',
         lineHeight:20,
         textDecorationLine:"underline",
         fontSize:12,

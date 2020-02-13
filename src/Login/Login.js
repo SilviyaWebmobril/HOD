@@ -15,7 +15,6 @@ import CustomLogo from './../CustomUI/Logo/CustomLogo';
 import * as HOC from '../HOC/mainHoc';
 import CustomButton from '../CustomUI/CustomButton/CustomButton';
 import CustomTextInput from '../CustomUI/CustomTextInput/CustomTextInput';
-import { ScrollView } from 'react-native-gesture-handler';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   DismissKeyboardView
@@ -101,11 +100,11 @@ class Login extends Component {
                     <CustomLogo/>
 
                    
-                    <Text style={{color:'#FD8D45',fontWeight: 'bold',fontSize: 20, alignSelf:"center",margin:20,fontFamily:"Roboto-Light",}}>LOGIN WITH OTP</Text>
+                    <Text style={{color:'#FD8D45',fontWeight: 'bold',fontSize: 20, alignSelf:"center",margin:20, fontFamily:'roboto-bold',}}>LOGIN WITH OTP</Text>
                    
                     <View style={LoginStyle.bottom}>
                         <View style={{width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Mobile No.</Text>
+                            <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17, fontFamily:'roboto-bold',}}>Mobile No.</Text>
                         </View>
                     
 

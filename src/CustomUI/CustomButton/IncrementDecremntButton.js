@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {View ,Text,StyleSheet,TouchableOpacity,Image}  from 'react-native';
+import {View ,Text,StyleSheet,TouchableOpacity,Image,Alert}  from 'react-native';
 import {connect} from 'react-redux';
 import * as cartActions from '../../redux/store/actions/cartAction';
 
@@ -47,8 +47,26 @@ class IncrementDecrementButton extends Component {
     }
     onPlusHandler = () =>{
 
-        this.props.onLoading(true);
-        this.props.onAdd(this.props.product_id,this.props.price,this.props.user.userdata.user_id);
+        if(this.props.stock_available > this.props.quantity){
+
+            this.props.onLoading(true);
+            this.props.onAdd(this.props.product_id,this.props.price,this.props.user.userdata.user_id);
+       
+        }else{
+
+            Alert.alert(
+                'Add To Cart',
+                "Sorry for the Inconvinence. Out of Stock!",
+                [
+             
+                {text: 'OK', onPress: () =>  {console.log("ok")}},
+                ], 
+                { cancelable: false }
+                )
+        }
+
+        // this.props.onLoading(true);
+        // this.props.onAdd(this.props.product_id,this.props.price,this.props.user.userdata.user_id);
        
         // this.setState(prevState => ({
         //     quantity :prevState.quantity + 1 

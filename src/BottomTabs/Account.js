@@ -228,14 +228,14 @@ const styles =  StyleSheet.create({
 
     },
     headertextStyle:{
-        fontWeight:"bold",
+        fontFamily:'roboto-bold',
         fontSize:20,
         color:"white",
         alignSelf:"center",
         textAlign:"center",   
     },
     textStyle:{
-        fontFamily:"Philosopher-Bold",
+        fontFamily:'roboto-bold',
         fontSize:20,
         color:"white",
         alignSelf:"center",
@@ -252,7 +252,7 @@ const styles =  StyleSheet.create({
         
     },
     btnTextStyle:{
-        fontFamily:"Philosopher-Bold",
+        fontFamily:'roboto-bold',
         //fontWeight:"bold",
         color:"grey",
         fontSize:17

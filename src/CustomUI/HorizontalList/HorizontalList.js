@@ -34,7 +34,9 @@ class HorizontalList extends  Component {
                         <View>
                             <Image source={{uri:"http://webmobril.org/dev/hod/"+item.cat_img}} 
                             style={styles.cardView}/>
-                            <Image source={require('../../Assets/overlay.png')} style={styles.topImageStyle} />
+                            <View  style={styles.topImageStyle}>
+                                <Image source={require('../../Assets/overlay.png')} resizeMode="contain"  style={{width:122,height:130,borderRadius:20}} />
+                            </View>
                             <Text  numberOfLines={3} style={styles.textStyle}>{item.name}</Text>
                         </View>
                     </TouchableHighlight>
@@ -96,15 +98,20 @@ const styles = StyleSheet.create({
     },
     topImageStyle:{
         position: 'absolute',
-        width:120,
+        top:0,
+        bottom:0,
+        left:0,
+        right:0,
+        width:100,
         height:130,
-        borderRadius:15,
+        borderTopLeftRadius:20,
+        borderTopRightRadius:20,
         marginLeft:10,
         marginRight:8,
-        marginBottom:10
+       
     },
     textStyle:{
-        fontFamily:"Philosopher-Bold",
+        fontFamily:"roboto-bold",
         fontSize:17,
         position: 'absolute',
         alignSelf:"center",

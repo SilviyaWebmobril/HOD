@@ -87,5 +87,7 @@ export default {
 
     set_user_primary_address :"set_user_primary_address",
 
+    offer_terms:"offer_terms",
+
 
 }
