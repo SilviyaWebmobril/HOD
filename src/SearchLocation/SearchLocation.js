@@ -18,6 +18,7 @@ const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
   
   
 );
+import { CheckBox } from 'react-native-elements'
 import AsyncStorage from '@react-native-community/async-storage';
 import GooglePlacesInput from './GooglePlacesInput'; 
 import { connect } from 'react-redux';
@@ -30,8 +31,11 @@ class SearchLocation extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: '  Search Location  ',
         headerStyle: { backgroundColor: '#FD8D45' },
-        headerTitleStyle: { color: 'white',fontSize:17,flex:1 ,fontFamily:"Roboto-Light",},
+        headerTitleStyle: { color: 'white',fontSize:17,flex:1 ,fontFamily:"roboto-bold",textAlign:"center"},
         headerTintColor: 'white', 
+        headerTitleContainerStyle: {
+          left: 0, // THIS RIGHT HERE
+        },
         headerLeft:(
           <TouchableOpacity
             onPress={()=>{navigation.pop()}}
@@ -69,6 +73,7 @@ class SearchLocation extends Component {
             city:"",
             isLoading:false,
             location_update:"",
+            is_primary:false
            
 
 
@@ -79,8 +84,9 @@ class SearchLocation extends Component {
     componentDidMount= async()  =>{
 
       const { navigation } = this.props;
-      this.setState({location_update:navigation.getParam("location_update")});
-
+      this.setState({location_update:navigation.getParam("location_update")},()=>{
+        console.log("update",this.state.location_update);
+      });
      
       //const user_id = await AsyncStorage.getItem("user_id");
       this.setState({user_id:this.props.user.userdata.user_id});
@@ -123,7 +129,7 @@ class SearchLocation extends Component {
             // handle success
            
           
-            
+            this.setState({isLoading:false});
 
             const full_address = response.data.results[0].formatted_address;
 
@@ -174,94 +180,94 @@ class SearchLocation extends Component {
                 
               });
 
-              var is_primary =1 ;
+              var is_primary =0;
              
               console.log("address url"+ApiUrl.baseurl+ApiUrl.setLocation+this.state.user_id+"&name= "+this.state.name+"&city="+this.state.city+"&locality="+this.state.locality+
               "&street="+this.state.street+"&ho_no= &latitude="+this.state.latitude+"&longitude="+this.state.longitude+
               "&full_address="+this.state.full_address+"&landmark=  &pin_code="+this.state.postal_code+"&floor_no=  &is_primary="+is_primary);
 
-              axios.post(ApiUrl.baseurl+ApiUrl.setLocation+this.state.user_id+"&name= "+this.state.name+"&city="+this.state.city+"&locality="+this.state.locality+
-              "&street="+this.state.street+"&ho_no= &latitude="+this.state.latitude+"&longitude="+this.state.longitude+
-              "&full_address="+this.state.full_address+"&landmark=  &pin_code="+this.state.postal_code+"&floor_no=  &is_primary="+is_primary)
-              .then(res => {
+            //   axios.post(ApiUrl.baseurl+ApiUrl.setLocation+this.state.user_id+"&name= "+this.state.name+"&city="+this.state.city+"&locality="+this.state.locality+
+            //   "&street="+this.state.street+"&ho_no= &latitude="+this.state.latitude+"&longitude="+this.state.longitude+
+            //   "&full_address="+this.state.full_address+"&landmark=  &pin_code="+this.state.postal_code+"&floor_no=  &is_primary="+is_primary)
+            //   .then(res => {
                 
-                this.setState({isLoading:false});
+            //     this.setState({isLoading:false});
              
                 
-                if(res.data.error){
-                  Alert.alert(
-                    'Location',
-                    "Something went wrong! Please try again later.",
-                    [
+            //     if(res.data.error){
+            //       Alert.alert(
+            //         'Location',
+            //         "Something went wrong! Please try again later.",
+            //         [
                  
-                    {text: 'OK', onPress: () =>  {console.log("ok")}},
-                    ], 
-                    { cancelable: false }
-                    )
+            //         {text: 'OK', onPress: () =>  {console.log("ok")}},
+            //         ], 
+            //         { cancelable: false }
+            //         )
                 
-                }else{
+            //     }else{
         
-                  AsyncStorage.setItem('user_id',this.props.user.userdata.user_id);
-                  this.props.onUpdateUserId(this.props.user.userdata.user_id);
-                  let userdata = {};
-                  Object.assign(userdata,{"user_id":this.props.user.userdata.user_id});
-                  Object.assign(userdata,{"user_name": this.props.user.userdata.user_name});
-                  Object.assign(userdata,{"user_email":this.props.user.userdata.user_email});
-                  Object.assign(userdata,{"user_mobile":this.props.user.userdata.user_mobile});
-                  Object.assign(userdata,{"user_gender":this.props.user.userdata.user_gender});
-                  Object.assign(userdata,{"user_dob":this.props.user.userdata.user_dob});
-                  Object.assign(userdata,{"user_married":this.props.user.userdata.user_married});
-                  Object.assign(userdata,{"user_family_members":this.props.user.userdata.user_family_members});
-                  Object.assign(userdata,{"user_vegitarian":this.props.user.userdata.user_vegitarian});
-                  this.props.onUpdateUser(userdata);
-                  this.props.addNewAddress(res.data.data);
-                  this.props.onUpdateAddress(this.state.full_address);  
+            //       AsyncStorage.setItem('user_id',this.props.user.userdata.user_id);
+            //       this.props.onUpdateUserId(this.props.user.userdata.user_id);
+            //       let userdata = {};
+            //       Object.assign(userdata,{"user_id":this.props.user.userdata.user_id});
+            //       Object.assign(userdata,{"user_name": this.props.user.userdata.user_name});
+            //       Object.assign(userdata,{"user_email":this.props.user.userdata.user_email});
+            //       Object.assign(userdata,{"user_mobile":this.props.user.userdata.user_mobile});
+            //       Object.assign(userdata,{"user_gender":this.props.user.userdata.user_gender});
+            //       Object.assign(userdata,{"user_dob":this.props.user.userdata.user_dob});
+            //       Object.assign(userdata,{"user_married":this.props.user.userdata.user_married});
+            //       Object.assign(userdata,{"user_family_members":this.props.user.userdata.user_family_members});
+            //       Object.assign(userdata,{"user_vegitarian":this.props.user.userdata.user_vegitarian});
+            //       this.props.onUpdateUser(userdata);
+            //       this.props.addNewAddress(res.data.data);
+            //       this.props.onUpdateAddress(this.state.full_address);  
                 
-                 if(this.state.location_update == 1 ){
+            //      if(this.state.location_update == 1 ){
                
                   
                    
-                      this.props.navigation.navigate('HomeBottomtabs');
+            //           this.props.navigation.navigate('HomeBottomtabs');
                    
                       
           
-                    Alert.alert(
-                      'Location',
-                      "Your Location Updated Successfully!",
-                      [
+            //         Alert.alert(
+            //           'Location',
+            //           "Your Location Updated Successfully!",
+            //           [
                   
-                      {text: 'OK', onPress: () =>  {console.log("ok")}},
-                      ], 
-                      { cancelable: false }
-                      )
+            //           {text: 'OK', onPress: () =>  {console.log("ok")}},
+            //           ], 
+            //           { cancelable: false }
+            //           )
                   
-                 }else{
+            //      }else{
                   
-                    this.props.navigation.navigate('ViewProfile');
+            //         this.props.navigation.navigate('ViewProfile');
             
-                    Alert.alert(
-                      'Location',
-                      "Your Location Updated Successfully!",
-                      [
+            //         Alert.alert(
+            //           'Location',
+            //           "Your Location Updated Successfully!",
+            //           [
                   
-                      {text: 'OK', onPress: () =>    {console.log("ok")}},
-                      ], 
-                      { cancelable: false }
-                      )
-                  }
+            //           {text: 'OK', onPress: () =>    {console.log("ok")}},
+            //           ], 
+            //           { cancelable: false }
+            //           )
+            //       }
           
                  
                   
         
-                }
+            //     }
         
              
         
         
-              })
-              .catch(error => {
-                console.log("my error",error)
-            });
+            //   })
+            //   .catch(error => {
+            //     console.log("my error",error)
+            // });
         
 
 
@@ -312,6 +318,173 @@ class SearchLocation extends Component {
         }
       
       
+      }
+
+
+      onSubmitHandler =() => {
+
+         var is_primary ;
+       
+          if(this.state.is_primary){
+            is_primary = 1;
+          }else{
+            is_primary = 0;
+          }
+
+          let full_address;
+          let house_no = this.refs.houseno.getInputTextValue("houseno") ;
+          let floor_no = this.refs.floorno.getInputTextValue("floorno") ;
+          let pincode =  this.refs.postal_code.getInputTextValue("pincode") ;
+          let street = this.refs.street.getInputTextValue('street');
+          let locality  = this.refs.localityText.getInputTextValue("locality");
+           let city  = this.refs.cityText.getInputTextValue("city");
+           
+          if(house_no !== "invalid" || floor_no !== "invalid" || pincode !== "invalid" || street  !== "invalid"){
+
+            
+            full_address = house_no +" "+ floor_no +" "+ street+" "+locality+" "+city;
+        
+            this.setState({full_address:full_address});
+    
+          }else{
+            this.setState({full_address:full_address});
+    
+          }
+        
+        
+  
+        if(this.refs.houseno.getInputTextValue("houseno") == "invalid" || this.refs.floorno.getInputTextValue("floorno") == "invalid" || this.refs.postal_code.getInputTextValue("pincode") == "invalid"){
+  
+          Alert.alert(
+            'Location',
+            "All * marked fields are compulsory!",
+            [
+        
+            {text: 'OK', onPress: () =>  {console.log("ok")}},
+            ], 
+            { cancelable: false }
+            )
+  
+  
+        }else{
+  
+            this.setState({isLoading:true});
+            let formdata = new FormData();
+            formdata.append("user_id",this.state.user_id);
+            formdata.append("name",this.state.name);
+            formdata.append("city",this.state.city);
+            formdata.append("locality",locality);
+            formdata.append("street",street);
+            formdata.append("ho_no",house_no);
+            formdata.append("latitude",this.state.latitude);
+            formdata.append("longitude",this.state.longitude);
+            formdata.append("full_address",full_address);
+            formdata.append("landmark",this.refs.landmark.getInputTextValue("landmark"));
+            formdata.append("pin_code",this.refs.postal_code.getInputTextValue("pincode"));
+            formdata.append("floor_no",floor_no);
+            formdata.append('is_primary',is_primary);
+         
+
+            axios.post(ApiUrl.baseurl+ApiUrl.setLocation,formdata)
+            .then(res => {
+             
+            
+              this.setState({isLoading:false});
+              if(res.data.error){
+                Alert.alert(
+                  'Location',
+                  "Something went wrong! Please try again later.",
+                  [
+              
+                  {text: 'OK', onPress: () =>  {console.log("ok")}},
+                  ], 
+                  { cancelable: false }
+                  )
+              
+              }else{
+      
+                  if(this.state.is_primary){
+        
+                    // updating primary address 
+                    this.props.onUpdateAddress(full_address+","+this.refs.postal_code.getInputTextValue("pincode"));  
+                  }
+                  AsyncStorage.setItem('user_id',this.props.user.userdata.user_id);
+                  this.props.onUpdateUserId(this.props.user.userdata.user_id);
+                  let userdata = {};
+                  Object.assign(userdata,{"user_id":this.props.user.userdata.user_id});
+                  Object.assign(userdata,{"user_name": this.props.user.userdata.user_name});
+                  Object.assign(userdata,{"user_email":this.props.user.userdata.user_email});
+                  Object.assign(userdata,{"user_mobile":this.props.user.userdata.user_mobile});
+                  Object.assign(userdata,{"user_gender":this.props.user.userdata.user_gender});
+                  Object.assign(userdata,{"user_dob":this.props.user.userdata.user_dob});
+                  Object.assign(userdata,{"user_married":this.props.user.userdata.user_married});
+                  Object.assign(userdata,{"user_family_members":this.props.user.userdata.user_family_members});
+                  Object.assign(userdata,{"user_vegitarian":this.props.user.userdata.user_vegitarian});
+                  this.props.onUpdateUser(userdata);
+                  this.props.addNewAddress(res.data.data);
+              
+              
+                if(this.state.location_update == 1 ){
+                
+                
+                    this.props.navigation.navigate('HomeBottomtabs');
+                  //    this.props.navigation.pop();
+        
+                    Alert.alert(
+                      'Location',
+                      "Your Location Updated Successfully!",
+                      [
+                  
+                      {text: 'OK', onPress: () =>  {console.log("ok")}},
+                      ], 
+                      { cancelable: false }
+                      )
+                
+                }else{
+                
+                    this.props.navigation.navigate('ViewProfile');
+            
+                    Alert.alert(
+                      'Location',
+                      "Your Location Updated Successfully!",
+                      [
+                  
+                      {text: 'OK', onPress: () =>    {console.log("ok")}},
+                      ], 
+                      { cancelable: false }
+                      )
+                }
+        
+              
+                
+      
+              }
+      
+          
+      
+      
+            })
+            .catch(error => {
+              console.log("my error",error);
+              this.setState({isLoading:false});
+              Alert.alert(
+                'Error',
+                'Check Your Internet connection and again later!',
+                [
+            
+                {text: 'OK', onPress: () => console.log("ok")},
+                
+                ], 
+                { cancelable: false }
+                )
+          });
+      
+        }
+      
+       
+  
+  
+         // this.props.navigation.navigate('Bottomtabs');
       }
       
   
@@ -389,21 +562,88 @@ class SearchLocation extends Component {
                   </View>
                   <CustomTextInput 
                        inputType="street"
-                       ref="streetText"
+                       ref="street"
                       placeholder="Enter Street" 
                       placeholderTextColor='#898785'
                       returnKeyType = { "next" }
                    //   onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                   />
-                  <CustomButton 
+                  {/* <CustomButton 
                     onPressHandler={()=> this.continueButtonHandler()}
                     customButttonStyle={{backgroundColor:"#FD8D45"}}
                     customTextStyle={{ color:'#48241e'}} 
                     text="  CONTINUE  "
-                  />
-                  
-                  
+                  /> */}
+                  <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"roboto-light",}}>House Number*</Text>
+                    </View>
+                    <CustomTextInput 
+                       inputType="houseno"
+                       ref="houseno"
+                        placeholder="Enter House" placeholderTextColor='#898785'
+                        returnKeyType = { "next" }
+                        keyboardType='numeric'
+                        //onSubmitEditing={() => {this.thirdTextInput.focus();  }}
+                    />
 
+                    <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17, fontFamily:'roboto-light',}}>Floor No.*</Text>
+                    </View>
+                    <CustomTextInput 
+                      inputType="floorno"
+                      ref="floorno"
+                      placeholder="Enter Floor No." placeholderTextColor='#898785'
+                      returnKeyType = { "next" }
+                      keyboardType='numeric'
+                     // onSubmitEditing={() => {this.thirdTextInput.focus();  }}
+                  />
+
+                    <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17, fontFamily:'roboto-light',}}>Pincode*</Text>
+                    </View>
+                    <CustomTextInput 
+                      inputType="pincode"
+                      ref="postal_code"
+                      placeholder="Enter Pincode"
+                      placeholderTextColor='#898785'
+                      returnKeyType = { "next" }
+                      keyboardType='numeric'
+                   
+                      //onSubmitEditing={() => {this.thirdTextInput.focus();  }}
+                  />
+
+                    <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
+                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17, fontFamily:'roboto-light',}}>Landmark</Text>
+                    </View>
+                    <CustomTextInput 
+                      inputType="landmark"
+                      ref="landmark"
+                      placeholder="Enter Landmark" placeholderTextColor='#898785'
+                      returnKeyType = { "next" }
+                    
+                     // onSubmitEditing={() => {this.thirdTextInput.focus();  }}
+                  />
+
+                    {this.state.location_update == 1
+                    ?
+                      <CheckBox
+                      title='Make this address as Delivery Address'
+                      checked={this.state.is_primary}
+                      onPress={() => this.setState({is_primary: !this.state.is_primary})}
+                    />
+                    :
+                      <View/>
+                    }
+                   
+
+                <CustomButton 
+                   onPressHandler={()=>this.onSubmitHandler()}
+                   customButttonStyle={{ marginTop:20,marginBottom:40}}
+                   customTextStyle={{ color:'white'}} 
+                   text="SUBMIT"
+                 />
+                 
+                
                   </View>
 
 

@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     SafeAreaView,
     Alert,
-    
+    StyleSheet
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import LoginStyle from '../../../Login/LoginStyle';
@@ -58,7 +58,7 @@ class UpdateMobile extends Component {
    
    
     onContinue=()=>{   
-
+      
          //  update param to check wheater usr is login currently or udating mobile no. update =0 (Login) , update= 1(Change mobile)
         if(this.props.navigation.getParam("update") == 0){
 
@@ -148,50 +148,29 @@ class UpdateMobile extends Component {
     };
     render() {
         return (
-            <FullSCreenSpinnerAndDismissKeyboardView style={LoginStyle.container} refreshing={false} spinner={this.state.isLoading}>
+            <FullSCreenSpinnerAndDismissKeyboardView style={styles.container} refreshing={false} spinner={this.state.isLoading}>
                 <KeyboardAwareScrollView >
                     <CustomLogo/>
 
+                    <Text style={styles.labelText}>Mobile No.</Text>
+                    <CustomTextInput 
+                        ref="mobile"
+                        placeholder="Enter mobile number" 
+                        placeholderTextColor='#898785'
+                        returnKeyType = { "next" }
+                        inputType="mobile"
+                        keyboardType='numeric'
+                
+                    />
+                    <CustomButton text="CONTINUE"
+                     customButttonStyle={{marginBottom:40,marginTop:20}}
+                     customTextStyle={{ color:'white'}} onPressHandler = {() => this.onContinue()}  />
+
+
                
-                    <View style={LoginStyle.bottom}>
-                        <View style={{width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                            <Text style={{color:'#808080',fontSize: 17,fontFamily:'roboto-light',}}>Mobile No.</Text>
-                        </View>
+                   
                     
-
-                        <CustomTextInput 
-                                ref="mobile"
-                                placeholder="Enter mobile number" 
-                                placeholderTextColor='#898785'
-                                returnKeyType = { "next" }
-                                inputType="mobile"
-                                keyboardType='numeric'
-                        
-                            />
-
-                    
-                    <CustomButton text="   CONTINUE   " customTextStyle={{ color:'white'}} onPressHandler = {() => this.onContinue()}  />
-                    {this.state.onUpdate == 0 ?  
-
-                    <View style={{width:"100%"}}>
-                        <View style={{margin:25,alignSelf:"center"}}> 
-                            <Text style={{color:'#808080',fontSize: 17, fontFamily:"roboto-light"}}> OR </Text>
-                        </View>
-
-                        <CustomButton text=" CREATE ACCOUNT "
-                            onPressHandler ={() => this.onCreate_Account()} 
-                            customButttonStyle={{backgroundColor:"#FD8D45", }}
-                            customTextStyle={{ color:'#48241e'}} />
-
-                    </View>
-
-                    :
-                    <View/>
-                    
-                    
-                    }
-                  
-                    </View>
+                 
 
                 </KeyboardAwareScrollView>
                
@@ -210,4 +189,26 @@ const mapStateToProps = state => {
   }
   
   export default connect(mapStateToProps,null)(UpdateMobile)
+
+  const styles = StyleSheet.create({
+
+
+    container:{
+        flex:1,
+        backgroundColor:'#fff',
+        marginLeft:0,
+        marginRight:0,
+        marginTop:15,
+       
+    },
+
+   
+    labelText:{
+        fontFamily:"roboto-light",
+        color:'grey',
+        fontSize: 17,
+        marginLeft:15
+    },
+
+  })
   

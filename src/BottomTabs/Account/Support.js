@@ -156,10 +156,10 @@ export default class Support extends Component{
                     //onSubmitEditing={() => {this.thirdTextInput.focus();  }}
                 />
 
-                <CustomButton text="  SUBMIT " 
+                <CustomButton text="SUBMIT" 
                     onPressHandler={()=>this.contactSupport()} 
-                    customButttonStyle={{backgroundColor:"#FD8D45", }}
-                    customTextStyle={{ color:'#48241e'}} 
+                    customButttonStyle={{marginTop:20,}}
+                    customTextStyle={{ color:'white'}} 
                 />
 
 

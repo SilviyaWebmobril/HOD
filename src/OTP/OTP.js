@@ -118,6 +118,19 @@ class OTP extends Component {
         
     }
     
+      //3
+  async getToken() {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    if (!fcmToken) {
+        fcmToken = await firebase.messaging().getToken();
+        if (fcmToken) {
+            // user has a device token
+
+            await AsyncStorage.setItem('fcmToken', fcmToken);
+            return fcmToken;
+        }
+    }
+  }
     
     onSubmit = async() => {
        
@@ -127,12 +140,16 @@ class OTP extends Component {
 
             if(this.refs.otp.getInputTextValue("otp") !== "invalid"){
                 
+                console.log("fcm token log",this.getToken());
                 this.setState({isLoading:true})
                 var formdata = new FormData();
                 formdata.append("mobile_no",this.props.navigation.getParam('mobile'));
                 formdata.append("otp",this.refs.otp.getInputTextValue("otp"));
+                // formdata.append("device_type",ApiUrl.device_type);
+                // formdata.append("device_token","shvshvv");
                 Axios.post(ApiUrl.baseurl + ApiUrl.verify_otp,formdata).then(res => {
                     this.setState({isLoading:false});
+                    console.log("error",res.data.error)
                     if(res.data.error){
     
                       
@@ -359,7 +376,7 @@ class OTP extends Component {
                         <Text style={OTPStyle.Timertxt}> {this.state.seconds} </Text>
                         </View>
                     <View style={{width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                        <Text style={{color:'black',fontWeight: 'bold',fontSize: 14,fontFamily:"Roboto-Light",}}>OTP</Text>
+                        <Text style={{color:'grey',ffontSize: 17,fontFamily:"roboto-light",}}>OTP</Text>
                     </View>
 
                     </View>

@@ -1,5 +1,5 @@
 import React ,{Component} from 'react';
-import {View,TouchableOpacity,FlatList,StyleSheet,Text} from 'react-native';
+import {View,TouchableOpacity,FlatList,StyleSheet,Text,Image,Platform} from 'react-native';
 import * as HOC from './../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -9,8 +9,28 @@ import ProductItem  from './ProductItem/ProductItem';
 import {connect} from 'react-redux';    
 import CustomTextInputWithIcon from '../CustomUI/CustomTextInput/CustomTextInputWithIcon';
 import * as homeActions from '../redux/store/actions/homeAction';
+import  capitilize  from '../utility/helpers';
 
  class Search extends Component{
+
+    static navigationOptions = ({ navigation }) => ({
+        title: navigation.getParam('location'),
+        headerStyle: {
+            height: 60,
+            backgroundColor: 'white',
+        },
+        headerTitleStyle: {
+            fontFamily:"roboto-light",
+            color: 'black',
+            alignSelf: 'center',
+            textAlign: 'center',
+            flex: 1,
+            fontSize: 17,
+        },
+        headerTintColor: 'black',
+        headerRight: (<View></View>)
+    });
+
 
     constructor(props){
         super(props);
@@ -131,6 +151,8 @@ import * as homeActions from '../redux/store/actions/homeAction';
 
     render(){
 
+        console.log("hivbcjvbdjbvdjbvdjbj",this.props.userdata.user_address)
+
         const flatlistdata = () => {
 
            // return this.props.homescreen.getAllProducts;
@@ -149,6 +171,8 @@ import * as homeActions from '../redux/store/actions/homeAction';
 
 
         return(
+            <>
+            
             <FullSCreenSpinnerAndDismissKeyboardView
             style={styles.container}
             onRefresh={this.onRefresh.bind(this)}
@@ -157,9 +181,38 @@ import * as homeActions from '../redux/store/actions/homeAction';
             schedule_product_id ={this.state.schedule_product_id}
             schedule_product_price = {this.state.schedule_product_price}
             spinner={this.state.isLoading}>
-                <View style={{marginTop:20}}>
-                    <CustomTextInputWithIcon placeholder="Search for Products.." onSubmitEditing={this.onSearchHandler.bind(this)} searchValue={this.state.searchText}  onSearchPress={this.onSearchHandler.bind(this)}/>
-                   
+                <View style={{marginTop:10}}>
+                {this.props.navigation.getParam('location') == null
+                    ?
+                    <TouchableOpacity onPress={()=>{this.props.navigation.navigate('SelectAddress')}}>
+                    <View style={styles.searchAddress}>
+                    
+                        <Image source={require('../Assets/location1.png')} style={{width:30,height:30,alignSelf:"center"}} />
+                    
+                        <Text style={styles.locationTextStyle}numberOfLines = {1} >
+                            { this.props.userdata.user_address != null || this.props.userdata.user_address !== undefined ?
+
+                                capitilize(this.props.userdata.user_address)
+                                :
+                                ""
+                                }
+                        </Text>
+                        
+                    </View>
+                    </TouchableOpacity>
+
+                    :
+                    <View/>
+                }
+            
+             
+            <Image style={{width:'95%',height:15,alignSelf:"center",marginTop:10,marginLeft:10,marginRight:10}} source={require('../Assets/curve_new.png')} />
+                 
+                    <CustomTextInputWithIcon keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
+                            placeholder="Search for Products.." 
+                            searchValue={this.state.searchText} 
+                            showTextInput={true}
+                            onSearchPress={this.onSearchHandler.bind(this)}/>
                         <FlatList
                         
                         data={flatlistdata()}
@@ -172,15 +225,16 @@ import * as homeActions from '../redux/store/actions/homeAction';
 
                 </View>
 
-                {this.props.homescreen.search_products.length  == 0
+                {/* {this.props.homescreen.search_products.length  == 0
                 ?
-                    <Text style={{alignSelf:'center',textAlignVertical: "center",  textAlign: 'center', justifyContent:"center",    fontSize:15,fontWeight:'bold',color:"grey",fontFamily:"Roboto-Light",}}>No Items Found.</Text>
+                    <Text style={{alignSelf:'center',textAlignVertical: "center",  textAlign: 'center', justifyContent:"center",    fontSize:15,fontWeight:'bold',color:"grey",fontFamily:"Roboto-Light",}}>No Products Found.</Text>
                 :
                     <View/>
-                }
+                } */}
                
 
             </FullSCreenSpinnerAndDismissKeyboardView>
+            </>
         );
     }
 }
@@ -235,6 +289,33 @@ const mapDispatchToProps = dispatch => {
       //  margin:20
 
     },
+    locationTextStyle:{
+        fontFamily:"roboto-medium",
+        fontSize:14,
+        lineHeight:20,
+        marginTop:7,
+        alignSelf:'center',
+        padding:5,
+        width:"90%"
+
+
+    },
+    searchAddress:{
+        padding:3,
+        flexDirection:"row",
+        width:"95%",
+        borderRadius:5,
+        borderColor:'#dcdcdc',
+        shadowRadius:2,
+        shadowColor:"red",
+        marginTop:10,
+        borderWidth:1,
+        elevation:2,
+        alignSelf:"center",
+        marginLeft:20,
+        marginRight:20
+      
+    }
     
 
  });

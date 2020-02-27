@@ -1,5 +1,5 @@
 import React ,{Component} from 'react';
-import {View ,Text, FlatList, StyleSheet, Alert} from 'react-native';
+import {View ,Text, FlatList, StyleSheet, Alert,Dimensions} from 'react-native';
 
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -17,6 +17,9 @@ import CustomButton  from  '../../CustomUI/CustomButton/CustomButton';
 import Create_AccountStyle from '../../Create_Account/Create_AccountStyle';
 import RazorpayCheckout from 'react-native-razorpay';
 import * as homeAction from '../../redux/store/actions/homeAction';
+import firebase from 'react-native-firebase';
+import * as userDataAction from '../../redux/store/actions/userDataAction';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 
@@ -25,12 +28,12 @@ class Cart extends Component {
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: "Cart",
         headerStyle: { backgroundColor: '#FD8D45', },
-        headerTitleStyle: { color: 'white' ,fontSize:17,flex:1,fontFamily:"Roboto-Light",},
+        headerTitleStyle: { color: 'white' ,fontSize:17,flex:1,fontFamily:"roboto-bold",textAlign:'center'},
         headerTintColor: 'white',
-       
+        headerTitleContainerStyle: {
+            left: 0, // THIS RIGHT HERE
+        },
           
-        
-  
         });
 
         constructor(props){
@@ -43,7 +46,9 @@ class Cart extends Component {
                 cartCount:false,
                 isLoading:this.props.cart_products.isLoading,
                 cartLength:false,
-                isRefreshing:false
+                isRefreshing:false,
+                showUserDetails:false,
+                showTimerModal:false
     
     
     
@@ -57,13 +62,88 @@ class Cart extends Component {
             this.componentDidMount();
         }
 
+      
         componentDidMount(){
         
            this.setState({isRefreshing:false})
            console.log("user",this.props.user.user_address);
           this.props.getCartProducts(this.props.user.userdata.user_id);
+         
+            this.createNotificationListeners(); //add this line
        
         }
+
+        async createNotificationListeners() {
+            /*
+            * Triggered when a particular notification has been received in foreground
+            * */
+            this.notificationListener = firebase.notifications().onNotification((notification) => {
+
+                console.log("notifaication log1",notification);
+                this.setState({showTimerModal:false});
+                this.getNotificationData();
+            });
+          
+          
+            this.messageListener = firebase.messaging().onMessage((message) => {
+              //process data message
+
+              console.log("get message",JSON.stringify(message));
+              this.setState({showTimerModal:false});
+              this.getNotificationData(message);
+            });
+          }
+
+
+          getNotificationData = (notification) => {
+
+            // const channelId = new firebase.notifications.Android.Channel(
+            //     'Default',
+            //     'Default',
+            //     firebase.notifications.Android.Importance.High
+            // );
+            // firebase.notifications().android.createChannel(channelId);
+
+            // let notification_to_be_displayed = new firebase.notifications.Notification({
+            //     data: notification._android._notification._data,
+            //     sound: 'default',
+            //     show_in_foreground: true,
+            //     title: notification.data.title,
+            //     body: notification.data.body,
+            // });
+
+            // if (Platform.OS == 'android') {
+            //     notification_to_be_displayed.android
+            //         .setPriority(firebase.notifications.Android.Priority.High)
+            //         .android.setChannelId('Default')
+            //         .android.setVibrate(1000);
+            // }
+            // console.log('FOREGROUND NOTIFICATION LISTENER: \n', notification_to_be_displayed);
+
+          //  firebase.notifications().displayNotification(notification_to_be_displayed);
+
+          console.log("notification.data.status",notification.data.status);
+            if(notification.data.status == 'true'){
+
+                this.razorPayCheckout();
+            }else{
+
+                this.props.changeAvailabilityStatus();
+                Alert.alert(
+                    'Verify Address',
+                    'Sorry for the inconvience. This address is not available ,try using another address.',
+                    [
+                 
+                   
+                    {text: 'Ok', onPress: () => console.log("ok")},
+                    ], 
+                    { cancelable: false }
+                    )
+            }
+
+          }
+
+         
 
         renderItem(data){
             let { item, index } = data;
@@ -79,121 +159,170 @@ class Cart extends Component {
             if(this.props.user.userdata.user_name == null  || this.props.user.user_address == null){
                 return false;
             }else{
+                this.setState({showUserDetails:true});
                 return true;
             }
         }
 
-        onCheckOutHandler= () =>{
+        checkPrimaryAddressAvailability = () =>{
 
+            this.props.addressAvailability(this.props.user.userdata.user_id);
            
-            if( this.checkUserDetails()){
+        }
 
+        changeAddressCallback = () => {
 
-                console.log("cart products",this.props.cart_products);
-                var options = {
-                    description: '',
-                    image: 'https://i.imgur.com/3g7nmJC.png',
-                    currency: 'INR',
-                    key: 'rzp_test_dUp5Ii1AWLex6g',
-                    amount: parseFloat(this.props.cart_products.get_once_cart_sum * 100).toFixed(2),
-                    name: this.props.user.userdata.user_name,
-                    prefill: {
-                      email: this.props.user.userdata.user_email,
-                      contact: this.props.user.userdata.user_mobile,
-                      name: 'House Of Desi'
-                    },
-                    theme: {color: '#F37254'}
-                  }
-                  RazorpayCheckout.open(options).then((data) => {
-                    // handle success
-                   
-                    var formdata = new FormData();
-                    formdata.append("user_id",this.props.user.userdata.user_id);
-                    formdata.append("payment_id",data.razorpay_payment_id);
-                    formdata.append("net_amt",this.props.cart_products.get_once_cart_sum);
+            this.props.navigation.navigate('SelectAddress');
+        }
+
+        verifyConfirmDetailsToCheckout = () => {
+
+            this.setState({showUserDetails:false})
+            this.checkPrimaryAddressAvailability();
     
-                    this.props.onLoading(true);
-                    Axios.post(ApiUrl.baseurl +  ApiUrl.checkout_cart,formdata)
-                    .then(response=>{
-                        this.props.onLoading(false);
-                        if(response.data.error){
-    
-                        }else{
-    
-                            var arr_id = [] ;
-                            this.props.cart_products.all_cart_products.map(item => {
-    
-                                if(item.is_subscribed == 0){
-    
-                                    arr_id.push(item.product.id);
-                                }
-    
-                            })
-                            this.props.onHomeScreen(this.props.user.userdata.user_id);
-                            this.props.removeFromHomeAfterPayment(arr_id);
-                            this.props.removeFromCartAfterPayment();
-                            Alert.alert(
-                                'Checkout',
-                                'Thank You for completing the order.',
-                                [
-                             
-                               
-                                {text: 'Ok', onPress: () => console.log("ok")},
-                                {text: 'Check Transaction', onPress: () => this.props.navigation.navigate("TransactionHistory")},
-                                ], 
-                                { cancelable: false }
-                                )
-                        }
-    
-                      
-                    }).catch(error => {
-                        this.props.onLoading(false);
-                        console.log("cart error after payment",error);
-                        //alert("Something went Wrong !. Please try again later.");
+
+        }
+
+        razorPayCheckout = () => {
+
+            var options = {
+                description: '',
+                image: 'https://i.imgur.com/3g7nmJC.png',
+                currency: 'INR',
+                key: 'rzp_test_dUp5Ii1AWLex6g',
+                amount: parseFloat(this.props.cart_products.get_once_cart_sum * 100).toFixed(2),
+                name: this.props.user.userdata.user_name,
+                prefill: {
+                  email: this.props.user.userdata.user_email,
+                  contact: this.props.user.userdata.user_mobile,
+                  name: 'House Of Desi'
+                },
+                theme: {color: '#F37254'}
+              }
+              RazorpayCheckout.open(options).then((data) => {
+                // handle success
+               
+                var formdata = new FormData();
+                formdata.append("user_id",this.props.user.userdata.user_id);
+                formdata.append("payment_id",data.razorpay_payment_id);
+                formdata.append("net_amt",this.props.cart_products.get_once_cart_sum);
+
+                this.props.onLoading(true);
+                Axios.post(ApiUrl.baseurl +  ApiUrl.checkout_cart,formdata)
+                .then(response=>{
+                    this.props.onLoading(false);
+                    if(response.data.error){
+
+                    }else{
+
+                        var arr_id = [] ;
+                        this.props.cart_products.all_cart_products.map(item => {
+
+                            if(item.is_subscribed == 0){
+
+                                arr_id.push(item.product.id);
+                            }
+
+                        })
+                        this.props.onHomeScreen(this.props.user.userdata.user_id);
+                        this.props.removeFromHomeAfterPayment(arr_id);
+                        this.props.removeFromCartAfterPayment();
                         Alert.alert(
-                            'Error',
-                            'Something went Wrong !. Please try again later.',
+                            'Checkout',
+                            'Thank You for completing the order.',
                             [
                          
-                            {text: 'OK', onPress: () => console.log("ok")},
+                           
+                            {text: 'Ok', onPress: () => console.log("ok")},
+                            {text: 'Check Transaction', onPress: () => this.props.navigation.navigate("TransactionHistory")},
                             ], 
                             { cancelable: false }
                             )
-                    });
-                  }).catch((error) => {
-                    // handle failure
-                    
-                   
+                    }
+
+                  
+                }).catch(error => {
+                    this.props.onLoading(false);
+                    console.log("cart error after payment",error);
+                    //alert("Something went Wrong !. Please try again later.");
                     Alert.alert(
-                        'Checkout',
-                        `${error.description}`,
+                        'Error',
+                        'Something went Wrong !. Please try again later.',
                         [
                      
                         {text: 'OK', onPress: () => console.log("ok")},
                         ], 
                         { cancelable: false }
                         )
-                    
-                  });
-    
+                });
+              }).catch((error) => {
+                // handle failure
+                
+               
+                Alert.alert(
+                    'Checkout',
+                    `${error.description}`,
+                    [
+                 
+                    {text: 'OK', onPress: () => console.log("ok")},
+                    ], 
+                    { cancelable: false }
+                    )
+                
+              });
+        }
 
-            }else{
+        onCheckOutHandler= () =>{
 
+           
+            if(!this.checkUserDetails()){
 
                 Alert.alert(
                     'Checkout',
-                    'Please Complete your and Address Details to Checkout!',
+                    'Please Complete your Profile and Address Details to Checkout!',
                     [
                  
                     {text: 'OK', onPress: () => this.props.navigation.navigate("ViewProfile")},
                     ], 
                     { cancelable: false }
                     )
-                
-
+            
             }
            
         }
+
+    oncanelTimerModal  = () => {
+        this.setState({showTimerModal:false});
+        Alert.alert(
+            'Verify Address',
+            'Sorry for the inconvience. We are unable to verify the address , please try after some time.',
+            [
+         
+           
+            {text: 'Ok', onPress: () => console.log("ok")},
+            ], 
+            { cancelable: false }
+            )
+
+    }
+
+    componentDidUpdate(prevProps,prevState){
+
+        console.log("prevpropsuyertg3t35834875y38");
+        if(prevProps.user.user_address_available !== this.props.user.user_address_available){
+
+            if(this.props.user.user_address_available == 2){
+                this.setState({showTimerModal:true});
+
+            }else if(this.props.user.user_address_available == 1){
+                console.log("on update..... razorpay calling")
+                this.razorPayCheckout();
+            }
+    
+    
+        }
+
+    }
     
 
     render(){
@@ -201,7 +330,13 @@ class Cart extends Component {
             <FullSCreenSpinnerAndDismissKeyboardView
             onRefresh={this.onRefresh.bind(this)}
             refreshing={this.state.isRefreshing}
+            timerModal ={this.state.showTimerModal}
+            cancelTimerInterVal={()=> {console.log("cancelTimerInterVal");this.oncanelTimerModal()}}
               style={styles.container}
+              userDetails={this.state.showUserDetails}
+              verifyConfirmDetailsToCheckout={()=>{this.verifyConfirmDetailsToCheckout()}}
+              changeAddressCallback = {()=>this.changeAddressCallback()}
+              cancelCallback={()=>{this.setState({showUserDetails:false})}}
               spinner={this.props.cart_products.isLoading}>
                  <FlatList
                       
@@ -213,15 +348,15 @@ class Cart extends Component {
                 
                 {this.props.cart_products.all_cart_products.length > 0 
                 ?
-                <CustomButton  customButttonStyle={{backgroundColor:"#FD8D45",marginBottom:30}}
-                 customTextStyle={{ color:'black'}} onPressHandler = {() => this.onCheckOutHandler()} text="  CHECKOUT  " />
+                <CustomButton  customButttonStyle={{marginBottom:30}}
+                 customTextStyle={{ color:'white'}} onPressHandler = {() => this.onCheckOutHandler()} text="CHECKOUT" />
                   
                 :
                 <View/>
                 }
                 {this.props.cart_products.all_cart_products.length  == 0
                 ?
-                    <Text style={{fontFamily:"Roboto-Light",alignSelf:'center',textAlignVertical: "center",  textAlign: 'center', justifyContent:"center",    fontSize:15,fontWeight:'bold',color:"grey"}}>No Items In Cart</Text>
+                    <Text style={{fontFamily:"roboto-bold",alignSelf:'center',textAlignVertical: "center",  textAlign: 'center', justifyContent:"center",fontSize:15,color:"grey"}}>No Items In Cart</Text>
                 :
                     <View/>
                 }
@@ -261,6 +396,13 @@ mapDispatchToProps = dispatch =>{
         onHomeScreen:(user_id) =>{
             dispatch(homeAction.homeScreenProducts(user_id))
           },
+        addressAvailability : (user_id) => {
+            dispatch(userDataAction.checkUserAddressAvailbility(user_id))
+        },
+        changeAvailabilityStatus : () => {
+            dispatch(userDataAction.changeAddressStatus())
+        }
+        
          
     }
 }

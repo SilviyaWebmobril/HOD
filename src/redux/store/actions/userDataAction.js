@@ -1,4 +1,4 @@
-import { ADD_USER_DATA,REMOVE_ADDRESS,ADD_NEW_ADDRESS } from './types';
+import { ADD_USER_DATA,REMOVE_ADDRESS,ADD_NEW_ADDRESS ,USER_ADDRESS_AVAILABLE,CHANGE_USER_ADDRESS_AVAILABLE} from './types';
 import axios from 'axios';
 import ApiUrl from '../../../Api/ApiUrl';
 import { ADD_USER_ADDRESS,CHANGE_MOBILE,USER_ID ,IS_LOADING,ERROR,ALL_ADDRESSES,CHANGE_PRIMARY_ADDRESS_STATUS} from './types';
@@ -18,7 +18,7 @@ export const userAddress = address => {
 }
 
 export const getUserId = (id) => {
-    console.log("by create account",id);
+  
     return{
         type:USER_ID,
         user_id:id
@@ -27,7 +27,6 @@ export const getUserId = (id) => {
 
 export const getUserProfile =  (user_id) => {
 
-    console.log("getProfileid",user_id);
 
     return dispatch =>{
 
@@ -47,7 +46,6 @@ export const getUserProfile =  (user_id) => {
             })
 
            
-            console.log("   ",res);
             if(res.data.error){
 
                 
@@ -146,5 +144,73 @@ export const changePrimaryStatus = (address_id) => {
     return{
         type:CHANGE_PRIMARY_ADDRESS_STATUS,
         payload:address_id
+    }
+}
+
+export const changeAddressStatus = () => {
+
+    return{
+        type:CHANGE_USER_ADDRESS_AVAILABLE,
+        payload:0
+    }
+}
+
+export const checkUserAddressAvailbility = (user_id) => {
+
+    return  dispatch => {
+
+        dispatch({
+            type:IS_LOADING,
+            isLoading:true,
+        })
+
+        let formdata = new FormData();
+        formdata.append("user_id",user_id);
+        axios.post(ApiUrl.baseurl+ApiUrl.check_valid_user_address,formdata)
+            .then(response => {
+
+                dispatch({
+                    type:IS_LOADING,
+                    isLoading:false,
+                })
+        
+
+                if(response.data.flag == 2){
+
+                   // this.setState({timerModal:true});
+                    dispatch({
+                        type:USER_ADDRESS_AVAILABLE,
+                        payload:2
+        
+                    })
+                }else {
+
+                    dispatch({
+                        type:USER_ADDRESS_AVAILABLE,
+                        payload:1
+        
+                    })
+
+                   // this.razorPayCheckout();
+                }
+
+                console.log("reponse address verify",response);
+            })
+            .catch(error=> {
+
+                dispatch({
+                    type:IS_LOADING,
+                    isLoading:false,
+                })
+        
+              
+                dispatch({
+                    type:ERROR,
+                    error:"Check Your Network Connection!"
+                })
+
+                console.log("verify_ address error", error);
+            })
+
     }
 }

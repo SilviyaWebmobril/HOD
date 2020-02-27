@@ -2,6 +2,7 @@ import React from 'react';
 import {View,StyleSheet,Dimensions,Image,Platform,TouchableOpacity} from 'react-native';
 import Carousel from 'react-native-banner-carousel';
 import { withNavigation } from 'react-navigation';
+import ApiUrl from '../Api/ApiUrl';
 
 const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 170;
@@ -14,7 +15,7 @@ const Banner = (props) => {
         return (
             <View key={index}>
                 <TouchableOpacity onPress={()=> props.navigation.navigate('OfferTerms',{"banner_id":image.id})}>
-                <Image style={styles.imageStyle} source={{uri:"https://www.webmobril.org/dev/hod/"+image.img}} resizeMethod="resize" />
+                <Image style={styles.imageStyle} source={{uri:ApiUrl.image_url+image.img}} resizeMethod="resize" />
                 </TouchableOpacity>
             </View>
         );
@@ -24,7 +25,7 @@ const Banner = (props) => {
     renderImage = (image,index) => {
 
         return(
-            <Image key={index} style={styles.imageStyle} source={{uri:"https://www.webmobril.org/dev/hod/"+image.img}} resizeMethod="resize" />
+            <Image key={index} style={styles.imageStyle} source={{uri:ApiUrl.image_url+image.img}} resizeMethod="resize" />
         );
 
     }
@@ -55,33 +56,28 @@ const Banner = (props) => {
             backgroundColor: '#fff',
             justifyContent: 'center',
             alignItems:"center",
-            marginTop:30
-            
+           
         },
         viewLineBlack:{
             width:"90%",
             height:1,
             backgroundColor:"#9F9F9F",
-             marginTop:10,
-            marginBottom:10,
-            // marginLeft:10,
-            // marginRight:10,
-
+             marginTop:5,
+            marginBottom:0,
            
-            
         },
 
         imageStyle: {
            width:Dimensions.get('window').width * 0.9,
              height: BannerHeight , 
              alignSelf:"center",
-            borderRadius:20,
+            borderRadius:5,
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 1,
             shadowRadius: 2,  
             alignSelf:"center"  ,
-            marginTop:20
+            marginTop:10
            
            
          

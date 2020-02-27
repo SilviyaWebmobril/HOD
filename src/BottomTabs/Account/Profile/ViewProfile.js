@@ -27,6 +27,9 @@ class ViewProfile  extends Component {
       flex: 1,
       fontSize: 17,
      },
+     headerTitleContainerStyle: {
+      left: 0, // THIS RIGHT HERE
+    },
     headerTintColor: 'white', 
     headerLeft:(
       <TouchableOpacity
@@ -35,7 +38,7 @@ class ViewProfile  extends Component {
         {Platform.OS === 'android' 
         ?
         <View style={{flexDirection:"row"}}>
-            <Image source={require('../../../Assets/arrow_left.png')} style={{marginLeft:20}} />
+            <Image source={require('../../../Assets/arrow_left.png')} style={{marginLeft:20,flex:1}} />
            
         </View>
        
@@ -150,12 +153,15 @@ class ViewProfile  extends Component {
 
         <View>
           <View style={styles.addressHeadingView}>
-              <Text style={{fontWeight:'bold',lineHeight:20,width:'70%'}}>{capitilize(item.homeaddress)}</Text>
+              <Text style={item.primary_status === 0 ? {fontFamily:'roboto-medium',lineHeight:20,width:'70%'} :{fontFamily:'roboto-medium',lineHeight:20,width:'90%'}}>{capitilize(item.homeaddress)}</Text>
               {/* <Text onPress={()=>this.onEditAddresshandler()}
               style={styles.editTextStyle}>Edit</Text> */}
+               {item.primary_status === 0 ? 
               <Text onPress={()=>this.onRemoveAddresshandler(item.id)}
                 style={styles.editTextStyle}>Remove</Text>
-              
+                :
+                <View/>
+               }
           </View>
 
           <View style={styles.viewLineBlack}></View>
@@ -369,7 +375,7 @@ const styles =  StyleSheet.create({
   },
   updateTextStyle:{
     color:"#FD8D45",
-    fontFamily:'roboto-light',
+    fontFamily:'roboto-bold',
     textAlign:"right",
     textDecorationLine:"underline"
   }

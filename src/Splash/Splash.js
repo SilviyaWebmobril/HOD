@@ -120,10 +120,10 @@ class Splash extends Component {
           });
       
         return(
-            <ImageBackground source={require('../Assets/bg.jpg')} style={{alignItems:"center",justifyContent:"center",flex:1}}>
+            <ImageBackground source={require('../Assets/splashbg1.png')} style={{alignItems:"center",justifyContent:"center",flex:1}}>
             {/* <ScrollView style={{flex:1}}> */}
                 
-                <View style={{alignItems:"center",justifyContent:"center",marginLeft:10,marginRight:10,alignSelf:"center",position:'absolute',top:Dimensions.get('window').height * 0.33}}>
+                {/* <View style={{alignItems:"center",justifyContent:"center",marginLeft:10,marginRight:10,alignSelf:"center",position:'absolute',top:Dimensions.get('window').height * 0.33}}>
                     
                     {Platform.OS  ===  'android'
                     ?
@@ -145,7 +145,7 @@ class Splash extends Component {
                 <View style={{marginTop:200 ,width:'100%',alignSelf:"center",marginLeft:60,marginRight:60}}>
                   <Image  source={require('../Assets/name_new.png')} resizeMode="contain" style={{alignSelf:"center",width:"90%",height:windowH/4.5}}/>
                 </View>
-                }
+                } */}
                
         
 

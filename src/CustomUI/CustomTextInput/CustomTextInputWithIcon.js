@@ -58,7 +58,7 @@ const CustomTextInputWithIcon = React.forwardRef((props,ref) => {
         <Image source={require('../../Assets/search1.png')} style={styles.ImageStyle} />
 
           <View  style={{fontFamily:"roboto-light",width:"90%"}}>
-            <Text>Serch for products...</Text>
+            <Text style={{fontFamily:'roboto-light',fontSize:16,color:"grey"}}>Search for products...</Text>
           </View>
         
         </View>
@@ -82,19 +82,33 @@ const styles = StyleSheet.create({
   
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 10,
+    marginLeft:15,
+    marginRight:15,
+   marginBottom:10,
+   borderRadius: 7,
+   backgroundColor:"white"
+
   
   },
   
   SectionStyle: {
+    
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor:"#ececec",
-    borderWidth: .5,
     height: 40,
-    borderRadius: 5 ,
-    margin: 10
+
+    borderWidth: 1,
+    borderRadius: 7,
+    borderColor: '#9F9F9F',
+    borderBottomWidth: 1,
+    shadowColor: 'grey',
+    shadowOpacity: 1.5,
+    shadowRadius: 4,
+    
+  
+   
 },
 
 ImageStyle: {

@@ -168,7 +168,7 @@ export default (state = initialState ,action) => {
             var products  =  [...state.getAllProducts];
           
             var updated_item = action.product_item;
-            console.log("updated_item",updated_item);
+           
           
             /// updating all list product 
             products.forEach(item => {

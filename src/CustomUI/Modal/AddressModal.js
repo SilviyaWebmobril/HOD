@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import {View , Text , FlatList ,TouchableOpacity,StyleSheet, Dimensions,Image ,Alert,ActivityIndicator} from 'react-native';
+import {View , Text , FlatList ,TouchableOpacity,StyleSheet, Dimensions,Image ,Alert,Animated,ActivityIndicator} from 'react-native';
 import * as userAction   from '../../redux/store/actions/userDataAction';
 import {connect} from 'react-redux';
 import { CheckBox } from 'react-native-elements';
@@ -12,17 +12,43 @@ class AddressModal extends Component {
     constructor(props){
         super(props);
         this.state = {
-
+          ready: false,
+          animatedValue: new Animated.Value(0),
            loading:false,
         }
     }
+
+     
+    componentDidMount() {
+        this._start();
+    }
+
+
+
+
+    _start = () => {
+        Animated.timing(this.state.animatedValue, {
+          toValue: 1,
+        duration: 500,
+        useNativeDriver: true
+        }).start();
+      };
 
     renderItem = (data) =>{
         let { item, index } = data;
        
         return(
   
-          <View>
+           <Animated.View
+            style={{
+              transform: [
+                {
+                  translateY: this.state.animatedValue.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [600, 0]
+                  })
+                }
+              ]}} >
             <View style={styles.addressHeadingView}>
                
                 {/* <Text onPress={()=>this.onEditAddresshandler()}
@@ -38,7 +64,7 @@ class AddressModal extends Component {
             </View>
   
             <View style={styles.viewLineBlack}></View>
-          </View>
+          </Animated.View>
           
   
   
@@ -100,6 +126,16 @@ class AddressModal extends Component {
 
     render(){
         return(
+           <Animated.View
+            style={{
+              transform: [
+                {
+                  translateY: this.state.animatedValue.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [600, 0]
+                  })
+                }
+              ]}} >
             <View style={styles.mainContainer}>
                 <View style={styles.headerStyle}>
                     <Text  style={styles.headerTextStyle}>Select Primary Address</Text>
@@ -130,6 +166,7 @@ class AddressModal extends Component {
 
 
             </View>
+            </Animated.View>
         )
     }
 }
@@ -192,7 +229,7 @@ const styles = StyleSheet.create({
       headerTextStyle:{
           color:"white",
           textAlign:"center",
-          fontFamily:"Philosopher-Bold",
+          fontFamily:"roboto-bold",
           fontSize:14,
           textAlign:"center",
       },

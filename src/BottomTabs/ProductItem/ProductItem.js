@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as cartActions from '../../redux/store/actions/cartAction';
 import { connect } from 'react-redux';
 import ScheduleModal from '../../CustomUI/Modal/ScheduleModal';
+import ApiUrl from '../../Api/ApiUrl';
 
 
 class ProductItem extends Component {
@@ -30,10 +31,7 @@ class ProductItem extends Component {
         
     }
 
-   componentDidMount(){
-
-    console.log("display_ stock",this.props.data.display_stock);
-   }
+   
    
     render(){
 
@@ -48,9 +46,9 @@ class ProductItem extends Component {
        
 
         return(
-            <View >
+            <>
                 <View style={styles.container}>
-                    <Image source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.img}} resizeMode="contain" style={{width:120,alignSelf:"center",flex:0.5, height:120,borderRadius:10}}/>
+                    <Image source={{uri:ApiUrl.image_url+this.props.data.img}} resizeMode="contain" style={{width:120,alignSelf:"center",flex:0.5, height:120,borderRadius:10}}/>
                     <View style={styles.sectionRow}>
                         <View >
                             <Text style={styles.textProductname}>{this.props.data.name}</Text>
@@ -163,7 +161,7 @@ class ProductItem extends Component {
                 </View>
                
                 <View style={styles.viewLineGrey}></View>
-            </View>
+            </>
            
         );
     
@@ -208,17 +206,14 @@ const mapStateToProps = state => {
         justifyContent:"space-between",
         alignItems:"center",
         alignContent:"space-between",
-        paddingTop:10,
-        paddingBottom:0,
-        paddingLeft:20,
+        paddingLeft:10,
         paddingRight:10,
-        //backgroundColor:"red"
 
     },
     sectionRow:{
         flex:1.5,
-        paddingTop:10,
-        paddingBottom:10,
+        paddingTop:5,
+        paddingBottom:5,
         paddingLeft:10,
         paddingRight:10,
         flexDirection:"row",

@@ -20,8 +20,11 @@ class CategoryProductDetails extends Component {
     static navigationOptions = ({ navigation, screenProps }) => ({
         title:      navigation.getParam('name')  ,
         headerStyle: { backgroundColor: '#FD8D45' },
-        headerTitleStyle: { color: 'white',fontSize:17,flex:1 ,fontFamily:"Roboto-Light",},
+        headerTitleStyle: { color: 'white',fontSize:17,flex:1 ,fontFamily:"roboto-bold",textAlign:"center"},
         headerTintColor: 'white',
+        headerTitleContainerStyle: {
+            left: 0, // THIS RIGHT HERE
+          },
         headerRight:(
             <Cartbadge count={navigation.getParam('count', '0')} nav={navigation} />
         )
@@ -382,13 +385,13 @@ const styles =  StyleSheet.create({
       
     },
     newpricetext:{
-        fontFamily:'roboto-light',
+        fontFamily:'roboto-bold',
         fontSize:15,
         color:"#FD8D45",
         marginRight:5
     },
     oldpricetext:{
-        fontFamily:'roboto-light',
+        fontFamily:'roboto-bold',
         fontSize:15,
         color:"grey",
         marginRight:5,

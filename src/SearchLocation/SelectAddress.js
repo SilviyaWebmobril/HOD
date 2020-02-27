@@ -18,8 +18,11 @@ class SelectAddress extends Component {
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: "Select Address",
         headerStyle: { backgroundColor: '#FD8D45' },
-        headerTitleStyle: { color: 'white' ,fontSize:17,flex:1 },
+        headerTitleStyle: { color: 'white' ,fontSize:17,flex:1 ,textAlign:"center"},
         headerTintColor: 'white', 
+        headerTitleContainerStyle: {
+          left: 0, // THIS RIGHT HERE
+        },
         headerLeft:(
           <TouchableOpacity
             onPress={()=>{navigation.pop()}}
@@ -68,10 +71,16 @@ class SelectAddress extends Component {
                uncheckedIcon='circle-o'
                onPress={() => {this.setPrimary(item.id)}}
                checked={item.primary_status === 0 ? false : true}/>
-            <Text style={{fontWeight:'bold',width:'80%',lineHeight:15,justifyContent:"center"}}>{capitilize(item.homeaddress)}</Text>
-                
-            </View>
-  
+            <Text style={{fontFamily:'roboto-medium',flex:2.5,marginRight:10,lineHeight:15,justifyContent:"center"}}>{capitilize(item.homeaddress)}</Text>
+            {item.primary_status === 0 ? 
+
+            <Text onPress={()=>this.onRemoveAddresshandler(item.id)}
+                style={styles.editTextStyle}>Remove</Text>
+           
+            :
+            <View/>
+            }
+          </View>
             <View style={styles.viewLineBlack}></View>
           </View>
           
@@ -81,6 +90,63 @@ class SelectAddress extends Component {
   
       }
 
+      onRemoveAddresshandler = (id) =>{
+
+        Alert.alert(
+          'Remove Address',
+          "Are you sure you want to remove this address ?",
+          [
+       
+          {text: 'OK', onPress: () =>  {this.removeAdd(id)}},
+          {text: 'CANCEL', onPress: () =>  {console.log("ok")}},
+          ], 
+          { cancelable: false }
+          );
+  
+        
+      }
+
+      removeAdd(id){
+
+        this.setState({loading:true})
+        Axios.post(ApiUrl.baseurl+ApiUrl.remove_address+id)
+        .then(response => {
+         this.setState({loading:false})
+          console.log("removing address view profile",response);
+          if(response.data.error){
+  
+            Alert.alert(
+              'Remove Address',
+              "Cannot Remove Primary Address!",
+              [
+           
+              {text: 'OK', onPress: () =>  {console.log("ok")}},
+              ], 
+              { cancelable: false }
+              )
+          
+          }else{
+            Alert.alert(
+              'Remove Address',
+              "Address Removed Successfully!",
+              [
+           
+              {text: 'OK', onPress: () =>  {console.log("ok")}},
+              ], 
+              { cancelable: false }
+              );
+  
+            this.props.onRemoveAddress(id);
+           
+          
+          }
+  
+        }).catch(error=>{
+          this.props.onLoading(false);
+        })
+      }
+
+      
       setPrimary = (address_id) => {
 
         this.setState({loading:true})
@@ -138,7 +204,8 @@ class SelectAddress extends Component {
         return(
          
             <FullSCreenSpinnerAndDismissKeyboardView
-            cancelCallback={()=>{console.log("hello");this.setState({viewAddressModal:false})}}>
+            refreshing={false}
+           >
                 <View style={styles.mainContainer}>
                
                     <View style={{flexDirection:'row',justifyContent:"space-between",margin:10}}>
@@ -162,7 +229,7 @@ class SelectAddress extends Component {
                         { backgroundColor: 'rgba(0, 0, 0, 0.7)', justifyContent: 'center' }
                         ]}
                         >
-                        <ActivityIndicator size="large" />
+                        <ActivityIndicator size="large" color="#48241e" />
                     </View>
 
                     :
@@ -187,14 +254,20 @@ const mapStateToProps = state => {
 
   const mapDisptchToProps = dispatch => {
 
+
     return{
       onNewPrimaryAddress: (newAddress)=>{
         dispatch(userAction.userAddress(newAddress))
       },
+     
+      onRemoveAddress: (id)=>{
+        dispatch(userAction.removeAddress(id))
+      },
 
       onChangePrimaryStatus: (address_id) => {
           dispatch(userAction.changePrimaryStatus(address_id))
-      }
+      },
+     
       
     }
   }
@@ -260,6 +333,13 @@ const styles = StyleSheet.create({
         color:"#FD8D45",
         fontWeight:"bold",
         
+      },
+      editTextStyle:{
+        fontFamily:'roboto-light',
+        color:"#FD8D45",
+        alignSelf:'flex-end',
+        flex:0.7,
+        textDecorationLine:"underline"
       },
 
 })

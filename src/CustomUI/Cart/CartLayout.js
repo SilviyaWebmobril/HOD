@@ -1,19 +1,52 @@
-import React from 'react';
-import {View ,Text, Image ,StyleSheet,TouchableOpacity} from 'react-native';
+import React,{useState,useEffect} from 'react';
+import {View ,Text, Image ,StyleSheet,TouchableOpacity, Animated,Easing} from 'react-native';
 import { withNavigation } from 'react-navigation';
 
 
 CartLayout = (props) => {
+
+    const [animatedValue,setAnimatedValue] = useState(new Animated.Value (0));
+
+    let startAnimation = startAnimation =() => {
+     
+      
+        animatedValue.setValue(0)
+        Animated.timing(
+            animatedValue,
+            {
+              toValue: 1,
+              duration: 3000,
+              easing: Easing.linear,
+            }
+          ).start(()=>{
+           
+              startAnimation();
+          });
+
+    } 
+
+
+    // useEffect(() => {
+    //     startAnimation();
+      
+      
+      
+    // }, []);;
+
+    // animatedValue.interpolate({
+    //     inputRange: [0, 0.3, 0.5,0.7,1],
+    //     outputRange: [8, 10, 12,10,8]
+    //   })
+    
     
     return(
 
         <View style={styles.viewCartLayout}>
           <View style={styles.rowLeft}>
               
-              <Text style={styles.textStyles}>{props.quantity} Item(s) | {'\u20B9'}{props.price}</Text>
+              <Animated.Text style={{fontFamily:"roboto-bold",fontSize:14,color:"white"}}>{props.quantity} Item(s) | {'\u20B9'}{props.price}</Animated.Text>
           
           </View>
-          <View style={styles.rowRight}>
           <TouchableOpacity 
             onPress={()=>props.navigation.navigate("Cart")}>
                 <View style={styles.rowRight}>
@@ -24,7 +57,6 @@ CartLayout = (props) => {
                 </View>
             
           </TouchableOpacity>
-          </View>
          
         </View> 
     );
@@ -45,7 +77,8 @@ const styles = StyleSheet.create({
       bottom:0,
       left:0,
       right:0,
-  
+
+   
   },
   rowLeft:{
       flexDirection:"row",
@@ -59,9 +92,18 @@ const styles = StyleSheet.create({
       color:"white"
   },
   rowRight:{
+    elevation:1,
     flexDirection:"row",
     alignItems:"center",
-    margin:20,
+    margin:10,
+    padding:4,
+    borderRadius:2,
+    borderWidth:1,
+    borderColor:'white',
+    shadowColor: 'white',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
    
   },
   });

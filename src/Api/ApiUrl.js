@@ -6,6 +6,8 @@ import {Platform } from 'react-native';
    
 export default {
 
+    image_url : "https://www.webmobril.org/dev/hod/",
+
     googlePlacesApiKey:'AIzaSyBx5f8NnFiA2kEv7ZcFJVtUs0_6TfZaMPw',
     
     device_type : Platform.OS == "android" ? 1 : 2,
@@ -41,7 +43,7 @@ export default {
 
     get_all_certificates:"certificates?user_id=",
 
-    update_profile:"update_profile?",
+    update_profile:"update_profile",
 
     send_mobile_for_otp:"send_otp",
 
@@ -73,7 +75,7 @@ export default {
     
     "transaction_history":"transaction_history?user_id=",
 
-    about_us :"http://webmobril.org/dev/hod/api/api_pages?page_id=24",
+    about_us :"http://webmobril.org/dev/hod/api/api_pages?page_id=2",
 
     privacy_policy :"http://webmobril.org/dev/hod/api/api_pages?page_id=24",
 
@@ -88,6 +90,8 @@ export default {
     set_user_primary_address :"set_user_primary_address",
 
     offer_terms:"offer_terms",
+
+    check_valid_user_address : "send_notif_to_admin"
 
 
 }

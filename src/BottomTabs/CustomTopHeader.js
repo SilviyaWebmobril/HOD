@@ -30,6 +30,8 @@ class CustomTopHeader extends  Component {
 
     render(){
 
+        console.log("cart total count",this.props.cart_count.total_cart_count);
+
         return(
 
             <View style={styles.container}>
@@ -39,13 +41,13 @@ class CustomTopHeader extends  Component {
                         <Text style={styles.textStyle}>Delivery Location</Text>
                         <TouchableOpacity
                         onPress={()=>{this.SearchLocation()}}>
-                            <Image style={{width:15,height:15,marginLeft:10,marginTop:2}}  source={require('../Assets/pencil.png')} />
+                            <Image style={{width:15,height:15,marginLeft:10,marginTop:2}}  source={require('../Assets/pencil2.png')} />
                         </TouchableOpacity>
                     </View>
                     <View  style={{ flexDirection:"row",justifyContent:'flex-end',flex:1}}>
                         <TouchableOpacity
                          onPress={()=>{this.props.navigation.navigate("TransactionHistory")}}>
-                            <Image style={{width:22,height:22,marginRight:10}} source={require('../Assets/order.png')} />
+                            <Image style={{width:25,height:25,marginRight:7}} source={require('../Assets/trans.png')} />
                         </TouchableOpacity> 
                        
                         <Cartbadge img= {0} count={this.props.cart_count.total_cart_count} nav={this.props.navigation}/>
@@ -61,8 +63,8 @@ class CustomTopHeader extends  Component {
                          }
                     </Text>
                     
-                    <Image style={{width:'100%',height:20,marginTop:10,marginBottom:0}} source={require('../Assets/curve.png')} />
-                    <View style={styles.viewLineBlack}></View>
+                    <Image style={{width:'100%',height:15,marginTop:10,marginBottom:0,}} source={require('../Assets/curve_new.png')} />
+                    {/* <View style={styles.viewLineBlack}></View> */}
                 </View>
               
             </View>
@@ -100,7 +102,7 @@ const styles =  StyleSheet.create({
       
     },
     textStyle:{
-        fontFamily:"Roboto-Light",
+        fontFamily:"roboto-light",
         fontSize:18,
        
     },
@@ -108,9 +110,8 @@ const styles =  StyleSheet.create({
         flexDirection:"column"
     },
     locationTextStyle:{
-        fontFamily:"Roboto-Light",
+        fontFamily:"roboto-medium",
         fontSize:14,
-        fontWeight:"bold",
         lineHeight:20,
         marginTop:7
     },
@@ -118,8 +119,8 @@ const styles =  StyleSheet.create({
         width:'100%',
         height:1,
         backgroundColor:"#9F9F9F",
-        marginTop:8,
-        marginBottom:10
+        marginTop:2,
+        marginBottom:0
     }
 
 

@@ -16,7 +16,9 @@ import * as homeActions from '../redux/store/actions/homeAction';
 import * as userAction from '../redux/store/actions/userDataAction';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Keyboard } from 'react-native';
-
+import firebase from 'react-native-firebase';
+import AsyncStorage from '@react-native-community/async-storage';
+import  capitilize  from '../utility/helpers';
 
 
 class HomeScreen extends  Component {
@@ -43,6 +45,7 @@ class HomeScreen extends  Component {
             isRefreshing:false,
             iseditable :false,
             hideComponent:false,
+            cartCount:false,
             showTextInput:false,
             
         }
@@ -57,23 +60,25 @@ class HomeScreen extends  Component {
 
     }
 
-    componentWillMount(){
-        console.log("hi");
-    }
-   
-
+  
     componentDidMount(){
-        console.log("this.props.navigation.getParam('iseditable') ",this.props.navigation.getParam('iseditable') );
+        this.props.deleteCart();
+        this.props.deleteSearch();
+
         this.setState({isRefreshing:false})
         if(this.props.navigation.getParam('iseditable') ){
+            this.setState({hideComponent:true,showTextInput:true});
             this.setState({iseditable:true})
         }
         this.props.onHomeScreen(this.props.userdata.user_id);
         this.props.getProfile(this.props.userdata.user_id);
-       
-       
+        console.log("bhsbdj",this.props.cart.total_cart_count);
+        
+   
        
     }
+
+  
 
     onDetailsHandler = (id,name) => {
        
@@ -188,7 +193,7 @@ class HomeScreen extends  Component {
     }
 
     onRefresh = () =>{
-
+        this.setState({iseditable:false})
         this.setState({hideComponent:false,showTextInput:false});
         var userdata = [];
 
@@ -229,14 +234,31 @@ class HomeScreen extends  Component {
             scheduleVisible={this.state.scheduleModalVisible}
             schedule_product_id ={this.state.schedule_product_id}
             schedule_product_price = {this.state.schedule_product_price}
+            itemQuantity={this.props.cart.total_cart_count}
+            itemTotalPrice={this.props.cart.totalAmount}
+            cartLayout={this.props.cart.total_cart_count > 0}
             spinner={this.state.isLoading}>
                 <KeyboardAwareScrollView ref='_scrollView'
                 >
 
                     {!this.state.hideComponent
                     ?
-                    <View>
+                    <>
                         <CustomTopHeader address={this.props.userdata.user_address} />
+                        <CustomTextInputWithIcon keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
+                            placeholder="Search for Products.." isEditable={this.props.navigation.getParam('iseditable',"") == 1 ? true : false} 
+                            searchValue={this.state.searchText} 
+                            // onFocus={()=>{this.onSearchPress()}}  
+                            // textpress={()=>{this.onSearchPress()}} 
+                            // showTextInput={this.state.showTextInput}
+                            // onSearchPress={this.onSearchHandler.bind(this)}
+                            onFocus={()=>{}}  
+                            textpress={()=>{this.props.navigation.navigate('SearchProducts',{location: capitilize(this.props.userdata.user_address)})}} 
+                            showTextInput={this.state.showTextInput}
+                            onSearchPress={( )=>{this.props.navigation.navigate('SearchProducts',{get_back_button:true})}}
+                            />
+                            {/* <View style={styles.viewLineBlack}></View> */}
+                  
                             {this.props.homescreen.banners.length > 0
                             ?
                                 
@@ -252,20 +274,13 @@ class HomeScreen extends  Component {
                         :
                         <View/>
                     }
-                    </View>
+                    </>
                   
                     :
                     <View/>
                     }
                     
                     
-                    <CustomTextInputWithIcon keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
-                    placeholder="Search for Products.." isEditable={this.props.navigation.getParam('iseditable',"") == 1 ? true : false} 
-                    searchValue={this.state.searchText} 
-                    onFocus={()=>{this.onSearchPress()}}  
-                    textpress={()=>{this.onSearchPress()}} 
-                    showTextInput={this.state.showTextInput}
-                    onSearchPress={this.onSearchHandler.bind(this)}/>
                   
                    
                    
@@ -353,6 +368,19 @@ const mapDispatchToProps = dispatch => {
       //  margin:20
 
     },
+
+    viewLineBlack:{
+        width:'90%',
+        height:1,
+        alignSelf:'center',
+        backgroundColor:"#9F9F9F",
+        marginTop:2,
+        marginBottom:0,
+        marginLeft:10,
+        marginRight:10
+
+    }
+
     
 
  });

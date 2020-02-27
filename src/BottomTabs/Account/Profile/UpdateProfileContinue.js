@@ -290,19 +290,19 @@ const mapStateToProps = (state) => {
 const styles =  StyleSheet.create({
 
     container:{
-        margin:"5%"
+      flex:1,
+      margin:10
     },
 
     labelTextView:{
-        width:'90%',
+        width:'95%',
         marginLeft:20,
         flexDirection:'column',
         justifyContent:'flex-start',
         alignItems:'flex-start'
     },
     labelTextViewTab:{
-        width:'90%',
-        marginLeft:40,
+        width:'95%',
         flexDirection:'column',
         justifyContent:'flex-start',
         alignItems:'flex-start'

@@ -17,6 +17,7 @@ import com.kishanjvaghela.cardview.RNCardViewPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 
@@ -62,7 +63,8 @@ public class MainApplication extends Application implements ReactApplication {
             new ReactVideoPackage(),
             new VectorIconsPackage(),
             new RNGestureHandlerPackage(),
-            new RNFirebaseMessagingPackage()
+            new RNFirebaseMessagingPackage(),
+            new RNFirebaseNotificationsPackage()
       );
     }
 

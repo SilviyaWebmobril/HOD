@@ -1,4 +1,4 @@
-import { ADD_USER_DATA,REMOVE_ADDRESS, ADD_NEW_ADDRESS } from '../actions/types';
+import { ADD_USER_DATA,REMOVE_ADDRESS, ADD_NEW_ADDRESS ,USER_ADDRESS_AVAILABLE,CHANGE_USER_ADDRESS_AVAILABLE} from '../actions/types';
 import User from '../../../models/User';
 import { ADD_USER_ADDRESS ,CHANGE_MOBILE,USER_ID,ALL_ADDRESSES,CHANGE_PRIMARY_ADDRESS_STATUS} from '../actions/types';
 
@@ -7,7 +7,8 @@ const initialState = {
     userdata:{},
     user_address:"",
     user_id:"",
-    all_address:[]
+    all_address:[],
+    user_address_available:0,
 
     
 }
@@ -60,7 +61,7 @@ const initialState = {
             }
 
         case REMOVE_ADDRESS:{
-            console.log('on user action removed id',action.removed_id);
+           
             var removed_id = action.removed_id;
             var address_array = [...state.all_address];
             for( var i = 0; i < address_array.length; i++){ 
@@ -77,7 +78,6 @@ const initialState = {
         }
 
         case ADD_NEW_ADDRESS :
-            console.log("hello user data",action.payload);
             var address_item  = action.payload;
             var address_array = [...state.all_address];
             address_array.push(address_item);
@@ -90,10 +90,12 @@ const initialState = {
         case CHANGE_PRIMARY_ADDRESS_STATUS :
             var address_id = action.payload;
             let all_address = [...state.all_address];
+            let new_user_address ;
             all_address.forEach(ele => {
 
                 if(address_id == ele.id){
                     ele.primary_status = 1;
+                    new_user_address = ele.homeaddress;
                 }else{
                     ele.primary_status = 0;
                 }
@@ -101,8 +103,19 @@ const initialState = {
             });
             return {
                 ...state,
+                user_address:new_user_address,
                 all_address:[...all_address]
             }
+        case USER_ADDRESS_AVAILABLE:
+            return {
+                ...state,
+                user_address_available:action.payload,
+            }
+            case CHANGE_USER_ADDRESS_AVAILABLE:
+                return {
+                    ...state,
+                    user_address_available:action.payload,
+                }
 
         default:
                 return state;

@@ -54,13 +54,26 @@ const Bottomtabs = createBottomTabNavigator({
         
         );
        
-      },  
+      }, 
+      tabBarOnPress: ({ navigation, defaultHandler }) => {
+        console.log("hi iam in tabbarpress");
+       // navigation.navigate('HomeScreen',{iseditable:1})
+        const resetAction = StackActions.reset({
+          index: 0,
+          //key: 'HomeScreen',
+          actions: [NavigationActions.navigate({ routeName: 'HomeBottomtabs',
+          params: {
+            iseditable: 0   // this second parameter is for sending the params
+        }  })],
+        })
+        navigation.dispatch(resetAction);
+      } 
     }
   },
   'VistOfFarm':{
     screen:VistOfFarm,
     navigationOptions:{
-      tabBarLabel:'Vist Our Farm',  
+      tabBarLabel:'Visit Our Farm',  
       tabBarIcon: ({focused, tintColor }) => {
 
        const image =  focused
@@ -97,7 +110,7 @@ const Bottomtabs = createBottomTabNavigator({
     }
   },
   'Seacrh':{
-    screen:HomeScreen,
+    screen:Search,
     navigationOptions:{
       tabBarLabel:'Search',  
       tabBarIcon: ({ focused,tintColor }) => {
@@ -115,19 +128,19 @@ const Bottomtabs = createBottomTabNavigator({
         );
         
       },  
-      tabBarOnPress: ({ navigation, defaultHandler }) => {
-        console.log("hi iam in tabbarpress");
-       // navigation.navigate('HomeScreen',{iseditable:1})
-        const resetAction = StackActions.reset({
-          index: 0,
-          //key: 'HomeScreen',
-          actions: [NavigationActions.navigate({ routeName: 'HomeBottomtabs',
-          params: {
-            iseditable: 1   // this second parameter is for sending the params
-        }  })],
-        })
-        navigation.dispatch(resetAction);
-      }
+      // tabBarOnPress: ({ navigation, defaultHandler }) => {
+      //   console.log("hi iam in tabbarpress");
+      //  // navigation.navigate('HomeScreen',{iseditable:1})
+      //   const resetAction = StackActions.reset({
+      //     index: 0,
+      //     //key: 'HomeScreen',
+      //     actions: [NavigationActions.navigate({ routeName: 'HomeBottomtabs',
+      //     params: {
+      //       iseditable: 1   // this second parameter is for sending the params
+      //   }  })],
+      //   })
+      //   navigation.dispatch(resetAction);
+      // }
     
       
     }
@@ -165,17 +178,52 @@ const Bottomtabs = createBottomTabNavigator({
 
 {
   initialRouteName: 'HomeScreen',
-  tabBarOptions: {
-     activeTintColor:"#FD8D45",
-     style: {
-      marginBottom:5,
-      height: 60,
-      borderTopWidth: 1,
+  // tabBarOptions: {
+  //    activeTintColor:"#FD8D45",
+  //    style: {
+  //     marginBottom:5,
+  //     height: 60,
+  //     borderTopWidth: 1,
+  //     elevation:5
       
-  },
+  // },
 
+ // },
+ tabBarOptions: {
+  activeTintColor:"#FD8D45",
+  labelStyle: {
+    fontSize: 10,
+    margin: 0,
+    padding: 0,
+    alignSelf:'center', 
+    fontFamily:'roboto-light',
+    textAlign:'center'
   },
+  //inactiveTintColor: 'rgba(0,0,0,0.6)',
+  showLabel: true,
+  style:{
+    justifyContent:'space-between',
+    alignItems:'center',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    shadowColor:'#dcdcdc',
+    elevation: 0,
+    borderTopColor: '#dcdcdc',
+    backgroundColor:'#fff',
+    borderTopWidth:2,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    height: 60,
+    marginBottom:5
+  },
+  // activeTabStyle: {
+  //   backgroundColor: 'white',
+  //   borderBottomWidth: 4,
+  //   borderColor: '#6C1D7C'
+  // },
 } 
+}
 );
 
 // right after declare `MyTabs`
@@ -209,6 +257,7 @@ const profile = createStackNavigator({
   
 },{
 
+ transitionConfig: () => fromRight(500),
   
 });
 
@@ -216,6 +265,8 @@ const search = createStackNavigator({
   SelectAddress,
   SearchLocation,
   SearchLocationContinue,
+},{
+   transitionConfig: () => fromRight(500),
 });
 
 const bottomtabsStack = createStackNavigator({
@@ -241,6 +292,9 @@ const bottomtabsStack = createStackNavigator({
     }
   },
  
+  SearchProducts:{
+    screen:Search,
+  },
   OfferTerms,
   Cart ,
   MyVideo,

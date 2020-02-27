@@ -1,5 +1,5 @@
 import React,{useState,forwardRef, useRef, useImperativeHandle,Component} from 'react';
-import {View,TextInput,Text,StyleSheet } from 'react-native';
+import {View,TextInput,Text,StyleSheet, Dimensions } from 'react-native';
 import validate from '../../utility/validation';
 import DeviceInfo from 'react-native-device-info';
 
@@ -595,16 +595,16 @@ export default CustomTextInput;
 const textInput = StyleSheet.create({
 
     mainView:{
-        width:'100%',marginBottom:25
+        width:Dimensions.get('window').width,marginBottom:10
     },
     viewStyle:{
-        width:"100%",marginTop:10,alignItems:"center",
+        marginTop:10,alignItems:"center",
     },
 
     txtInput: {
         fontFamily:"Roboto-Light",
-        width:'90%',
-        padding:10,
+        width:'100%',
+        padding:0,
         borderColor: 'gray',
         borderWidth: 1,
         height: 40,
