@@ -80,6 +80,9 @@ const initialState = {
         case ADD_NEW_ADDRESS :
             var address_item  = action.payload;
             var address_array = [...state.all_address];
+            address_array.map(element  =>{
+                element.primary_status = 0;
+            })
             address_array.push(address_item);
             return{
                 ...state,

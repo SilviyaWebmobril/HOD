@@ -36,8 +36,9 @@ class GooglePlacesInput extends Component  {
   
            console.log("map data",data);
           // console.log("map details",details);
-          this.props.onAdd(details)
-          this.setState({details:details});
+         // this.props.onAdd(details)
+        //  this.props.setAddressCallBack(data);
+         // this.setState({details:details});
 
         }}
   
@@ -46,9 +47,9 @@ class GooglePlacesInput extends Component  {
         query={{
           // available options: https://developers.google.com/places/web-service/autocomplete
           //key: 'AIzaSyBx5f8NnFiA2kEv7ZcFJVtUs0_6TfZaMPw',
-          key: 'AIzaSyDKYaLVu8NLmd8r7Ve25-UQqJf7LE-OA7k',
+          key: 'AIzaSyDBxQEvhACIZ73YCvPF9fI7A2l6lULic0E',
           language: 'en', // language of the results
-          types: '(cities)' // default: 'geocode'
+          types: 'geocode' // default: 'geocode'
         }}
   
         styles={{
@@ -70,26 +71,21 @@ class GooglePlacesInput extends Component  {
           }
         }}
   
-        currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
-        currentLocationLabel="Current location"
+         //		currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+        //	currentLocationLabel="Current location"
         nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+
         GoogleReverseGeocodingQuery={{
-          // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+            // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
         }}
         GooglePlacesSearchQuery={{
-          // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-          rankby: 'distance',
-          type: 'pizza'
+            // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+            rankby: 'distance',
+            types: 'food'
         }}
-        
-        GooglePlacesDetailsQuery={{
-          // available options for GooglePlacesDetails API : https://developers.google.com/places/web-service/details
-          fields: 'formatted_address',
-        }}
-  
-        filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-        predefinedPlaces={[homePlace, workPlace]}
-  
+
+        filterReverseGeocodingByTypes={['political', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+
         debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
         renderLeftButton={()  => <Image source={require('../Assets/search2.png')} style={{width:30 ,height:30,alignSelf:"center",marginLeft:5}}/>}
         // renderRightButton={() => <Text>Custom text after the input</Text>}

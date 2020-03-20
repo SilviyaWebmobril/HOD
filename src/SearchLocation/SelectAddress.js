@@ -164,7 +164,6 @@ class SelectAddress extends Component {
 
                    this.props.onNewPrimaryAddress(response.data.homeaddress);
                    this.props.onChangePrimaryStatus(address_id);
-                   this.props.cancelCallback();
                     Alert.alert(
                         'Primary Address',
                         'Primary Address Updated Successfully!',

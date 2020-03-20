@@ -540,7 +540,8 @@ class CustomTextInput  extends Component {
 
                 <View style={ [textInput.viewStyle  ,this.props.customTextInputView]}>
                 <TextInput 
-                    {...this.props}      
+                    {...this.props}     
+                    ref={this.props.ref} 
                     textAlignVertical={'top'}
                     onFocus={()=>this.setState({isFocused:true})}
                     onBlur={()=>this.setState({isFocused:false})}
@@ -548,6 +549,7 @@ class CustomTextInput  extends Component {
                     this.props.customTxtInputStyle,]}
                     placeholder={ this.props.placeholder}
                     keyboardType={this.props.keyboardType}
+                    editable={this.props.editable}
                     secureTextEntry={this.props.secureTextEntry}
                     placeholderTextColor={this.props.placeholderTextColor }
                     onChangeText={(value)=> this.setTextInputValue(value,this.props.inputType )}
@@ -555,6 +557,7 @@ class CustomTextInput  extends Component {
                     returnKeyType={this.props.returnKeyType}
                     multiline={this.props.multiline}
                     clearButtonMode='always'
+                    onSubmitEditing={this.props.onSubmitEditing}
     
                 />
 

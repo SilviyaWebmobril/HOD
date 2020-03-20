@@ -151,7 +151,7 @@ export const changeAddressStatus = () => {
 
     return{
         type:CHANGE_USER_ADDRESS_AVAILABLE,
-        payload:0
+        payload:2
     }
 }
 
@@ -175,7 +175,7 @@ export const checkUserAddressAvailbility = (user_id) => {
                 })
         
 
-                if(response.data.flag == 2){
+                if(response.data.flag == 2 || response.data.flag == 4){
 
                    // this.setState({timerModal:true});
                     dispatch({
@@ -183,11 +183,20 @@ export const checkUserAddressAvailbility = (user_id) => {
                         payload:2
         
                     })
-                }else {
+                }else if(response.data.flag == 1){
 
                     dispatch({
                         type:USER_ADDRESS_AVAILABLE,
                         payload:1
+        
+                    })
+
+                   
+                }else if(response.data.flag == 3){
+
+                    dispatch({
+                        type:USER_ADDRESS_AVAILABLE,
+                        payload:3
         
                     })
 
@@ -213,4 +222,49 @@ export const checkUserAddressAvailbility = (user_id) => {
             })
 
     }
+}
+
+
+export const checkAddressByLatLng = (lat,long,user_id) => {
+
+    return dispatch => {
+
+        dispatch({
+            type:IS_LOADING,
+            isLoading:true,
+        })
+
+        let formdata = new FormData();
+        formdata.append("lattitude",lat);
+        formdata.append("longitude",long);
+        formdata.append("user_id",user_id);
+        axios.post(ApiUrl.baseurl + ApiUrl.check_address_by_lat_long,formdata)
+        .then(response => {
+
+            dispatch({
+                type:IS_LOADING,
+                isLoading:false,
+            })
+    
+            console.log("res..... check",response.data);
+            if(!response.data.error){
+                dispatch({
+                    type:USER_ADDRESS_AVAILABLE,
+                    payload:response.data.availaibility
+    
+                })
+            }else{
+                dispatch({
+                    type:USER_ADDRESS_AVAILABLE,
+                    payload:response.data.availaibility
+    
+                })
+            }
+
+        })
+        .catch(error => {
+
+        })
+    }
+
 }

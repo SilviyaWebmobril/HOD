@@ -24,6 +24,7 @@ import GooglePlacesInput from './GooglePlacesInput';
 import { connect } from 'react-redux';
 import {userAddress,addNewAddress,getUserId,userData} from '../redux/store/actions/userDataAction';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 class SearchLocation extends Component {
 
@@ -73,7 +74,10 @@ class SearchLocation extends Component {
             city:"",
             isLoading:false,
             location_update:"",
-            is_primary:false
+            is_primary:false,
+            city_disabled:true,
+            locality_disabled:true,
+            showPlacesList:'auto', 
            
 
 
@@ -128,10 +132,11 @@ class SearchLocation extends Component {
           .then(response =>{
             // handle success
            
-          
+            
             this.setState({isLoading:false});
 
             const full_address = response.data.results[0].formatted_address;
+            
 
             const postal_code = response.data.results[0].address_components[response.data.results[0].address_components.length - 1].long_name;
             this.setState({full_address:full_address});
@@ -179,6 +184,9 @@ class SearchLocation extends Component {
                   });
                 
               });
+
+              this.setState({locality_disabled:false});
+              this.setState({city_disabled:false})
 
               var is_primary =0;
              
@@ -283,6 +291,57 @@ class SearchLocation extends Component {
 
 
          
+
+    }
+
+    setAddressFromGoogleAutoComplete = (response) => {
+
+      console.log("ress...",response)
+
+      response.address_components.forEach( (element,index) =>{
+
+            
+        element.types.forEach((type,typindex)=> {
+        
+          if(type == "premise"){
+
+            const street = element.long_name;
+            this.setState({street:street},()=>{
+
+              this.refs.streetText.setTextInputValue(this.state.street,"street");
+
+            });
+            
+          
+          }
+
+          if(type == "sublocality"){
+
+            const sublocality = element.long_name;
+            this.setState({locality:sublocality},()=>{
+            
+
+              this.refs.localityText.setTextInputValue(this.state.locality,"locality");
+            });
+          
+          }
+
+          if(type == "locality"){
+
+            const city = element.long_name;
+            this.setState({city:city},()=>{
+
+              this.refs.cityText.setTextInputValue(this.state.city,"city");
+            });
+          
+          }
+
+        });
+      
+    });
+
+    this.setState({locality_disabled:false});
+    this.setState({city_disabled:false})
 
     }
 
@@ -422,6 +481,8 @@ class SearchLocation extends Component {
                   Object.assign(userdata,{"user_vegitarian":this.props.user.userdata.user_vegitarian});
                   this.props.onUpdateUser(userdata);
                   this.props.addNewAddress(res.data.data);
+
+                  console.log("response address...",res.data.data)
               
               
                 if(this.state.location_update == 1 ){
@@ -503,8 +564,85 @@ class SearchLocation extends Component {
             <KeyboardAwareScrollView>
 
             <View style={{  justifyContent: 'center',alignItems: 'center',marginBottom:0}}>
-                 <GooglePlacesInput ref="details"/>
-                 
+                 {/* <GooglePlacesInput ref="details" setAddressCallBack={(response) => this.setAddressFromGoogleAutoComplete(response)}/>
+                  */}
+                 <GooglePlacesAutocomplete
+                    placeholder='Search Location'
+                    minLength={2} // minimum length of text to search
+                    autoFocus={true}
+                    returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+                    keyboardAppearance={'light'} // Can be left out for default keyboardAppearance https://facebook.github.io/react-native/docs/textinput.html#keyboardappearance
+                    listViewDisplayed={'auto'}  // true/false/undefined
+                    fetchDetails={true}
+                    textInputProps={{
+                      onFocus: () => this.setState({showPlacesList: 'auto'},()=>{
+                        console.log("on focus....")
+                      }),
+                      onBlur: () => this.setState({showPlacesList: false},()=>{
+                        console.log("on Blurrrrr");
+                      }),
+                   }}
+                    renderDescription={row => row.description} // custom description render
+                    onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+                        console.log("map data details",details);
+                        this.setState({showPlacesList:false})
+                        console.log("map data",data);
+                       
+                      // console.log("map details",details);
+                      // this.props.onAdd(details)
+                       this.setAddressFromGoogleAutoComplete(details);
+                      // this.setState({details:details});
+
+                    }}
+
+                    getDefaultValue={() => ''}
+
+                    query={{
+                      // available options: https://developers.google.com/places/web-service/autocomplete
+                      //key: 'AIzaSyBx5f8NnFiA2kEv7ZcFJVtUs0_6TfZaMPw',
+                      key: 'AIzaSyDBxQEvhACIZ73YCvPF9fI7A2l6lULic0E',
+                      language: 'en', // language of the results
+                      types: 'geocode' // default: 'geocode'
+                    }}
+
+                    styles={{
+                      textInputContainer: {
+                        width: '97%',
+                        borderRadius:7,
+                        alignSelf:"center",
+                        marginTop:10
+                        
+                      },
+                      description: {
+                        fontWeight: 'bold'
+                      },
+                      predefinedPlacesDescription: {
+                        color: '#1faadb'
+                      },
+                      row:{
+                        width:"97%"
+                      }
+                    }}
+
+                      //		currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+                    //	currentLocationLabel="Current location"
+                    nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+
+                    GoogleReverseGeocodingQuery={{
+                        // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+                    }}
+                    GooglePlacesSearchQuery={{
+                        // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+                        rankby: 'distance',
+                        types: 'food'
+                    }}
+
+                    filterReverseGeocodingByTypes={['political', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+
+                    debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+                    renderLeftButton={()  => <Image source={require('../Assets/search2.png')} style={{width:30 ,height:30,alignSelf:"center",marginLeft:5}}/>}
+                    // renderRightButton={() => <Text>Custom text after the input</Text>}
+                  />
                   <View style={SearchLocationStyle.viewLineGrey}></View>
                   <CustomButtonWithIcon       
                     type="mat"
@@ -540,6 +678,7 @@ class SearchLocation extends Component {
                       inputType="city"
                       ref="cityText"
                       placeholder="Enter City" 
+                      editable={this.state.city_disabled}
                       placeholderTextColor='#898785'
                       returnKeyType = { "next" }
                      // onSubmitEditing={() => {this.thirdTextInput.focus();  }}
@@ -551,6 +690,7 @@ class SearchLocation extends Component {
                   <CustomTextInput 
                        inputType="locality" 
                        ref="localityText"
+                       editable={this.state.locality_disabled}
                       placeholder="Enter Locality" 
                       placeholderTextColor='#898785'
                       returnKeyType = { "next" }

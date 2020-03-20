@@ -464,26 +464,6 @@ export default (state = initialState ,action) => {
                
             category_products.forEach(item=>{
                 var itemOnCart = false;
-
-                // let new_product_object = {};
-
-                // Object.assign(new_product_object , {
-
-                //     product_cat_id : item.product_cat_id,
-                //     name : item.name,
-                //     img :  item.img,
-                //     description: item.description,
-                //     quantity :  item.quantity,
-                //     is_discount:item.is_discount,
-                //     display_stock : item.display_stock,
-                //     old_price :item.old_price,
-                //     new_price : item.new_price,
-                //     weight: item.weight,
-                //     status : item.status,
-
-
-
-                // });
                 
                 if(cart_products_getonce.length >0 && cart_products_subscribed.length > 0){
 

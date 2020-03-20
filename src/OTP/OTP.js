@@ -27,6 +27,7 @@ import {connect} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as userAction from '../redux/store/actions/userDataAction';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
+import firebase from 'react-native-firebase';
 
 
 class OTP extends Component {
@@ -121,15 +122,19 @@ class OTP extends Component {
       //3
   async getToken() {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
+    console.log("gvsgscvhsvhbc1111",fcmToken);
+   
     if (!fcmToken) {
+       
         fcmToken = await firebase.messaging().getToken();
         if (fcmToken) {
             // user has a device token
-
+            console.log("gvsgscvhsvhbc",fcmToken);
             await AsyncStorage.setItem('fcmToken', fcmToken);
-            return fcmToken;
+            
         }
     }
+    return fcmToken;
   }
     
     onSubmit = async() => {
@@ -140,113 +145,118 @@ class OTP extends Component {
 
             if(this.refs.otp.getInputTextValue("otp") !== "invalid"){
                 
-                console.log("fcm token log",this.getToken());
-                this.setState({isLoading:true})
-                var formdata = new FormData();
-                formdata.append("mobile_no",this.props.navigation.getParam('mobile'));
-                formdata.append("otp",this.refs.otp.getInputTextValue("otp"));
-                // formdata.append("device_type",ApiUrl.device_type);
-                // formdata.append("device_token","shvshvv");
-                Axios.post(ApiUrl.baseurl + ApiUrl.verify_otp,formdata).then(res => {
-                    this.setState({isLoading:false});
-                    console.log("error",res.data.error)
-                    if(res.data.error){
-    
-                      
-                      
-                        Alert.alert(
-                            'OTP',
-                            'Invalid OTP',
-                            [
-                         
-                            {text: 'OK', onPress: () => console.log("ok")},
-                            
-                            ], 
-                            { cancelable: false }
-                            )
-    
-                    }else{
-                        clearInterval(this.interval);
-                        AsyncStorage.setItem('user_id',JSON.stringify(res.data.data.id))
-                        
-                        let userdata = {};
-                        Object.assign(userdata,{"user_id":JSON.stringify(res.data.data.id)});
-                        if(res.data.data.name !== null){
+                this.getToken().then(
+                    response => {
+                        console.log("hixccvxhx",response);
 
-                            Object.assign(userdata,{"user_name": res.data.data.name});
-                        }else{
-                            Object.assign(userdata,{"user_name": ""});
-                        }
-                        if(res.data.data.email !== null){
-                            Object.assign(userdata,{"user_email":res.data.data.email});
-                        }else{
-                            Object.assign(userdata,{"user_email":""});
-                        }
-                        if(res.data.data.mobile !== null){
-                            Object.assign(userdata,{"user_mobile":res.data.data.mobile});  
-                        }else{
-                            Object.assign(userdata,{"user_mobile":""});  
-                        }
-                        if(res.data.data.gender !== null){
-                            Object.assign(userdata,{"user_gender":res.data.data.gender});
-                        }else{
-                            Object.assign(userdata,{"user_gender":""});
-                        }
-                        if(res.data.data.dob){
-                            Object.assign(userdata,{"user_dob":res.data.data.dob});
-                        }else{
-                            Object.assign(userdata,{"user_dob":""});
-                        }
-                        if(res.data.data.married !== null){
-                            Object.assign(userdata,{"user_married":res.data.data.married});
-                        }else{
-                            Object.assign(userdata,{"user_married":""});
-                        }
-                        if(res.data.data.family_members !== null){
-                            Object.assign(userdata,{"user_family_members":res.data.data.family_members});
-                        }else{
-                            Object.assign(userdata,{"user_family_members":""});
-                        }
-                        if(res.data.data.vegitarian !== null){
-                            Object.assign(userdata,{"user_vegitarian":res.data.data.vegitarian});
-                        }else{
-                            Object.assign(userdata,{"user_vegitarian":""});
-                        }
-                    
-                        if(res.data.data.homeaddress !== null){
-                           
-                        
-                          Object.assign(userdata,{"user_address":res.data.data.homeaddress});
-                          this.props.onUpdateAddress(res.data.data.homeaddress);
-                        }else{
+                        this.setState({isLoading:true})
+                        var formdata = new FormData();
+                        formdata.append("mobile_no",this.props.navigation.getParam('mobile'));
+                        formdata.append("otp",this.refs.otp.getInputTextValue("otp"));
+                        formdata.append("device_type",ApiUrl.device_type);
+                        formdata.append("device_token",response);
+                        Axios.post(ApiUrl.baseurl + ApiUrl.verify_otp,formdata).then(res => {
+                            this.setState({isLoading:false});
+                            console.log("error",res.data)
+                            if(res.data.error){
+            
+                              
+                              
+                                Alert.alert(
+                                    'OTP',
+                                    'Invalid OTP',
+                                    [
+                                 
+                                    {text: 'OK', onPress: () => console.log("ok")},
+                                    
+                                    ], 
+                                    { cancelable: false }
+                                    )
+            
+                            }else{
+                                clearInterval(this.interval);
+                                AsyncStorage.setItem('user_id',JSON.stringify(res.data.data.id))
+                                
+                                let userdata = {};
+                                Object.assign(userdata,{"user_id":JSON.stringify(res.data.data.id)});
+                                if(res.data.data.name !== null){
+        
+                                    Object.assign(userdata,{"user_name": res.data.data.name});
+                                }else{
+                                    Object.assign(userdata,{"user_name": ""});
+                                }
+                                if(res.data.data.email !== null){
+                                    Object.assign(userdata,{"user_email":res.data.data.email});
+                                }else{
+                                    Object.assign(userdata,{"user_email":""});
+                                }
+                                if(res.data.data.mobile !== null){
+                                    Object.assign(userdata,{"user_mobile":res.data.data.mobile});  
+                                }else{
+                                    Object.assign(userdata,{"user_mobile":""});  
+                                }
+                                if(res.data.data.gender !== null){
+                                    Object.assign(userdata,{"user_gender":res.data.data.gender});
+                                }else{
+                                    Object.assign(userdata,{"user_gender":""});
+                                }
+                                if(res.data.data.dob){
+                                    Object.assign(userdata,{"user_dob":res.data.data.dob});
+                                }else{
+                                    Object.assign(userdata,{"user_dob":""});
+                                }
+                                if(res.data.data.married !== null){
+                                    Object.assign(userdata,{"user_married":res.data.data.married});
+                                }else{
+                                    Object.assign(userdata,{"user_married":""});
+                                }
+                                if(res.data.data.family_members !== null){
+                                    Object.assign(userdata,{"user_family_members":res.data.data.family_members});
+                                }else{
+                                    Object.assign(userdata,{"user_family_members":""});
+                                }
+                                if(res.data.data.vegitarian !== null){
+                                    Object.assign(userdata,{"user_vegitarian":res.data.data.vegitarian});
+                                }else{
+                                    Object.assign(userdata,{"user_vegitarian":""});
+                                }
+                            
+                                if(res.data.data.homeaddress !== null){
+                                   
+                                
+                                  Object.assign(userdata,{"user_address":res.data.data.homeaddress});
+                                  this.props.onUpdateAddress(res.data.data.homeaddress);
+                                }else{
+                                 
+                                  Object.assign(userdata,{"user_address":""});
+                                  this.props.onUpdateAddress(res.data.data.homeaddress);
+                                }
+                              
+                                this.props.onUpdateUser(userdata);
+                                this.props.onUpdateUserId(JSON.stringify(res.data.data.id));
+                                this.setState({isLoading:false});
                          
-                          Object.assign(userdata,{"user_address":""});
-                          this.props.onUpdateAddress(res.data.data.homeaddress);
-                        }
-                      
-                        this.props.onUpdateUser(userdata);
-                        this.props.onUpdateUserId(JSON.stringify(res.data.data.id));
-                        this.setState({isLoading:false});
-                 
-                        this.props.navigation.navigate('Bottomtabs');
-    
+                                this.props.navigation.navigate('Bottomtabs');
+            
+                            }
+                        }).catch(error => {
+                            this.setState({isLoading:false});
+                            console.log("error",error);
+                            Alert.alert(
+                                'Error',
+                                'Check Your Internet Connection!',
+                                [
+                             
+                                {text: 'OK', onPress: () => console.log("ok")},
+                                
+                                ], 
+                                { cancelable: false }
+                                )
+                            
+                        });
                     }
-                }).catch(error => {
-                    this.setState({isLoading:false});
-                    console.log("error",error);
-                    Alert.alert(
-                        'Error',
-                        'Check Your Internet Connection!',
-                        [
-                     
-                        {text: 'OK', onPress: () => console.log("ok")},
-                        
-                        ], 
-                        { cancelable: false }
-                        )
-                    
-                });
-    
+                );
+               
             }else{
                
                 Alert.alert(
@@ -376,7 +386,7 @@ class OTP extends Component {
                         <Text style={OTPStyle.Timertxt}> {this.state.seconds} </Text>
                         </View>
                     <View style={{width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                        <Text style={{color:'grey',ffontSize: 17,fontFamily:"roboto-light",}}>OTP</Text>
+                        <Text style={{color:'grey',fontSize: 17,fontFamily:"roboto-light",}}>OTP</Text>
                     </View>
 
                     </View>

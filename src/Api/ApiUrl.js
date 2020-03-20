@@ -91,7 +91,8 @@ export default {
 
     offer_terms:"offer_terms",
 
-    check_valid_user_address : "send_notif_to_admin"
+    check_valid_user_address : "send_notif_to_admin",
 
+    check_address_by_lat_long : "check_address"
 
 }

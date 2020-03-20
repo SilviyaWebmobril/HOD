@@ -20,6 +20,7 @@ import * as homeAction from '../../redux/store/actions/homeAction';
 import firebase from 'react-native-firebase';
 import * as userDataAction from '../../redux/store/actions/userDataAction';
 import AsyncStorage from '@react-native-community/async-storage';
+import Geocoder from 'react-native-geocoding';
 
 
 
@@ -69,7 +70,7 @@ class Cart extends Component {
            console.log("user",this.props.user.user_address);
           this.props.getCartProducts(this.props.user.userdata.user_id);
          
-            this.createNotificationListeners(); //add this line
+         //   this.createNotificationListeners(); //add this line
        
         }
 
@@ -178,7 +179,32 @@ class Cart extends Component {
         verifyConfirmDetailsToCheckout = () => {
 
             this.setState({showUserDetails:false})
-            this.checkPrimaryAddressAvailability();
+            //commenting this used in address availablitity
+           // this.checkPrimaryAddressAvailability();
+           // get user lat long and send to backend to check the address is valid or not
+
+           Geocoder.init("AIzaSyDBxQEvhACIZ73YCvPF9fI7A2l6lULic0E");
+           Geocoder.from(this.props.user.user_address)
+           .then(json => {
+               var location = json.results[0].geometry.location;
+               console.log(json);
+               console.log("location",location);
+               // dispatch(submitCreateProfile1(temp_register_id,name,profession_id,mobile,degree,ic_no,speciality_id,license,grades_id,experience
+               //     ,user_address,current_work,description,location.lat ,location.lng,state_id, city_id,props.navigation));
+
+            //    dispatch(submitEditProfile(user.id,user.name,profession_id,mobile,degree,ic_no,speciality_id,license,grades_id,experience
+            //        ,user_address,current_work,description,location.lat ,location.lng,state_id, city_id,weekly_rate,monthly_rate,hourly_rate,props.navigation))
+
+                this.props.checkUserAddressByLatLong(location.lat, location.lng,this.props.user.userdata.user_id)
+
+           })
+           .catch(error => 
+               {
+                console.log("er",error)  
+                           showMessage(0, 'Please Enter valid Address', 'Edit Profile', true, false);
+
+           });
+
     
 
         }
@@ -227,13 +253,14 @@ class Cart extends Component {
                         this.props.onHomeScreen(this.props.user.userdata.user_id);
                         this.props.removeFromHomeAfterPayment(arr_id);
                         this.props.removeFromCartAfterPayment();
+                      
                         Alert.alert(
                             'Checkout',
                             'Thank You for completing the order.',
                             [
                          
                            
-                            {text: 'Ok', onPress: () => console.log("ok")},
+                            {text: 'Ok', onPress: () => {  this.props.changeAvailabilityStatus();}},
                             {text: 'Check Transaction', onPress: () => this.props.navigation.navigate("TransactionHistory")},
                             ], 
                             { cancelable: false }
@@ -244,6 +271,7 @@ class Cart extends Component {
                 }).catch(error => {
                     this.props.onLoading(false);
                     console.log("cart error after payment",error);
+                    this.props.changeAvailabilityStatus();
                     //alert("Something went Wrong !. Please try again later.");
                     Alert.alert(
                         'Error',
@@ -258,7 +286,7 @@ class Cart extends Component {
               }).catch((error) => {
                 // handle failure
                 
-               
+                this.props.changeAvailabilityStatus();
                 Alert.alert(
                     'Checkout',
                     `${error.description}`,
@@ -308,15 +336,30 @@ class Cart extends Component {
 
     componentDidUpdate(prevProps,prevState){
 
-        console.log("prevpropsuyertg3t35834875y38");
+       
         if(prevProps.user.user_address_available !== this.props.user.user_address_available){
+           
+            // if(this.props.user.user_address_available == 1){
+            //     console.log("prevpropsuyertg3t35834875y38");
+            //     this.setState({showTimerModal:true});
 
-            if(this.props.user.user_address_available == 2){
-                this.setState({showTimerModal:true});
-
-            }else if(this.props.user.user_address_available == 1){
+            // }else
+            
+            if(this.props.user.user_address_available == 1){
                 console.log("on update..... razorpay calling")
                 this.razorPayCheckout();
+            }else if(this.props.user.user_address_available == 0){
+               // this.props.changeAvailabilityStatus();
+                Alert.alert(
+                    'Verify Address',
+                    'We are unable to reach your address now . Please try with another address. Sorry for the inconvience !',
+                    [
+                 
+                   
+                    {text: 'Ok', onPress: () => console.log("ok")},
+                    ], 
+                    { cancelable: false }
+                    )
             }
     
     
@@ -401,6 +444,9 @@ mapDispatchToProps = dispatch =>{
         },
         changeAvailabilityStatus : () => {
             dispatch(userDataAction.changeAddressStatus())
+        },
+        checkUserAddressByLatLong : (lat,long,user_id) => {
+            dispatch(userDataAction.checkAddressByLatLng(lat,long,user_id))
         }
         
          
