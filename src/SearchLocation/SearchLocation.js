@@ -94,11 +94,12 @@ class SearchLocation extends Component {
      
       //const user_id = await AsyncStorage.getItem("user_id");
       this.setState({user_id:this.props.user.userdata.user_id});
-      this.setState({name:this.props.user.userdata.user_name});
+      console.log("nambvcbvcvb",this.props.user.userdata.user_name);
 
       this.setState({isLoading:true});
-      if(this.props.user.userdata.user_name !== null){
+      if(this.props.user.userdata.user_name !== null && this.props.user.userdata.user_name  !== "null"){
         this.refs.nameText.setTextInputValue(this.props.user.userdata.user_name,"name");
+       // this.setState({name:this.props.user.userdata.user_name});
       }
      
 
@@ -153,7 +154,7 @@ class SearchLocation extends Component {
                       const street = element.long_name;
                       this.setState({street:street},()=>{
 
-                        this.refs.streetText.setTextInputValue(this.state.street,"street");
+                        this.refs.street.setTextInputValue(this.state.street,"street");
        
                       });
                       
@@ -308,7 +309,7 @@ class SearchLocation extends Component {
             const street = element.long_name;
             this.setState({street:street},()=>{
 
-              this.refs.streetText.setTextInputValue(this.state.street,"street");
+              this.refs.street.setTextInputValue(this.state.street,"street");
 
             });
             
@@ -348,7 +349,7 @@ class SearchLocation extends Component {
       continueButtonHandler = () =>{
       
         if(this.refs.nameText.getInputTextValue("name") == "invalid" || this.refs.cityText.getInputTextValue("city") == "invalid"
-         || this.refs.localityText.getInputTextValue("locality") == "invalid" || this.refs.streetText.getInputTextValue("street") == "invalid"){
+         || this.refs.localityText.getInputTextValue("locality") == "invalid" || this.refs.street.getInputTextValue("street") == "invalid"){
 
           Alert.alert(
             'Location',
@@ -367,7 +368,7 @@ class SearchLocation extends Component {
           "name":this.state.name,
           "city":this.refs.cityText.getInputTextValue("city"),
           "locality":this.refs.localityText.getInputTextValue("locality"),
-          "street":this.refs.streetText.getInputTextValue("street"),
+          "street":this.refs.street.getInputTextValue("street"),
           "latitude":this.state.latitude,
           "longitude":this.state.longitude,"full_address":this.state.full_address,
           "location_update" :this.state.location_update,
@@ -430,8 +431,8 @@ class SearchLocation extends Component {
             this.setState({isLoading:true});
             let formdata = new FormData();
             formdata.append("user_id",this.state.user_id);
-            formdata.append("name",this.state.name);
-            formdata.append("city",this.state.city);
+            formdata.append("name",this.refs.nameText.getInputTextValue("name"));
+            formdata.append("city",this.refs.cityText.getInputTextValue("city"));
             formdata.append("locality",locality);
             formdata.append("street",street);
             formdata.append("ho_no",house_no);
@@ -442,7 +443,7 @@ class SearchLocation extends Component {
             formdata.append("pin_code",this.refs.postal_code.getInputTextValue("pincode"));
             formdata.append("floor_no",floor_no);
             formdata.append('is_primary',is_primary);
-         
+            console.log("form address",formdata);
 
             axios.post(ApiUrl.baseurl+ApiUrl.setLocation,formdata)
             .then(res => {
@@ -450,6 +451,7 @@ class SearchLocation extends Component {
             
               this.setState({isLoading:false});
               if(res.data.error){
+                console.log("respons efrom add",res.data.error);
                 Alert.alert(
                   'Location',
                   "Something went wrong! Please try again later.",
@@ -471,7 +473,7 @@ class SearchLocation extends Component {
                   this.props.onUpdateUserId(this.props.user.userdata.user_id);
                   let userdata = {};
                   Object.assign(userdata,{"user_id":this.props.user.userdata.user_id});
-                  Object.assign(userdata,{"user_name": this.props.user.userdata.user_name});
+                  Object.assign(userdata,{"user_name": this.refs.nameText.getInputTextValue("name")});
                   Object.assign(userdata,{"user_email":this.props.user.userdata.user_email});
                   Object.assign(userdata,{"user_mobile":this.props.user.userdata.user_mobile});
                   Object.assign(userdata,{"user_gender":this.props.user.userdata.user_gender});
@@ -485,7 +487,7 @@ class SearchLocation extends Component {
                   console.log("response address...",res.data.data)
               
               
-                if(this.state.location_update == 1 ){
+                if(this.props.navigation.getParam('view_profile') == 0){
                 
                 
                     this.props.navigation.navigate('HomeBottomtabs');
@@ -661,7 +663,7 @@ class SearchLocation extends Component {
                     
 
                   <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Name*</Text>
+                      <Text style={{color:'#808080',fontSize: 14,fontFamily:"roboto-bold",}}>Name*</Text>
                   </View>
                   <CustomTextInput 
                       ref="nameText"
@@ -672,12 +674,13 @@ class SearchLocation extends Component {
                   />
                   
                   <View style={{marginLeft:0,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>City*</Text>
+                      <Text style={{color:'#808080',fontSize: 14,fontFamily:"roboto-bold",}}>City*</Text>
                   </View>
                   <CustomTextInput 
                       inputType="city"
                       ref="cityText"
                       placeholder="Enter City" 
+                      customTxtInputStyle={{color:'black'}}
                       editable={this.state.city_disabled}
                       placeholderTextColor='#898785'
                       returnKeyType = { "next" }
@@ -685,12 +688,13 @@ class SearchLocation extends Component {
                   />
 
                   <View style={{marginLeft:0,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Locality*</Text>
+                      <Text style={{color:'#808080',fontSize: 14,fontFamily:"roboto-bold",}}>Locality*</Text>
                   </View>
                   <CustomTextInput 
                        inputType="locality" 
                        ref="localityText"
                        editable={this.state.locality_disabled}
+                       customTxtInputStyle={{color:'black'}}
                       placeholder="Enter Locality" 
                       placeholderTextColor='#898785'
                       returnKeyType = { "next" }
@@ -698,7 +702,7 @@ class SearchLocation extends Component {
                   />
 
                   <View style={{marginLeft:0,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"Roboto-Light",}}>Street*</Text>
+                      <Text style={{color:'#808080',fontSize: 14,fontFamily:"roboto-bold",}}>Street*</Text>
                   </View>
                   <CustomTextInput 
                        inputType="street"
@@ -715,7 +719,7 @@ class SearchLocation extends Component {
                     text="  CONTINUE  "
                   /> */}
                   <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17,fontFamily:"roboto-light",}}>House Number*</Text>
+                      <Text style={{color:'#808080',fontSize: 14,fontFamily:"roboto-bold",}}>House Number*</Text>
                     </View>
                     <CustomTextInput 
                        inputType="houseno"
@@ -727,7 +731,7 @@ class SearchLocation extends Component {
                     />
 
                     <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17, fontFamily:'roboto-light',}}>Floor No.*</Text>
+                      <Text style={{color:'#808080',fontSize: 14, fontFamily:'roboto-bold',}}>Floor No.*</Text>
                     </View>
                     <CustomTextInput 
                       inputType="floorno"
@@ -739,7 +743,7 @@ class SearchLocation extends Component {
                   />
 
                     <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17, fontFamily:'roboto-light',}}>Pincode*</Text>
+                      <Text style={{color:'#808080',fontSize: 14, fontFamily:'roboto-bold',}}>Pincode*</Text>
                     </View>
                     <CustomTextInput 
                       inputType="pincode"
@@ -753,7 +757,7 @@ class SearchLocation extends Component {
                   />
 
                     <View style={{width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginLeft:0}}>
-                      <Text style={{color:'#808080',fontWeight: 'bold',fontSize: 17, fontFamily:'roboto-light',}}>Landmark</Text>
+                      <Text style={{color:'#808080',fontSize: 14, fontFamily:'roboto-bold',}}>Landmark</Text>
                     </View>
                     <CustomTextInput 
                       inputType="landmark"

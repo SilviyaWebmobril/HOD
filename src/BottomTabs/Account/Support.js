@@ -41,9 +41,32 @@ export default class Support extends Component{
 
     contactSupport = async() => {
 
-        console.log("sub",this.refs.subject.getInputTextValue("subject"));
+        console.log("sub",this.refs.subject.getInputTextValue("subject") == " ");
+        console.log("sub",this.refs.message.getInputTextValue("message") == " ");
 
-        if(this.refs.subject.getInputTextValue("subject") == "invalid" || this.refs.message.getInputTextValue("message") == "invalid"){
+        if(this.refs.subject.getInputTextValue("subject") == " "){
+
+            Alert.alert(
+                'Support',
+                'Please Enter Subject !',
+                [
+             
+                {text: 'OK', onPress: () => {console.log("ok")}},
+                ], 
+                { cancelable: false }
+                )
+        }else if(this.refs.message.getInputTextValue("message") == " "){
+            
+            Alert.alert(
+                'Support',
+                'Please Enter Message !',
+                [
+             
+                {text: 'OK', onPress: () => {console.log("ok")}},
+                ], 
+                { cancelable: false }
+                )
+        }else if(this.refs.subject.getInputTextValue("subject") == "invalid" || this.refs.message.getInputTextValue("message") == "invalid"){
 
            
             Alert.alert(
@@ -74,7 +97,7 @@ export default class Support extends Component{
                     'Thank You for your message.One of the member in our team will contact you shortly!',
                     [
                  
-                    {text: 'OK', onPress: () => {this.resetTextInput()}},
+                    {text: 'OK', onPress: () => {this.resetTextInput(); this.props.navigation.navigate('HomeScreen');}},
                     ], 
                     { cancelable: false }
                     )
@@ -116,11 +139,11 @@ export default class Support extends Component{
                 {DeviceInfo.isTablet()
                 ?
                 <View style={{marginLeft:40,width:'90%',marginTop:20,flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                    <Text style={{color:'#808080',fontSize: 17,fontFamily:"roboto-light",}}>Subject*</Text>
+                    <Text style={{color:'#808080',fontSize: 14,fontFamily:"roboto-bold",}}>Subject*</Text>
                 </View>
                 :
                 <View style={{marginLeft:20,width:'90%',marginTop:20,flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                    <Text style={{color:'#808080',fontSize: 17,fontFamily:"roboto-light",}}>Subject*</Text>
+                    <Text style={{color:'#808080',fontSize: 14,fontFamily:"roboto-bold",}}>Subject*</Text>
                 </View>
                 }
                
@@ -135,11 +158,11 @@ export default class Support extends Component{
                 {DeviceInfo.isTablet()
                 ?
                 <View style={{marginLeft:40,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                    <Text style={{color:'#808080',fontSize: 17,fontFamily:"roboto-light",}}>Message*</Text>
+                    <Text style={{color:'#808080',fontSize: 14,fontFamily:"roboto-bold",}}>Message*</Text>
                 </View>
                 :
                 <View style={{marginLeft:20,width:'90%',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                    <Text style={{color:'#808080',fontSize: 17,fontFamily:"roboto-light",}}>Message*</Text>
+                    <Text style={{color:'#808080',fontSize: 14,fontFamily:"roboto-bold",}}>Message*</Text>
                 </View>
                 }
                

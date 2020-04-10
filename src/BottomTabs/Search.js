@@ -10,6 +10,7 @@ import {connect} from 'react-redux';
 import CustomTextInputWithIcon from '../CustomUI/CustomTextInput/CustomTextInputWithIcon';
 import * as homeActions from '../redux/store/actions/homeAction';
 import  capitilize  from '../utility/helpers';
+import { withNavigation } from 'react-navigation';
 
  class Search extends Component{
 
@@ -42,9 +43,15 @@ import  capitilize  from '../utility/helpers';
             isRefreshing:false
 
         }
+        this.navigationWillFocusListener = props.navigation.addListener('willFocus', () => {
+            // do something like this.setState() to update your view
+            this.props.deleteSearch();
+          })
     }
 
-    
+    componentWillUnmount () {
+        this.navigationWillFocusListener.remove()
+      }
     scheduleModalVisible = (product_id,product_price) =>{
 
         console.log("getting data from child",product_id);
@@ -56,8 +63,28 @@ import  capitilize  from '../utility/helpers';
 
     onDetailsHandler = (id,name) => {
        
-        this.props.navigation.navigate("CategoryProductDetails",{"product_id":id   ,"name":name});
+        this.props.navigation.navigate("CategoryProductDetails",{"product_id":id   ,"name":name,
+        updateProductList1:this.getCallBack.bind(this)});
     }
+
+    getCallBack = (pid,q) => {
+        console.log("dvdvhdvdhv",pid);
+        console.log("dhsd",this.props.navigation.state.params);
+        if( this.props.navigation.state.params !== undefined) {
+            this.props.navigation.state.params.updateProductList1(pid,q)
+        }
+       
+    }
+
+    // shouldComponentUpdate = (nextProps, nextState) => {
+    //     if (nextProps.isFocused) {
+          
+    //       return true;
+    //     } else {
+         
+    //       return false;
+    //     }
+    // }
 
     renderItem(data){
         let { item, index } = data;
@@ -66,7 +93,12 @@ import  capitilize  from '../utility/helpers';
             <TouchableOpacity
             onPress={()=>this.onDetailsHandler(item.id,item.name)}
            >
-            <ProductItem data={item} scheduleModal={this.scheduleModalVisible.bind(this)}/>
+            <ProductItem products={item} 
+             unit={item.unit}
+              is_added_to_cart={null} 
+              search={1} 
+              //updateStateQuantity = {this.props.navigation.state.params.updateStateQuantity()}
+              scheduleModal={this.scheduleModalVisible.bind(this)}/>
             </TouchableOpacity>
         );
     }
@@ -163,6 +195,10 @@ import  capitilize  from '../utility/helpers';
             
             }else{
 
+                return(
+                    <Text>No Products Found</Text>
+                )
+
             }
 
         }
@@ -187,7 +223,7 @@ import  capitilize  from '../utility/helpers';
                     <TouchableOpacity onPress={()=>{this.props.navigation.navigate('SelectAddress')}}>
                     <View style={styles.searchAddress}>
                     
-                        <Image source={require('../Assets/location1.png')} style={{width:30,height:30,alignSelf:"center"}} />
+                        <Image source={require('../Assets/location1.png')} style={{width:30,height:30,alignSelf:"center",}} />
                     
                         <Text style={styles.locationTextStyle}numberOfLines = {1} >
                             { this.props.userdata.user_address != null || this.props.userdata.user_address !== undefined ?
@@ -206,7 +242,7 @@ import  capitilize  from '../utility/helpers';
                 }
             
              
-            <Image style={{width:'95%',height:15,alignSelf:"center",marginTop:10,marginLeft:10,marginRight:10}} source={require('../Assets/curve_new.png')} />
+            <Image style={{width:'95%',height:15,alignSelf:"center",marginTop:2,marginLeft:10,marginRight:10,marginBottom:5}} source={require('../Assets/curve_new.png')} />
                  
                     <CustomTextInputWithIcon keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
                             placeholder="Search for Products.." 

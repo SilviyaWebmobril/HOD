@@ -605,11 +605,12 @@ const textInput = StyleSheet.create({
     },
 
     txtInput: {
-        fontFamily:"Roboto-Light",
+        fontFamily:"roboto-light",
         width:'100%',
         padding:0,
         borderColor: 'gray',
         borderWidth: 1,
+        color:'black',
         height: 40,
         justifyContent: 'center',
         alignItems: 'center',

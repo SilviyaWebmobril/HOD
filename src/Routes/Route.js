@@ -128,13 +128,13 @@ const Bottomtabs = createBottomTabNavigator({
         );
         
       },  
-      // tabBarOnPress: ({ navigation, defaultHandler }) => {
+      // tabBarOnPress: ({ args, navigation, defaultHandler }) => {
       //   console.log("hi iam in tabbarpress");
       //  // navigation.navigate('HomeScreen',{iseditable:1})
       //   const resetAction = StackActions.reset({
       //     index: 0,
       //     //key: 'HomeScreen',
-      //     actions: [NavigationActions.navigate({ routeName: 'HomeBottomtabs',
+      //     actions: [NavigationActions.navigate({ routeName: args.scene.route.routes[2].routeName,
       //     params: {
       //       iseditable: 1   // this second parameter is for sending the params
       //   }  })],
@@ -294,6 +294,7 @@ const bottomtabsStack = createStackNavigator({
  
   SearchProducts:{
     screen:Search,
+    
   },
   OfferTerms,
   Cart ,

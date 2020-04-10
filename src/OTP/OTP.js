@@ -380,13 +380,13 @@ class OTP extends Component {
 
                     <CustomLogo />
                     <View style={OTPStyle.bottom}>
-                    <Text style={{flexDirection:'row',alignItems:'center',color:'black',fontWeight: 'bold',fontSize: 20,marginBottom:10,fontFamily:"Roboto-Light",}}>OTP</Text>
+                    {/* <Text style={{flexDirection:'row',alignItems:'center',color:'black',fontWeight: 'bold',fontSize: 20,marginBottom:10,fontFamily:"Roboto-Light",}}>OTP</Text> */}
                     <Text style={{color:'#898785',fontWeight: 'bold',fontSize: 17,marginBottom:20,marginTop:10,fontFamily:"Roboto-Light",}}>Phone Number Verification</Text>
                     <View style={OTPStyle.circle}>
                         <Text style={OTPStyle.Timertxt}> {this.state.seconds} </Text>
                         </View>
-                    <View style={{width:'90%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                        <Text style={{color:'grey',fontSize: 17,fontFamily:"roboto-light",}}>OTP</Text>
+                    <View style={{width:'95%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
+                        <Text style={{color:'grey',fontSize: 14,fontFamily:"roboto-bold",}}>OTP</Text>
                     </View>
 
                     </View>

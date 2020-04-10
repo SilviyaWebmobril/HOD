@@ -17,18 +17,21 @@ import {connect} from 'react-redux';
 
 class CategoryProduct extends Component {
 
-    static navigationOptions = ({ navigation, screenProps }) => ({
-        title:navigation.getParam('name')  ,
-        headerStyle: { backgroundColor: '#FD8D45' },
-        headerTitleStyle: { color: 'white' ,fontSize:17,flex:1},
-        headerTintColor: 'white',
-        headerRight:(
-            <Cartbadge count={navigation.getParam('count', '0')} nav={navigation} />
-        )
-          
+    static navigationOptions = ({ navigation, screenProps }) => {
+        const { params = {} } = navigation.state;
+        return {
+            title:navigation.getParam('name')  ,
+            headerStyle: { backgroundColor: '#FD8D45' },
+            headerTitleStyle: { color: 'white' ,fontSize:17,flex:1},
+            headerTintColor: 'white',
+            headerRight:(
+                <Cartbadge count={navigation.getParam('count', '0')} nav={navigation} 
+                    updateStateQuantity={(product_id,q)=>
+                        {params.handleUpdate(product_id,q)}}
+                    />
+            )}
         
-  
-        });
+        };
 
     constructor(props){
         super(props);
@@ -41,12 +44,15 @@ class CategoryProduct extends Component {
             scheduleModalVisible:false,
             schedule_product_id:"",
             isRefreshing:false,
-            schedule_product_price:""
+            schedule_product_price:"",
+            category_all_products : [],
             
 
 
 
         }
+
+
 
        
     }
@@ -54,6 +60,7 @@ class CategoryProduct extends Component {
      
     componentDidMount () {
 
+        this.props.navigation.setParams({ handleUpdate: this.updateStateQuantity.bind(this), });
         this.props.navigation.setParams({ 'count': this.props.cart.total_cart_count });
         if(this.props.cart.total_cart_count > 0){
             this.setState({cartCount:true})
@@ -62,7 +69,16 @@ class CategoryProduct extends Component {
         }
 
     
-        this.props.onCategoryScreen(this.props.navigation.getParam('category_id'));
+        this.props.onCategoryScreen(this.props.navigation.getParam('category_id'),this.props.userdata.user_id)
+            .then(response => {
+
+                if(!response.data.error){
+                    this.setState({category_all_products : response.data.data})
+                }
+
+               
+
+            })
        
        
      
@@ -124,6 +140,26 @@ class CategoryProduct extends Component {
                
              
             }
+
+            if(prevProps.cart.transaction_completed !== this.props.cart.transaction_completed){
+
+                if(this.props.cart.transaction_completed == 1){
+
+                    let prevProduct  = [...this.state.category_all_products];
+
+                    prevProduct.map(element => {
+
+                        element.is_added_to_cart = null;
+                       
+                    });
+            
+                    console.log("from category products",prevProduct)
+            
+                    this.setState({category_all_products : [...prevProduct]})
+            
+                }
+               
+            }
     
          
         }catch(error){
@@ -136,7 +172,9 @@ class CategoryProduct extends Component {
 
     onDetailsHandler = (id) => {
 
-        this.props.navigation.navigate("CategoryProductDetails",{"product_id":id   ,"name":this.props.navigation.getParam('name')});
+        this.props.navigation.navigate("CategoryProductDetails",{"product_id":id   ,"name":this.props.navigation.getParam('name'),
+        updateProductList1:this.updateStateQuantity.bind(this)
+        });
     }
 
     
@@ -164,6 +202,68 @@ class CategoryProduct extends Component {
         //     )
         }
 
+
+        updateStateQuantity = (product_id , quantity) => {
+
+            let prevProduct  = [...this.state.category_all_products];
+    
+            console.log("on updation",quantity);
+            prevProduct.map(element => {
+                if(element.id == product_id){
+    
+                    if(quantity > 0){
+                        if(element.is_added_to_cart !== null){
+                            element.is_added_to_cart.quantity = quantity;
+                        }else{
+                            element.is_added_to_cart = {};
+                           Object.assign(element.is_added_to_cart ,{ quantity : quantity});
+                           
+                        }
+                    }else{
+                        element.is_added_to_cart = null;
+                    }
+                    
+                   
+                }
+            });
+
+            console.log("prv1gdcvgvvgcg category product called",prevProduct);
+            this.props.navigation.state.params.updateProductList(product_id,quantity)
+            this.setState({category_all_products : [...prevProduct]})
+    
+    
+        }
+
+
+        updateStateQuantityFromDetails = (product_id , quantity) => {
+
+            let prevProduct  = [...this.state.category_all_products];
+    
+            prevProduct.map(element => {
+                if(element.id == product_id){
+    
+                    if(quantity > 0){
+                        if(element.is_added_to_cart !== null){
+                            element.is_added_to_cart.quantity = quantity;
+                        }else{
+                            element.is_added_to_cart = {};
+                           Object.assign(element.is_added_to_cart ,{ quantity : quantity});
+                           
+                        }
+                    }else{
+                        element.is_added_to_cart = null;
+                    }
+                    
+                   
+                }
+            });
+
+            console.log("prv2",prevProduct);
+           /// this.props.navigation.state.params.updateProductList(product_id,quantity)
+            this.setState({category_all_products : [...prevProduct]})
+    
+    
+        }
         
    
 
@@ -171,9 +271,17 @@ class CategoryProduct extends Component {
         let { item, index } = data;
        
         return(
-            <TouchableOpacity
-            onPress={()=>this.onDetailsHandler(item.id)}>
-                <ProductItem data={item} scheduleModal={this.scheduleModalVisible.bind(this)} />
+             <TouchableOpacity
+            onPress={()=>this.onDetailsHandler(item.id,item.name)}
+           >
+            <ProductItem 
+                products={item}  
+                unit={item.unit} 
+                product_id={item.id}
+                is_added_to_cart={item.is_added_to_cart} 
+                search={0} 
+                updateStateQuantity = {this.updateStateQuantity.bind(this)}
+                scheduleModal={this.scheduleModalVisible.bind(this)}/>
             </TouchableOpacity>
             
       
@@ -198,14 +306,14 @@ class CategoryProduct extends Component {
 
                 <FlatList
                       
-                    data={this.props.homescreen.category_products}
+                    data={this.state.category_all_products}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={this.renderItem.bind(this)}
                     style={{marginBottom:20}}
                     />
 
             {
-                this.props.homescreen.category_products.length == 0 
+                this.state.category_all_products.length == 0 
                 ?
                 <Text style={{fontFamily:"Roboto-Light",fontWeight:"bold",justifyContent:"center",alignSelf:"center",fontSize:15}}>No Products Found.</Text>
                 :
@@ -249,8 +357,15 @@ const mapDispatchToProps = dispatch => {
       onLoading : (value) => {
           dispatch(cartActions.isLoading(value))
       },
-      onCategoryScreen:(category_id) =>{
-        dispatch(homeActions.categoryProducts(category_id))
+      onCategoryScreen:(category_id,user_id) =>{
+          return new Promise((resolve ,reject) => {
+            dispatch(homeActions.categoryProducts(category_id,user_id))
+                .then(response => {
+
+                    resolve(response);
+                })
+          });
+        
       }
     }
   }

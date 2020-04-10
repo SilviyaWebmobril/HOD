@@ -204,12 +204,13 @@ class SelectAddress extends Component {
          
             <FullSCreenSpinnerAndDismissKeyboardView
             refreshing={false}
+            spinner={this.state.loading}
            >
                 <View style={styles.mainContainer}>
                
                     <View style={{flexDirection:'row',justifyContent:"space-between",margin:10}}>
                         <Text style={styles.manageAddressText}>Select Address</Text>
-                        <TouchableOpacity onPress={()=> { this.props.navigation.navigate('SearchLocation',{"location_update":1});}}>
+                        <TouchableOpacity onPress={()=> { this.props.navigation.navigate('SearchLocation',{"location_update":1,"view_profile":0});}}>
                             <Text style={styles.addAddreesText}>Add New</Text>
                         </TouchableOpacity>
                     </View>
@@ -220,7 +221,7 @@ class SelectAddress extends Component {
                     renderItem={this.renderItem.bind(this)}
                     style={{marginBottom:20}}/>
 
-                    {this.state.loading 
+                    {/* {this.state.loading 
                     ?
                     <View
                         style={[
@@ -232,7 +233,7 @@ class SelectAddress extends Component {
                     </View>
 
                     :
-                    <View/>}
+                    <View/>} */}
 
 
                 </View>

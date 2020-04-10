@@ -17,18 +17,25 @@ import * as cartActions from '../../redux/store/actions/cartAction';
 
 class CategoryProductDetails extends Component {
 
-    static navigationOptions = ({ navigation, screenProps }) => ({
-        title:      navigation.getParam('name')  ,
-        headerStyle: { backgroundColor: '#FD8D45' },
-        headerTitleStyle: { color: 'white',fontSize:17,flex:1 ,fontFamily:"roboto-bold",textAlign:"center"},
-        headerTintColor: 'white',
-        headerTitleContainerStyle: {
-            left: 0, // THIS RIGHT HERE
-          },
-        headerRight:(
-            <Cartbadge count={navigation.getParam('count', '0')} nav={navigation} />
-        )
-      });
+    static navigationOptions = ({ navigation, screenProps }) => {
+        const { params = {} } = navigation.state;
+        return{
+            title:      navigation.getParam('name')  ,
+            headerStyle: { backgroundColor: '#FD8D45' },
+            headerTitleStyle: { color: 'white',fontSize:17,flex:1 ,fontFamily:"roboto-bold",textAlign:"center"},
+            headerTintColor: 'white',
+            headerTitleContainerStyle: {
+                left: 0, // THIS RIGHT HERE
+              },
+            headerRight:(
+                <Cartbadge 
+                count={navigation.getParam('count', '0')} 
+                nav={navigation}
+                updateStateQuantity={(product_id,quantity) =>  {params.callBack(product_id,quantity)}} />
+            )
+        }
+      
+      };
 
       constructor(props) {
         super(props);
@@ -49,7 +56,10 @@ class CategoryProductDetails extends Component {
             quantity_left:"",
             scheduleModalVisible:false,
             allow_subscription:"",
-            is_discount:""
+            is_discount:"",
+            display_stock :0,
+            stock_quantity:0,
+            showGoToCartBtn:false
 
 
         }
@@ -60,27 +70,41 @@ class CategoryProductDetails extends Component {
 
     static getDerivedStateFromProps(props, state) {
        
-        if (props.cart_product !== state.cart_product) {
+        // if (props.cart_product !== state.cart_product) {
 
-          if(props.cart_product.cart_get_once[props.navigation.getParam('product_id')]){
-            return {
-                quantity: props.cart_product.cart_get_once[props.navigation.getParam('product_id')].itemQuanity,
-              };
-          }else{
-            return{
-                quantity:0
-            }
-          }
+        //   if(props.cart_product.cart_get_once[props.navigation.getParam('product_id')]){
+        //     return {
+        //         quantity: props.cart_product.cart_get_once[props.navigation.getParam('product_id')].itemQuanity,
+        //       };
+        //   }else{
+        //     return{
+        //         quantity:0
+        //     }
+        //   }
          
-        }
+        // }
     
         // Return null if the state hasn't changed
         return null;
       }
 
+      getcallBack = (product_id,quantity) => {
+
+        if( this.props.navigation.state.params !== undefined){
+            this.props.navigation.state.params.updateProductList1(product_id, quantity);
+        }
+        
+        this.setState({quantity:quantity},()=>{
+            if(this.state.quantity < 1){
+                this.setState({showGoToCartBtn:false})
+            }
+        });
+      }
+
 
     componentDidMount() {
         console.log("total",this.props.cart.total_cart_count );
+        this.props.navigation.setParams({callBack : this.getcallBack.bind(this)})
         this.props.navigation.setParams({ 'count': this.props.cart.total_cart_count });
         if(this.props.cart.total_cart_count > 0){
             this.setState({cartCount:true})
@@ -103,9 +127,11 @@ class CategoryProductDetails extends Component {
             this.setState({img:"http://webmobril.org/dev/hod/"+response.data.data.img},()=>{
                 console.log("img=",this.state.img);
             })
+            console.log("img111=",response.data.data);
             this.setState({old_price:response.data.data.old_price});
             this.setState({new_price:response.data.data.new_price});
-           // this.setState({quantity:response.data.data.quantity});
+            this.setState({display_stock:response.data.data.display_stock});
+            this.setState({stock_quantity:response.data.data.quantity});
            this.setState({quantity_left:response.data.data.quantity});
             this.setState({weight:response.data.data.weight});
             this.setState({unit:response.data.data.unit.name});
@@ -115,17 +141,16 @@ class CategoryProductDetails extends Component {
             this.setState({is_discount : response.data.data.is_discount})
             this.setState({allow_subscription:response.data.data.product_category.allow_subscription});
 
-
-           
-            console.log("res ->",this.props.cart_product.cart_get_once[response.data.data.id])
             if(this.props.cart_product.cart_get_once[response.data.data.id]){
 
                 this.setState({quantity:this.props.cart_product.cart_get_once[response.data.data.id].itemQuanity},()=>{
                     console.log("new quantity",this.state.quantity);
                 });
+                this.setState({showGoToCartBtn:true})
             
             }else{
                 this.setState({quantity:0});
+                this.setState({showGoToCartBtn:false})
             }
 
 
@@ -168,6 +193,17 @@ class CategoryProductDetails extends Component {
                 }
                 
             }
+        }
+
+        if(prevProps.cart.transaction_completed !== this.props.cart.transaction_completed){
+
+            if(this.props.cart.transaction_completed == 1){
+
+                this.setState({quantity: 0});
+                this.setState({showGoToCartBtn:false})
+        
+            }
+           
         }
 
 
@@ -229,7 +265,18 @@ class CategoryProductDetails extends Component {
                             <Text style={styles.quantity_left}>{this.state.quantity_left} Left</Text>
                         </View> */}
                         {this.state.quantity >= 1 ?
-                         <IncrementDecrementButton  product_id={this.state.product_id}  quantity={this.state.quantity} price={this.state.is_discount == 1 ? this.state.new_price : this.state.old_price} />
+                         <IncrementDecrementButton  
+                         updateProductQuantity={(product_id , quantity)=>{
+                             this.props.navigation.state.params.updateProductList1(product_id, quantity);
+                             this.setState({quantity:quantity},()=>{
+                                 if(this.state.quantity < 1){
+                                     this.setState({showGoToCartBtn:false})
+                                 }
+                             });}}
+                         product_id={this.state.product_id}  
+                         quantity={this.state.quantity} 
+                         stock_available={this.state.display_stock == 1 ? this.state.stock_quantity : 0}
+                         price={this.state.is_discount == 1 ? this.state.new_price : this.state.old_price} />
                         :
                         <View/>
                         }
@@ -245,26 +292,45 @@ class CategoryProductDetails extends Component {
                     />
                 </View>
 
-                <CustomButton customTextStyle={{ color:'white',}}   customButttonStyle={{marginBottom:25}}
+               
+
+                {this.state.showGoToCartBtn
+                ?
+                <CustomButton 
+                customMainStyle = {{width:'80%',alignSelf:"center"}}
+                customTextStyle={{ color:'white',}}   customButttonStyle={{marginBottom:25}}
+                text="GO TO CART" onPressHandler={()=>{
+                    this.props.navigation.navigate('Cart');
+                }} />
+                :
+                <CustomButton 
+                customMainStyle = {{width:'80%',alignSelf:"center"}}
+                customTextStyle={{ color:'white',}}   customButttonStyle={{marginBottom:25}}
                 text="ADD TO CART" onPressHandler={()=>{
 
                     this.props.onLoading(true);
-                    this.props.onAdd(this.state.product_id,price,this.props.user.userdata.user_id);
+                    this.props.onAdd(this.state.product_id,price,this.props.user.userdata.user_id)
+                    .then(response=> {
+                        if(response == 1){
+                            console.log("qua",this.props.quantity);
+                            let quantity = this.props.quantity ;
+                            if(quantity == undefined){
+                                quantity = 1;
+                            }else{
+                                quantity = quantity + 1;
+                            }
+                           
+                           // this.props.updateProductQuantity(this.props.product_id,quantity);
+                           this.props.navigation.state.params.updateProductList1(this.state.product_id, quantity);
+                           this.setState({quantity:quantity})
+                           this.setState({showGoToCartBtn:true})
+                          
+                        }
+                    })
                    
 
                 }} />
-
-                {/* {this.state.allow_subscription ==  1 
-
-                 ?
-                    <CustomButton  customButttonStyle={{backgroundColor:"#FD8D45",marginBottom:40 }} customTextStyle={{ color:'brown'}} 
-                    text="SUBSCRIBE"  onPressHandler={()=>{this.scheduleModalVisible()}}/>
-            
-                  :
-
-                    <View/>
-
-                } */}
+                }
                 
 
 
@@ -293,12 +359,35 @@ const mapStateToProps = (state) => {
 
   const mapDispatchToProps = dispatch =>{
     return {
+
         onAdd: (product_id,price,user_id) => {
-            dispatch(cartActions.addToCart(product_id,price,user_id))
+            return new Promise ((resolve,reject) =>{
+                dispatch(cartActions.addToCart(product_id,price,user_id))
+                    .then((response) => {
+                        resolve(response);
+                    })
+                    .catch((error)=>{
+
+                    })
+    
+
+            })
+           
+
           },
+       
         onRemove : (product_id,user_id,price) => {
-              dispatch(cartActions.removeFromCart(product_id,user_id,price))
-          },
+            return new Promise ((resolve ,reject ) => {
+                dispatch(cartActions.removeFromCart(product_id,user_id,price))
+                    .then((response ) => {
+                        resolve(response)
+                    })
+                    .catch(error =>{
+
+                    });
+            })
+        },
+       
         onLoading : (value) => {
             
             dispatch(cartActions.isLoading(value))

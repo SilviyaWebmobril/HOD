@@ -1,5 +1,5 @@
 import React, { Component} from 'react'
-import {View ,Text, StyleSheet}  from 'react-native';
+import {View ,Text, StyleSheet,ActivityIndicator}  from 'react-native';
 import WebView from 'react-native-webview';
 import ApiUrl from '../../Api/ApiUrl';
 
@@ -14,10 +14,29 @@ export default class AboutUs extends Component {
         headerTintColor: 'white'
       });
     
+      constructor(props){
+        super(props);
+        this.state ={ 
+            loading:true,
+        }
+
+      }
+    
 
     render(){
         return(
-            <WebView source={{ uri: ApiUrl.about_us }} style={{margin:20}}/>
+            <>
+            <WebView source={{ uri: ApiUrl.about_us }} style={{margin:20}} onLoad={()=> this.setState({loading:false})}/>
+            {this.state.loading &&
+              <View
+                style={[
+                  StyleSheet.absoluteFill,
+                  { backgroundColor: 'rgba(0, 0, 0, 0.7)', justifyContent: 'center' }
+                ]}
+              >
+                <ActivityIndicator size="large"  color="#48241e"/>
+              </View>}
+            </>
 
         )
     }

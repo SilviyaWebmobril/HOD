@@ -26,7 +26,8 @@ class TransactionHistory extends Component {
         this.state = {
             history:[],
             isLoading:false,
-            isRefreshing:false
+            isRefreshing:false,
+            errorMsg:"",
         }
     }
 
@@ -44,9 +45,16 @@ class TransactionHistory extends Component {
         formdata.append("user_id",this.props.user.userdata.user_id)
         axios.post(ApiUrl.baseurl +  ApiUrl.transaction_history,formdata)
         .then(response =>{
-            console.log("response transaction",response.data.data)
+            console.log("response transaction",response.data)
            this.setState({isLoading:false})
-            this.setState({history:response.data.data});
+            if(!response.data.error){
+                this.setState({errorMsg:false})
+                this.setState({history:response.data.data});
+                
+            }else{
+                this.setState({errorMsg:true});
+            }
+           
         }).catch(error => {
 
             console.log("transaction history",error);
@@ -81,14 +89,18 @@ class TransactionHistory extends Component {
             onRefresh={this.onRefresh.bind(this)}
             refreshing={this.state.isRefreshing}
                 spinner={this.state.isLoading} >
-
-                <FlatList
-                      
-                      data={this.state.history}
-                      keyExtractor={(item, index) => index.toString()}
-                      renderItem={this.renderItem.bind(this)}
-                      style={{marginBottom:20}}
-                      />
+                {!this.state.errorMsg 
+                ?
+                    <FlatList
+                        data={this.state.history}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={this.renderItem.bind(this)}
+                        style={{marginBottom:20}}
+                        />
+                :
+                    <Text style={{textAlign:'center',margin:10,fontFamily:'roboto-bold',fontSize:14}}>No transaction history found.</Text>
+                }
+               
                   
 
             </FullSCreenSpinnerAndDismissKeyboardView>

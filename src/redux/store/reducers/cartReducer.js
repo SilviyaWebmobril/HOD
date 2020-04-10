@@ -8,6 +8,7 @@ import { REMOVE_FROM_CART,
     GET_CART_PRODUCTS ,
     REMOVE_SUBSCRIBED_FROM_CART,
     REMOVE_ITEM_AFTER_PAYMENT_IN_CART,
+    TRANSACTION_COMPLETED,
     GET_CART_API} from '../actions/types';
 
 
@@ -25,6 +26,7 @@ const initialState = {
     isLoading:true,
     all_cart_products:[],
     get_once_cart_sum:0.00,
+    transaction_completed: 0,
 
    
 
@@ -487,6 +489,11 @@ export default (state = initialState ,action) => {
                 product_item:{},
                 totalAmount:0.00,
                 total_cart_count:0,
+            }
+        case TRANSACTION_COMPLETED :
+            return {
+                ...state,
+                transaction_completed:action.payload
             }
 
         case REMOVE_ITEM_AFTER_PAYMENT_IN_CART :

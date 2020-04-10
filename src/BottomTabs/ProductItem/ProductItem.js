@@ -16,7 +16,7 @@ class ProductItem extends Component {
         super(props);
         this.state = {
 
-            showQuantityButton:this.props.data.get_once.itemOnCart,
+            //showQuantityButton:this.props.data.get_once.itemOnCart,
             is_get_once:-1,
             isSubscribed:-1,
             itemQuantity:0,
@@ -36,11 +36,11 @@ class ProductItem extends Component {
     render(){
 
         var product_price ;
-        if(this.props.data.is_discount == 1){
-            product_price  = this.props.data.new_price
+        if(this.props.products.is_discount == 1){
+            product_price  = this.props.products.new_price
            
         }else{
-            product_price  = this.props.data.old_price
+            product_price  = this.props.products.old_price
           
         }
        
@@ -48,112 +48,70 @@ class ProductItem extends Component {
         return(
             <>
                 <View style={styles.container}>
-                    <Image source={{uri:ApiUrl.image_url+this.props.data.img}} resizeMode="contain" style={{width:120,alignSelf:"center",flex:0.5, height:120,borderRadius:10}}/>
+                    <Image source={{uri:ApiUrl.image_url+this.props.products.img}} resizeMode="contain" style={{width:120,alignSelf:"center",flex:0.5, height:120,borderRadius:10}}/>
                     <View style={styles.sectionRow}>
                         <View >
-                            <Text style={styles.textProductname}>{this.props.data.name}</Text>
+                            <Text style={styles.textProductname}>{this.props.products.name}</Text>
                             {/* <View style={styles.sectionTextRow}> */}
                            
-                            {this.props.data.is_discount ==  1 
+                            {this.props.products.is_discount ==  1 
                                 ?
                                 <View style={{justifyContent:"flex-start",alignItems:"flex-start",flexDirection:'row'}}>
-                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"roboto-bold",color:"#FD8D45",}}>{'\u20B9'}{this.props.data.new_price}{"   "}</Text>
-                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"roboto-light",textDecorationLine: 'line-through',textDecorationStyle: 'solid'}}>{'\u20B9'}{this.props.data.old_price}</Text>
+                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"roboto-bold",color:"#FD8D45",}}>{'\u20B9'}{this.props.products.new_price}{"   "}</Text>
+                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"roboto-light",textDecorationLine: 'line-through',textDecorationStyle: 'solid'}}>{'\u20B9'}{this.props.products.old_price}</Text>
                                 </View>
                                 :
-                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"roboto-light",}}>{'\u20B9'}{this.props.data.old_price}</Text>
+                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"roboto-light",}}>{'\u20B9'}{this.props.products.old_price}</Text>
                             }
                                 
                             {/* </View> */}
 
-                        <Text>{this.props.data.quantity} left</Text>
+                        <Text>{this.props.products.quantity} left</Text>
                             
                         </View>
-                        {this.props.data.product_category.allow_subscription == 1  ? 
-        
-                            <View style={{justifyContent:"flex-end",alignContent:"flex-end",alignItems:"flex-end"}}>
-                                
-                                    <Text style={styles.textBorder}>  {parseInt(this.props.data.weight)}{this.props.data.unit.name} </Text>
-                           
-                                {!this.props.data.get_once.itemOnCart
-                                    ?
-
-                                    <CustomButton 
-                                    onPressHandler={()=> {
-                                        this.props.onLoading(true);
-                                        this.props.onAdd(this.props.data.id,product_price,this.props.user.userdata.user_id)
-                                    
-                                    }}
-                                
-                                    customButttonStyle={{backgroundColor:"white",borderColor:"grey",borderWidth:1,borderRadius:2, height:35,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"auto",padding:10}}
-                                    customTextStyle={{ color:'grey',fontSize:12}}
-                                    text="  Get Once "  />
-
-                                
-                                :
-                                
-
-                                    <IncrementDecrementButton  product_id={this.props.data.id}  quantity={this.props.data.get_once.quantity} price={this.props.data.is_discount == 1 ? this.props.data.new_price : this.props.data.old_price} stock_available={this.props.data.quantity} />
-                                
-                                }
-                                    
-                            
-                            
-                                {/* {(!this.props.data.subscribed.itemOnCart  ) ?
-
-                                        
-                                        <CustomButton 
-                                            onPressHandler={()=> {
-                                            this.props.scheduleModal(this.props.data.id,product_price);
-                                            }}
-                                            customButttonStyle={{backgroundColor:"#FD8D45", height:35,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"auto",padding:10}}
-                                            customTextStyle={{ color:'white',fontSize:12}}
-                                            text=" Subscribe "  />
-                                    
-                                    
-                                    
-                                
-                                :
-                                
-
-                                        <IncrementDecrementSubscribe subscriptionType={this.props.data.subscribed.subscription_type} product_id={this.props.data.id}  subscribed_qauntity={this.props.data.subscribed.subscribed_qauntity} quantity={this.props.data.quantity} price={this.props.data.is_discount == 1 ? this.props.data.new_price : this.props.data.old_price} />
-                                
-                            
-                                
-                                } */}
-                            
-                            </View>
-                            
-                            :
-                            (!this.props.data.get_once.itemOnCart ? 
-                                //Add To Cart Button
-                                <View  style={{justifyContent:"flex-end",alignContent:"flex-end",alignItems:"flex-end"}}>
+                        <View  style={{justifyContent:"flex-end",alignContent:"flex-end",alignItems:"flex-end"}}>
                                    
                                         
-                                    <Text style={styles.textBorder}>{parseInt(this.props.data.weight)} {this.props.data.unit.name}</Text>
-                                    
-                                    <CustomButton 
-
-                                        //Subsccribe work here
-                                            onPressHandler={()=> {
+                            <Text style={styles.textBorder}>{parseInt(this.props.products.weight)} {this.props.unit.name}</Text>
+                            {this.props.search == 0
+                            ?
+                            (this.props.is_added_to_cart !== null
+                                ?
+                                <IncrementDecrementButton  
+                                    updateProductQuantity={(product_id , quantity)=>{this.props.updateStateQuantity(product_id, quantity);}}
+                                    product_id={this.props.product_id}  
+                                    quantity={this.props.is_added_to_cart.quantity} 
+                                    price={this.props.products.is_discount == 1 ? this.props.products.new_price : this.props.products.old_price} 
+                                    stock_available={this.props.products.display_stock == 1 ? this.props.products.quantity : 0} />
+        
+                                :
+                                <CustomButton 
+    
+                                        onPressHandler={()=> {
                                             this.props.onLoading(true);
-                                        
-                                            this.props.onAdd(this.props.data.id,product_price,this.props.user.userdata.user_id)
-                                            
-                                            }}
-                                        customButttonStyle={{backgroundColor:"#FD8D45",padding:3, height:35,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"auto",padding:10}}
-                                        customTextStyle={{ color:'white',fontSize:12}}
-                                        text="  Add To Cart "  />
-                                </View>
+                                            this.props.onAdd(this.props.products.id,product_price,this.props.user.userdata.user_id)
+                                            .then(response=> {
+                                                if(response == 1){
+                                                    
+                                                    this.props.updateStateQuantity(this.props.product_id,1);
+                                                }
+                                            })
+                                   
+    
+                                        }}
+                                    customButttonStyle={{backgroundColor:"#FD8D45",padding:3, height:35,marginTop:10,textAlign:"right",alignSelf:"flex-end",width:"auto",padding:10}}
+                                    customTextStyle={{ color:'white',fontSize:12}}
+                                    text="  Add To Cart "  />
+                                )
+                                
                             :
-                                <View style={{justifyContent:"flex-end",alignContent:"flex-end",alignItems:"flex-end"}}>
-                                        <Text style={styles.textBorder}>{parseInt(this.props.data.weight)} {this.props.data.unit.name}</Text>
-                                        <IncrementDecrementButton  product_id={this.props.data.id}  quantity={this.props.data.get_once.quantity} price={this.props.data.is_discount == 1 ? this.props.data.new_price : this.props.data.old_price} stock_available={this.props.data.quantity} />
-                                </View>
-                            )
+                                <View/>
+                            
+                            }
+                            
+                            
+                        </View>
                         
-                        
-                        } 
                         
                     </View>
 
@@ -173,9 +131,18 @@ class ProductItem extends Component {
 
 const mapDispatchToProps = dispatch =>{
     return {
-        onAdd: (product_id,price,user_id) => {
-            dispatch(cartActions.addToCart(product_id,price,user_id))
-          },
+        onAdd: (product_id,price,user_id) => 
+            new Promise((resolve ,reject) => {
+                dispatch(cartActions.addToCart(product_id,price,user_id))
+                .then((response) => {
+                    resolve(response);
+                })
+                .catch((error)=>{
+
+                })
+            })
+           
+          ,
         onRemove : (product_id,user_id) => {
               dispatch(cartActions.removeFromCart(product_id,user_id))
           },
@@ -192,7 +159,7 @@ const mapDispatchToProps = dispatch =>{
 const mapStateToProps = state => {
     return {
       user: state.userdata,
-      cart:state.cart
+     // cart:state.cart
     }
   }
 

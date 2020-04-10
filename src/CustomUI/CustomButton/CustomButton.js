@@ -3,7 +3,7 @@ import {View ,TouchableOpacity,Text,StyleSheet}  from 'react-native';
 
 const CustomButton = (props) => {
     return(
-        <View style={{width:'100%',alignItems:"center"}}>
+        <View style={[buttonStyle.mainStyle,props.customMainStyle]}>
             <TouchableOpacity 
                 style={[buttonStyle.btn,props.customButttonStyle ]}
                 onPress={props.onPressHandler}
@@ -23,6 +23,9 @@ export default CustomButton;
 
 const buttonStyle =  StyleSheet.create({
 
+    mainStyle:{
+        width:'100%',alignItems:"center"
+    },
     btn:{
         width:"90%",
         height:50,

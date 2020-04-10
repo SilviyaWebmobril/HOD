@@ -79,7 +79,7 @@ class ViewProfile  extends Component {
 
     addNewAddresshandler = () =>{
 
-      this.props.navigation.navigate('SearchLocation',{"location_update":2});
+      this.props.navigation.navigate('SearchLocation',{"location_update":1,"view_profile":1});
     }
 
     updateProfileHandler = () =>{
@@ -176,6 +176,8 @@ class ViewProfile  extends Component {
 
 
     render(){
+      console.log("email",this.props.user.userdata.user_email);
+      console.log("nmae",this.props.user.userdata.user_name)
         return (
             <FullSCreenSpinnerAndDismissKeyboardView
             spinner={this.props.cart.isLoading}
@@ -192,8 +194,19 @@ class ViewProfile  extends Component {
                 <CustomLogo />
 
                 <View style={styles.profileViewStyle}>
-                  <Text style={styles.profileNameStyles}>{this.props.user.userdata.user_name}</Text>
+                  {(this.props.user.userdata.user_name !== null && this.props.user.userdata.user_name !== "null")
+                  ?
+                    <Text style={styles.profileNameStyles}>{this.props.user.userdata.user_name}</Text>
+                  :
+                    <View/>
+                  }
+                  {(this.props.user.userdata.user_email !== null && this.props.user.userdata.user_email !== "null")
+                  ?
                   <Text style={styles.profileEmailMobileStyles}>{this.props.user.userdata.user_email}</Text>
+                  :
+                  <View/>
+                  }
+                
                   <View style={{flexDirection:"row",justifyContent:"center",alignContent:"center"}}>
                     <Text style={{ fontSize:17,lineHeight:30,}}>{this.props.user.userdata.user_mobile}</Text>
                     <Text onPress={()=>this.onEditMobile()} style={{marginLeft:15,lineHeight:30,textDecorationLine:"underline",fontWeight:"bold", fontSize:15,color:"#FD8D45",}}> EDIT </Text>
@@ -210,7 +223,13 @@ class ViewProfile  extends Component {
                     <View style={styles.viewAddressText}>
                      
                       <Text onPress={()=>this.addNewAddresshandler()} style={styles.addAddreesText}>Add New</Text>
+                      {this.props.user.all_address.count > 0 
+                      ?
                       <Text style={styles.addAddreesText} onPress={()=> {this.setState({viewAddressModal:true})}}>Set Primary Address</Text>
+                      :
+                        <View/>
+                      }
+                    
                       {/* <View style={styles.viewLine}></View> */}
                     </View>
                   </View>

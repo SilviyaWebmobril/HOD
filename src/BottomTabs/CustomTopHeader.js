@@ -22,15 +22,20 @@ class CustomTopHeader extends  Component {
 
     SearchLocation = () =>{
 
-        //this.props.navigation.navigate('Search',{"location_update":1});
-        this.props.navigation.navigate('SelectAddress');
+        
+            if(this.props.userdata.all_address.count > 0 ){
+                this.props.navigation.navigate('SelectAddress');
+            }else{
+                this.props.navigation.navigate('Search',{"location_update":1,"view_profile":0});
+            }
+          
     }
 
    
 
     render(){
 
-        console.log("cart total count",this.props.cart_count.total_cart_count);
+        console.log("cart total count",(this.props.address != null && (capitilize(this.props.address)!== " ")));
 
         return(
 
@@ -50,16 +55,16 @@ class CustomTopHeader extends  Component {
                             <Image style={{width:25,height:25,marginRight:7}} source={require('../Assets/trans.png')} />
                         </TouchableOpacity> 
                        
-                        <Cartbadge img= {0} count={this.props.cart_count.total_cart_count} nav={this.props.navigation}/>
+                        <Cartbadge img= {0} count={this.props.cart_count.total_cart_count} nav={this.props.navigation}  updateStateQuantity={(product_id,quantity) => this.props.updateProductList(product_id,quantity)}/>
                     </View>
                 </View>
                 <View style={styles.locationView}>
                     <Text style={styles.locationTextStyle}numberOfLines = {1} >
-                     { this.props.address != null ?
+                     { (this.props.address != null && (this.props.address!== ""))?
 
                          capitilize(this.props.address)
                          :
-                         ""
+                         "Your Delivery Address..."
                          }
                     </Text>
                     

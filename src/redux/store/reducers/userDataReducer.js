@@ -8,7 +8,7 @@ const initialState = {
     user_address:"",
     user_id:"",
     all_address:[],
-    user_address_available:0,
+    user_address_available:2,
 
     
 }

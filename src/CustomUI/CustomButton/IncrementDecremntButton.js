@@ -19,38 +19,33 @@ class IncrementDecrementButton extends Component {
         }
     }
 
-    componentDidMount(){
-
-       // this.setState({quantity:this.props.quantity});
-       
-    }
-
-      
-    componentDidUpdate(prevProps,prevState){
-
-        if(prevProps.subscribed_quantity !== this.props.subscribed_quantity){
-
-            this.setState({subscribed_quantity:this.props.subscribed_quantity});
-        }
-        if(prevProps.quantity !== this.props.quantity){
-
-            console.log("on commponentDIDUODATE");
-            this.setState({quantity:this.props.quantity })
-        }
-
-        if(prevProps.price !== this.props.price){
-
-            this.setState({price:this.props.price});
-        }
-
-      
-    }
+  
+   
     onPlusHandler = () =>{
 
+        console.log("avail",this.props.stock_available > this.props.quantity);
+        console.log("stock",this.props.stock_available);
+        console.log("qua",this.props.quantity)
         if(this.props.stock_available > this.props.quantity){
 
             this.props.onLoading(true);
-            this.props.onAdd(this.props.product_id,this.props.price,this.props.user.userdata.user_id);
+            this.props.onAdd(this.props.product_id,this.props.price,this.props.user.userdata.user_id)
+                .then(response=> {
+                    if(response == 1){
+                        let quantity = this.props.quantity ;
+                        if(this.props.from_cart !== 1){
+                            quantity = quantity + 1;
+                           
+                            this.props.updateProductQuantity(this.props.product_id,quantity);
+                        }else{
+                           
+                            this.props.updateProductQuantity(this.props.product_id,quantity);
+                        }
+                      
+                      
+                      
+                    }
+                })
        
         }else{
 
@@ -65,27 +60,41 @@ class IncrementDecrementButton extends Component {
                 )
         }
 
-        // this.props.onLoading(true);
-        // this.props.onAdd(this.props.product_id,this.props.price,this.props.user.userdata.user_id);
-       
-        // this.setState(prevState => ({
-        //     quantity :prevState.quantity + 1 
-        // }),()=>{
-
-        // });
+      
     }
 
     onMinusHandler = () =>{ 
 
-        // this.props.onLoading(true);
-        // this.props.onRemove(this.props.product_id,this.props.user.userdata.user_id,this.props.price);
-
-
-       
-
         if(this.props.quantity > 0){
             this.props.onLoading(true);
-            this.props.onRemove(this.props.product_id,this.props.user.userdata.user_id,this.props.price);
+            let quantityBefUpdation = this.props.quantity;
+            let prop_product_id = this.props.product_id;
+            this.props.onRemove(this.props.product_id,this.props.user.userdata.user_id,this.props.price)
+                .then(response => {
+
+                    if(response ==  1){
+                        console.log("fr c",this.props.from_cart);
+                       
+                        if(this.props.from_cart == 1){
+                            let quantity = quantityBefUpdation - 1;
+                            
+                            console.log("hfdvfhdfhbhfh before",quantityBefUpdation)
+                            console.log("hfdvfhdfhbhfh product_id",prop_product_id);
+                            if(quantity >= 0)
+                                this.props.updateProductQuantity(prop_product_id,quantity);
+                        }else{
+                            let quantity = this.props.quantity ;
+                            quantity = quantity - 1;
+                            console.log("fr c q",quantity);
+                            if(quantity >= 0)
+                                this.props.updateProductQuantity(this.props.product_id,quantity);
+                        }
+                       
+                    }
+                })
+                .catch(error=>{
+                    
+                })
             
         }
       
@@ -133,11 +142,34 @@ const mapStateToProps  = state => {
 const mapDispatchToProps = dispatch =>{
     return {
         onAdd: (product_id,price,user_id) => {
-            dispatch(cartActions.addToCart(product_id,price,user_id))
+            return new Promise ((resolve,reject) =>{
+                dispatch(cartActions.addToCart(product_id,price,user_id))
+                    .then((response) => {
+                        resolve(response);
+                    })
+                    .catch((error)=>{
+
+                    })
+    
+
+            })
+           
+
           },
+       
         onRemove : (product_id,user_id,price) => {
-              dispatch(cartActions.removeFromCart(product_id,user_id,price))
-          },
+            return new Promise ((resolve ,reject ) => {
+                dispatch(cartActions.removeFromCart(product_id,user_id,price))
+                    .then((response ) => {
+                        resolve(response)
+                    })
+                    .catch(error =>{
+
+                    });
+            })
+        },
+
+
         onLoading : (value) => {
             
             dispatch(cartActions.isLoading(value))

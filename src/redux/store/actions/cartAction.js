@@ -11,6 +11,7 @@ REMOVE_FROM_CART_SUBSCRIBED_PRODUCTS_HOME,
 ADD_TO_CART_SUBSCRIBED_PRODUCTS_HOME,
 ADD_TO_CART_GETONCE_PRODUCTS_HOME,
 REMOVE_FROM_CART_GETONCE_PRODUCTS_HOME,
+TRANSACTION_COMPLETED,
 REMOVE_GET_ONCE_GET_ALL_PRODUCTS_QUANTITY,GET_CART_API ,REMOVE_ITEM_AFTER_PAYMENT_IN_CART} from '../actions/types';
 import {ADD_SCHEDULER,CANCEL_SCHEDULER} from '../actions/types';
 
@@ -83,164 +84,155 @@ export const fetchCartProducts  = (user_id) => {
 }
 
 
-export const addToCart  = (product_id,price,user_id) => {
+export const addToCart  = (product_id,price,user_id) => (dispatch) =>  
 
-
-    return dispatch => {
-        //any async code you want! 
-        var formdata  = new FormData();
-        formdata.append("user_id",user_id);
-        formdata.append("product_id",product_id);
-        formdata.append("price",price);
-      
-
-      axios.post(ApiUrl.baseurl + ApiUrl.add_to_cart,formdata)
-      .then(response => {
-
-        
-        dispatch({
-            type:IS_LOADING,
-            isLoading:false,
-        })
-
-        console.log("on adding product",response);
-    
-        if(response.data.error){
-
-          
-            dispatch({
-                type:ERROR,
-                error:"Some Error Ocurred ! Please try again later."
-                
-            })
-
-        }else{
-
-            // in cart reducer
-            dispatch( {
-                type:ADD_TO_CART,
-                product_item:response.data.data,
-            })
-    
-            // in home reducer
-            dispatch( {
-                type:UPDATE_GET_ALL_PRODUCTS_QUANTITY,
-                product_item:response.data.data,
-                
-            })
-
-            // in home reducer
-            dispatch( {
-                type:ADD_TO_CART_GETONCE_PRODUCTS_HOME,
-                product:response.data.data,
-                
-            })
-        }
-
-     
-      }).catch(error => {
-
-        console.log("error",error);
-      
-        dispatch({
-            type:IS_LOADING,
-            isLoading:false,
-        })
-
-        dispatch({
-            type:ERROR,
-            error:"Check Your Network Connection!"
-        })
-
-      });
-      
-    }
-
-    
-}
-
-export const removeFromCart = (product_id,user_id,price) =>{ 
-
-    return dispatch => {
+    new Promise((resolve ,reject) => {
 
          //any async code you want! 
-            var formdata  = new FormData();
-            formdata.append("user_id",user_id);
-            formdata.append("product_id",product_id);
-            formdata.append("price",price);
+         var formdata  = new FormData();
+         formdata.append("user_id",user_id);
+         formdata.append("product_id",product_id);
+         formdata.append("price",price);
+       
+ 
+       axios.post(ApiUrl.baseurl + ApiUrl.add_to_cart,formdata)
+       .then(response => {
+ 
          
-            axios.post(ApiUrl.baseurl + ApiUrl.remove_cart_product,formdata)
-            .then(response => {
-        
-                console.log("remove cart",response);
-                
-                dispatch({
-                    type:IS_LOADING,
-                    isLoading:false,
-                })
-        
-                if(response.data.error){
-        
-                
-                    dispatch({
-                        type:ERROR,
-                        error:"Some Error Ocurred ! Please try again later."
-                        
-                    })
-        
-                }else{
-        
-                    
-        
-        
-                    dispatch( {
-                        type:REMOVE_FROM_CART,
-                        product_id:product_id,
-                      
-                    })
+         dispatch({
+             type:IS_LOADING,
+             isLoading:false,
+         })
+ 
+         console.log("on adding product",response.data);
+     
+         if(response.data.error){
+ 
+           
+             dispatch({
+                 type:ERROR,
+                 error:"Some Error Ocurre.datad ! Please try again later."
+                 
+             })
+ 
+         }else{
+ 
+             // in cart reducer
+             dispatch( {
+                 type:ADD_TO_CART,
+                 product_item:response.data.data,
+             });
 
-                    dispatch( {
-                        type:REMOVE_GET_ONCE_GET_ALL_PRODUCTS_QUANTITY,
-                        payload:{product_id:product_id,type:0}
-                       
-                    })
-        
-                    dispatch( {
-                        type:REMOVE_FROM_CART_GETONCE_PRODUCTS_HOME,
-                        product_id:product_id,
-                       
-                    })
-        
-                    // dispatch({
-                    //     type:ERROR,
-                    //     error:"Remove from cart!"
-                        
-                    // })
-        
-            
-                }
-        
-            
-            }).catch(error => {
-        
-               
-                console.log("response on error",error);
-        
-                dispatch({
-                    type:IS_LOADING,
-                    isLoading:false,
-                })
-        
-                dispatch({
-                    type:ERROR,
-                    error:"Check Your Network Connection!"
-                })
-        
-            });
+             resolve(1);
+     
+             // // in home reducer
+             // dispatch( {
+             //     type:UPDATE_GET_ALL_PRODUCTS_QUANTITY,
+             //     product_item:response.data.data,
+                 
+             // })
+ 
+             // // in home reducer
+             // dispatch( {
+             //     type:ADD_TO_CART_GETONCE_PRODUCTS_HOME,
+             //     product:response.data.data,
+                 
+             // })
+         }
+ 
+      
+       }).catch(error => {
+ 
+         console.log("error",error);
+       
+         dispatch({
+             type:IS_LOADING,
+             isLoading:false,
+         })
+ 
+         dispatch({
+             type:ERROR,
+             error:"Check Your Network Connection!"
+         })
+ 
+       });
+       
+     
+ 
+     
 
+    });
+
+export const changeTransactionStatus  = (status) => {
+    return  {
+        type:TRANSACTION_COMPLETED,
+        payload:status,
     }
 }
 
+
+export const removeFromCart = (product_id,user_id,price) => (dispatch) => 
+    new Promise ((resolve ,reject) => {
+
+         //any async code you want! 
+         var formdata  = new FormData();
+         formdata.append("user_id",user_id);
+         formdata.append("product_id",product_id);
+         formdata.append("price",price);
+      
+         axios.post(ApiUrl.baseurl + ApiUrl.remove_cart_product,formdata)
+         .then(response => {
+     
+             console.log("remove cart",response);
+             
+             dispatch({
+                 type:IS_LOADING,
+                 isLoading:false,
+             })
+     
+             if(response.data.error){
+     
+             
+                 dispatch({
+                     type:ERROR,
+                     error:"Some Error Ocurred ! Please try again later."
+                     
+                 })
+     
+             }else{
+     
+                 
+     
+     
+                 dispatch( {
+                     type:REMOVE_FROM_CART,
+                     product_id:product_id,
+                   
+                 })
+                resolve(1)
+     
+         
+             }
+     
+         
+         }).catch(error => {
+     
+            
+             console.log("response on error",error);
+     
+             dispatch({
+                 type:IS_LOADING,
+                 isLoading:false,
+             })
+     
+             dispatch({
+                 type:ERROR,
+                 error:"Check Your Network Connection!"
+             })
+     
+         });
+
+    })
 
 
 

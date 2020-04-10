@@ -32,7 +32,6 @@ class CartProductItem extends Component {
 
     componentDidMount(){
 
-        console.log("cart ",this.props.data);
         this.setSubScription();
     }
 
@@ -114,6 +113,7 @@ class CartProductItem extends Component {
                     <View style={styles.sectionRow}>
                     <View style={styles.textColumnLeft}>
                             <Text style={styles.textProductname}>{this.props.data.product.name}</Text>
+                            <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)} {this.props.data.product.unit.name}</Text>
                             <View style={styles.sectionTextRow}>
                                 {this.props.data.product.is_discount ==  1 
                                     ?
@@ -125,35 +125,21 @@ class CartProductItem extends Component {
                                 
                             </View>
                            
-                            {/* <Text  style={{lineHeight:20}}>{this.props.data.product.quantity} Left</Text> */}
+                           
                         </View>
                         
-                        
-                            {this.props.data.is_subscribed == 0 ?
-                            
-                            //Add To Cart Button
                             <View  style={{justifyContent:"flex-end",alignContent:"flex-end",alignItems:"flex-end"}}>
-                            
-                                {/* <Text style={{fontSize:10, alignSelf:"flex-end",fontWeight:"bold",padding:3,borderRadius:3,borderWidth:1,color:"#FD8D45" ,borderColor:"#FD8D45"}}>Get Once</Text> */}
-                                
-                                <IncrementDecrementButton  product_id={this.props.data.product.id}  quantity={this.props.data.quantity} price={this.props.data.product.is_discount == 1 ? this.props.data.product.new_price : this.props.data.product.old_price} stock_available={this.props.data.product.quantity} />
-                                
+                               
+                                <IncrementDecrementButton  
+                                    updateProductQuantity={(product_id , quantity)=>{this.props.updateStateQuantity(product_id, quantity);}}
+                                    from_cart={1}
+                                    product_id={this.props.data.product.id}  
+                                    quantity={this.props.data.quantity} 
+                                    price={this.props.data.product.is_discount == 1 ? this.props.data.product.new_price : this.props.data.product.old_price} 
+                                    stock_available={this.props.data.product.quantity} />
                                 
                             </View>
-                            :
-                            //Add To Cart Button
-                            <View  style={{justifyContent:"flex-end",alignContent:"flex-end",alignItems:"flex-end"}}>
-                            
-                                <Text style={{fontSize:10,alignSelf:"flex-end",fontFamily:"roboto-light",padding:4,borderRadius:3,borderWidth:1,color:"#FD8D45" ,borderColor:"#FD8D45"}}>  {this.state.subscription_type}  </Text>   
-                                <IncrementDecrementSubscribe subscriptionType={this.props.data.subscription_type} product_id={this.props.data.product.id}  subscribed_qauntity={this.props.data.quantity} quantity={this.props.data.quantity}  price={this.props.data.product.is_discount == 1 ? this.props.data.product.new_price : this.props.data.product.old_price} stock_available={this.props.data.product.quantity} />
-                                
-                                
-                            </View> 
-                            }
-                    
-
-                            
-                    
+                        
                         
                     </View>
 
@@ -236,7 +222,7 @@ const mapStateToProps = state => {
     textColumnLeft:{
         flexDirection:"column",
         alignSelf:"flex-start",
-        flex:0.5,
+        flex:0.7,
         marginTop:10
         
     },
@@ -253,18 +239,21 @@ const mapStateToProps = state => {
         fontFamily:"roboto-bold",
         fontSize:15,
         color:"black",
-        lineHeight:30,
+        lineHeight:20,
     },
     textBorder:{
-        // borderColor:'grey',
-        // borderRadius:1,
-        // borderWidth:0.5,
-        textAlign:"right",
-        padding:2,
-        lineHeight:20,
-        marginTop:10,
-
-    },
+        borderColor:"grey",
+         textAlign:"center",
+         padding:2,
+         fontFamily:"roboto-light",
+         borderRadius:2,
+         lineHeight:20,
+         width:"auto",
+         borderWidth:1
+         
+        // marginTop:10,
+ 
+     },
     viewLineGrey:{
         width:'100%',
         height:1,
@@ -273,6 +262,24 @@ const mapStateToProps = state => {
         marginBottom:10,
        
         
+    },
+    unitView:{
+        justifyContent:"flex-start",
+        alignItems:"flex-start",
+        borderColor:"grey",
+       
+    },
+    unitViewText:{
+        marginTop:5,
+        borderColor:"grey",
+        fontFamily:'roboto-light',
+        fontSize:12,
+        padding:5 ,
+        alignSelf:"flex-start",
+        borderRadius:2,
+        borderWidth:1,
+        marginBottom:7,
+        width:'auto', // set this width to null and try! ,justifyContent:"center"
     },
     
 });

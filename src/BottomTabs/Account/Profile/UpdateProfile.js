@@ -44,7 +44,7 @@ import { userData } from '../../../redux/store/actions/userDataAction';
         super(props);
 
         this.state= {
-            date:this.getFormattedDate(new Date()),
+            date:this.getFormattedDate(new Date("1970-01-01")),
             gender:1,
             Married:1,
             genderData:[{label:"Male",value:1},{label:"Female",value:2}],
@@ -62,7 +62,10 @@ import { userData } from '../../../redux/store/actions/userDataAction';
     componentDidMount() {
 
         console.log("user name ",this.props.user.userdata);
-
+        if(this.props.user.userdata.user_email !== null && this.props.user.userdata.user_email !== "null" && this.props.user.userdata.user_email !== undefined && this.props.user.userdata.user_email !== ""){
+  
+            this.refs.email.setTextInputValue(this.props.user.userdata.user_email ,'email');
+            }
         if(this.props.user.userdata.user_name !== null && this.props.user.userdata.user_name !== "null" && this.props.user.userdata.user_name !== undefined && this.props.user.userdata.user_name !== ""){
   
         this.refs.name.setTextInputValue(this.props.user.userdata.user_name ,'name');
@@ -120,109 +123,134 @@ import { userData } from '../../../redux/store/actions/userDataAction';
 
     updateProfileHandler = () => {
 
-        if(this.refs.name.getInputTextValue("name") !== "invalid" &&  this.refs.email.getInputTextValue("email")){
+        if(this.refs.name.getInputTextValue("name") == "invalid" ){
+
+            Alert.alert(
+                'Update Profile',
+                'Please enter Name !',
+                [
+             
+                {text: 'OK', onPress: () => {console.log("ok")}},
+                ], 
+                { cancelable: false }
+                )    
+        
+
+        }else if( this.refs.email.getInputTextValue("email") == "invalid"){
+
+            Alert.alert(
+                'Update Profile',
+                'Please enter Email !',
+                [
+             
+                {text: 'OK', onPress: () => {console.log("ok")}},
+                ], 
+                { cancelable: false }
+                )    
+
+
+
+        }else if(this.refs.family_members.getInputTextValue("family_members") == "invalid") {
+
+            Alert.alert(
+                'Update Profile',
+                'Please enter No of family members !',
+                [
+             
+                {text: 'OK', onPress: () => {console.log("ok")}},
+                ], 
+                { cancelable: false }
+                )    
+
+
+        }else{
         
 
             if(this.state.terms){
 
+                this.setState({isLoading:true});
+                let family = this.refs.family_members.getInputTextValue("family_members");
             
-                var family = "";
-                if(this.refs.family_members.getInputTextValue("family_members") === "invalid"){
-                    family = "";
-                    Alert.alert(
-                        'Update Profile',
-                        'Please Enter Family Members',
-                        [
+                var formdata = new FormData();
+                formdata.append("user_id",this.props.user.userdata.user_id);
+                formdata.append("email",this.refs.email.getInputTextValue("email"));
+                formdata.append("name",this.refs.name.getInputTextValue("name"));
+                formdata.append("gender",this.state.gender);
+                formdata.append("dob",this.state.date);
+                formdata.append('married',this.state.Married);
+                formdata.append("family_members",family);
+                formdata.append("vegitarian",this.state.vegetarian);
+                Axios.post(ApiUrl.baseurl+ApiUrl.update_profile,formdata).then(res => {
                     
-                        {text: 'OK', onPress: () => {console.log("ok")}},
-                        ], 
-                        { cancelable: false }
-                        )    
-                }else{
-                    this.setState({isLoading:true});
-                    family = this.refs.family_members.getInputTextValue("family_members");
-                
-                    var formdata = new FormData();
-                    formdata.append("user_id",this.props.user.userdata.user_id);
-                    formdata.append("email",this.refs.email.getInputTextValue("email"));
-                    formdata.append("name",this.refs.name.getInputTextValue("name"));
-                    formdata.append("gender",this.state.gender);
-                    formdata.append("dob",this.state.date);
-                    formdata.append('married',this.state.Married);
-                    formdata.append("family_members",family);
-                    formdata.append("vegitarian",this.state.vegetarian);
-                    Axios.post(ApiUrl.baseurl+ApiUrl.update_profile,formdata).then(res => {
-                        
-                        console.log("response data update profile continue",res)
-                        this.setState({isLoading:false});
-        
-                        if(res.data.error){
-        
-                        
-                            Alert.alert(
-                                'Update Profile',
-                                'Something went wrong! Please try again later.',
-                                [
-                            
-                                {text: 'OK', onPress: () => {console.log("ok")}},
-                                ], 
-                                { cancelable: false }
-                                )    
-                            
-                        }else{
-        
-                        
-                        
-                            let userdata = {};
-                            Object.assign(userdata,{"user_id":JSON.stringify(res.data.result.id)});
-                            Object.assign(userdata,{"user_name": res.data.result.name});
-                            Object.assign(userdata,{"user_email":res.data.result.email});
-                            Object.assign(userdata,{"user_mobile":res.data.result.mobile});   
-                            Object.assign(userdata,{"user_gender":res.data.result.gender});
-                            Object.assign(userdata,{"user_dob":res.data.result.dob});
-                            Object.assign(userdata,{"user_married":res.data.result.married});
-                            Object.assign(userdata,{"user_family_members":res.data.result.family_members});
-                            Object.assign(userdata,{"user_vegitarian":res.data.result.vegitarian});
-                        
-            
-        
-                            
-                            this.props.onUpdateUser(userdata);
-            
-                        
-                            Alert.alert(
-                                'Update Profile',
-                                'Profile Updated Successfully!',
-                                [
-                            
-                                {text: 'OK', onPress: () => {console.log("ok")}},
-                                ], 
-                                { cancelable: false }
-                                )    
-                            this.props.navigation.navigate('ViewProfile');
-                
-                        }
-        
+                    console.log("response data update profile continue",res)
+                    this.setState({isLoading:false});
+    
+                    if(res.data.error){
+    
                     
-                    }).catch(error => {
-
-                        this.setState({isLoading:false});
                         Alert.alert(
-                            'Error',
-                            'Check Your Network Connection!',
+                            'Update Profile',
+                            res.data.message,
                             [
                         
                             {text: 'OK', onPress: () => {console.log("ok")}},
                             ], 
                             { cancelable: false }
                             )    
-                        console.log("on error",error); 
+                        
+                    }else{
+    
+                    
+                    
+                        let userdata = {};
+                        Object.assign(userdata,{"user_id":JSON.stringify(res.data.result.id)});
+                        Object.assign(userdata,{"user_name": res.data.result.name});
+                        Object.assign(userdata,{"user_email":res.data.result.email});
+                        Object.assign(userdata,{"user_mobile":res.data.result.mobile});   
+                        Object.assign(userdata,{"user_gender":res.data.result.gender});
+                        Object.assign(userdata,{"user_dob":res.data.result.dob});
+                        Object.assign(userdata,{"user_married":res.data.result.married});
+                        Object.assign(userdata,{"user_family_members":res.data.result.family_members});
+                        Object.assign(userdata,{"user_vegitarian":res.data.result.vegitarian});
+                    
+        
+    
+                        
+                        this.props.onUpdateUser(userdata);
+        
+                    
+                        Alert.alert(
+                            'Update Profile',
+                            'Profile Updated Successfully!',
+                            [
+                        
+                            {text: 'OK', onPress: () => {console.log("ok")}},
+                            ], 
+                            { cancelable: false }
+                            )    
+                        this.props.navigation.navigate('ViewProfile');
             
-            
-                    });
-                }
+                    }
+    
+                
+                }).catch(error => {
 
+                    this.setState({isLoading:false});
+                    Alert.alert(
+                        'Error',
+                        'Check Your Network Connection!',
+                        [
+                    
+                        {text: 'OK', onPress: () => {console.log("ok")}},
+                        ], 
+                        { cancelable: false }
+                        )    
+                    console.log("on error",error); 
+        
+        
+                });
             
+               
         
             }else{
                 
@@ -236,17 +264,6 @@ import { userData } from '../../../redux/store/actions/userDataAction';
                     { cancelable: false }
                     )    
             }
-        }else{
-
-            Alert.alert(
-                'Update Profile',
-                'All * marked fields are compulsory!',
-                [
-             
-                {text: 'OK', onPress: () => {console.log("ok")}},
-                ], 
-                { cancelable: false }
-                )    
         }
        
     }
@@ -313,7 +330,7 @@ import { userData } from '../../../redux/store/actions/userDataAction';
                         mode="date"
                         placeholder="select date"
                         format="YYYY-MM-DD"
-                        maxDate={this.state.date}
+                        maxDate={new Date()}
                         minDate="1970-01-01"
                         confirmBtnText="Confirm"
                         cancelBtnText="Cancel"
@@ -474,9 +491,9 @@ const styles =  StyleSheet.create({
 
    
     labelText:{
-        fontFamily:"roboto-light",
+        fontFamily:"roboto-bold",
         color:'grey',
-        fontSize: 17,
+        fontSize: 14,
         marginLeft:15
     },
     inputIOS: {

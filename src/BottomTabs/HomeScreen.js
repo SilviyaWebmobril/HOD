@@ -34,6 +34,7 @@ class HomeScreen extends  Component {
             //images: [...images],
             isLoading:this.props.cart.isLoading,
             product:[],
+            product_categories:[],
             banners:[],
             getAllProducts:[],
             error_msg:this.props.cart.error_msg,
@@ -66,12 +67,21 @@ class HomeScreen extends  Component {
         this.props.deleteSearch();
 
         this.setState({isRefreshing:false})
-        if(this.props.navigation.getParam('iseditable') ){
-            this.setState({hideComponent:true,showTextInput:true});
-            this.setState({iseditable:true})
-        }
-        this.props.onHomeScreen(this.props.userdata.user_id);
+        
         this.props.getProfile(this.props.userdata.user_id);
+        this.props.onHomeScreen(this.props.userdata.user_id)
+            .then(response => {
+
+                if(!response.data.error){
+
+                    this.setState({getAllProducts:[...response.data.all_products]});
+                    this.setState({banners : [...response.data.banners]});
+                    this.setState({product_categories:[...response.data.product_categories]});
+
+
+                }
+            })
+       
         console.log("bhsbdj",this.props.cart.total_cart_count);
         
    
@@ -82,7 +92,8 @@ class HomeScreen extends  Component {
 
     onDetailsHandler = (id,name) => {
        
-        this.props.navigation.navigate("CategoryProductDetails",{"product_id":id   ,"name":name});
+        this.props.navigation.navigate("CategoryProductDetails",{"product_id":id   ,"name":name,
+        updateProductList1:this.updateStateQuantity.bind(this)});
     }
 
     renderItem(data){
@@ -90,23 +101,21 @@ class HomeScreen extends  Component {
        
         return(
             <TouchableOpacity
-            onPress={()=>this.onDetailsHandler(item.id,item.name)}
-           >
-            <ProductItem data={item} scheduleModal={this.scheduleModalVisible.bind(this)}/>
+            onPress={()=>this.onDetailsHandler(item.products.id,item.products.name)}
+            >
+            <ProductItem 
+            products={item.products}  
+            unit={item.unit} 
+            is_added_to_cart={item.is_added_to_cart} 
+            search={0} 
+            product_id={item.product_id}
+            updateStateQuantity = {this.updateStateQuantity.bind(this)}
+            scheduleModal={this.scheduleModalVisible.bind(this)}/>
             </TouchableOpacity>
         );
     }
 
-   shouldComponentUpdate (nextProps,nextState){
-
-  
-        if(nextProps.getAllProducts != this.props.getAllProducts || nextProps.cart.isLoading != this.props.isLoading){
-            return true;
-        }else{
-            return false;
-        }
-    
-   }
+   
   
     componentDidUpdate(prevProps,prevState){
 
@@ -133,13 +142,39 @@ class HomeScreen extends  Component {
                 
             }
     
-            if(prevProps.cart !== this.props.cart){
+            if(prevProps.cart.transaction_completed !== this.props.cart.transaction_completed){
 
-    
-    
-    
+                if(this.props.cart.transaction_completed == 1){
+
+                    let prevProduct  = [...this.state.getAllProducts];
+
+                    prevProduct.map(element => {
+
+                        element.is_added_to_cart = null;
+                        // if(element.product_id == product_id){
+            
+                        //     if(quantity > 0){
+                        //         if(element.is_added_to_cart !== null){
+                        //             element.is_added_to_cart.quantity = quantity;
+                        //         }else{
+                        //             element.is_added_to_cart = {};
+                        //            Object.assign(element.is_added_to_cart ,{ quantity : quantity});
+                                   
+                        //         }
+                        //     }else{
+                        //         element.is_added_to_cart = null;
+                        //     }
+                            
+                        // }
+                    });
+            
+                    console.log("from category products",prevProduct)
+            
+                    this.setState({getAllProducts : [...prevProduct]})
+            
+                }
+               
             }
-           
     
 
         }catch(error){
@@ -204,6 +239,37 @@ class HomeScreen extends  Component {
         this.componentDidMount();
     }
 
+    updateStateQuantity = (product_id , quantity) => {
+
+        let prevProduct  = [...this.state.getAllProducts];
+
+        console.log("proid",product_id);
+        console.log("q=",quantity);
+
+        prevProduct.map(element => {
+            if(element.product_id == product_id){
+
+
+                console.log("elem",element);
+                if(quantity > 0){
+                    if(element.is_added_to_cart !== null){
+                        element.is_added_to_cart.quantity = quantity;
+                    }else{
+                        element.is_added_to_cart = {};
+                       Object.assign(element.is_added_to_cart ,{ quantity : quantity});
+                       
+                    }
+                }else{
+                    element.is_added_to_cart = null;
+                }
+                
+            }
+        });
+        this.setState({getAllProducts : [...prevProduct]})
+
+
+    }
+
 
     render(){
         const { navigation } = this.props;
@@ -244,33 +310,28 @@ class HomeScreen extends  Component {
                     {!this.state.hideComponent
                     ?
                     <>
-                        <CustomTopHeader address={this.props.userdata.user_address} />
+                        <CustomTopHeader address={this.props.userdata.user_address} updateProductList={this.updateStateQuantity.bind(this)} />
                         <CustomTextInputWithIcon keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
                             placeholder="Search for Products.." isEditable={this.props.navigation.getParam('iseditable',"") == 1 ? true : false} 
                             searchValue={this.state.searchText} 
-                            // onFocus={()=>{this.onSearchPress()}}  
-                            // textpress={()=>{this.onSearchPress()}} 
-                            // showTextInput={this.state.showTextInput}
-                            // onSearchPress={this.onSearchHandler.bind(this)}
-                            onFocus={()=>{}}  
-                            textpress={()=>{this.props.navigation.navigate('SearchProducts',{location: capitilize(this.props.userdata.user_address)})}} 
+                            textpress={()=>{this.props.navigation.navigate('SearchProducts',{location: capitilize(this.props.userdata.user_address),updateProductList1:this.updateStateQuantity.bind(this)})}} 
                             showTextInput={this.state.showTextInput}
-                            onSearchPress={( )=>{this.props.navigation.navigate('SearchProducts',{get_back_button:true})}}
+                            onSearchPress={( )=>{this.props.navigation.navigate('SearchProducts',{get_back_button:true, updateProductList1:this.updateStateQuantity.bind(this)})}}
                             />
                             {/* <View style={styles.viewLineBlack}></View> */}
                   
-                            {this.props.homescreen.banners.length > 0
+                            {this.state.banners.length > 0
                             ?
                                 
-                                <Banners images={this.props.homescreen.banners} navigate={true}/>
+                                <Banners images={this.state.banners} navigate={true}/>
                               
                             :
                                 <View/>
                             }
                             {
-                        this.props.homescreen.product.length > 0
+                        this.state.product_categories.length > 0
                         ?
-                        <HorizontalList products={this.props.homescreen.product} />
+                        <HorizontalList products={this.state.product_categories} updateProductList={this.updateStateQuantity.bind(this)}  />
                         :
                         <View/>
                     }
@@ -286,14 +347,14 @@ class HomeScreen extends  Component {
                    
                     <FlatList
                       
-                        data={flatlistdata()}
+                        data={this.state.getAllProducts}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={(item) =>this.renderItem(item)}
                         style={{marginBottom:20}}
                         />
 
 
-                    {this.props.homescreen.getAllProducts.length  == 0
+                    {this.state.getAllProducts.length  == 0
                     ?
                         <Text style={{fontFamily:"Roboto-Light",alignSelf:'center',textAlignVertical: "center",  textAlign: 'center', justifyContent:"center",    fontSize:15,fontWeight:'bold',color:"grey"}}>No Products Found.</Text>
                     :
@@ -338,9 +399,17 @@ const mapDispatchToProps = dispatch => {
       },
       onLoading : (value) => {
           dispatch(cartActions.isLoading(value))
-      },
+      },    
       onHomeScreen:(user_id) =>{
-        dispatch(homeActions.homeScreenProducts(user_id))
+        return new Promise((resolve ,reject )=>{
+            dispatch(homeActions.homeScreenProducts(user_id))
+                .then(response =>{
+                    resolve(response);
+                })
+                .catch(error =>{
+                    reject(error);
+                })
+        })
       },
       onSearchProducts :(value)=>{
           dispatch(homeActions.searchProducts(value))

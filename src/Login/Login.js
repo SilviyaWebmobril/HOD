@@ -123,11 +123,11 @@ class Login extends Component {
 
                     <CustomLogo/>
 
-                    <Text style={{color:'#FD8D45',fontWeight: 'bold',fontSize: 20, alignSelf:"center",margin:20, fontFamily:'roboto-bold',}}>LOGIN WITH OTP</Text>
+                    <Text style={{color:'#FD8D45',fontSize: 17, alignSelf:"center",margin:20, fontFamily:'roboto-bold',}}>LOGIN WITH OTP</Text>
                     <Text style={styles.labelText}>Mobile No.</Text>
                     <CustomTextInput 
                         ref="mobile"
-                        placeholder="Enter mobile number" 
+                        placeholder="Enter Mobile Number" 
                         placeholderTextColor='#898785'
                         returnKeyType = { "next" }
                         inputType="mobile"
@@ -188,9 +188,9 @@ const mapStateToProps = state => {
 
    
     labelText:{
-        fontFamily:"roboto-light",
+        fontFamily:"roboto-bold",
         color:'grey',
-        fontSize: 17,
+        fontSize: 14,
         marginLeft:15
     },
 

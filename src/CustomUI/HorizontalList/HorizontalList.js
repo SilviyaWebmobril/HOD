@@ -19,14 +19,16 @@ class HorizontalList extends  Component {
 
     onProductItemHandler = (id,name) => {
 
-         this.props.navigation.navigate("CategoryProduct",{"category_id":id,"name":name});
+         this.props.navigation.navigate("CategoryProduct",{"category_id":id,"name":name,
+         updateProductList:(product_id, quantity)=>this.props.updateProductList(product_id,quantity)
+        });
 
     }
   
+    
 
     renderItem(data) {
         let { item, index } = data;
-
         return (
         
                 <View  key={item.id} >

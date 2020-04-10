@@ -148,18 +148,34 @@ class Cart extends Component {
 
         renderItem(data){
             let { item, index } = data;
+            //console.log("cart each item",item);
             return(
              
-                 <CartProductItem data={item} />
+                 <CartProductItem data={item}   
+                 updateStateQuantity = {(product_id , quantity)=>{ this.props.navigation.state.params.updateProductList1(product_id, quantity);}}/>
                
             );
         }
 
         checkUserDetails = () =>{
 
-            if(this.props.user.userdata.user_name == null  || this.props.user.user_address == null){
+            if((this.props.user.userdata.user_name == null) || (this.props.user.userdata.user_email == null)  || (this.props.user.user_address == null) || ( this.props.user.user_address == "") || (this.props.user.user_address == undefined)){
                 return false;
             }else{
+
+                // if(this.props.user.user_address == null ){
+
+                //     Alert.alert(
+                //         'Checkout',
+                //         'Please Add Delivery Address to Checkout!',
+                //         [
+                     
+                //         {text: 'OK', onPress: () => this.props.navigation.navigate("ViewProfile")},
+                //         ], 
+                //         { cancelable: false }
+                //         )
+                    
+                // }
                 this.setState({showUserDetails:true});
                 return true;
             }
@@ -211,6 +227,7 @@ class Cart extends Component {
 
         razorPayCheckout = () => {
 
+            this.props.changeTransactionStatus(0)
             var options = {
                 description: '',
                 image: 'https://i.imgur.com/3g7nmJC.png',
@@ -249,7 +266,8 @@ class Cart extends Component {
                                 arr_id.push(item.product.id);
                             }
 
-                        })
+                        });
+                        this.props.changeTransactionStatus(1);
                         this.props.onHomeScreen(this.props.user.userdata.user_id);
                         this.props.removeFromHomeAfterPayment(arr_id);
                         this.props.removeFromCartAfterPayment();
@@ -260,8 +278,8 @@ class Cart extends Component {
                             [
                          
                            
-                            {text: 'Ok', onPress: () => {  this.props.changeAvailabilityStatus();}},
-                            {text: 'Check Transaction', onPress: () => this.props.navigation.navigate("TransactionHistory")},
+                            {text: 'Ok', onPress: () => {  this.props.changeAvailabilityStatus();  }},
+                            {text: 'Check Transaction', onPress: () => {this.props.navigation.navigate("TransactionHistory"); this.props.changeAvailabilityStatus();}},
                             ], 
                             { cancelable: false }
                             )
@@ -307,7 +325,7 @@ class Cart extends Component {
 
                 Alert.alert(
                     'Checkout',
-                    'Please Complete your Profile and Address Details to Checkout!',
+                    'Please Complete your Profile and Add Delivery Address to Checkout!',
                     [
                  
                     {text: 'OK', onPress: () => this.props.navigation.navigate("ViewProfile")},
@@ -447,6 +465,9 @@ mapDispatchToProps = dispatch =>{
         },
         checkUserAddressByLatLong : (lat,long,user_id) => {
             dispatch(userDataAction.checkAddressByLatLng(lat,long,user_id))
+        },
+        changeTransactionStatus : ( status) => {
+            dispatch(cartActions.changeTransactionStatus(status))
         }
         
          

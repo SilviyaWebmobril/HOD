@@ -8,7 +8,7 @@ Cartbadge = (props) => {
 
     return(
     <TouchableOpacity 
-        onPress={()=>props.nav.navigate("Cart")}>
+        onPress={()=>props.nav.navigate("Cart",{ updateProductList1:(id,q) => props.updateStateQuantity(id,q)})}>
         <View style={styles.container}>
             
             <ImageBackground  source={props.img == 0 ? require('../../Assets/cartt.png') :  require('../../Assets/cart_white.png')} style={{width:25,height:25}}>
