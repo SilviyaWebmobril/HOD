@@ -39,7 +39,7 @@ export default withNavigation(Cartbadge);
 const styles = StyleSheet.create({
 
     container:{
-        marginRight:20
+        marginRight:18
     },
     circleWhite:{
         position:'absolute',
@@ -50,9 +50,9 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
         position: 'absolute',
         top: 0,
-        left: 20,
+        left: 15,
         right: 0,
-        bottom: 10, 
+        bottom: 25, 
         justifyContent: 'center', 
         alignItems: 'center'
        },
@@ -72,6 +72,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center', 
         alignItems: 'center'
        },
-    countBlack:{color:'white',fontSize:13,fontFamily:"Roboto-Light",},
-    countWhite:{color:'black',fontSize:13,fontFamily:"Roboto-Light",}
+    countBlack:{color:'white',fontSize:13,fontFamily:"roboto-Light",},
+    countWhite:{color:'black',fontSize:13,fontFamily:"roboto-Light",}
 })

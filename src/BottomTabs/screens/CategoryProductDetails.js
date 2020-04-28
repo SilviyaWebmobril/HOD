@@ -22,7 +22,7 @@ class CategoryProductDetails extends Component {
         return{
             title:      navigation.getParam('name')  ,
             headerStyle: { backgroundColor: '#FD8D45' },
-            headerTitleStyle: { color: 'white',fontSize:17,flex:1 ,fontFamily:"roboto-bold",textAlign:"center"},
+            headerTitleStyle: { color: 'white',fontSize:17,fontFamily:"roboto-bold",textAlign:"center",marginLeft:50},
             headerTintColor: 'white',
             headerTitleContainerStyle: {
                 left: 0, // THIS RIGHT HERE
@@ -233,9 +233,10 @@ class CategoryProductDetails extends Component {
 
                 <Image source={{uri:this.state.img}} width={150} height={150} resizeMode="contain" style={styles.imgStyle} />
                 <View style={styles.viewLineGrey}></View>
+                <Text style={styles.productname} numberOfLines={3}>{this.state.productname}</Text>
                 <View style={styles.mainRow}>
                     <View style={styles.rowLeft}>
-                        <Text style={styles.productname}>{this.state.productname}</Text>
+                       
                         <View style={styles.unitView}>
                             <Text style={styles.unitViewText}>{parseInt(this.state.weight)} {this.state.unit}</Text>
                         </View>
@@ -422,20 +423,20 @@ const styles =  StyleSheet.create({
     mainRow:{
        
         flexDirection:"row",
-        justifyContent:"space-between"
+        justifyContent:"space-between",
+        alignItems:"center"
     },
     rowLeft:{
-        alignContent:"flex-start",
         alignSelf:"flex-start",
         marginLeft:10,
-       
-
-
+       flex:0.7,
+    
     },
     rowRight:{
-        alignContent:'flex-end',
+        justifyContent:"center",
         alignSelf:"flex-end",
-        marginRight:10
+        marginRight:10,
+        flex:0.3
         
 
     },
@@ -449,7 +450,8 @@ const styles =  StyleSheet.create({
     productname:{
         fontFamily:'roboto-bold',
         fontSize:17,
-        marginBottom:7
+        marginBottom:7,
+        marginLeft:10
       
     },
     unitView:{

@@ -112,7 +112,7 @@ class CartProductItem extends Component {
                     <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.product.img}} resizeMode="contain" style={{width:120,alignSelf:"center",flex:0.5, height:120,borderRadius:10}}/>
                     <View style={styles.sectionRow}>
                     <View style={styles.textColumnLeft}>
-                            <Text style={styles.textProductname}>{this.props.data.product.name}</Text>
+                            <Text style={styles.textProductname} numberOfLines={3}>{this.props.data.product.name}</Text>
                             <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)} {this.props.data.product.unit.name}</Text>
                             <View style={styles.sectionTextRow}>
                                 {this.props.data.product.is_discount ==  1 
@@ -195,7 +195,7 @@ const mapStateToProps = state => {
         justifyContent:"space-between",
         alignItems:"center",
         alignContent:"space-between",
-        paddingTop:10,
+        paddingTop:8,
         paddingBottom:0,
         paddingLeft:20,
         paddingRight:10,
@@ -203,8 +203,8 @@ const mapStateToProps = state => {
     },
     sectionRow:{
         flex:1.5,
-        paddingTop:10,
-        paddingBottom:10,
+        paddingTop:5,
+        paddingBottom:5,
         paddingLeft:10,
         paddingRight:10,
         flexDirection:"row",
@@ -222,8 +222,8 @@ const mapStateToProps = state => {
     textColumnLeft:{
         flexDirection:"column",
         alignSelf:"flex-start",
-        flex:0.7,
-        marginTop:10
+        flex:0.8,
+        marginTop:5
         
     },
     textColumnRight:{
@@ -231,7 +231,7 @@ const mapStateToProps = state => {
         alignSelf:"flex-end",
         position: 'absolute', 
         textAlign:"right",
-        flex:0.5,
+        flex:0.2,
        
         
     },
@@ -258,8 +258,8 @@ const mapStateToProps = state => {
         width:'100%',
         height:1,
         backgroundColor:"#DCDCDC",
-        marginTop:10,
-        marginBottom:10,
+        marginTop:5,
+        marginBottom:5,
        
         
     },

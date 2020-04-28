@@ -40,12 +40,15 @@ class TransactionHistory extends Component {
                 
                 <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.product.img}} resizeMode="contain" style={{width:120, height:120,borderRadius:10}}/>
                 <View style={styles.sectionRow}>
-                    <View style={{alignContent:"center",alignItems:"center"}}>
+                    <View style={{alignItems:"center",justifyContent:"space-between"}}>
                         <Text style={{color:"black",marginBottom:10,alignSelf:"flex-start",fontFamily:"roboto-bold",}}>{this.props.data.product.name}</Text>
-                        <View style={styles.unitView}>
-                            <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)} {this.props.data.product.unit.name}</Text>
+                        <View style={{flexDirection:"row",alignSelf:"flex-start"}}>
+                            <View style={styles.unitView}>
+                                <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)} {this.props.data.product.unit.name}</Text>
+                            </View>
+                            <Text style={{color:"#FD8D45",fontSize:12,alignSelf:"flex-start",fontFamily:"roboto-bold",}}>{'\u20B9'} {this.props.data.price} </Text>
                         </View>
-                        <Text style={{color:"#FD8D45",fontSize:12,alignSelf:"flex-start",fontFamily:"roboto-light",}}>{'\u20B9'} {this.props.data.price} </Text>
+                       
                         <Text style={{color:"#FD8D45",fontSize:12,alignSelf:"flex-start",marginTop:5,fontFamily:"roboto-light",}}>Quantity : {this.props.data.quantity}</Text>
                         {/* {this.props.data.product.unit_id  ==  1 
                          ?
@@ -62,7 +65,7 @@ class TransactionHistory extends Component {
                             </View>
                         } */}
                         <View style={styles.sectionRow1}>
-                            <Text style={{color:"black",fontSize:13,alignSelf:"flex-start",fontFamily:"roboto-bold",}}>Delivered On: </Text>
+                            <Text style={{color:"black",fontSize:13,textAlign:"left" ,fontFamily:"roboto-bold",}}>Ordered On: </Text>
                             <Text style={{color:"black",fontSize:13,alignSelf:"flex-start",fontFamily:"roboto-light",}}> {delivered_on[0]}</Text>
                         </View>
 
@@ -131,7 +134,8 @@ const styles = StyleSheet.create({
         borderWidth:1,
         marginBottom:7,
         alignSelf:"flex-start",
-        padding:2
+        padding:2,
+        marginRight:5
     },
     unitViewText:{
         fontFamily:"roboto-light",
@@ -151,7 +155,7 @@ const styles = StyleSheet.create({
         justifyContent:"flex-start",
         marginTop:5,
         // width:200,
-        alignItems:"flex-start"
+        alignSelf:"flex-start"
     
     },
     textColumnLeft:{

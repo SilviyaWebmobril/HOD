@@ -4,9 +4,12 @@ var WidthofCircle=win.width/3;
 var RadiusofCircle = win.width/6;
 const OTPStyle = StyleSheet.create({
     container: {
-        flex: 1,
+        
         backgroundColor:'#ffffff',
-        margin:10
+        
+        justifyContent:"center",
+        alignItems:"center",
+        marginTop:70,
       },
       Timertxt:{
         color:'#FD8D45',
@@ -25,9 +28,11 @@ const OTPStyle = StyleSheet.create({
         width:WidthofCircle,
         borderRadius:RadiusofCircle,
           borderWidth:2,
+          alignSelf:"center",
           borderColor:'#FD8D45',
           justifyContent: 'center',
           alignItems: 'center',
+          marginBottom:40
       },
       Logintop:{
         paddingTop:45,

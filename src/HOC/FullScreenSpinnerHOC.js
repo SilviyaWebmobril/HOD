@@ -125,8 +125,7 @@ export default(Comp: ReactClass<*>) => {
 const styles = StyleSheet.create({
 
   mainView:{
-    flex:1,
-    
+    flex:1, 
     
   },
   mainCardFlex:{

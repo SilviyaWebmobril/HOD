@@ -50,8 +50,8 @@ class ProductItem extends Component {
                 <View style={styles.container}>
                     <Image source={{uri:ApiUrl.image_url+this.props.products.img}} resizeMode="contain" style={{width:120,alignSelf:"center",flex:0.5, height:120,borderRadius:10}}/>
                     <View style={styles.sectionRow}>
-                        <View >
-                            <Text style={styles.textProductname}>{this.props.products.name}</Text>
+                        <View  style={{flex:0.6}}>
+                            <Text style={styles.textProductname} numberOfLines={2}>{this.props.products.name}</Text>
                             {/* <View style={styles.sectionTextRow}> */}
                            
                             {this.props.products.is_discount ==  1 
@@ -61,7 +61,7 @@ class ProductItem extends Component {
                                 <Text style={{lineHeight:20,marginTop:0,fontFamily:"roboto-light",textDecorationLine: 'line-through',textDecorationStyle: 'solid'}}>{'\u20B9'}{this.props.products.old_price}</Text>
                                 </View>
                                 :
-                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"roboto-light",}}>{'\u20B9'}{this.props.products.old_price}</Text>
+                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"roboto-bold",color:"#FD8D45"}}>{'\u20B9'}{this.props.products.old_price}</Text>
                             }
                                 
                             {/* </View> */}
@@ -69,7 +69,7 @@ class ProductItem extends Component {
                         <Text>{this.props.products.quantity} left</Text>
                             
                         </View>
-                        <View  style={{justifyContent:"flex-end",alignContent:"flex-end",alignItems:"flex-end"}}>
+                        <View  style={{justifyContent:"flex-end",alignContent:"flex-end",alignItems:"flex-end",flex:0.4}}>
                                    
                                         
                             <Text style={styles.textBorder}>{parseInt(this.props.products.weight)} {this.props.unit.name}</Text>

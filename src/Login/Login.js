@@ -30,22 +30,27 @@ class Login extends Component {
   
     static navigationOptions = ({ navigation }) => ({
 
-        header :null,
-        title:navigation.getParam("update") == 0 ? 'LOGIN WITH OTP' : "UPDATE MOBILE",
+      
+        //title:navigation.getParam("update") == 0 ? 'LOGIN WITH OTP' : "UPDATE MOBILE",
+        title:"SIGN UP",
         headerStyle: {
-            height: 60,
+           /// height: 60,
             backgroundColor: '#FD8D45',
         },
-        headerTitleStyle: {
-            fontFamily:"Roboto-Light",
-            color: 'white',
-            alignSelf: 'center',
-            textAlign: 'center',
-            flex: 1,
-            fontSize: 17,
-        },
+        //headerTitleStyle: { color: 'white' ,fontSize:17,fontFamily:"roboto-bold",textAlign:'center',alignSelf:"center"},
+        headerTitleStyle: { alignSelf: 'center', textAlign:"center",flex:1 },
         headerTintColor: 'white',
-        headerRight: (<View></View>)
+        
+        // headerTitleStyle: {
+        //     fontFamily:"Roboto-Light",
+        //     color: 'white',
+        //     alignSelf: 'center',
+        //     textAlign: 'center',
+        //     flex: 1,
+        //     fontSize: 17,
+        // },
+        // headerTintColor: 'white',
+        // headerRight: (<View></View>)
     });
 
     constructor(props){
@@ -123,8 +128,8 @@ class Login extends Component {
 
                     <CustomLogo/>
 
-                    <Text style={{color:'#FD8D45',fontSize: 17, alignSelf:"center",margin:20, fontFamily:'roboto-bold',}}>LOGIN WITH OTP</Text>
-                    <Text style={styles.labelText}>Mobile No.</Text>
+                    {/* <Text style={{color:'#FD8D45',fontSize: 17, alignSelf:"center",margin:20, fontFamily:'roboto-bold',}}>LOGIN WITH OTP</Text>
+                    <Text style={styles.labelText}>Mobile No.</Text> */}
                     <CustomTextInput 
                         ref="mobile"
                         placeholder="Enter Mobile Number" 

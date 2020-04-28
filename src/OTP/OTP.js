@@ -374,46 +374,35 @@ class OTP extends Component {
       }
     render() {
         return (
-            <FullSCreenSpinnerAndDismissKeyboardView style={OTPStyle.container} refreshing={false} spinner={this.state.isLoading}>
+            <FullSCreenSpinnerAndDismissKeyboardView refreshing={false} spinner={this.state.isLoading}>
                 <KeyboardAwareScrollView >
-                <View style={{marginBottom:20}}>
+                    <View style={OTPStyle.container}>
 
-                    <CustomLogo />
-                    <View style={OTPStyle.bottom}>
-                    {/* <Text style={{flexDirection:'row',alignItems:'center',color:'black',fontWeight: 'bold',fontSize: 20,marginBottom:10,fontFamily:"Roboto-Light",}}>OTP</Text> */}
-                    <Text style={{color:'#898785',fontWeight: 'bold',fontSize: 17,marginBottom:20,marginTop:10,fontFamily:"Roboto-Light",}}>Phone Number Verification</Text>
-                    <View style={OTPStyle.circle}>
-                        <Text style={OTPStyle.Timertxt}> {this.state.seconds} </Text>
+                        <View style={OTPStyle.circle}>
+                            <Text style={OTPStyle.Timertxt}> {this.state.seconds} </Text>
                         </View>
-                    <View style={{width:'95%',flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                        <Text style={{color:'grey',fontSize: 14,fontFamily:"roboto-bold",}}>OTP</Text>
-                    </View>
+                        <View style={{justifyContent:"center" ,alignItems:"center",marginBottom:20}}>
 
-                    </View>
-                    <View style={{alignItems:"center",marginBottom:20}}>
+                        <CustomTextInput 
+                            ref="otp"
+                            placeholder="Enter OTP" 
+                            placeholderTextColor='#898785'
+                            returnKeyType = { "next" }
+                            inputType="otp"
+                            keyboardType='numeric'
 
-                            <CustomTextInput 
-                                ref="otp"
-                                placeholder="Enter OTP" 
-                                placeholderTextColor='#898785'
-                                returnKeyType = { "next" }
-                                inputType="otp"
-                                keyboardType='numeric'
-                            
-                            />
+                        />
 
 
+
+
+                        </View>
                         <CustomButton onPressHandler={()=>{this.onStartTimer();this.resendOTP()}} disabled={this.state.disableResend} text=" Resend " customButttonStyle={OTPStyle.customButtomSty} customTextStyle={this.state.disableResend ? OTPStyle.disableCustomResendTextSty : OTPStyle.customResendTextSty}/>
 
                         <CustomButton customTextStyle={{ color:'white'}} onPressHandler = {() => this.onSubmit()} text="SUBMIT" />
 
-
+                    
                     </View>
-
-
-
-                </View>
-
                 </KeyboardAwareScrollView>
                
                 
