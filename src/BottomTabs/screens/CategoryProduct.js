@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import {View ,FlatList,Text,StyleSheet,TouchableOpacity,Image,Alert} from 'react-native';
+import {View ,FlatList,StyleSheet,TouchableOpacity,Image,Alert,Platform} from 'react-native';
 import * as HOC from '../../HOC/mainHoc';
 const DismissKeyboardView = HOC.DismissKeyboardHOC(View);
 const FullSCreenSpinnerAndDismissKeyboardView = HOC.FullScreenSpinnerHOC(
@@ -12,7 +12,9 @@ import * as cartActions  from '../../redux/store/actions/cartAction';
 import * as homeActions from '../../redux/store/actions/homeAction';
 import Cartbadge from '../../CustomUI/Cart/Cartbadge';
 import {connect} from 'react-redux';
-
+import { Tooltip, Text  } from 'react-native-elements';
+import CustomTextInputWithIcon from '../../CustomUI/CustomTextInput/CustomTextInputWithIcon';
+import  capitilize  from '../../utility/helpers';
 
 
 class CategoryProduct extends Component {
@@ -22,13 +24,28 @@ class CategoryProduct extends Component {
         return {
             title:navigation.getParam('name')  ,
             headerStyle: { backgroundColor: '#FD8D45' },
-            headerTitleStyle: { color: 'white' ,fontSize:17,flex:1},
+            headerTitleStyle: { color: 'white' ,fontSize:17,flex:1,justifyContent:"center",textAlign:"left"},
             headerTintColor: 'white',
             headerRight:(
+                <>
+                 {/* <Cartbadge count={navigation.getParam('count', '0')} nav={navigation} 
+                    updateStateQuantity={(product_id,q)=>
+                        {params.handleUpdate(product_id,q)}}
+                    /> */}
+                {navigation.state.params.type == 2
+                ?
+                <Tooltip withOverlay={false} withPointer={false} backgroundColor={'white'} popover={<Text  style={{color:"#FD8D45"}}>Info here</Text>}>
+                <Text>Press me</Text>
+                </Tooltip>
+                :
+                <View/>
+                }
+              
                 <Cartbadge count={navigation.getParam('count', '0')} nav={navigation} 
                     updateStateQuantity={(product_id,q)=>
                         {params.handleUpdate(product_id,q)}}
                     />
+                </>
             )}
         
         };
@@ -303,6 +320,15 @@ class CategoryProduct extends Component {
             cartLayout={this.state.cartCount}
             spinner={this.state.isLoading}
             >  
+                <CustomTextInputWithIcon keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
+                placeholder="Search for Products.." isEditable={this.props.navigation.getParam('iseditable',"") == 1 ? true : false} 
+                searchValue={this.state.searchText} 
+                textpress={()=>{this.props.navigation.navigate('SearchProducts',{location: capitilize(this.props.userdata.user_address),
+                    updateProductList1:this.updateStateQuantity.bind(this),category_id:this.props.navigation.getParam('category_id')})}} 
+                showTextInput={this.state.showTextInput}
+                onSearchPress={( )=>{this.props.navigation.navigate('SearchProducts',{get_back_button:true, 
+                    updateProductList1:this.updateStateQuantity.bind(this),category_id:this.props.navigation.getParam('category_id')})}}
+                />
 
                 <FlatList
                       

@@ -17,9 +17,14 @@ class HorizontalList extends  Component {
        
     }
 
-    onProductItemHandler = (id,name) => {
+    onProductItemHandler = (id,name,type,store_address) => {
 
-         this.props.navigation.navigate("CategoryProduct",{"category_id":id,"name":name,
+        let storeAdd = "";
+        if(type == 2){
+            storeAdd = store_address;
+        }
+
+         this.props.navigation.navigate("CategoryProduct",{"category_id":id,"name":name, "type" : type , "store_address" : storeAdd,
          updateProductList:(product_id, quantity)=>this.props.updateProductList(product_id,quantity)
         });
 
@@ -32,7 +37,7 @@ class HorizontalList extends  Component {
         return (
         
                 <View  key={item.id} >
-                    <TouchableHighlight  onPress={()=>this.onProductItemHandler(item.id,item.name) }>
+                    <TouchableHighlight  onPress={()=>this.onProductItemHandler(item.id,item.name,item.type,item.store_address) }>
                         <View style={styles.container}>
                             <View style={styles.backgroundContainer}>
                                 <Image source={{uri:"http://webmobril.org/dev/hod/"+item.cat_img}} 

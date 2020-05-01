@@ -74,6 +74,10 @@ class HomeScreen extends  Component {
 
                 if(!response.data.error){
 
+                    console.log("response.data.all_products",response.data.all_products)
+
+                    console.log("response.data.product_categories",response.data.product_categories)
+
                     this.setState({getAllProducts:[...response.data.all_products]});
                     this.setState({banners : [...response.data.banners]});
                     this.setState({product_categories:[...response.data.product_categories]});
@@ -314,9 +318,9 @@ class HomeScreen extends  Component {
                         <CustomTextInputWithIcon keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
                             placeholder="Search for Products.." isEditable={this.props.navigation.getParam('iseditable',"") == 1 ? true : false} 
                             searchValue={this.state.searchText} 
-                            textpress={()=>{this.props.navigation.navigate('SearchProducts',{location: capitilize(this.props.userdata.user_address),updateProductList1:this.updateStateQuantity.bind(this)})}} 
+                            textpress={()=>{this.props.navigation.navigate('SearchProducts',{location: capitilize(this.props.userdata.user_address),updateProductList1:this.updateStateQuantity.bind(this),category_id:0})}} 
                             showTextInput={this.state.showTextInput}
-                            onSearchPress={( )=>{this.props.navigation.navigate('SearchProducts',{get_back_button:true, updateProductList1:this.updateStateQuantity.bind(this)})}}
+                            onSearchPress={( )=>{this.props.navigation.navigate('SearchProducts',{get_back_button:true, updateProductList1:this.updateStateQuantity.bind(this),category_id:0})}}
                             />
                             {/* <View style={styles.viewLineBlack}></View> */}
                   

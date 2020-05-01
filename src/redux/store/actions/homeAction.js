@@ -128,7 +128,7 @@ export const homeScreenProducts = (user_id) => (dispatch) =>
 
     })
 
-export const searchProducts  =(value) =>{
+export const searchProducts  =(value,category_id) =>{
 
 
     return dispatch =>{
@@ -139,7 +139,7 @@ export const searchProducts  =(value) =>{
             isLoading:true,
         })
 
-        axios.post(ApiUrl.baseurl + ApiUrl.search_products+value)
+        axios.post(ApiUrl.baseurl + ApiUrl.search_products+value+"&category_id="+category_id)
         .then(response => {
 
          console.log("get serach response action",response);
