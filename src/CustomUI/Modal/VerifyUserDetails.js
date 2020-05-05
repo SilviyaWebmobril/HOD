@@ -6,7 +6,7 @@ import CustomLogo from '../../CustomUI/Logo/CustomLogo';
 import { connect } from 'react-redux';
 
 
-class VerifyUserDetails extends Component {
+class VerifyUserDetails extends React.PureComponent {
 
     state= {
         ready: false,
@@ -28,10 +28,27 @@ class VerifyUserDetails extends Component {
         }).start();
       };
 
+    //     shouldComponentUpdate(nextProps,nextState){
+
+        
+    //     if(this.props.cart_products.all_cart_products !== nextProps.all_cart_products ){
+    //         console.log("hiichcbhc",nextProps)
+    //         return true;
+    //     }
+
+    //     return false 
+
+
+    // }
 
     render() {
+
+        console.log("this.props.cart_products.all_cart_products",this.props.cart_products.all_cart_products);
         return(
            
+            <ScrollView>
+
+            <View >
             <Animated.View
             style={{
               transform: [
@@ -49,10 +66,8 @@ class VerifyUserDetails extends Component {
                         <Image source={require('../../Assets/cancel.png')}  />
                     </TouchableOpacity>
                 </View>
-                <ScrollView>
-
+               
                 <View  style={styles.sectionRow}>
-
                     <CustomLogo customLogoStyle={{height:100,marginBottom:60}}/>
 
                     <View style={{flexDirection:'row'}}>
@@ -81,6 +96,21 @@ class VerifyUserDetails extends Component {
                     </View>
                     
                     <View style={styles.viewLineBlack}></View>
+                    {
+                        this.props.cart_products.all_cart_products.map(element => {
+                           return (<>
+                                    <View style={{flexDirection:'row',}} >
+                                        <Text numberOfLines={3} style={[styles.labelHeaderText,{flex:0.4,textAlign:"left",color:"#FD8D45",fontSize:12,fontFamily:"roboto-light"}]}>{element.product.product_category.name}</Text>
+                                        <Text numberOfLines={3} style={[styles.labelHeaderText,{flex:0.4,textAlign:"left",fontSize:12,fontFamily:"roboto-light"}]}>{element.product.name}</Text>
+                                        <Text style={[styles.labelHeaderText,{flex:0.2,textAlign:"right",fontSize:12}]}>{'\u20B9'} {element.product.is_discount == 0 ? element.product.old_price : element.product.new_price}{'\n'} x {element.quantity}</Text>
+                                        {/* <View style={styles.viewLineBlack}></View> */}
+                                    </View>
+                                    <View style={styles.viewLineBlack}></View> 
+                                    </>)
+
+                        })
+                    }
+                    
                     <View style={{flexDirection:'row'}}>
                         <Text style={styles.labelHeaderText}>Amount To Pay : </Text>
                         <Text style={styles.labelPriceText}>{'\u20B9'} {this.props.cart_products.get_once_cart_sum }</Text>
@@ -100,13 +130,14 @@ class VerifyUserDetails extends Component {
 
 
 
-
-                    </View>
-
-                </ScrollView>
-                
+                </View>
+                   
             </View>
             </Animated.View>
+            </View>
+
+        </ScrollView>
+
          
         )
     }

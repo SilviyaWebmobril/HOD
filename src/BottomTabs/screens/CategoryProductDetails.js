@@ -59,7 +59,8 @@ class CategoryProductDetails extends Component {
             is_discount:"",
             display_stock :0,
             stock_quantity:0,
-            showGoToCartBtn:false
+            showGoToCartBtn:false,
+            product_cat_id:""
 
 
         }
@@ -128,6 +129,7 @@ class CategoryProductDetails extends Component {
                 console.log("img=",this.state.img);
             })
             console.log("img111=",response.data.data);
+            this.setState({product_cat_id:response.data.data.product_cat_id});
             this.setState({old_price:response.data.data.old_price});
             this.setState({new_price:response.data.data.new_price});
             this.setState({display_stock:response.data.data.display_stock});
@@ -274,6 +276,7 @@ class CategoryProductDetails extends Component {
                                      this.setState({showGoToCartBtn:false})
                                  }
                              });}}
+                         product_cat_id={this.state.product_cat_id}
                          product_id={this.state.product_id}  
                          quantity={this.state.quantity} 
                          stock_available={this.state.display_stock == 1 ? this.state.stock_quantity : 0}
@@ -310,7 +313,7 @@ class CategoryProductDetails extends Component {
                 text="ADD TO CART" onPressHandler={()=>{
 
                     this.props.onLoading(true);
-                    this.props.onAdd(this.state.product_id,price,this.props.user.userdata.user_id)
+                    this.props.onAdd(this.state.product_id,price,this.props.user.userdata.user_id,this.state.product_cat_id)
                     .then(response=> {
                         if(response == 1){
                             console.log("qua",this.props.quantity);

@@ -163,19 +163,7 @@ class Cart extends Component {
                 return false;
             }else{
 
-                // if(this.props.user.user_address == null ){
-
-                //     Alert.alert(
-                //         'Checkout',
-                //         'Please Add Delivery Address to Checkout!',
-                //         [
-                     
-                //         {text: 'OK', onPress: () => this.props.navigation.navigate("ViewProfile")},
-                //         ], 
-                //         { cancelable: false }
-                //         )
-                    
-                // }
+               
                 this.setState({showUserDetails:true});
                 return true;
             }
@@ -205,13 +193,8 @@ class Cart extends Component {
                var location = json.results[0].geometry.location;
                console.log(json);
                console.log("location",location);
-               // dispatch(submitCreateProfile1(temp_register_id,name,profession_id,mobile,degree,ic_no,speciality_id,license,grades_id,experience
-               //     ,user_address,current_work,description,location.lat ,location.lng,state_id, city_id,props.navigation));
-
-            //    dispatch(submitEditProfile(user.id,user.name,profession_id,mobile,degree,ic_no,speciality_id,license,grades_id,experience
-            //        ,user_address,current_work,description,location.lat ,location.lng,state_id, city_id,weekly_rate,monthly_rate,hourly_rate,props.navigation))
-
-                this.props.checkUserAddressByLatLong(location.lat, location.lng,this.props.user.userdata.user_id)
+              
+                this.props.checkUserAddressByLatLong(location.lat, location.lng,this.props.user.userdata.user_id,this.props.cart_products.get_once_cart_sum)
 
            })
            .catch(error => 
@@ -352,6 +335,20 @@ class Cart extends Component {
 
     }
 
+
+    // shouldComponentUpdate(nextProps,nextState){
+
+        
+    //     if(this.props.cart_products.all_cart_products !== nextProps.all_cart_products ){
+    //         console.log("hiichcbhc cart ",nextProps)
+    //         return true;
+    //     }
+
+    //     return false 
+
+
+    // }
+
     componentDidUpdate(prevProps,prevState){
 
        
@@ -463,8 +460,8 @@ mapDispatchToProps = dispatch =>{
         changeAvailabilityStatus : () => {
             dispatch(userDataAction.changeAddressStatus())
         },
-        checkUserAddressByLatLong : (lat,long,user_id) => {
-            dispatch(userDataAction.checkAddressByLatLng(lat,long,user_id))
+        checkUserAddressByLatLong : (lat,long,user_id,amount) => {
+            dispatch(userDataAction.checkAddressByLatLng(lat,long,user_id,amount))
         },
         changeTransactionStatus : ( status) => {
             dispatch(cartActions.changeTransactionStatus(status))

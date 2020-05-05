@@ -79,6 +79,7 @@ class ProductItem extends Component {
                                 ?
                                 <IncrementDecrementButton  
                                     updateProductQuantity={(product_id , quantity)=>{this.props.updateStateQuantity(product_id, quantity);}}
+                                    product_cat_id={this.props.product_cat_id}
                                     product_id={this.props.product_id}  
                                     quantity={this.props.is_added_to_cart.quantity} 
                                     price={this.props.products.is_discount == 1 ? this.props.products.new_price : this.props.products.old_price} 
@@ -89,7 +90,7 @@ class ProductItem extends Component {
     
                                         onPressHandler={()=> {
                                             this.props.onLoading(true);
-                                            this.props.onAdd(this.props.products.id,product_price,this.props.user.userdata.user_id)
+                                            this.props.onAdd(this.props.products.id,product_price,this.props.user.userdata.user_id,this.props.product_cat_id)
                                             .then(response=> {
                                                 if(response == 1){
                                                     
@@ -131,9 +132,9 @@ class ProductItem extends Component {
 
 const mapDispatchToProps = dispatch =>{
     return {
-        onAdd: (product_id,price,user_id) => 
+        onAdd: (product_id,price,user_id,product_cat_id) => 
             new Promise((resolve ,reject) => {
-                dispatch(cartActions.addToCart(product_id,price,user_id))
+                dispatch(cartActions.addToCart(product_id,price,user_id,product_cat_id))
                 .then((response) => {
                     resolve(response);
                 })

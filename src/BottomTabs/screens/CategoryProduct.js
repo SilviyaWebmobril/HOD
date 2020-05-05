@@ -295,6 +295,7 @@ class CategoryProduct extends Component {
                 products={item}  
                 unit={item.unit} 
                 product_id={item.id}
+                product_cat_id={item.product_cat_id}
                 is_added_to_cart={item.is_added_to_cart} 
                 search={0} 
                 updateStateQuantity = {this.updateStateQuantity.bind(this)}

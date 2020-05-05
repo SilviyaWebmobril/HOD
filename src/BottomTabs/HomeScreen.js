@@ -103,6 +103,7 @@ class HomeScreen extends  Component {
     renderItem(data){
         let { item, index } = data;
        
+        
         return(
             <TouchableOpacity
             onPress={()=>this.onDetailsHandler(item.products.id,item.products.name)}
@@ -113,6 +114,7 @@ class HomeScreen extends  Component {
             is_added_to_cart={item.is_added_to_cart} 
             search={0} 
             product_id={item.product_id}
+            product_cat_id={item.products.product_cat_id}
             updateStateQuantity = {this.updateStateQuantity.bind(this)}
             scheduleModal={this.scheduleModalVisible.bind(this)}/>
             </TouchableOpacity>

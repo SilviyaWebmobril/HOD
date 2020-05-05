@@ -29,7 +29,7 @@ class IncrementDecrementButton extends Component {
         if(this.props.stock_available > this.props.quantity){
 
             this.props.onLoading(true);
-            this.props.onAdd(this.props.product_id,this.props.price,this.props.user.userdata.user_id)
+            this.props.onAdd(this.props.product_id,this.props.price,this.props.user.userdata.user_id,this.props.product_cat_id)
                 .then(response=> {
                     if(response == 1){
                         let quantity = this.props.quantity ;
@@ -141,9 +141,9 @@ const mapStateToProps  = state => {
 
 const mapDispatchToProps = dispatch =>{
     return {
-        onAdd: (product_id,price,user_id) => {
+        onAdd: (product_id,price,user_id,product_cat_id) => {
             return new Promise ((resolve,reject) =>{
-                dispatch(cartActions.addToCart(product_id,price,user_id))
+                dispatch(cartActions.addToCart(product_id,price,user_id,product_cat_id))
                     .then((response) => {
                         resolve(response);
                     })
