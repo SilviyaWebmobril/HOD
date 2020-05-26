@@ -99,10 +99,10 @@ class VerifyUserDetails extends React.PureComponent {
                     {
                         this.props.cart_products.all_cart_products.map(element => {
                            return (<>
-                                    <View style={{flexDirection:'row',}} >
-                                        <Text numberOfLines={3} style={[styles.labelHeaderText,{flex:0.4,textAlign:"left",color:"#FD8D45",fontSize:12,fontFamily:"roboto-light"}]}>{element.product.product_category.name}</Text>
-                                        <Text numberOfLines={3} style={[styles.labelHeaderText,{flex:0.4,textAlign:"left",fontSize:12,fontFamily:"roboto-light"}]}>{element.product.name}</Text>
-                                        <Text style={[styles.labelHeaderText,{flex:0.2,textAlign:"right",fontSize:12}]}>{'\u20B9'} {element.product.is_discount == 0 ? element.product.old_price : element.product.new_price}{'\n'} x {element.quantity}</Text>
+                                    <View style={{flexDirection:'row',flex:1}} >
+                                        {/* <Text numberOfLines={3} style={[styles.labelHeaderText,{flex:0.4,textAlign:"left",color:"#FD8D45",fontSize:12,fontFamily:"roboto-light"}]}>{element.product.product_category.name}</Text> */}
+                                        <Text numberOfLines={3} style={[styles.labelHeaderText,{flex:0.7,textAlign:"left",fontSize:12,fontFamily:"roboto-light"}]}>{element.product.name}</Text>
+                                        <Text style={[styles.labelHeaderText,{flex:0.3,textAlign:"right",fontSize:12}]}>{'\u20B9'} {element.product.is_discount == 0 ? element.product.old_price : element.product.new_price}{'\n'} x {element.quantity}</Text>
                                         {/* <View style={styles.viewLineBlack}></View> */}
                                     </View>
                                     <View style={styles.viewLineBlack}></View> 

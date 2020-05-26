@@ -162,7 +162,7 @@ import { withNavigation } from 'react-navigation';
         this.setState({searchText:value},()=>{
 
             console.log("value === ",this.state.searchText);
-            this.props.onSearchProducts(this.state.searchText,this.props.navigation.getParam('category_id'));
+            this.props.onSearchProducts(this.state.searchText);
 
         });
 

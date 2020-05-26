@@ -96,7 +96,7 @@ export const addToCart  = (product_id,price,user_id,product_cat_id) => (dispatch
          var formdata  = new FormData();
          formdata.append("user_id",user_id);
          formdata.append("product_id",product_id);
-         formdata.append("product_cat_id",product_cat_id);
+         //formdata.append("product_cat_id",product_cat_id);
          formdata.append("price",price);
        
  

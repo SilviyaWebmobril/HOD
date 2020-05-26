@@ -28,19 +28,6 @@ class CategoryProduct extends Component {
             headerTintColor: 'white',
             headerRight:(
                 <>
-                 {/* <Cartbadge count={navigation.getParam('count', '0')} nav={navigation} 
-                    updateStateQuantity={(product_id,q)=>
-                        {params.handleUpdate(product_id,q)}}
-                    /> */}
-                {navigation.state.params.type == 2
-                ?
-                <Tooltip withOverlay={false} withPointer={false} backgroundColor={'white'} popover={<Text  style={{color:"#FD8D45"}}>Info here</Text>}>
-                <Text>Press me</Text>
-                </Tooltip>
-                :
-                <View/>
-                }
-              
                 <Cartbadge count={navigation.getParam('count', '0')} nav={navigation} 
                     updateStateQuantity={(product_id,q)=>
                         {params.handleUpdate(product_id,q)}}
@@ -321,7 +308,7 @@ class CategoryProduct extends Component {
             cartLayout={this.state.cartCount}
             spinner={this.state.isLoading}
             >  
-                <CustomTextInputWithIcon keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
+                {/* <CustomTextInputWithIcon keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
                 placeholder="Search for Products.." isEditable={this.props.navigation.getParam('iseditable',"") == 1 ? true : false} 
                 searchValue={this.state.searchText} 
                 textpress={()=>{this.props.navigation.navigate('SearchProducts',{location: capitilize(this.props.userdata.user_address),
@@ -329,7 +316,7 @@ class CategoryProduct extends Component {
                 showTextInput={this.state.showTextInput}
                 onSearchPress={( )=>{this.props.navigation.navigate('SearchProducts',{get_back_button:true, 
                     updateProductList1:this.updateStateQuantity.bind(this),category_id:this.props.navigation.getParam('category_id')})}}
-                />
+                /> */}
 
                 <FlatList
                       

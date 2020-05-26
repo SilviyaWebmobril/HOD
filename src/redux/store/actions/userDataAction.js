@@ -225,7 +225,7 @@ export const checkUserAddressAvailbility = (user_id) => {
 }
 
 
-export const checkAddressByLatLng = (lat,long,user_id,amount) => {
+export const checkAddressByLatLng = (lat,long,user_id) => {
 
     return dispatch => {
 
@@ -238,7 +238,7 @@ export const checkAddressByLatLng = (lat,long,user_id,amount) => {
         formdata.append("lattitude",lat);
         formdata.append("longitude",long);
         formdata.append("user_id",user_id);
-        formdata.append("amount",amount);
+       // formdata.append("amount",amount);
         axios.post(ApiUrl.baseurl + ApiUrl.check_address_by_lat_long,formdata)
         .then(response => {
 

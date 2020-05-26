@@ -24,7 +24,7 @@ class HorizontalList extends  Component {
             storeAdd = store_address;
         }
 
-         this.props.navigation.navigate("CategoryProduct",{"category_id":id,"name":name, "type" : type , "store_address" : storeAdd,
+         this.props.navigation.navigate("CategoryProduct",{"category_id":id,"name":name,
          updateProductList:(product_id, quantity)=>this.props.updateProductList(product_id,quantity)
         });
 

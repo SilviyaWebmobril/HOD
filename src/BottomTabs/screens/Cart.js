@@ -194,7 +194,7 @@ class Cart extends Component {
                console.log(json);
                console.log("location",location);
               
-                this.props.checkUserAddressByLatLong(location.lat, location.lng,this.props.user.userdata.user_id,this.props.cart_products.get_once_cart_sum)
+                this.props.checkUserAddressByLatLong(location.lat, location.lng,this.props.user.userdata.user_id)
 
            })
            .catch(error => 
@@ -460,8 +460,8 @@ mapDispatchToProps = dispatch =>{
         changeAvailabilityStatus : () => {
             dispatch(userDataAction.changeAddressStatus())
         },
-        checkUserAddressByLatLong : (lat,long,user_id,amount) => {
-            dispatch(userDataAction.checkAddressByLatLng(lat,long,user_id,amount))
+        checkUserAddressByLatLong : (lat,long,user_id) => {
+            dispatch(userDataAction.checkAddressByLatLng(lat,long,user_id))
         },
         changeTransactionStatus : ( status) => {
             dispatch(cartActions.changeTransactionStatus(status))

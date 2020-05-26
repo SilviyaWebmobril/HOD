@@ -102,6 +102,16 @@ class CategoryProductDetails extends Component {
         });
       }
 
+      updateStateQuantity = (product_id,quantity ) => {
+          console.log("i am updating value",quantity);
+        this.props.navigation.state.params.updateProductList1(product_id, quantity);
+        this.setState({quantity:quantity},()=>{
+            if(this.state.quantity < 1){
+                this.setState({showGoToCartBtn:false})
+            }
+        }); 
+      }
+ 
 
     componentDidMount() {
         console.log("total",this.props.cart.total_cart_count );
@@ -304,7 +314,7 @@ class CategoryProductDetails extends Component {
                 customMainStyle = {{width:'80%',alignSelf:"center"}}
                 customTextStyle={{ color:'white',}}   customButttonStyle={{marginBottom:25}}
                 text="GO TO CART" onPressHandler={()=>{
-                    this.props.navigation.navigate('Cart');
+                    this.props.navigation.navigate('Cart',{ updateProductList1:(id,q) => this.updateStateQuantity(id,q)});
                 }} />
                 :
                 <CustomButton 

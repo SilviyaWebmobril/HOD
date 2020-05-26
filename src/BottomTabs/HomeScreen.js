@@ -320,9 +320,9 @@ class HomeScreen extends  Component {
                         <CustomTextInputWithIcon keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
                             placeholder="Search for Products.." isEditable={this.props.navigation.getParam('iseditable',"") == 1 ? true : false} 
                             searchValue={this.state.searchText} 
-                            textpress={()=>{this.props.navigation.navigate('SearchProducts',{location: capitilize(this.props.userdata.user_address),updateProductList1:this.updateStateQuantity.bind(this),category_id:0})}} 
+                            textpress={()=>{this.props.navigation.navigate('SearchProducts',{location: capitilize(this.props.userdata.user_address),updateProductList1:this.updateStateQuantity.bind(this)})}} 
                             showTextInput={this.state.showTextInput}
-                            onSearchPress={( )=>{this.props.navigation.navigate('SearchProducts',{get_back_button:true, updateProductList1:this.updateStateQuantity.bind(this),category_id:0})}}
+                            onSearchPress={( )=>{this.props.navigation.navigate('SearchProducts',{get_back_button:true, updateProductList1:this.updateStateQuantity.bind(this)})}}
                             />
                             {/* <View style={styles.viewLineBlack}></View> */}
                   
