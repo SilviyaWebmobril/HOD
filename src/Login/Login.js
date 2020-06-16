@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     SafeAreaView,
     Alert,
-    StyleSheet
+    StyleSheet,
+    ToastAndroid
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import LoginStyle from './LoginStyle';
@@ -75,7 +76,7 @@ class Login extends Component {
             Axios.post(ApiUrl.baseurl +ApiUrl.send_mobile_for_otp,formdata).then(response => {
                 this.setState({isLoading:false})
 
-                console.log("response send mobile",response);
+                ToastAndroid.show("Your otp is "+response.data.otp,ToastAndroid.LONG);
                 if(response.data.error){
                     Alert.alert(`${response.data.message}`);;
                 }else{

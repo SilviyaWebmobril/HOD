@@ -216,6 +216,7 @@ class Cart extends Component {
                 image: 'https://i.imgur.com/3g7nmJC.png',
                 currency: 'INR',
                 key: 'rzp_test_dUp5Ii1AWLex6g',
+                //key:'rzp_live_jIHFE5M5E1MwvS',
                 amount: parseFloat(this.props.cart_products.get_once_cart_sum * 100).toFixed(2),
                 name: this.props.user.userdata.user_name,
                 prefill: {
