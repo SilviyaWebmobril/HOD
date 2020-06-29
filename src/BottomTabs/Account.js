@@ -190,17 +190,18 @@ class Account extends Component {
                         <View style={styles.viewLineBlack}></View>
                     
                     </View>
-                    {this.state.isLoading &&
-                        <View
-                        style={[
-                            StyleSheet.absoluteFill,
-                            { backgroundColor: 'rgba(0, 0, 0, 0.7)', justifyContent: 'center' }
-                        ]}
-                        >
-                        <ActivityIndicator size="large" />
-                        </View>}
-   
+                    
                 </ScrollView>
+                {this.state.isLoading &&
+                    <View
+                    style={[
+                        StyleSheet.absoluteFill,
+                        { backgroundColor: 'rgba(0, 0, 0, 0.7)', justifyContent: 'center',flex:1 }
+                    ]}
+                    >
+                    <ActivityIndicator size="large" />
+                    </View>}
+
             </View>
 
         );

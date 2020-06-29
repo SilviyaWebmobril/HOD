@@ -85,7 +85,7 @@ class OTP extends Component {
             this.setState({isLoading:false})
 
             console.log("response send mobile",response);
-            ToastAndroid.show("Your otp is "+response.data.otp,ToastAndroid.LONG);
+           // ToastAndroid.show("Your otp is "+response.data.otp,ToastAndroid.LONG);
             if(response.data.error){
                
                 Alert.alert(

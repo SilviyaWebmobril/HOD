@@ -37,19 +37,14 @@ class HorizontalList extends  Component {
         return (
         
                 <View  key={item.id} >
-                    <TouchableHighlight  onPress={()=>this.onProductItemHandler(item.id,item.name,item.type,item.store_address) }>
-                        <View style={styles.container}>
-                            <View style={styles.backgroundContainer}>
-                                <Image source={{uri:"http://webmobril.org/dev/hod/"+item.cat_img}} 
-                                
-                                style={styles.cardView}/>
-                            </View>
-                            <View style={{justifyContent:"center", width:"100%",height:"90%",}}>
-                                <Image source={require('../../Assets/overlay2.png')} resizeMode="contain"  style={styles.topImageStyle}  />
-                                <Text  numberOfLines={3} style={styles.textStyle}>{item.name}</Text>
-                            </View>
-                           
-                        </View>
+                    <TouchableHighlight  
+                    style={styles.container}
+                    onPress={()=>this.onProductItemHandler(item.id,item.name,item.type,item.store_address) }>
+                        <>
+                        <Image source={{uri:"http://webmobril.org/dev/hod/"+item.cat_img}} 
+                        style={styles.cardView}/>
+                        <Text  numberOfLines={2} style={styles.textStyle}>{item.name}</Text>
+                        </>
                     </TouchableHighlight>
                 </View>
           
@@ -61,7 +56,7 @@ class HorizontalList extends  Component {
     render(){
     
         return(
-            <View style={{marginTop:2,marginLeft:10,marginRight:10}}>
+            <View style={{marginTop:10,marginLeft:10,marginRight:10,marginBottom:10}}>
                 
                 <FlatList
                         
@@ -97,37 +92,37 @@ const styles = StyleSheet.create({
       },
 
       container: {
-        width:"90%",
-        height:150,
-        marginLeft:5,
-        marginRight:5,
-        
+        width:150,
+        height:210,
+        borderRadius:7,
+        borderColor:"#dcdcdc",
+        borderWidth:1,
+        marginRight:10,
+        elevation:2,
+       
+        // justifyContent:"center",
+        // alignItems:"center"
       },
     cardView:{
-        alignItems:"center",
-        width:"100%",
-        height:"90%",
-        borderRadius:5,
-        marginTop:10,
-        marginBottom:10,
-        borderColor:"#E8E8E8",
-         borderWidth:1
+       // alignItems:"center",
+        //width:"100%",
+        height:150,
+        borderRadius:7,
+        borderColor:"white",
+        borderWidth:1,
+        marginBottom:5
 
     },
-    topImageStyle:{
-        alignSelf:'center',
-    },
+   
     textStyle:{
-        textAlign:'left',
+       // width:"100%",
+        textAlign:'center',
         fontFamily:"roboto-bold",
-        fontSize:17,
-        position: 'absolute',
-        alignSelf:"flex-start",
+        fontSize:14,
+        marginBottom:10,
+        alignSelf:"center",
         lineHeight:20,
-        marginLeft:35,
-        color:'white',
-        top:15,
-        right:30
+        color:'black',
     }
 
 

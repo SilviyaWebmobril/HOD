@@ -68,7 +68,7 @@ class CustomTopHeader extends  Component {
                          }
                     </Text>
                     
-                    <Image style={{width:'100%',height:15,marginTop:10,marginBottom:0,}} source={require('../Assets/curve_new.png')} />
+                    {/* <Image style={{width:'100%',height:15,marginTop:10,marginBottom:0,}} source={require('../Assets/curve_new.png')} /> */}
                     {/* <View style={styles.viewLineBlack}></View> */}
                 </View>
               
@@ -93,7 +93,7 @@ const mapStateToProps = state => {
 const styles =  StyleSheet.create({
 
     container:{
-       height:90,
+       height:70,
        marginLeft:20,
        marginRight:20,
        marginTop:Platform.OS == 'android' ? 20 :40

@@ -76,7 +76,8 @@ class Login extends Component {
             Axios.post(ApiUrl.baseurl +ApiUrl.send_mobile_for_otp,formdata).then(response => {
                 this.setState({isLoading:false})
 
-                ToastAndroid.show("Your otp is "+response.data.otp,ToastAndroid.LONG);
+              //  ToastAndroid.show("Your otp is "+response.data.otp,ToastAndroid.LONG);
+              console.log("response...data",response.data);
                 if(response.data.error){
                     Alert.alert(`${response.data.message}`);;
                 }else{

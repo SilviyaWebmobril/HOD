@@ -26,7 +26,7 @@ const CustomTextInputWithIcon = React.forwardRef((props,ref) => {
     return (
 
    
-      <View style={styles.container}>
+      <View style={[styles.container,props.container]}>
            
       {props.showTextInput 
       ?
@@ -86,8 +86,7 @@ const styles = StyleSheet.create({
     marginRight:15,
    marginBottom:10,
    borderRadius: 7,
-   backgroundColor:"white"
-
+   backgroundColor:"white",
   
   },
   

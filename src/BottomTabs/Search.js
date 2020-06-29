@@ -242,12 +242,13 @@ import { withNavigation } from 'react-navigation';
                 }
             
              
-            <Image style={{width:'95%',height:15,alignSelf:"center",marginTop:2,marginLeft:10,marginRight:10,marginBottom:5}} source={require('../Assets/curve_new.png')} />
+            {/* <Image style={{width:'95%',height:15,alignSelf:"center",marginTop:2,marginLeft:10,marginRight:10,marginBottom:5}} source={require('../Assets/curve_new.png')} /> */}
                  
                     <CustomTextInputWithIcon keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
                             placeholder="Search for Products.." 
                             searchValue={this.state.searchText} 
                             showTextInput={true}
+                            container={{marginTop:10}}
                             onSearchPress={this.onSearchHandler.bind(this)}/>
                         <FlatList
                         
