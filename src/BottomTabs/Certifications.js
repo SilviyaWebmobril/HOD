@@ -31,7 +31,8 @@ class Certification extends Component {
 
           console.log("response certi..",res.data);
             this.setState({isLoading:false});
-          
+      
+            
             this.setState({certificates:res.data.result});
 
 

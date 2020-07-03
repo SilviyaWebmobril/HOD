@@ -213,7 +213,7 @@ class Cart extends Component {
             this.props.changeTransactionStatus(0)
             var options = {
                 description: '',
-                image: 'http://webmobril.org/dev/hod/siteimages/site/logo.jpeg',
+                image: ApiUrl.image_url+'siteimages/site/logo.jpeg',
                 currency: 'INR',
                 key: 'rzp_live_jIHFE5M5E1MwvS',
                 //key:'rzp_live_jIHFE5M5E1MwvS',

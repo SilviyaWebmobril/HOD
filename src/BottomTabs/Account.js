@@ -129,12 +129,12 @@ class Account extends Component {
                             >
                             <View style={styles.buttonView}>
                                 <Image source={require('../Assets/transaction.png')} style={{width:30,height:30,marginRight:10,alignSelf:"flex-start"}} />
-                                <Text style={styles.btnTextStyle}>Transaction History</Text>
+                                <Text style={styles.btnTextStyle}>My Orders</Text>
                             </View>
 
                         </TouchableOpacity>
                         <View style={styles.viewLineBlack}></View>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             style={{alignContent:"flex-start",width:"100%"}}
                             >
                             <View style={styles.buttonView}>
@@ -143,7 +143,7 @@ class Account extends Component {
                             </View>
 
                         </TouchableOpacity>
-                        <View style={styles.viewLineBlack}></View>
+                        <View style={styles.viewLineBlack}></View> */}
                         <TouchableOpacity
                             style={{alignContent:"flex-start",width:"100%"}}
                             onPress={()=>this.onSupportHandler()}

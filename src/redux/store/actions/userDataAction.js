@@ -239,8 +239,10 @@ export const checkAddressByLatLng = (lat,long,user_id) => {
         formdata.append("longitude",long);
         formdata.append("user_id",user_id);
        // formdata.append("amount",amount);
+       console.log("form",formdata);
         axios.post(ApiUrl.baseurl + ApiUrl.check_address_by_lat_long,formdata)
         .then(response => {
+
 
             dispatch({
                 type:IS_LOADING,
@@ -265,6 +267,12 @@ export const checkAddressByLatLng = (lat,long,user_id) => {
         })
         .catch(error => {
 
+            console.log("error",error);
+            dispatch({
+                type:IS_LOADING,
+                isLoading:false,
+            })
+    
         })
     }
 

@@ -1,6 +1,7 @@
 import React ,{ Component}  from 'react';
 import { View ,Text,StyleSheet, Image,FlatList,Dimensions,TouchableHighlight}   from 'react-native';
 import { withNavigation } from 'react-navigation';
+import ApiUrl from '../../Api/ApiUrl';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -41,7 +42,7 @@ class HorizontalList extends  Component {
                     style={styles.container}
                     onPress={()=>this.onProductItemHandler(item.id,item.name,item.type,item.store_address) }>
                         <>
-                        <Image source={{uri:"http://webmobril.org/dev/hod/"+item.cat_img}} 
+                        <Image source={{uri:ApiUrl.image_url+item.cat_img}} 
                         style={styles.cardView}/>
                         <Text  numberOfLines={2} style={styles.textStyle}>{item.name}</Text>
                         </>
@@ -123,6 +124,8 @@ const styles = StyleSheet.create({
         alignSelf:"center",
         lineHeight:20,
         color:'black',
+        marginLeft:10,
+        marginRight:10
     }
 
 

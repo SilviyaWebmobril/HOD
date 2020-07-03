@@ -14,7 +14,7 @@ import axios from 'axios';
 class TransactionHistory extends Component {
 
     static navigationOptions = ({ navigation, screenProps }) => ({
-        title: '  Transaction History  ',
+        title: '  My Orders  ',
         headerStyle: { backgroundColor: '#FD8D45' },
         headerTitleStyle: { color: 'white',fontSize:17,flex:1 },
         headerTintColor: 'white',

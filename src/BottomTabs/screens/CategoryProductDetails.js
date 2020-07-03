@@ -114,7 +114,7 @@ class CategoryProductDetails extends Component {
  
 
     componentDidMount() {
-        console.log("total",this.props.cart.total_cart_count );
+        console.log("total",this.props.navigation.getParam('product_id'));
         this.props.navigation.setParams({callBack : this.getcallBack.bind(this)})
         this.props.navigation.setParams({ 'count': this.props.cart.total_cart_count });
         if(this.props.cart.total_cart_count > 0){
@@ -129,13 +129,15 @@ class CategoryProductDetails extends Component {
         axios.post(ApiUrl.baseurl +ApiUrl.get_product_details+ this.props.navigation.getParam('product_id'))
         .then(response =>{
           
+
+            console.log("response .. details",response.data);
             this.props.onLoading(false);
             this.setState({isLoading:this.props.cart_product.isLoading});
             var  obj = JSON.stringify(response.data.data);
            
             this.setState({details:JSON.parse(obj)});
 
-            this.setState({img:"http://webmobril.org/dev/hod/"+response.data.data.img},()=>{
+            this.setState({img:ApiUrl.image_url+response.data.data.img},()=>{
                 console.log("img=",this.state.img);
             })
             console.log("img111=",response.data.data);

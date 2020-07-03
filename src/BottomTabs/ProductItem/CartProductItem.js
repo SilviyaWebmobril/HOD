@@ -6,6 +6,7 @@ import IncrementDecrementSubscribe from '../../CustomUI/CustomButton/IncrementDe
 import { useDispatch, useSelector } from 'react-redux';
 import * as cartActions from '../../redux/store/actions/cartAction';
 import { connect } from 'react-redux';
+import ApiUrl from '../../Api/ApiUrl';
 
 
 class CartProductItem extends Component {
@@ -109,7 +110,7 @@ class CartProductItem extends Component {
             <View>
                 <View style={styles.container}>
                     
-                    <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.product.img}} resizeMode="contain" style={{width:120,alignSelf:"center",flex:0.5, height:120,borderRadius:10}}/>
+                    <Image  source={{uri:ApiUrl.image_url+this.props.data.product.img}} resizeMode="contain" style={{width:120,alignSelf:"center",flex:0.5, height:120,borderRadius:10}}/>
                     <View style={styles.sectionRow}>
                     <View style={styles.textColumnLeft}>
                             <Text style={styles.textProductname} numberOfLines={3}>{this.props.data.product.name}</Text>

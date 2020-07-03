@@ -38,7 +38,7 @@ class TransactionHistory extends Component {
             <View>
             <View style={styles.container}>
                 
-                <Image  source={{uri:"https://www.webmobril.org/dev/hod/"+this.props.data.product.img}} resizeMode="contain" style={{width:120, height:120,borderRadius:10}}/>
+                <Image  source={{uri:ApiUrl.image_url+this.props.data.product.img}} resizeMode="contain" style={{width:120, height:120,borderRadius:10}}/>
                 <View style={styles.sectionRow}>
                     <View style={{alignItems:"center",justifyContent:"space-between"}}>
                         <Text style={{color:"black",marginBottom:10,alignSelf:"flex-start",fontFamily:"roboto-bold",}}>{this.props.data.product.name}</Text>
