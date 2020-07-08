@@ -73,7 +73,7 @@ export default {
    //user_id=559&payment_id=3543df&net_amt=34.00
     checkout_cart:"make_payment",
     
-    "transaction_history":"transaction_history?user_id=",
+    transaction_history:"transaction_history?user_id=",
 
     about_us :"http://webmobril.org/dev/hod/api/api_pages?page_id=2",
 
@@ -93,6 +93,8 @@ export default {
 
     check_valid_user_address : "send_notif_to_admin",
 
-    check_address_by_lat_long : "check_address"
+    check_address_by_lat_long : "check_address",
+
+    product_category : "product_cat"
 
 }

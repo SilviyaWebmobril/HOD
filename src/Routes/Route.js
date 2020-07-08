@@ -31,6 +31,7 @@ import PrivacyPolicy from '../BottomTabs/Account/PrivacyPolicy';
 import UpdateMobile from '../BottomTabs/Account/Profile/UpdateMobile';
 import SelectAddress from '../SearchLocation/SelectAddress';
 import OfferTerms from '../Banners/OfferTerms';
+import Partners from '../BottomTabs/screens/Partners';
 
 const Bottomtabs = createBottomTabNavigator({
 
@@ -43,13 +44,13 @@ const Bottomtabs = createBottomTabNavigator({
       tabBarIcon: ({focused, tintColor }) => {
    
         const image = focused
-        ? require('../Assets/home.png')
-        : require('../Assets/home-grey.png')
+        ? require('../Assets/home_selected.png')
+        : require('../Assets/home1.png')
 
         return(
 
           <View>  
-            <Image style={{width:35,height:35}} source={image}/>  
+            <Image style={{width:24,height:24}} source={image}/>  
           </View>
         
         );
@@ -70,26 +71,26 @@ const Bottomtabs = createBottomTabNavigator({
       } 
     }
   },
-  'VistOfFarm':{
-    screen:VistOfFarm,
-    navigationOptions:{
-      tabBarLabel:'Visit Our Farm',  
-      tabBarIcon: ({focused, tintColor }) => {
+  // 'VistOfFarm':{
+  //   screen:VistOfFarm,
+  //   navigationOptions:{
+  //     tabBarLabel:'Visit Our Farm',  
+  //     tabBarIcon: ({focused, tintColor }) => {
 
-       const image =  focused
-      ? require('../Assets/visit.png')
-      : require('../Assets/visit-grey.png')
-      return(
+  //      const image =  focused
+  //     ? require('../Assets/visit.png')
+  //     : require('../Assets/visit-grey.png')
+  //     return(
 
-        <View>  
-          <Image style={{width:35,height:35}} source={image}/>  
-        </View>
+  //       <View>  
+  //         <Image style={{width:35,height:35}} source={image}/>  
+  //       </View>
     
-      );
-      },  
-    }
+  //     );
+  //     },  
+  //   }
 
-  },
+  // },
   'Certification':{
     screen:Certification ,
     navigationOptions:{
@@ -97,32 +98,32 @@ const Bottomtabs = createBottomTabNavigator({
       tabBarIcon: ({focused, tintColor }) => {
 
         const image =  focused
-        ? require('../Assets/certificate.png') 
-        : require('../Assets/certificate-grey.png')
+        ? require('../Assets/certi_selected.png') 
+        : require('../Assets/certi.png')
         return (
 
           <View>  
-            <Image style={{width:35,height:35}} source={image}/>  
+            <Image style={{width:20,height:30}} source={image}/>  
           </View>
           );
       }
        
     }
   },
-  'Seacrh':{
-    screen:Search,
+  'Partners':{
+    screen:Partners,
     navigationOptions:{
-      tabBarLabel:'Search',  
+      tabBarLabel:'Partners',  
       tabBarIcon: ({ focused,tintColor }) => {
 
         const image =  focused
-        ? require('../Assets/search2.png') 
-        : require('../Assets/search1.png')
+        ? require('../Assets/partners_selected.png') 
+        : require('../Assets/partners.png')
 
         return(
 
           <View>  
-              <Image style={{width:35,height:35}} source={image}/>  
+              <Image style={{width:24,height:24}} source={image}/>  
           </View>
       
         );
@@ -153,15 +154,15 @@ const Bottomtabs = createBottomTabNavigator({
       tabBarIcon: ({focused, tintColor }) => {
 
         const image =  focused
-        ? require('../Assets/user.png')
-        : require('../Assets/user1.png')
+        ? require('../Assets/account_selected.png')
+        : require('../Assets/account.png')
 
 
         return(
 
 
           <View>  
-            <Image style={{width:35,height:35}} source={image}/>  
+            <Image style={{width:24,height:24}} source={image}/>  
           </View>
   
 
@@ -227,23 +228,23 @@ const Bottomtabs = createBottomTabNavigator({
 );
 
 // right after declare `MyTabs`
-Bottomtabs.navigationOptions = ({ navigation }) => {
-  const { routes, index } = navigation.state;
-  const navigationOptions = {};
+// Bottomtabs.navigationOptions = ({ navigation }) => {
+//   const { routes, index } = navigation.state;
+//   const navigationOptions = {};
   
- // here's an example, but you can dynamically define title 
- // however you like given `routes` & `index`
+//  // here's an example, but you can dynamically define title 
+//  // however you like given `routes` & `index`
   
- if (routes[index].routeName === 'VistOfFarm') {
-    navigationOptions.title = 'VistOfFarm'; 
+//  if (routes[index].routeName === 'VistOfFarm') {
+//     navigationOptions.title = 'VistOfFarm'; 
 
-    return navigationOptions;
- }else{
-  return null;
- }
+//     return navigationOptions;
+//  }else{
+//   return null;
+//  }
   
  
-}
+//}
 
 
 const profile = createStackNavigator({

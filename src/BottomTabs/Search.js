@@ -97,6 +97,7 @@ import { withNavigation } from 'react-navigation';
              unit={item.unit}
               is_added_to_cart={null} 
               search={1} 
+              product_category={item.product_category}
               //updateStateQuantity = {this.props.navigation.state.params.updateStateQuantity()}
               scheduleModal={this.scheduleModalVisible.bind(this)}/>
             </TouchableOpacity>
@@ -347,7 +348,7 @@ const mapDispatchToProps = dispatch => {
         shadowColor:"red",
         marginTop:10,
         borderWidth:1,
-        elevation:2,
+        elevation:0,
         alignSelf:"center",
         marginLeft:20,
         marginRight:20

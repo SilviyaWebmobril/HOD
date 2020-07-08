@@ -34,6 +34,20 @@ class TransactionHistory extends Component {
   
     render(){
         var delivered_on  =   this.props.data.created_at.split(' ');
+        var status;
+        if(this.props.data.order.order_status == 1){
+            status = "Order Placed";
+        }else if(this.props.data.order.order_status == 2){
+            status = "Order Accepted";
+        }else if(this.props.data.order.order_status == 3){
+            status = "Being Prepared";
+        }else if(this.props.data.order.order_status == 4){
+            status = "Out for delivery";
+        }else if(this.props.data.order.order_status == 5){
+            status = "Delivered";
+        }else{
+            status = "Cancelled";
+        }
         return (
             <View>
             <View style={styles.container}>
@@ -49,7 +63,11 @@ class TransactionHistory extends Component {
                             <Text style={{color:"#FD8D45",fontSize:12,alignSelf:"flex-start",fontFamily:"roboto-bold",}}>{'\u20B9'} {this.props.data.price} </Text>
                         </View>
                        
-                        <Text style={{color:"#FD8D45",fontSize:12,alignSelf:"flex-start",marginTop:5,fontFamily:"roboto-light",}}>Quantity : {this.props.data.quantity}</Text>
+                        <Text style={{color:"#FD8D45",fontSize:12,alignSelf:"flex-start",marginTop:2,fontFamily:"roboto-light",}}>Quantity : {this.props.data.quantity}</Text>
+                        <View style={styles.sectionRow1}>
+                            <Text style={{color:"black",fontSize:13,textAlign:"left" ,fontFamily:"roboto-bold",}}>Order Status: </Text>
+                            <Text style={{color:"#FD8D45",fontSize:13,alignSelf:"flex-start",fontFamily:"roboto-bold",}}> {status}</Text>
+                        </View>
                         {/* {this.props.data.product.unit_id  ==  1 
                          ?
                             

@@ -33,7 +33,7 @@ class Login extends Component {
 
       
         //title:navigation.getParam("update") == 0 ? 'LOGIN WITH OTP' : "UPDATE MOBILE",
-        title:"SIGN UP",
+        title:"LOGIN",
         headerStyle: {
            /// height: 60,
             backgroundColor: '#FD8D45',

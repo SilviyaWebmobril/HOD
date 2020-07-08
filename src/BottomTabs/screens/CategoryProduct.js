@@ -63,7 +63,7 @@ class CategoryProduct extends Component {
 
      
     componentDidMount () {
-
+        this.setState({isRefreshing:false})
         this.props.navigation.setParams({ handleUpdate: this.updateStateQuantity.bind(this), });
         this.props.navigation.setParams({ 'count': this.props.cart.total_cart_count });
         if(this.props.cart.total_cart_count > 0){
@@ -96,6 +96,16 @@ class CategoryProduct extends Component {
         this.componentDidMount();
     }
 
+
+    // shouldComponentUpdate(nextProps, nextState){
+
+    //     console.log("on update category products",nextState.category_all_products)
+    //     if(this.state.category_all_products !==  nextState.category_all_products){
+    //         return true;
+    //     }
+    //     return false;
+    // }
+    
 
   
 
@@ -232,7 +242,9 @@ class CategoryProduct extends Component {
             });
 
             console.log("prv1gdcvgvvgcg category product called",prevProduct);
-            this.props.navigation.state.params.updateProductList(product_id,quantity)
+            
+                this.props.navigation.state.params.updateProductList(product_id,quantity)
+            
             this.setState({category_all_products : [...prevProduct]})
     
     
@@ -268,7 +280,8 @@ class CategoryProduct extends Component {
     
     
         }
-        
+
+       
    
 
     renderItem(data){
@@ -280,6 +293,7 @@ class CategoryProduct extends Component {
            >
             <ProductItem 
                 products={item}  
+                product_category={item.product_category}
                 unit={item.unit} 
                 product_id={item.id}
                 product_cat_id={item.product_cat_id}

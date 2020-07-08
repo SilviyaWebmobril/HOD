@@ -110,6 +110,7 @@ class HomeScreen extends  Component {
             >
             <ProductItem 
             products={item.products}  
+            product_category={item.product_category}
             unit={item.unit} 
             is_added_to_cart={item.is_added_to_cart} 
             search={0} 

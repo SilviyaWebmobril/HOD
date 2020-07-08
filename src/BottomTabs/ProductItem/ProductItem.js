@@ -31,6 +31,11 @@ class ProductItem extends Component {
         
     }
 
+    // shouldComponentUpdate(nextProps, nextState){
+    //     return false;
+    // }
+    
+
    
    
     render(){
@@ -52,27 +57,30 @@ class ProductItem extends Component {
                     <View style={styles.sectionRow}>
                         <View  style={{flex:0.6}}>
                             <Text style={styles.textProductname} numberOfLines={2}>{this.props.products.name}</Text>
+                            <Text>{parseInt(this.props.products.weight)} {this.props.unit.name}</Text>
                             {/* <View style={styles.sectionTextRow}> */}
                            
                             {this.props.products.is_discount ==  1 
                                 ?
                                 <View style={{justifyContent:"flex-start",alignItems:"flex-start",flexDirection:'row'}}>
-                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"roboto-bold",color:"#FD8D45",}}>{'\u20B9'}{this.props.products.new_price}{"   "}</Text>
-                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"roboto-light",textDecorationLine: 'line-through',textDecorationStyle: 'solid'}}>{'\u20B9'}{this.props.products.old_price}</Text>
+                                <Text style={{lineHeight:17,marginTop:0,fontFamily:"roboto-bold",color:"#FD8D45",}}>{'\u20B9'}{this.props.products.new_price}{"   "}</Text>
+                                <Text style={{lineHeight:17,marginTop:0,fontFamily:"roboto-light",textDecorationLine: 'line-through',textDecorationStyle: 'solid'}}>{'\u20B9'}{this.props.products.old_price}</Text>
                                 </View>
                                 :
-                                <Text style={{lineHeight:20,marginTop:0,fontFamily:"roboto-bold",color:"#FD8D45"}}>{'\u20B9'}{this.props.products.old_price}</Text>
+                                <Text style={{lineHeight:17,marginTop:0,fontFamily:"roboto-bold",color:"#FD8D45"}}>{'\u20B9'}{this.props.products.old_price}</Text>
                             }
                                 
                             {/* </View> */}
 
-                        <Text>{this.props.products.quantity} left</Text>
+                       
+                        
+                        <Text style={styles.textProductname1} numberOfLines={2}>{this.props.product_category.name}</Text>
                             
                         </View>
                         <View  style={{justifyContent:"flex-end",alignContent:"flex-end",alignItems:"flex-end",flex:0.4}}>
                                    
                                         
-                            <Text style={styles.textBorder}>{parseInt(this.props.products.weight)} {this.props.unit.name}</Text>
+                        <Text>{this.props.products.quantity} left</Text>
                             {this.props.search == 0
                             ?
                             (this.props.is_added_to_cart !== null
@@ -128,6 +136,9 @@ class ProductItem extends Component {
 
     }
 }
+
+
+
 
 
 const mapDispatchToProps = dispatch =>{
@@ -218,8 +229,17 @@ const mapStateToProps = state => {
         //fontWeight:"bold",
         color:"black",
         lineHeight:20,
-        marginTop:20,
-        marginBottom:5
+        marginTop:10,
+       // marginBottom:5
+    },
+    textProductname1:{
+        fontFamily:"roboto-bold",
+        fontSize:10,
+        //fontWeight:"bold",
+        color:"black",
+        lineHeight:17,
+       // marginTop:20,
+         marginBottom:0
     },
     textBorder:{
        borderColor:"grey",

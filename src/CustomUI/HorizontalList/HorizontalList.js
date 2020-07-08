@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
         borderColor:"#dcdcdc",
         borderWidth:1,
         marginRight:10,
-        elevation:2,
+       // elevation:2,
        
         // justifyContent:"center",
         // alignItems:"center"

@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {View ,Text, StyleSheet, Image,}  from 'react-native';
+import {View ,Text, StyleSheet, Image, Dimensions,}  from 'react-native';
 import CustomButton from '../../CustomUI/CustomButton/CustomButton';
 import IncrementDecrementButton from '../../CustomUI/CustomButton/IncrementDecremntButton';
 import IncrementDecrementSubscribe from '../../CustomUI/CustomButton/IncrementDecremantSubscribe';
@@ -33,7 +33,7 @@ class CartProductItem extends Component {
 
     componentDidMount(){
 
-        this.setSubScription();
+       // this.setSubScription();
     }
 
     setSubScription (){
@@ -98,60 +98,48 @@ class CartProductItem extends Component {
         }
 
     }
-   
+
+    // shouldComponentUpdate(nextProps, nextState){
+    //     return false;
+    // }
 
     render(){
        
     
         return(
-
-           
-
-            <View>
-                <View style={styles.container}>
-                    
-                    <Image  source={{uri:ApiUrl.image_url+this.props.data.product.img}} resizeMode="contain" style={{width:120,alignSelf:"center",flex:0.5, height:120,borderRadius:10}}/>
-                    <View style={styles.sectionRow}>
-                    <View style={styles.textColumnLeft}>
-                            <Text style={styles.textProductname} numberOfLines={3}>{this.props.data.product.name}</Text>
-                            <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)} {this.props.data.product.unit.name}</Text>
-                            <View style={styles.sectionTextRow}>
-                                {this.props.data.product.is_discount ==  1 
-                                    ?
-                                    <Text style={{lineHeight:20,marginTop:0,alignSelf:"center",fontFamily:"roboto-light",}}>{'\u20B9'}{parseFloat(parseFloat(this.props.data.product.new_price) * parseFloat(this.props.data.quantity)).toFixed(2)}</Text>
-                                    :
-                                    <Text style={{lineHeight:20,marginTop:0,alignSelf:"center",fontFamily:"roboto-light",}}>{'\u20B9'}{parseFloat(parseFloat(this.props.data.product.old_price) * parseFloat(this.props.data.quantity)).toFixed(2)}</Text>
-                                }
-                                
-                                
-                            </View>
-                           
-                           
-                        </View>
+            <>
+            <View style={styles.container}>
+            <Image  source={{uri:ApiUrl.image_url+this.props.data.product.img}} resizeMode="contain" style={styles.imageStyle}/>
+            <View style={{alignItems:'flex-start',justifyContent:"flex-start",flexShrink:1,marginTop:10,paddingLeft :10}}>
+                <Text style={styles.textProductname} numberOfLines={3}>{this.props.data.product.name}</Text>
+                
+                <Text style={styles.unitViewText}>{parseInt(this.props.data.product.weight)} {this.props.data.product.unit.name}</Text>
+                    <View style={{justifyContent:'space-between',alignItems:"center",flexDirection:'row',width:"100%"}}>
+                        {this.props.data.product.is_discount ==  1 
+                            ?
+                            <Text style={{lineHeight:17,marginTop:0,alignSelf:"center",fontFamily:"roboto-light",}}>{'\u20B9'}{parseFloat(parseFloat(this.props.data.product.new_price) * parseFloat(this.props.data.quantity)).toFixed(2)}</Text>
+                            :
+                            <Text style={{lineHeight:17,marginTop:0,alignSelf:"center",fontFamily:"roboto-light",}}>{'\u20B9'}{parseFloat(parseFloat(this.props.data.product.old_price) * parseFloat(this.props.data.quantity)).toFixed(2)}</Text>
+                        }
+                       
+                        <IncrementDecrementButton  
+                            updateProductQuantity={(product_id , quantity)=>{this.props.updateStateQuantity(product_id, quantity);}}
+                            from_cart={1}
+                            product_id={this.props.data.product.id}  
+                            quantity={this.props.data.quantity} 
+                            price={this.props.data.product.is_discount == 1 ? this.props.data.product.new_price : this.props.data.product.old_price} 
+                            stock_available={this.props.data.product.quantity} />
                         
-                            <View  style={{justifyContent:"flex-end",alignContent:"flex-end",alignItems:"flex-end"}}>
-                               
-                                <IncrementDecrementButton  
-                                    updateProductQuantity={(product_id , quantity)=>{this.props.updateStateQuantity(product_id, quantity);}}
-                                    from_cart={1}
-                                    product_id={this.props.data.product.id}  
-                                    quantity={this.props.data.quantity} 
-                                    price={this.props.data.product.is_discount == 1 ? this.props.data.product.new_price : this.props.data.product.old_price} 
-                                    stock_available={this.props.data.product.quantity} />
-                                
-                            </View>
                         
                         
                     </View>
+                    <Text style={styles.textProductname1} numberOfLines={2}>{this.props.data.product.product_category.name}</Text>
+                
 
-                
-                </View>
-                
-                <View style={styles.viewLineGrey}></View>
             </View>
-           
-           
-    
+            </View>
+            <View style={styles.viewLineGrey}></View>
+            </>
         );
     
 
@@ -189,53 +177,21 @@ const mapStateToProps = state => {
 
   const styles = StyleSheet.create({
 
-    container:{
-      
-      
-        flexDirection:"row",
-        justifyContent:"space-between",
-        alignItems:"center",
-        alignContent:"space-between",
-        paddingTop:8,
-        paddingBottom:0,
-        paddingLeft:20,
-        paddingRight:10,
+    imageStyle:{
+        width:100,alignSelf:"center", height:120,borderRadius:10
+    },
 
-    },
-    sectionRow:{
-        flex:1.5,
-        paddingTop:5,
-        paddingBottom:5,
-        paddingLeft:10,
-        paddingRight:10,
-        flexDirection:"row",
-        justifyContent:"space-between",
-        alignItems:"center",
-        alignContent:"space-between",
-       // backgroundColor:"green"
-      
-    },
-    sectionTextRow:{
+    container:{
         flexDirection:"row",
         justifyContent:"flex-start",
-        alignItems:"flex-start",
+        //alignItems:"center",
+        paddingTop:5,
+        paddingLeft:10,
+        paddingRight:10,
+        width:Dimensions.get('window').width ,
+
     },
-    textColumnLeft:{
-        flexDirection:"column",
-        alignSelf:"flex-start",
-        flex:0.8,
-        marginTop:5
-        
-    },
-    textColumnRight:{
-        flexDirection:"column",
-        alignSelf:"flex-end",
-        position: 'absolute', 
-        textAlign:"right",
-        flex:0.2,
-       
-        
-    },
+   
     textProductname:{
         fontFamily:"roboto-bold",
         fontSize:15,
@@ -272,15 +228,23 @@ const mapStateToProps = state => {
     },
     unitViewText:{
         marginTop:5,
-        borderColor:"grey",
+        //borderColor:"grey",
         fontFamily:'roboto-light',
         fontSize:12,
-        padding:5 ,
+        //padding:5 ,
         alignSelf:"flex-start",
-        borderRadius:2,
-        borderWidth:1,
-        marginBottom:7,
+        // borderRadius:2,
+        // borderWidth:1,
+        marginBottom:0,
         width:'auto', // set this width to null and try! ,justifyContent:"center"
+    },
+    textProductname1:{
+        fontFamily:"roboto-bold",
+        fontSize:10,
+        //fontWeight:"bold",
+        color:"black",
+        lineHeight:17,
+       // marginTop:20,
     },
     
 });

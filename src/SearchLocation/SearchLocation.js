@@ -568,7 +568,7 @@ class SearchLocation extends Component {
             <View style={{  justifyContent: 'center',alignItems: 'center',marginBottom:0}}>
                  {/* <GooglePlacesInput ref="details" setAddressCallBack={(response) => this.setAddressFromGoogleAutoComplete(response)}/>
                   */}
-                 <GooglePlacesAutocomplete
+                 {/* <GooglePlacesAutocomplete
                     placeholder='Search Location'
                     minLength={2} // minimum length of text to search
                     autoFocus={true}
@@ -644,7 +644,7 @@ class SearchLocation extends Component {
                     debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
                     renderLeftButton={()  => <Image source={require('../Assets/search2.png')} style={{width:30 ,height:30,alignSelf:"center",marginLeft:5}}/>}
                     // renderRightButton={() => <Text>Custom text after the input</Text>}
-                  />
+                  /> */}
                   <View style={SearchLocationStyle.viewLineGrey}></View>
                   <CustomButtonWithIcon       
                     type="mat"

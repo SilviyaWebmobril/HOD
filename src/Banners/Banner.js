@@ -14,9 +14,9 @@ const Banner = (props) => {
       
         return (
             <View key={index}>
-                <TouchableOpacity onPress={()=> props.navigation.navigate('OfferTerms',{"banner_id":image.id})}>
-                <Image style={styles.imageStyle} source={{uri:ApiUrl.image_url+image.img}} resizeMethod="resize" />
-                </TouchableOpacity>
+                {/* <TouchableOpacity onPress={()=> props.navigation.navigate('OfferTerms',{"banner_id":image.id})}> */}
+                <Image style={styles.imageStyle} source={{uri:ApiUrl.image_url+image.img}} resizeMode="contain" />
+                {/* </TouchableOpacity> */}
             </View>
         );
     
@@ -25,7 +25,7 @@ const Banner = (props) => {
     renderImage = (image,index) => {
 
         return(
-            <Image key={index} style={styles.imageStyle} source={{uri:ApiUrl.image_url+image.img}} resizeMethod="resize" />
+            <Image key={index} style={styles.imageStyle} source={{uri:ApiUrl.image_url+image.img}} resizeMode="contain" />
         );
 
     }
@@ -56,7 +56,8 @@ const Banner = (props) => {
             backgroundColor: '#fff',
             justifyContent: 'center',
             alignItems:"center",
-           
+            alignSelf:"center",
+            
         },
         viewLineBlack:{
             width:"90%",
@@ -68,7 +69,9 @@ const Banner = (props) => {
         },
 
         imageStyle: {
-           width:Dimensions.get('window').width * 0.9,
+           width:Dimensions.get('window').width *0.95,
+           marginLeft:20,
+           marginRight:20,
              height: BannerHeight , 
              alignSelf:"center",
             borderRadius:5,

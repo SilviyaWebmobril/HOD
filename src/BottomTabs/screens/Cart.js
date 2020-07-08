@@ -148,7 +148,7 @@ class Cart extends Component {
 
         renderItem(data){
             let { item, index } = data;
-            //console.log("cart each item",item);
+            console.log("cart each item",item);
             return(
              
                  <CartProductItem data={item}   

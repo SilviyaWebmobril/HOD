@@ -44,15 +44,15 @@ const styles = StyleSheet.create({
     circleWhite:{
         position:'absolute',
 
-        minWidth:27,
-        minHeight:27,
-        borderRadius:18,   //half radius will make it cirlce,
+        minWidth:15,
+        minHeight:15,
+        borderRadius:15,   //half radius will make it cirlce,
         backgroundColor:'white',
         position: 'absolute',
         top: 0,
         left: 15,
         right: 0,
-        bottom: 25, 
+        bottom: 10, 
         justifyContent: 'center', 
         alignItems: 'center'
        },
@@ -60,18 +60,18 @@ const styles = StyleSheet.create({
         position:'absolute',
         // maxWidth:40,
         // maxHeight:40,
-        minWidth:27,
-        minHeight:27,
-        borderRadius:20,   //half radius will make it cirlce,
+        minWidth:15,
+        minHeight:15,
+        borderRadius:15,   //half radius will make it cirlce,
         backgroundColor:'black',
         position: 'absolute',
         top: 0,
-        left: 20,
+        left: 15,
         right: 0,
         bottom: 10, 
         justifyContent: 'center', 
         alignItems: 'center'
        },
-    countBlack:{color:'white',fontSize:13,fontFamily:"roboto-Light",},
-    countWhite:{color:'black',fontSize:13,fontFamily:"roboto-Light",}
+    countBlack:{color:'white',fontSize:8,fontFamily:"roboto-Light",},
+    countWhite:{color:'black',fontSize:8,fontFamily:"roboto-Light",}
 })

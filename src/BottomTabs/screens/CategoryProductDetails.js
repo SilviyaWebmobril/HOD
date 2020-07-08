@@ -60,7 +60,8 @@ class CategoryProductDetails extends Component {
             display_stock :0,
             stock_quantity:0,
             showGoToCartBtn:false,
-            product_cat_id:""
+            product_cat_id:"",
+            product_category_name:""
 
 
         }
@@ -150,6 +151,7 @@ class CategoryProductDetails extends Component {
             this.setState({weight:response.data.data.weight});
             this.setState({unit:response.data.data.unit.name});
             this.setState({productname:response.data.data.name});
+            this.setState({product_category_name:response.data.data.product_category.name});
             this.setState({description:response.data.data.description});
             this.setState({product_id:response.data.data.id});
             this.setState({is_discount : response.data.data.is_discount})
@@ -248,6 +250,7 @@ class CategoryProductDetails extends Component {
                 <Image source={{uri:this.state.img}} width={150} height={150} resizeMode="contain" style={styles.imgStyle} />
                 <View style={styles.viewLineGrey}></View>
                 <Text style={styles.productname} numberOfLines={3}>{this.state.productname}</Text>
+                <Text style={styles.productname1} numberOfLines={3}>by {this.state.product_category_name}</Text>
                 <View style={styles.mainRow}>
                     <View style={styles.rowLeft}>
                        
@@ -465,7 +468,14 @@ const styles =  StyleSheet.create({
     productname:{
         fontFamily:'roboto-bold',
         fontSize:17,
-        marginBottom:7,
+        marginBottom:5,
+        marginLeft:10
+      
+    },
+    productname1:{
+        fontFamily:'roboto-bold',
+        fontSize:12,
+        marginBottom:5,
         marginLeft:10
       
     },
