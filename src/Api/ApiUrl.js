@@ -6,13 +6,13 @@ import {Platform } from 'react-native';
    
 export default {
 
-    image_url : "http://houseofdesi.com/",
+    image_url : "https://houseofdesi.com/",
 
     googlePlacesApiKey:'AIzaSyBx5f8NnFiA2kEv7ZcFJVtUs0_6TfZaMPw',
     
     device_type : Platform.OS == "android" ? 1 : 2,
 
-    baseurl : "http://houseofdesi.com/api/",
+    baseurl : "https://houseofdesi.com/api/",
 
     create_account: "api_first_signup",
 

@@ -107,8 +107,8 @@ android {
         applicationId "com.houseofdesi"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "2"
+        versionCode 4
+        versionName "4"
         multiDexEnabled true
     }
     splits {
